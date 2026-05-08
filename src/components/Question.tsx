@@ -233,7 +233,7 @@ const Question: React.FC<QuestionProps> = ({ query: initialQuery }) => {
         py: 8,
       }}
     >
-      <CircularProgress sx={{ color: '#e86161', mb: 2 }} />
+      <CircularProgress sx={{ color: '#039be5', mb: 2 }} />
       <Typography color="text.secondary">Loading question data...</Typography>
     </Box>
   );

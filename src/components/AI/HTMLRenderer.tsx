@@ -239,7 +239,7 @@ Requirements:
 - Return complete HTML with Chart.js CDN included
 - Use transparent background, no scrollbars
 - Include professional, responsive styling
-- Use brand colors (#e86161, #4CAF50, #2196F3, #FF9800, #9C27B0)
+- Use brand colors (#039be5, #4CAF50, #2196F3, #FF9800, #9C27B0)
 - Set chart height to at least 500px for better visibility
 - Ensure the chart is properly sized and responsive
 - Include comprehensive interactivity (hover tooltips, click events, zoom/pan)
@@ -446,7 +446,7 @@ ${bodyMatch[0]}
         <Box
           sx={{
             '& h1, & h2, & h3, & h4, & h5, & h6': {
-              color: '#e86161',
+              color: '#039be5',
               fontWeight: 600,
               marginBottom: 1,
               marginTop: 2,
@@ -472,7 +472,7 @@ ${bodyMatch[0]}
               fontStyle: 'italic',
             },
             '& blockquote': {
-              borderLeft: '4px solid #e86161',
+              borderLeft: '4px solid #039be5',
               paddingLeft: 2,
               marginLeft: 0,
               marginRight: 0,
@@ -512,7 +512,7 @@ ${bodyMatch[0]}
               fontWeight: 600,
             },
             '& a': {
-              color: '#e86161',
+              color: '#039be5',
               textDecoration: 'none',
               '&:hover': {
                 textDecoration: 'underline',
@@ -550,7 +550,7 @@ ${bodyMatch[0]}
             mb: 2,
           }}
         >
-          <Typography variant="h6" sx={{ color: '#e86161', fontWeight: 600 }}>
+          <Typography variant="h6" sx={{ color: '#039be5', fontWeight: 600 }}>
             {title}
           </Typography>
           <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
@@ -561,7 +561,7 @@ ${bodyMatch[0]}
                     onClick={handleEdit}
                     size="small"
                     sx={{
-                      color: '#e86161',
+                      color: '#039be5',
                       '&:hover': { backgroundColor: 'rgba(232, 97, 97, 0.08)' },
                     }}
                   >
@@ -588,7 +588,7 @@ ${bodyMatch[0]}
                       onClick={handleOpenHistory}
                       size="small"
                       sx={{
-                        color: '#e86161',
+                        color: '#039be5',
                         '&:hover': {
                           backgroundColor: 'rgba(232, 97, 97, 0.08)',
                         },
@@ -636,7 +636,7 @@ ${bodyMatch[0]}
             onClick={handleSave}
             startIcon={<Save />}
             sx={{
-              backgroundColor: '#e86161',
+              backgroundColor: '#039be5',
               '&:hover': { backgroundColor: '#d45151' },
             }}
           >
@@ -657,8 +657,8 @@ ${bodyMatch[0]}
               onClick={handleOpenHistory}
               startIcon={<History />}
               sx={{
-                borderColor: '#e86161',
-                color: '#e86161',
+                borderColor: '#039be5',
+                color: '#039be5',
                 '&:hover': {
                   borderColor: '#d45151',
                   backgroundColor: 'rgba(232, 97, 97, 0.08)',
@@ -682,7 +682,7 @@ ${bodyMatch[0]}
         >
           <DialogTitle>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <SmartToy sx={{ color: '#e86161' }} />
+              <SmartToy sx={{ color: '#039be5' }} />
               <Typography variant="h6">AI Chart Modification</Typography>
             </Box>
           </DialogTitle>
@@ -723,7 +723,7 @@ ${bodyMatch[0]}
                 isAIModifying ? <CircularProgress size={16} /> : <Refresh />
               }
               sx={{
-                backgroundColor: '#e86161',
+                backgroundColor: '#039be5',
                 '&:hover': { backgroundColor: '#d45151' },
               }}
             >
@@ -749,7 +749,7 @@ ${bodyMatch[0]}
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <History sx={{ color: '#e86161' }} />
+              <History sx={{ color: '#039be5' }} />
               <Typography variant="h6">Chart History</Typography>
             </Box>
             <IconButton onClick={handleCloseHistory} size="small">
@@ -856,7 +856,7 @@ ${bodyMatch[0]}
                             handleRestoreHistory(item as unknown as HistoryItem)
                           }
                           sx={{
-                            backgroundColor: '#e86161',
+                            backgroundColor: '#039be5',
                             '&:hover': { backgroundColor: '#d45151' },
                           }}
                         >

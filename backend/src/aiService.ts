@@ -121,7 +121,7 @@ export class AIService {
     const referer =
       refererRaw.trim().replace(/^["']|["']$/g, '') ||
       'https://empire-compass.tib.eu';
-    const title = (process.env.OPENROUTER_APP_TITLE || 'EmpiRE Compass').trim();
+    const title = (process.env.OPENROUTER_APP_TITLE || 'ORKG Atlas').trim();
     return {
       'HTTP-Referer': referer,
       'X-Title': title,

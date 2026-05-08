@@ -2,7 +2,7 @@
 # Visit https://bit.ly/cffinit to generate yours today!
 
 cff-version: 1.2.0
-title: EmpiRE-Compass
+title: ORKG Atlas
 message: ' A Neuro-Symbolic Dashboard for Navigating the Knowledge Landscape of Empirical Research in Requirements Engineering'
 type: software
 authors:
@@ -37,10 +37,10 @@ identifiers:
   - type: doi
     value: 10.5281/zenodo.18170203
     description: The DOI of the corresponding release on Zenodo.
-repository-code: 'https://github.com/okarras/EmpiRE-Compass'
+repository-code: 'https://github.com/amirrezaalasti/ORKG-Atlas'
 url: 'https://empire-compass.tib.eu/R186491/'
 abstract: >-
-  EmpiRE-Compass is a neuro-symbolic dashboard that
+  ORKG Atlas is a neuro-symbolic dashboard that
   facilitates the exploration, synthesis, and reuse of
   empirical research knowledge in Requirements Engineering
   (RE). It integrates two complementary layers: A symbolic
@@ -52,7 +52,7 @@ abstract: >-
   knowledge landscape of empirical research in RE, identify
   reusable insights across publications, and promote Open
   Science through transparent, interoperable knowledge
-  representations. EmpiRE-Compass currently focuses on two
+  representations. ORKG Atlas currently focuses on two
   themes: Empirical research practices in RE using
   KG-EmpiRE, and empirical research practices in Natural
   Language Processing for RE using the NLP4RE ID Card.

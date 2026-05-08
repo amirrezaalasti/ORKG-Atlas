@@ -58,7 +58,7 @@ const Home = () => {
             justifyContent: 'center',
           }}
         >
-          <CircularProgress sx={{ color: '#e86161' }} />
+          <CircularProgress sx={{ color: '#039be5' }} />
         </Box>
       </ThemeProvider>
     );

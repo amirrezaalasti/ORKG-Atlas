@@ -27,7 +27,7 @@ const CustomPieChart = (props: CustomPieChartInterface) => {
 
   // Default colors if not provided
   const defaultColors = [
-    '#e86161', // primary red
+    '#039be5', // primary red
     '#4c72b0', // blue
     '#55a868', // green
     '#dd8452', // orange

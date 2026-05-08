@@ -24,7 +24,7 @@ const Contact = ({ content }: ContactProps) => {
         variant="h4"
         gutterBottom
         sx={{
-          color: '#e86161',
+          color: '#039be5',
           fontWeight: 700,
           mb: 3,
           fontSize: { xs: '1.75rem', sm: '2rem', md: '2.25rem' },
@@ -44,7 +44,7 @@ const Contact = ({ content }: ContactProps) => {
           variant="h6"
           sx={{
             mb: 2,
-            color: '#e86161',
+            color: '#039be5',
             fontWeight: 600,
           }}
         >
@@ -66,12 +66,12 @@ const Contact = ({ content }: ContactProps) => {
             <span key={index}>{line}</span>
           ))}
           <span>
-            <Box component="strong" sx={{ color: '#e86161', mr: 1 }}>
+            <Box component="strong" sx={{ color: '#039be5', mr: 1 }}>
               Email:
             </Box>
             <a
               href={`mailto:${content.email}`}
-              style={{ color: '#e86161', textDecoration: 'none' }}
+              style={{ color: '#039be5', textDecoration: 'none' }}
             >
               {content.email}
             </a>

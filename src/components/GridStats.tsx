@@ -299,10 +299,10 @@ const GridStats: React.FC<Props> = ({ questionData, gridOptions }) => {
         <Box
           sx={{ display: 'flex', alignItems: 'center', gap: 2, width: '100%' }}
         >
-          <BarChart sx={{ color: '#e86161', fontSize: 28 }} />
+          <BarChart sx={{ color: '#039be5', fontSize: 28 }} />
           <Typography
             variant="h6"
-            sx={{ fontWeight: 700, color: '#e86161', letterSpacing: '-0.5px' }}
+            sx={{ fontWeight: 700, color: '#039be5', letterSpacing: '-0.5px' }}
           >
             Column Statistics & Distribution
           </Typography>
@@ -578,7 +578,7 @@ const GridStats: React.FC<Props> = ({ questionData, gridOptions }) => {
                                         borderRadius: 4,
                                         backgroundColor: '#e0e0e0',
                                         '& .MuiLinearProgress-bar': {
-                                          backgroundColor: '#e86161',
+                                          backgroundColor: '#039be5',
                                         },
                                       }}
                                     />

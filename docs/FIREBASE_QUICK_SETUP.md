@@ -23,7 +23,7 @@
 ### 3. Test Setup
 
 ```bash
-1. GitHub Actions → Update Empire Statistics
+1. GitHub Actions → Update Statistics (ORKG Atlas & NLP4RE)
 2. Run workflow → Choose main branch
 3. Check for ✅ Firebase initialized successfully
 ```

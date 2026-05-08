@@ -214,7 +214,7 @@ const EditableSection: React.FC<EditableSectionProps> = ({
           onClick={handleSave}
           disabled={saving}
           sx={{
-            backgroundColor: '#e86161',
+            backgroundColor: '#039be5',
             '&:hover': {
               backgroundColor: '#d45151',
             },

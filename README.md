@@ -1,19 +1,19 @@
 <a id='top'></a>
 
 <div align="center">
-  <a href="https://github.com/okarras/EmpiRE-Compass">
+  <a href="https://github.com/amirrezaalasti/ORKG-Atlas">
     <img src="logo.png" alt="Logo" width="500" height="250">
   </a>
 
-<h2 align="center" style="font-weight: normal">EmpiRE-Compass<br/>
+<h2 align="center" style="font-weight: normal">ORKG Atlas<br/>
 <i>"A Neuro-Symbolic Dashboard for Navigating the Knowledge Landscape of Empirical Research Practice in Requirements Engineering"</i></h2><br/>
 
-[![GitHub - Project](https://img.shields.io/badge/GitHub-Project-2ea44f)](https://github.com/okarras/EmpiRE-Compass) [![Issues - Bug Report](https://img.shields.io/badge/Issues-Bug_Report-2ea44f)](https://github.com/okarras/EmpiRE-Compass/issues) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18170203.svg)](https://doi.org/10.5281/zenodo.18170203) [![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
+[![GitHub - Project](https://img.shields.io/badge/GitHub-Project-2ea44f)](https://github.com/amirrezaalasti/ORKG-Atlas) [![Issues - Bug Report](https://img.shields.io/badge/Issues-Bug_Report-2ea44f)](https://github.com/amirrezaalasti/ORKG-Atlas/issues) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18170203.svg)](https://doi.org/10.5281/zenodo.18170203) [![License](https://img.shields.io/badge/License-MIT-blue)](LICENSE)
 
 </div>
 
 > [!IMPORTANT]  
-> Visit the live version of [EmpiRE-Compass](https://empire-compass.tib.eu/R186491/).
+> Visit the live version of [ORKG Atlas](https://empire-compass.tib.eu/R186491/).
 
 # Table of Contents
 
@@ -37,7 +37,7 @@
 
 # About the Project
 
-EmpiRE-Compass is a **neuro-symbolic dashboard** that facilitates the exploration, synthesis, and reuse of knowledge about empirical research practice in Requirements Engineering (RE). It integrates two complementary layers: A symbolic layer based on the [Open Research Knowledge Graph (ORKG)](https://orkg.org) for structured, machine-actionable knowledge, and a neural layer leveraging large language models (LLMs) to answer both predefined and custom competency questions. This dual approach enables researchers to navigate the evolving knowledge landscape of empirical research practice in RE, identify reusable insights across publications, and promote Open Science through transparent, interoperable knowledge representations. EmpiRE-Compass currently focuses on two themes: Empirical research practices in RE using [KG-EmpiRE](https://www.oliver-karras.de/portfolio/kg-empire/), and empirical research practices in Natural Language Processing for RE using the [NLP4RE ID Card](https://zenodo.org/records/14197338).
+ORKG Atlas is a **neuro-symbolic dashboard** that facilitates the exploration, synthesis, and reuse of knowledge about empirical research practice in Requirements Engineering (RE). It integrates two complementary layers: A symbolic layer based on the [Open Research Knowledge Graph (ORKG)](https://orkg.org) for structured, machine-actionable knowledge, and a neural layer leveraging large language models (LLMs) to answer both predefined and custom competency questions. This dual approach enables researchers to navigate the evolving knowledge landscape of empirical research practice in RE, identify reusable insights across publications, and promote Open Science through transparent, interoperable knowledge representations. ORKG Atlas currently focuses on two themes: Empirical research practices in RE using [KG-EmpiRE](https://www.oliver-karras.de/portfolio/kg-empire/), and empirical research practices in Natural Language Processing for RE using the [NLP4RE ID Card](https://zenodo.org/records/14197338).
 
 https://github.com/user-attachments/assets/27870a40-aaf6-4a66-8ba7-7d009397859d
 
@@ -51,7 +51,7 @@ https://github.com/user-attachments/assets/27870a40-aaf6-4a66-8ba7-7d009397859d
 
 # Key Features
 
-EmpiRE-Compass offers a rich set of capabilities to support exploration, synthesis, and reuse of knowledge about empirical research practice in RE. Its exploratory visual analytics provide detailed insights into the state and evolution of the field through interactive charts and distributions. The platform’s neuro-symbolic synthesis combines structured knowledge graphs with neural large language models to answer competency questions, interpret findings, and support contextual knowledge integration. All structured data, SPARQL queries, analyses, and interpretations are openly available to foster replicable research and long-term reuse. EmpiRE-Compass is built on FAIR principles — ensuring that knowledge is findable, accessible, interoperable, and reusable — and is grounded in Open Science values of transparency, ethical attribution, and collaborative maintenance. Developed on top of the ORKG and supported by TIB, the platform is designed for community-driven contributions and long-term sustainability.
+ORKG Atlas offers a rich set of capabilities to support exploration, synthesis, and reuse of knowledge about empirical research practice in RE. Its exploratory visual analytics provide detailed insights into the state and evolution of the field through interactive charts and distributions. The platform’s neuro-symbolic synthesis combines structured knowledge graphs with neural large language models to answer competency questions, interpret findings, and support contextual knowledge integration. All structured data, SPARQL queries, analyses, and interpretations are openly available to foster replicable research and long-term reuse. ORKG Atlas is built on FAIR principles — ensuring that knowledge is findable, accessible, interoperable, and reusable — and is grounded in Open Science values of transparency, ethical attribution, and collaborative maintenance. Developed on top of the ORKG and supported by TIB, the platform is designed for community-driven contributions and long-term sustainability.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -99,13 +99,13 @@ In the following, we explain how to install and run the project locally using a 
 ## 2. Clone the repository
 
 ```sh
-git clone https://github.com/okarras/EmpiRE-Compass.git
+git clone https://github.com/amirrezaalasti/ORKG-Atlas.git
 ```
 
 ## 3. Navigate to the main project directory
 
 ```sh
-cd EmpiRE-Compass
+cd ORKG-Atlas
 ```
 
 ## 4. Install dependencies
@@ -175,7 +175,7 @@ http://localhost:5173
 
 # Design System & Storybook
 
-EmpiRE-Compass includes a comprehensive design system documented in Storybook, providing a complete library of reusable UI components.
+ORKG Atlas includes a comprehensive design system documented in Storybook, providing a complete library of reusable UI components.
 
 ## 📚 **Storybook (Component Library)**
 
@@ -214,7 +214,7 @@ npm run preview:storybook
 
 # API Documentation (Swagger)
 
-EmpiRE-Compass provides a comprehensive REST API documented with Swagger/OpenAPI, enabling programmatic access to AI services and backend functionality.
+ORKG Atlas provides a comprehensive REST API documented with Swagger/OpenAPI, enabling programmatic access to AI services and backend functionality.
 
 ## 📚 **API Documentation**
 
@@ -256,7 +256,7 @@ npm run dev
 
 # Firebase Setup
 
-EmpiRE-Compass uses Firebase Firestore for real-time data storage, statistics, and content management. Follow these guides to set up Firebase integration:
+ORKG Atlas uses Firebase Firestore for real-time data storage, statistics, and content management. Follow these guides to set up Firebase integration:
 
 ## 📚 Firestore Tutorial
 
@@ -304,7 +304,7 @@ For a comprehensive guide on Firestore, refer to the official documentation:
 
 ### 4. Create Required Firestore Collections
 
-EmpiRE-Compass requires the following Firestore collections. You can create them manually or they will be created automatically when the app runs:
+ORKG Atlas requires the following Firestore collections. You can create them manually or they will be created automatically when the app runs:
 
 #### **Templates Collection** (Main collection)
 
@@ -453,7 +453,7 @@ python empire-statistics.py --service_account path/to/service-account.json --lim
 
 # Statistics Automation
 
-EmpiRE-Compass automatically updates statistics using GitHub Actions that run the `empire-statistics.py` script:
+ORKG Atlas automatically updates statistics using GitHub Actions that run the `empire-statistics.py` script:
 
 ## Automated Updates
 
@@ -494,7 +494,7 @@ python scripts/empire-statistics.py --no_firebase
 
 # Repository Links
 
-EmpiRE-Compass: [https://github.com/okarras/EmpiRE-Compass](https://github.com/okarras/EmpiRE-Compass)  
+ORKG Atlas: [https://github.com/amirrezaalasti/ORKG-Atlas](https://github.com/amirrezaalasti/ORKG-Atlas)  
 EmpiRE-Analysis: [https://github.com/okarras/EmpiRE-Analysis](https://github.com/okarras/EmpiRE-Analysis)  
 Storybook (Design System): [https://empire-compass-storybook.tib.eu/?path=/docs/layout-menudrawer--docs](https://empire-compass-storybook.tib.eu/?path=/docs/layout-menudrawer--docs)  
 API Documentation (Swagger): [https://empire-compass-backend.tib.eu/api-docs/](https://empire-compass-backend.tib.eu/api-docs/)
@@ -539,7 +539,7 @@ E-Mail: [oliver.karras@tib.eu](mailto:oliver.karras@tib.eu)
 
 If you want to cite this project, we suggest using the following reference:
 
-> Oliver Karras, Amirreza Alasti, Sushant Aggarwal, Yücel Celik, and Lena John:<br/> [**EmpiRE-Compass**](https://empire-compass.tib.eu/R186491/), Computer Software, Version v1.4, https://github.com/okarras/EmpiRE-Compass, 2025.
+> Oliver Karras, Amirreza Alasti, Sushant Aggarwal, Yücel Celik, and Lena John:<br/> [**ORKG Atlas**](https://empire-compass.tib.eu/R186491/), Computer Software, Version v1.4, https://github.com/amirrezaalasti/ORKG-Atlas, 2025.
 >
 > You can also use the "**Cite this repository**" function in the top right menu, resulting from the included [citation file format file](CITATION.cff) for human- and machine-readable citation information for software and datasets. Further information can be found on the [Citation File Format (CFF) website](https://citation-file-format.github.io/).
 

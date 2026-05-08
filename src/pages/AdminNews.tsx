@@ -362,7 +362,7 @@ const AdminNews = () => {
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Article sx={{ fontSize: 40, color: '#e86161' }} />
+          <Article sx={{ fontSize: 40, color: '#039be5' }} />
           <Box>
             <Typography variant="h4" sx={{ fontWeight: 600 }}>
               News Management
@@ -383,7 +383,7 @@ const AdminNews = () => {
             startIcon={<Add />}
             onClick={() => handleOpenDialog()}
             sx={{
-              backgroundColor: '#e86161',
+              backgroundColor: '#039be5',
               '&:hover': {
                 backgroundColor: '#d45151',
               },
@@ -744,7 +744,7 @@ const AdminNews = () => {
               saving || !formData.title.trim() || !formData.content.trim()
             }
             sx={{
-              backgroundColor: '#e86161',
+              backgroundColor: '#039be5',
               '&:hover': {
                 backgroundColor: '#d45151',
               },
@@ -838,7 +838,7 @@ const AdminNews = () => {
                 <Typography
                   variant="h5"
                   sx={{
-                    color: '#e86161',
+                    color: '#039be5',
                     fontWeight: 700,
                     mb: 1,
                   }}
@@ -883,7 +883,7 @@ const AdminNews = () => {
                     marginBottom: 1.5,
                   },
                   '& a': {
-                    color: '#e86161',
+                    color: '#039be5',
                     textDecoration: 'none',
                     '&:hover': {
                       textDecoration: 'underline',

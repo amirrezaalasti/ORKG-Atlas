@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Firebase integration for EmpiRE Compass statistics.
+Firebase integration for ORKG Atlas statistics.
 This script handles reading from and writing to Firebase Firestore.
 """
 

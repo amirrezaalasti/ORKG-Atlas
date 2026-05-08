@@ -68,7 +68,7 @@ const PaperSynthesisDialog: React.FC<PaperSynthesisDialogProps> = ({
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-      <DialogTitle sx={{ color: '#e86161', fontWeight: 600 }}>
+      <DialogTitle sx={{ color: '#039be5', fontWeight: 600 }}>
         Paper Synthesis
       </DialogTitle>
       <DialogContent>
@@ -123,7 +123,7 @@ const PaperSynthesisDialog: React.FC<PaperSynthesisDialogProps> = ({
           >
             <Typography
               variant="subtitle2"
-              sx={{ fontWeight: 600, mb: 1, color: '#e86161' }}
+              sx={{ fontWeight: 600, mb: 1, color: '#039be5' }}
             >
               Synthesis
             </Typography>
@@ -143,7 +143,7 @@ const PaperSynthesisDialog: React.FC<PaperSynthesisDialogProps> = ({
           onClick={handleSynthesize}
           disabled={loading || !question.trim()}
           sx={{
-            backgroundColor: '#e86161',
+            backgroundColor: '#039be5',
             '&:hover': { backgroundColor: '#d45151' },
           }}
         >

@@ -284,13 +284,12 @@ const BackupSelector: React.FC<BackupSelectorProps> = ({
       <DialogTitle>Select Data Source</DialogTitle>
       <DialogContent>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          EmpiRE-Compass can load its data either from the live Firebase
-          database or from JSON backup files. This dialog lets you switch to a
-          specific backup snapshot (from the built-in backups folder or an
-          uploaded file) for reproducible analyses, demos, or when live data is
-          not available. When backup mode is active, the application reads data
-          only from the selected backup, and some write or admin features may be
-          limited.
+          ORKG Atlas can load its data either from the live Firebase database or
+          from JSON backup files. This dialog lets you switch to a specific
+          backup snapshot (from the built-in backups folder or an uploaded file)
+          for reproducible analyses, demos, or when live data is not available.
+          When backup mode is active, the application reads data only from the
+          selected backup, and some write or admin features may be limited.
         </Typography>
 
         {isUsingBackup && (

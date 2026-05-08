@@ -1,20 +1,41 @@
 import { createTheme, PaletteMode, ThemeOptions } from '@mui/material/styles';
 import { alpha } from '@mui/material/styles';
 
+import { brandColors } from '../constants/brandColors';
+
 // Common theme settings
 const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
   palette: {
     mode,
     primary: {
-      main: mode === 'light' ? '#e86161' : '#ff7b7b',
-      light: mode === 'light' ? '#ff8f8f' : '#ff9d9d',
-      dark: mode === 'light' ? '#b13737' : '#cc4444',
-      contrastText: '#ffffff',
+      main:
+        mode === 'light'
+          ? brandColors.primary.main
+          : brandColors.primaryDarkMode.main,
+      light:
+        mode === 'light'
+          ? brandColors.primary.light
+          : brandColors.primaryDarkMode.light,
+      dark:
+        mode === 'light'
+          ? brandColors.primary.dark
+          : brandColors.primaryDarkMode.dark,
+      contrastText:
+        mode === 'light' ? '#ffffff' : brandColors.primaryDarkMode.contrastText,
     },
     secondary: {
-      main: mode === 'light' ? '#1e88e5' : '#64b5f6',
-      light: mode === 'light' ? '#6ab7ff' : '#9be7ff',
-      dark: mode === 'light' ? '#005cb2' : '#0077c2',
+      main:
+        mode === 'light'
+          ? brandColors.secondary.main
+          : brandColors.secondaryDarkMode.main,
+      light:
+        mode === 'light'
+          ? brandColors.secondary.light
+          : brandColors.secondaryDarkMode.light,
+      dark:
+        mode === 'light'
+          ? brandColors.secondary.dark
+          : brandColors.secondaryDarkMode.dark,
       contrastText: '#ffffff',
     },
     background: {
@@ -23,15 +44,22 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
     },
     text: {
       primary: mode === 'light' ? 'rgba(0, 0, 0, 0.87)' : '#ffffff',
-      secondary: mode === 'light' ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.7)',
+      secondary:
+        mode === 'light' ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.7)',
     },
-    divider: mode === 'light' ? 'rgba(0, 0, 0, 0.12)' : 'rgba(255, 255, 255, 0.12)',
+    divider:
+      mode === 'light' ? 'rgba(0, 0, 0, 0.12)' : 'rgba(255, 255, 255, 0.12)',
     action: {
-      active: mode === 'light' ? 'rgba(0, 0, 0, 0.54)' : 'rgba(255, 255, 255, 0.7)',
-      hover: mode === 'light' ? 'rgba(0, 0, 0, 0.04)' : 'rgba(255, 255, 255, 0.08)',
-      selected: mode === 'light' ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.16)',
-      disabled: mode === 'light' ? 'rgba(0, 0, 0, 0.26)' : 'rgba(255, 255, 255, 0.3)',
-      disabledBackground: mode === 'light' ? 'rgba(0, 0, 0, 0.12)' : 'rgba(255, 255, 255, 0.12)',
+      active:
+        mode === 'light' ? 'rgba(0, 0, 0, 0.54)' : 'rgba(255, 255, 255, 0.7)',
+      hover:
+        mode === 'light' ? 'rgba(0, 0, 0, 0.04)' : 'rgba(255, 255, 255, 0.08)',
+      selected:
+        mode === 'light' ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.16)',
+      disabled:
+        mode === 'light' ? 'rgba(0, 0, 0, 0.26)' : 'rgba(255, 255, 255, 0.3)',
+      disabledBackground:
+        mode === 'light' ? 'rgba(0, 0, 0, 0.12)' : 'rgba(255, 255, 255, 0.12)',
     },
   },
   typography: {
@@ -95,7 +123,10 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
           borderColor: theme.palette.divider,
           transition: 'all 0.3s ease',
           '&:hover': {
-            backgroundColor: alpha(theme.palette.background.paper, mode === 'dark' ? 0.6 : 1),
+            backgroundColor: alpha(
+              theme.palette.background.paper,
+              mode === 'dark' ? 0.6 : 1
+            ),
           },
         }),
       },
@@ -120,7 +151,8 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
           transition: 'all 0.2s ease',
           '&:hover': {
             transform: 'translateY(-1px)',
-            boxShadow: mode === 'dark' ? '0 4px 12px rgba(255, 123, 123, 0.3)' : 'none',
+            boxShadow:
+              mode === 'dark' ? '0 4px 12px rgba(3, 155, 229, 0.35)' : 'none',
           },
         },
       },
@@ -139,23 +171,29 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
       styleOverrides: {
         paper: ({ theme }) => ({
           backgroundColor: theme.palette.background.paper,
-          backgroundImage: mode === 'dark' 
-            ? 'linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))'
-            : 'none',
-          boxShadow: mode === 'dark' 
-            ? '4px 0 15px rgba(0, 0, 0, 0.5)' 
-            : '4px 0 10px rgba(0, 0, 0, 0.05)',
+          backgroundImage:
+            mode === 'dark'
+              ? 'linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))'
+              : 'none',
+          boxShadow:
+            mode === 'dark'
+              ? '4px 0 15px rgba(0, 0, 0, 0.5)'
+              : '4px 0 10px rgba(0, 0, 0, 0.05)',
         }),
       },
     },
     MuiAppBar: {
       styleOverrides: {
         root: ({ theme }) => ({
-          backgroundColor: alpha(theme.palette.background.paper, mode === 'dark' ? 0.8 : 1),
+          backgroundColor: alpha(
+            theme.palette.background.paper,
+            mode === 'dark' ? 0.8 : 1
+          ),
           backdropFilter: 'blur(8px)',
-          boxShadow: mode === 'dark' 
-            ? '0 4px 15px rgba(0, 0, 0, 0.5)' 
-            : '0 1px 4px rgba(0, 0, 0, 0.05)',
+          boxShadow:
+            mode === 'dark'
+              ? '0 4px 15px rgba(0, 0, 0, 0.5)'
+              : '0 1px 4px rgba(0, 0, 0, 0.05)',
         }),
       },
     },

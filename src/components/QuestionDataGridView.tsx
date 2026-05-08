@@ -30,7 +30,7 @@ const QuestionDataGridView: React.FC<QuestionDataGridViewProps> = ({
         variant="h5"
         sx={{
           mb: 3,
-          color: '#e86161',
+          color: '#039be5',
           fontWeight: 600,
           fontSize: { xs: '1.25rem', sm: '1.5rem' },
         }}

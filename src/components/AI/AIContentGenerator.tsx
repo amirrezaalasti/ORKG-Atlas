@@ -149,7 +149,7 @@ Requirements:
 2. Use Chart.js (include from CDN: <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>)
 3. Choose the most appropriate chart type (bar, line, pie, etc.) based on the data
 4. Make it responsive and visually appealing with:
-   - Professional color scheme (use #e86161 as primary color, with complementary colors)
+   - Professional color scheme (use #039be5 as primary color, with complementary colors)
    - Clean, modern styling with proper spacing
    - Responsive design that works on different screen sizes
    - Clear typography and readable fonts
@@ -558,7 +558,7 @@ Return ONLY the explanation text.`;
           textAlign: 'center',
         }}
       >
-        <CircularProgress sx={{ color: '#e86161', mb: 2 }} />
+        <CircularProgress sx={{ color: '#039be5', mb: 2 }} />
         <Typography color="text.secondary">
           Generating AI charts and analysis...
         </Typography>

@@ -213,7 +213,7 @@ export default function CustomBoxPlot({
   }, [allValues.length, dataMin, dataMax]);
 
   const colorPalette = useMemo<string[]>(
-    () => (config.colors?.length ? config.colors : ['#e86161']),
+    () => (config.colors?.length ? config.colors : ['#039be5']),
     [config.colors]
   );
 
@@ -401,7 +401,7 @@ export default function CustomBoxPlot({
                 orientation="top"
                 pointerLength={0}
                 flyoutStyle={{
-                  stroke: '#e86161',
+                  stroke: '#039be5',
                   fill: 'white',
                   filter: 'drop-shadow(0px 2px 4px rgba(0,0,0,0.1))',
                 }}

@@ -9,7 +9,7 @@ const meta: Meta<typeof Header> = {
     docs: {
       description: {
         component:
-          'The `Header` component introduces the EmpiRE-Compass dashboard with a bold title and a descriptive subtitle. It is fully responsive and designed for homepage or section headers.',
+          'The `Header` component introduces the ORKG Atlas dashboard with a bold title and a descriptive subtitle. It is fully responsive and designed for homepage or section headers.',
       },
     },
   },
@@ -24,7 +24,7 @@ export const Default: Story = {
     docs: {
       description: {
         story:
-          'This story shows the responsive `Header` for the EmpiRE-Compass dashboard, featuring a large title and a concise subtitle centered within the layout.',
+          'This story shows the responsive `Header` for the ORKG Atlas dashboard, featuring a large title and a concise subtitle centered within the layout.',
       },
     },
   },

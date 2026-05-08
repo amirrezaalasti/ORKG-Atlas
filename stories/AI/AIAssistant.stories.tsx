@@ -43,8 +43,8 @@ const mockQuery: Query = {
     heading: 'Distribution of Research Methods in RE Studies (2020-2023)',
     yAxis: { dataKey: 'count', name: 'Number of Papers' },
     xAxis: { dataKey: 'method', name: 'Research Method' },
-    series: [{ dataKey: 'count', name: 'Papers', color: '#e86161' }],
-    colors: ['#e86161', '#61e8aa', '#6161e8', '#e8aa61'],
+    series: [{ dataKey: 'count', name: 'Papers', color: '#039be5' }],
+    colors: ['#039be5', '#61e8aa', '#6161e8', '#e8aa61'],
     height: 400,
     sx: {},
   },
@@ -56,7 +56,7 @@ const mockQuery: Query = {
     dataAnalysis:
       "The data reveals the frequency distribution of research methods across RE publications indexed in the ORKG knowledge graph. Case studies and surveys dominate, reflecting the field's emphasis on real-world validation and practitioner perspectives.",
     requiredDataForAnalysis:
-      'SPARQL query results containing research method classifications and paper counts from the ORKG EmpiRE knowledge graph, filtered by publication year range 2020-2023.',
+      'SPARQL query results containing research method classifications and paper counts from the KG-EmpiRE knowledge graph, filtered by publication year range 2020-2023.',
   },
 };
 
@@ -106,7 +106,7 @@ const meta: Meta<typeof AIAssistant> = {
   parameters: {
     docs: {
       description: {
-        component: `\`AIAssistant\` is the main AI chat interface component for the EmpiRE-Compass application. It provides interactive AI-powered analysis of research questions and SPARQL query results from the ORKG knowledge graph.
+        component: `\`AIAssistant\` is the main AI chat interface component for the ORKG Atlas application. It provides interactive AI-powered analysis of research questions and SPARQL query results from the ORKG knowledge graph.
 
 ## Features
 - **Initial Analysis**: Automatically generates an AI analysis of the research question and data when mounted

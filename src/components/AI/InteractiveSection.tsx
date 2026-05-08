@@ -240,7 +240,7 @@ Modified Content:`;
             mb: 1,
           }}
         >
-          <Typography variant="h6" sx={{ color: '#e86161', fontWeight: 600 }}>
+          <Typography variant="h6" sx={{ color: '#039be5', fontWeight: 600 }}>
             {title}
           </Typography>
           <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
@@ -258,7 +258,7 @@ Modified Content:`;
                 onClick={handleEdit}
                 size="small"
                 sx={{
-                  color: '#e86161',
+                  color: '#039be5',
                   '&:hover': { backgroundColor: 'rgba(232, 97, 97, 0.08)' },
                 }}
               >
@@ -296,7 +296,7 @@ Modified Content:`;
               onClick={handleSave}
               startIcon={<Save />}
               sx={{
-                backgroundColor: '#e86161',
+                backgroundColor: '#039be5',
                 '&:hover': { backgroundColor: '#d45151' },
               }}
             >
@@ -323,7 +323,7 @@ Modified Content:`;
       >
         <DialogTitle>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <SmartToy sx={{ color: '#e86161' }} />
+            <SmartToy sx={{ color: '#039be5' }} />
             <Typography variant="h6">AI Modification</Typography>
           </Box>
         </DialogTitle>
@@ -370,7 +370,7 @@ Modified Content:`;
               isAIModifying ? <CircularProgress size={16} /> : <Refresh />
             }
             sx={{
-              backgroundColor: '#e86161',
+              backgroundColor: '#039be5',
               '&:hover': { backgroundColor: '#d45151' },
             }}
           >

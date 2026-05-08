@@ -218,13 +218,13 @@ const AdminBackupMetadata = () => {
         <Box sx={{ flex: 1 }}>
           <Typography
             variant="h4"
-            sx={{ fontWeight: 700, color: '#e86161', mb: 1 }}
+            sx={{ fontWeight: 700, color: '#039be5', mb: 1 }}
           >
             Backup Metadata Manager
           </Typography>
           <Typography variant="body1" color="text.secondary">
             Edit human‑readable names and coverage information for each bundled
-            backup file used by EmpiRE‑Compass.
+            backup file used by ORKG Atlas.
           </Typography>
         </Box>
         <Tooltip title="Reload from server">

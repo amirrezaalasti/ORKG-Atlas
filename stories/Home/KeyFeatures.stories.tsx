@@ -9,7 +9,7 @@ const meta: Meta<typeof KeyFeatures> = {
     docs: {
       description: {
         component:
-          'The `KeyFeatures` component lists and highlights the main strengths of the EmpiRE-Compass dashboard. It uses a clean Paper layout with animated hover behavior and responsive typography.',
+          'The `KeyFeatures` component lists and highlights the main strengths of the ORKG Atlas dashboard. It uses a clean Paper layout with animated hover behavior and responsive typography.',
       },
     },
   },
@@ -24,7 +24,7 @@ export const Default: Story = {
     docs: {
       description: {
         story:
-          'Displays the key features of EmpiRE-Compass, including its community-driven model, FAIR principles, analytical depth, and institutional support.',
+          'Displays the key features of ORKG Atlas, including its community-driven model, FAIR principles, analytical depth, and institutional support.',
       },
     },
   },

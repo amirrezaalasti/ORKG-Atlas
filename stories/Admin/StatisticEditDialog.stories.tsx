@@ -40,7 +40,7 @@ const StatisticEditDialogWrapper = ({
         startIcon={<EditIcon />}
         onClick={() => setOpen(true)}
         sx={{
-          backgroundColor: '#e86161',
+          backgroundColor: '#039be5',
           '&:hover': { backgroundColor: '#d45151' },
         }}
       >

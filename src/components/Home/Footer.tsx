@@ -19,7 +19,7 @@ const Footer = () => {
           fontSize: { xs: '0.875rem', sm: '0.9375rem' },
         }}
       >
-        © 2025 EmpiRE-Compass – Advancing Open Science in RE
+        © 2025 ORKG Atlas – Advancing Open Science in RE
       </Typography>
     </Box>
   );

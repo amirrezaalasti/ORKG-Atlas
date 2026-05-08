@@ -45,7 +45,7 @@ const ImportExportTab = ({
           <Card>
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <Download sx={{ color: '#e86161', mr: 1 }} />
+                <Download sx={{ color: '#039be5', mr: 1 }} />
                 <Typography variant="h6" sx={{ fontWeight: 600 }}>
                   Export Template
                 </Typography>
@@ -59,8 +59,8 @@ const ImportExportTab = ({
                 fullWidth
                 onClick={onExport}
                 sx={{
-                  borderColor: '#e86161',
-                  color: '#e86161',
+                  borderColor: '#039be5',
+                  color: '#039be5',
                   '&:hover': {
                     borderColor: '#d55555',
                     backgroundColor: 'rgba(232, 97, 97, 0.08)',
@@ -78,7 +78,7 @@ const ImportExportTab = ({
           <Card>
             <CardContent>
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                <Upload sx={{ color: '#e86161', mr: 1 }} />
+                <Upload sx={{ color: '#039be5', mr: 1 }} />
                 <Typography variant="h6" sx={{ fontWeight: 600 }}>
                   Import Template
                 </Typography>
@@ -91,8 +91,8 @@ const ImportExportTab = ({
                 fullWidth
                 component="label"
                 sx={{
-                  borderColor: '#e86161',
-                  color: '#e86161',
+                  borderColor: '#039be5',
+                  color: '#039be5',
                   '&:hover': {
                     borderColor: '#d55555',
                     backgroundColor: 'rgba(232, 97, 97, 0.08)',

@@ -520,7 +520,7 @@ const SPARQLQuerySection: React.FC<SPARQLQuerySectionProps> = ({
           sx={{
             mb: 2,
             backgroundColor: 'rgba(232, 97, 97, 0.04)',
-            borderLeft: '4px solid #e86161',
+            borderLeft: '4px solid #039be5',
           }}
         >
           <Typography variant="body2" sx={{ mb: 0.5 }}>
@@ -576,7 +576,7 @@ const SPARQLQuerySection: React.FC<SPARQLQuerySectionProps> = ({
             sx={{
               mb: 1,
               '& .MuiOutlinedInput-root': {
-                '&.Mui-focused > fieldset': { borderColor: '#e86161' },
+                '&.Mui-focused > fieldset': { borderColor: '#039be5' },
               },
             }}
           />
@@ -628,7 +628,7 @@ const SPARQLQuerySection: React.FC<SPARQLQuerySectionProps> = ({
                 }
               }}
               sx={{
-                backgroundColor: '#e86161',
+                backgroundColor: '#039be5',
                 '&:hover': { backgroundColor: '#d45151' },
               }}
             >
@@ -652,7 +652,7 @@ const SPARQLQuerySection: React.FC<SPARQLQuerySectionProps> = ({
           severity="info"
           sx={{
             backgroundColor: 'rgba(232, 97, 97, 0.04)',
-            borderLeft: '4px solid #e86161',
+            borderLeft: '4px solid #039be5',
             cursor: isAdmin ? 'text' : 'default',
             ...(isAdmin && {
               '&:hover': { backgroundColor: 'rgba(232, 97, 97, 0.08)' },
@@ -1186,8 +1186,8 @@ Modified SPARQL Query:`;
       >
         <DialogTitle>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Info sx={{ color: '#e86161' }} />
-            <Typography variant="h6" sx={{ color: '#e86161', fontWeight: 600 }}>
+            <Info sx={{ color: '#039be5' }} />
+            <Typography variant="h6" sx={{ color: '#039be5', fontWeight: 600 }}>
               Query Explanation
             </Typography>
           </Box>
@@ -1210,7 +1210,7 @@ Modified SPARQL Query:`;
                           label={templateInsights.predicateDetails.length}
                           size="small"
                           sx={{
-                            backgroundColor: '#e86161',
+                            backgroundColor: '#039be5',
                             color: 'white',
                             fontWeight: 600,
                             height: '20px',
@@ -1253,7 +1253,7 @@ Modified SPARQL Query:`;
                                   e.stopPropagation();
                                 }}
                                 sx={{
-                                  backgroundColor: '#e86161',
+                                  backgroundColor: '#039be5',
                                   color: 'white',
                                   fontWeight: 500,
                                   fontSize: '0.7rem',
@@ -1390,7 +1390,7 @@ Modified SPARQL Query:`;
                           }
                           size="small"
                           sx={{
-                            backgroundColor: '#e86161',
+                            backgroundColor: '#039be5',
                             color: 'white',
                             fontWeight: 600,
                             height: '20px',
@@ -1509,7 +1509,7 @@ Modified SPARQL Query:`;
                                 sx={{
                                   backgroundColor:
                                     resource.type === 'active'
-                                      ? '#e86161'
+                                      ? '#039be5'
                                       : resource.type === 'template'
                                         ? '#4CAF50'
                                         : '#757575',
@@ -1622,7 +1622,7 @@ Modified SPARQL Query:`;
               mb: 2,
             }}
           >
-            <Typography variant="h5" sx={{ color: '#e86161', fontWeight: 600 }}>
+            <Typography variant="h5" sx={{ color: '#039be5', fontWeight: 600 }}>
               SPARQL Query
             </Typography>
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
@@ -1634,7 +1634,7 @@ Modified SPARQL Query:`;
                     onClick={handleSave}
                     startIcon={<Save />}
                     sx={{
-                      backgroundColor: '#e86161',
+                      backgroundColor: '#039be5',
                       '&:hover': { backgroundColor: '#d45151' },
                     }}
                   >
@@ -1655,8 +1655,8 @@ Modified SPARQL Query:`;
                       onClick={handleOpenHistory}
                       startIcon={<History />}
                       sx={{
-                        borderColor: '#e86161',
-                        color: '#e86161',
+                        borderColor: '#039be5',
+                        color: '#039be5',
                         '&:hover': {
                           borderColor: '#d45151',
                           backgroundColor: 'rgba(232, 97, 97, 0.08)',
@@ -1672,7 +1672,7 @@ Modified SPARQL Query:`;
                   <Button
                     onClick={handleOpenInORKG}
                     sx={{
-                      color: '#e86161',
+                      color: '#039be5',
                       mt: { xs: 2, sm: 0 },
                       ml: 2,
                       '&:hover': {
@@ -1691,7 +1691,7 @@ Modified SPARQL Query:`;
                       onClick={handleEdit}
                       size="small"
                       sx={{
-                        color: '#e86161',
+                        color: '#039be5',
                         '&:hover': {
                           backgroundColor: 'rgba(232, 97, 97, 0.08)',
                         },
@@ -1719,7 +1719,7 @@ Modified SPARQL Query:`;
                       onClick={() => setExplanationDialogOpen(true)}
                       size="small"
                       sx={{
-                        color: '#e86161',
+                        color: '#039be5',
                         '&:hover': {
                           backgroundColor: 'rgba(232, 97, 97, 0.08)',
                         },
@@ -1736,7 +1736,7 @@ Modified SPARQL Query:`;
                         onClick={handleOpenHistory}
                         size="small"
                         sx={{
-                          color: '#e86161',
+                          color: '#039be5',
                           '&:hover': {
                             backgroundColor: 'rgba(232, 97, 97, 0.08)',
                           },
@@ -1849,7 +1849,7 @@ LIMIT 10`}
       >
         <DialogTitle>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <SmartToy sx={{ color: '#e86161' }} />
+            <SmartToy sx={{ color: '#039be5' }} />
             <Typography variant="h6">AI Query Modification</Typography>
           </Box>
         </DialogTitle>
@@ -1890,7 +1890,7 @@ LIMIT 10`}
               isAIModifying ? <CircularProgress size={16} /> : <Refresh />
             }
             sx={{
-              backgroundColor: '#e86161',
+              backgroundColor: '#039be5',
               '&:hover': { backgroundColor: '#d45151' },
             }}
           >
@@ -1915,7 +1915,7 @@ LIMIT 10`}
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <History sx={{ color: '#e86161' }} />
+              <History sx={{ color: '#039be5' }} />
               <Typography variant="h6">SPARQL Query History</Typography>
             </Box>
             <IconButton onClick={handleCloseHistory} size="small">
@@ -2021,7 +2021,7 @@ LIMIT 10`}
                             startIcon={<Restore />}
                             onClick={() => handleRevertHistory(item)}
                             sx={{
-                              backgroundColor: '#e86161',
+                              backgroundColor: '#039be5',
                               '&:hover': { backgroundColor: '#d45151' },
                             }}
                           >

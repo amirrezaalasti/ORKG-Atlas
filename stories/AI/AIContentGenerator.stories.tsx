@@ -74,7 +74,7 @@ const AIContentGeneratorWrapper = ({
     return (
       <Provider store={createMockStore(isConfigured)}>
         <Box sx={{ padding: '20px', maxWidth: '600px' }}>
-          <Typography variant="h6" sx={{ mb: 2, color: '#e86161' }}>
+          <Typography variant="h6" sx={{ mb: 2, color: '#039be5' }}>
             AI Content Generator - Loading State
           </Typography>
           <Paper
@@ -87,7 +87,7 @@ const AIContentGeneratorWrapper = ({
               textAlign: 'center',
             }}
           >
-            <CircularProgress sx={{ color: '#e86161', mb: 2 }} />
+            <CircularProgress sx={{ color: '#039be5', mb: 2 }} />
             <Typography color="text.secondary">
               Generating AI charts and analysis...
             </Typography>
@@ -124,7 +124,7 @@ const AIContentGeneratorWrapper = ({
     return (
       <Provider store={createMockStore(isConfigured)}>
         <Box sx={{ padding: '20px', maxWidth: '600px' }}>
-          <Typography variant="h6" sx={{ mb: 2, color: '#e86161' }}>
+          <Typography variant="h6" sx={{ mb: 2, color: '#039be5' }}>
             AI Content Generator - Error State
           </Typography>
           <Alert severity="error" sx={{ mb: 2 }}>
@@ -169,7 +169,7 @@ const AIContentGeneratorWrapper = ({
   return (
     <Provider store={createMockStore(isConfigured)}>
       <Box sx={{ padding: '20px', maxWidth: '700px' }}>
-        <Typography variant="h6" sx={{ mb: 2, color: '#e86161' }}>
+        <Typography variant="h6" sx={{ mb: 2, color: '#039be5' }}>
           AI Content Generator Demo
         </Typography>
 

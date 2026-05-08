@@ -325,7 +325,7 @@ const AdminDashboard = () => {
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <AdminPanelSettings sx={{ fontSize: 40, color: '#e86161' }} />
+          <AdminPanelSettings sx={{ fontSize: 40, color: '#039be5' }} />
           <Box>
             <Typography variant="h4" sx={{ fontWeight: 600 }}>
               Admin Dashboard
@@ -423,7 +423,7 @@ const AdminDashboard = () => {
                   </Typography>
                   <Typography
                     variant="h4"
-                    sx={{ fontWeight: 600, color: '#e86161' }}
+                    sx={{ fontWeight: 600, color: '#039be5' }}
                   >
                     {totalAdmins}
                   </Typography>
@@ -434,7 +434,7 @@ const AdminDashboard = () => {
                   </Typography>
                 </Box>
                 <AdminPanelSettings
-                  sx={{ fontSize: 48, color: '#e86161', opacity: 0.3 }}
+                  sx={{ fontSize: 48, color: '#039be5', opacity: 0.3 }}
                 />
               </Box>
             </CardContent>
@@ -501,7 +501,7 @@ const AdminDashboard = () => {
                   </Typography>
                   <Typography
                     variant="h4"
-                    sx={{ fontWeight: 600, color: '#e86161' }}
+                    sx={{ fontWeight: 600, color: '#039be5' }}
                   >
                     {templates.length}
                   </Typography>
@@ -510,7 +510,7 @@ const AdminDashboard = () => {
                   </Typography>
                 </Box>
                 <Storage
-                  sx={{ fontSize: 48, color: '#e86161', opacity: 0.3 }}
+                  sx={{ fontSize: 48, color: '#039be5', opacity: 0.3 }}
                 />
               </Box>
             </CardContent>
@@ -668,7 +668,7 @@ const AdminDashboard = () => {
               <CardContent
                 sx={{ display: 'flex', alignItems: 'center', gap: 2 }}
               >
-                <Article sx={{ color: '#e86161' }} />
+                <Article sx={{ color: '#039be5' }} />
                 <Box>
                   <Typography variant="body2" sx={{ fontWeight: 600 }}>
                     News Management
@@ -688,7 +688,7 @@ const AdminDashboard = () => {
               <CardContent
                 sx={{ display: 'flex', alignItems: 'center', gap: 2 }}
               >
-                <MenuBook sx={{ color: '#e86161' }} />
+                <MenuBook sx={{ color: '#039be5' }} />
                 <Box>
                   <Typography variant="body2" sx={{ fontWeight: 600 }}>
                     Papers Management
@@ -762,7 +762,7 @@ const AdminDashboard = () => {
                         >
                           <Avatar
                             sx={{
-                              bgcolor: user.is_admin ? '#e86161' : '#4c72b0',
+                              bgcolor: user.is_admin ? '#039be5' : '#4c72b0',
                             }}
                           >
                             {user.display_name?.charAt(0).toUpperCase() ||

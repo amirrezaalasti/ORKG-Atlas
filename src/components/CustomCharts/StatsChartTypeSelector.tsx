@@ -40,7 +40,7 @@ const StatsChartTypeSelector = ({
           aria-label="Gauge Charts"
           sx={{
             '&.Mui-selected': {
-              backgroundColor: '#e86161',
+              backgroundColor: '#039be5',
               color: 'white',
             },
           }}
@@ -52,7 +52,7 @@ const StatsChartTypeSelector = ({
           aria-label="Stat Cards"
           sx={{
             '&.Mui-selected': {
-              backgroundColor: '#e86161',
+              backgroundColor: '#039be5',
               color: 'white',
             },
           }}

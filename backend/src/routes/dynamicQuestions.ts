@@ -71,26 +71,57 @@ router.get('/', async (req, res) => {
  * GET /api/dynamic-questions/community
  * Get community dynamic questions (public read)
  */
+function mapDynamicQuestionDocs(
+  snapshot: FirebaseFirestore.QuerySnapshot
+): DynamicQuestion[] {
+  const questions: DynamicQuestion[] = [];
+  snapshot.forEach((doc) => {
+    questions.push({
+      id: doc.id,
+      ...doc.data(),
+    } as DynamicQuestion);
+  });
+  return questions;
+}
+
+function isFirestoreIndexError(error: unknown): boolean {
+  const e = error as { code?: number; message?: string };
+  return (
+    e?.code === 9 ||
+    (typeof e?.message === 'string' && e.message.includes('requires an index'))
+  );
+}
+
 router.get('/community', async (req, res) => {
   try {
     const limitCount = parseInt(req.query.limit as string) || 50;
-    const questionsRef = db
-      .collection('DynamicQuestions')
-      .where('isCommunity', '==', true)
-      .orderBy('timestamp', 'desc')
-      .limit(limitCount);
+    try {
+      const questionsRef = db
+        .collection('DynamicQuestions')
+        .where('isCommunity', '==', true)
+        .orderBy('timestamp', 'desc')
+        .limit(limitCount);
 
-    const snapshot = await questionsRef.get();
-    const questions: DynamicQuestion[] = [];
+      const snapshot = await questionsRef.get();
+      res.json(mapDynamicQuestionDocs(snapshot));
+    } catch (error) {
+      if (!isFirestoreIndexError(error)) {
+        throw error;
+      }
+      console.warn(
+        'DynamicQuestions community: missing composite index (isCommunity + timestamp). Serving via in-memory sort; deploy firestore.indexes.json.'
+      );
+      const snapshot = await db
+        .collection('DynamicQuestions')
+        .where('isCommunity', '==', true)
+        .limit(2000)
+        .get();
 
-    snapshot.forEach((doc) => {
-      questions.push({
-        id: doc.id,
-        ...doc.data(),
-      } as DynamicQuestion);
-    });
-
-    res.json(questions);
+      const sorted = mapDynamicQuestionDocs(snapshot).sort(
+        (a, b) => (b.timestamp ?? 0) - (a.timestamp ?? 0)
+      );
+      res.json(sorted.slice(0, limitCount));
+    }
   } catch (error) {
     console.error('Error fetching community questions:', error);
     res.status(500).json({ error: 'Failed to fetch community questions' });

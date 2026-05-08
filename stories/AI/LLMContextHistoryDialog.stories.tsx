@@ -43,7 +43,7 @@ const LLMContextHistoryWrapper = () => {
           onClick={() => setOpen(true)}
           startIcon={<HistoryIcon />}
           sx={{
-            backgroundColor: '#e86161',
+            backgroundColor: '#039be5',
             '&:hover': { backgroundColor: '#d45151' },
           }}
         >

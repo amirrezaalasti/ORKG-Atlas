@@ -13,9 +13,9 @@ export default defineConfig({
       },
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
       manifest: {
-        name: 'EmpiRE Compass',
-        short_name: 'EmpiRE Compass',
-        description: 'EmpiRE Compass a dashboard for research in RE',
+        name: 'ORKG Atlas',
+        short_name: 'ORKG Atlas',
+        description: 'ORKG Atlas — a dashboard for research in RE',
         theme_color: '#ffffff',
         icons: [
           {

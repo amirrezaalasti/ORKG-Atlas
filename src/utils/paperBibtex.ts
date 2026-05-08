@@ -71,7 +71,7 @@ export function paperToBibtexEntry(paper: PaperBibtexInput): string {
 
 export function papersToBibtexBibliography(
   papers: PaperBibtexInput[],
-  headerComment = '% Exported from EmpiRE-Compass\n'
+  headerComment = '% Exported from ORKG Atlas\n'
 ): string {
   if (papers.length === 0) return headerComment;
   return `${headerComment}\n${papers.map(paperToBibtexEntry).join('\n\n')}\n`;

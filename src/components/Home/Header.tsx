@@ -19,7 +19,7 @@ const Header = ({ content }: HeaderProps) => {
         component="h1"
         gutterBottom
         sx={{
-          color: '#e86161',
+          color: '#039be5',
           fontWeight: 800,
           fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4rem' },
           letterSpacing: '-0.02em',

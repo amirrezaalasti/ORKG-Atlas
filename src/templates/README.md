@@ -1,6 +1,6 @@
 # Template JSON Files
 
-This directory contains JSON files for importing templates into the EmpiRE-Compass system.
+This directory contains JSON files for importing templates into the ORKG Atlas system.
 
 ## Available Templates
 

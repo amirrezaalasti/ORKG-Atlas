@@ -187,7 +187,7 @@ const QuestionChartView: React.FC<QuestionChartViewProps> = ({
         <Typography
           variant="h6"
           sx={{
-            color: '#e86161',
+            color: '#039be5',
             fontWeight: 600,
             fontSize: { xs: '1.1rem', sm: '1.2rem' },
           }}
@@ -204,8 +204,8 @@ const QuestionChartView: React.FC<QuestionChartViewProps> = ({
               setChartEditorOpen(true);
             }}
             sx={{
-              borderColor: '#e86161',
-              color: '#e86161',
+              borderColor: '#039be5',
+              color: '#039be5',
               '&:hover': {
                 borderColor: '#d45151',
                 backgroundColor: 'rgba(232, 97, 97, 0.04)',
@@ -251,7 +251,7 @@ const QuestionChartView: React.FC<QuestionChartViewProps> = ({
               variant="h5"
               sx={{
                 mb: 3,
-                color: '#e86161',
+                color: '#039be5',
                 fontWeight: 600,
                 fontSize: { xs: '1.25rem', sm: '1.5rem' },
               }}
@@ -302,7 +302,7 @@ const QuestionChartView: React.FC<QuestionChartViewProps> = ({
                       : createHeading(series[currentChartIndex]),
                     colors: [
                       effectiveChartSettings.colors?.[currentChartIndex] ??
-                        '#e86161',
+                        '#039be5',
                     ],
                     yAxis: [
                       {
@@ -369,7 +369,7 @@ const QuestionChartView: React.FC<QuestionChartViewProps> = ({
               mb: 4,
             },
             '& a': {
-              color: '#e86161',
+              color: '#039be5',
               textDecoration: 'none',
               fontWeight: 500,
               '&:hover': {
@@ -393,7 +393,7 @@ const QuestionChartView: React.FC<QuestionChartViewProps> = ({
             href={`https://mybinder.org/v2/gh/okarras/EmpiRE-Analysis/HEAD?labpath=%2Fempire-analysis.ipynb`}
             target="_blank"
             sx={{
-              color: '#e86161',
+              color: '#039be5',
               mt: { xs: 2, sm: 0 },
               '&:hover': {
                 color: '#b33a3a',
@@ -411,7 +411,7 @@ const QuestionChartView: React.FC<QuestionChartViewProps> = ({
           href={`https://orkg.org/sparql#${encodeURIComponent(prefixes + query.sparqlQuery)}`}
           target="_blank"
           sx={{
-            color: '#e86161',
+            color: '#039be5',
             mt: { xs: 2, sm: 0 },
             ml: 2,
             '&:hover': {

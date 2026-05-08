@@ -29,7 +29,7 @@ const chartSetting = {
   heading: 'Empirical Study Proportions Over Years',
   layout: 'vertical',
   margin: { top: 20, bottom: 40, left: 60, right: 20 },
-  colors: ['#e86161'],
+  colors: ['#039be5'],
   series: [{ label: 'Empirical Papers', dataKey: 'normalizedRatio' }],
   xAxis: [
     {

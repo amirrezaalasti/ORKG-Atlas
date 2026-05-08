@@ -8,7 +8,7 @@ import {
 
 /** Distinct colors for venue series (cycles if there are many venues). */
 export const VENUE_CHART_COLOR_PALETTE = [
-  '#e86161',
+  '#039be5',
   '#1976d2',
   '#2e7d32',
   '#ed6c02',

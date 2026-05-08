@@ -75,7 +75,7 @@ const QuestionVersionHistoryDialog: React.FC<
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <History sx={{ color: '#e86161' }} />
+          <History sx={{ color: '#039be5' }} />
           <Typography variant="h6">Version History</Typography>
         </Box>
       </DialogTitle>
@@ -108,7 +108,7 @@ const QuestionVersionHistoryDialog: React.FC<
                     border: '1px solid rgba(0, 0, 0, 0.1)',
                     borderRadius: 1,
                     borderLeft: isLatest
-                      ? '3px solid #e86161'
+                      ? '3px solid #039be5'
                       : '3px solid transparent',
                   }}
                 >
@@ -138,7 +138,7 @@ const QuestionVersionHistoryDialog: React.FC<
                               variant="caption"
                               sx={{
                                 ml: 1,
-                                color: '#e86161',
+                                color: '#039be5',
                                 fontWeight: 600,
                               }}
                             >
@@ -187,8 +187,8 @@ const QuestionVersionHistoryDialog: React.FC<
                           )
                         }
                         sx={{
-                          color: '#e86161',
-                          borderColor: '#e86161',
+                          color: '#039be5',
+                          borderColor: '#039be5',
                           '&:hover': {
                             borderColor: '#d45151',
                             backgroundColor: 'rgba(232, 97, 97, 0.04)',

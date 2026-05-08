@@ -1,6 +1,6 @@
-# EmpiRE-Compass Backend API
+# ORKG Atlas Backend API
 
-Complete backend API for EmpiRE-Compass application with secure admin operations and Firebase integration.
+Complete backend API for ORKG Atlas application with secure admin operations and Firebase integration.
 
 ## Features
 

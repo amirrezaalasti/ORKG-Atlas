@@ -11,9 +11,9 @@ const LoadingState = () => (
       gap: 2,
     }}
   >
-    <CircularProgress sx={{ color: '#e86161' }} />
+    <CircularProgress sx={{ color: '#039be5' }} />
     <Typography color="text.secondary">Loading data...</Typography>
   </Box>
 );
 
-export default LoadingState; 
+export default LoadingState;
