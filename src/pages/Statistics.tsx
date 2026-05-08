@@ -11,6 +11,7 @@ import {
   TableRow,
   Stack,
   Divider,
+  Alert,
 } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import { useParams } from 'react-router-dom';
@@ -25,7 +26,7 @@ import HubIcon from '@mui/icons-material/Hub';
 import StatisticsPageLoadingSkeleton from '../components/StatisticsPageLoadingSkeleton';
 import CRUDStatistics from '../firestore/CRUDStatistics';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
-import { getTemplateConfig } from '../constants/template_config';
+import { getBuiltinTemplateConfig } from '../constants/template_config';
 import GaugeChart from '../components/GaugeChart';
 // import KPICard from '../components/KPICard';
 import { FormControlLabel, Switch, Box } from '@mui/material';
@@ -78,20 +79,24 @@ const DEFAULT_STATS: StatisticsData = {
 export default function Statistics() {
   const params = useParams();
   const templateId = params.templateId as string;
+  const builtinStatistics = getBuiltinTemplateConfig(templateId);
   const [loading, setLoading] = useState(true);
   const [statistics, setStatistics] = useState<StatisticsData>(DEFAULT_STATS);
   const [isGaugeMode, setIsGaugeMode] = useState(false);
   // const [chartType, setChartType] = useState<'gauge' | 'card'>('gauge');
 
   useEffect(() => {
-    // Reset loading state and statistics when template changes
+    if (!builtinStatistics) {
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     setStatistics(DEFAULT_STATS);
 
     const fetchData = async () => {
       try {
-        const templateConfig = getTemplateConfig(templateId);
-        const STATISTICS_SPARQL_QUERIES = templateConfig.statisticsSparql;
+        const STATISTICS_SPARQL_QUERIES = builtinStatistics.statisticsSparql;
 
         const results = await Promise.all(
           Object.values(STATISTICS_SPARQL_QUERIES).map((query) =>
@@ -148,7 +153,35 @@ export default function Statistics() {
         }
       });
     });
-  }, [templateId]);
+  }, [templateId, builtinStatistics]);
+
+  if (!builtinStatistics) {
+    return (
+      <ThemeProvider theme={theme}>
+        <Container
+          maxWidth="md"
+          sx={{
+            mt: { xs: 4, md: 8 },
+            mb: { xs: 6, md: 10 },
+            px: { xs: 2, sm: 3 },
+          }}
+        >
+          <Alert severity="info" sx={{ borderRadius: 2 }}>
+            <Typography variant="subtitle2" gutterBottom fontWeight={600}>
+              Statistics are only tailored for curated ORKG Atlas templates
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Charts on this page use SPARQL tuned for Empirical Research
+              Practice (<code>R186491</code>) and NLP4RE ID Card (
+              <code>R1544125</code>). For other ORKG templates selected in the
+              header, open the dashboard home, Schema, or Dynamic Question flows
+              instead.
+            </Typography>
+          </Alert>
+        </Container>
+      </ThemeProvider>
+    );
+  }
 
   if (loading) return <StatisticsPageLoadingSkeleton />;
 
@@ -214,7 +247,7 @@ export default function Statistics() {
                 label="Papers with Empirical Studies"
                 value={paperCount}
                 max={totalORKGPapersCount}
-                color="#e86161"
+                color="#039be5"
                 link="https://orkg.org/papers"
               />
             </Box>
@@ -223,7 +256,7 @@ export default function Statistics() {
                 label="Venues"
                 value={venueCount}
                 max={totalORKGObservatories || venueCount}
-                color="#e86161"
+                color="#039be5"
                 link="https://orkg.org/observatories"
               />
             </Box> */}
@@ -232,7 +265,7 @@ export default function Statistics() {
                 label="Resources"
                 value={total_resources}
                 max={totalORKGResources || total_resources}
-                color="#e86161"
+                color="#039be5"
                 link="https://orkg.org/resources"
               />
             </Box>
@@ -241,7 +274,7 @@ export default function Statistics() {
                 label="Distinct Resources"
                 value={global_distinct_resources}
                 max={totalORKGResources || total_resources}
-                color="#e86161"
+                color="#039be5"
                 link="https://orkg.org/classes"
               />
             </Box>
@@ -250,7 +283,7 @@ export default function Statistics() {
                 label="Statements"
                 value={total_statements}
                 max={totalORKGStatements || total_statements}
-                color="#e86161"
+                color="#039be5"
                 link="https://orkg.org/rs/statements"
               />
             </Box>

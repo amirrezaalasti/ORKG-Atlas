@@ -12,7 +12,7 @@ const mockQuery: Query = {
   chartSettings: {
     heading: 'Number of empirical studies per year',
     series: [{ label: 'empirical', dataKey: 'value' }],
-    colors: ['#e86161'],
+    colors: ['#039be5'],
     yAxis: [{ label: 'Proportion', dataKey: 'value' }],
   },
   chartSettings2: {

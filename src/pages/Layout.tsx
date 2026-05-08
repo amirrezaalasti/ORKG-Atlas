@@ -77,10 +77,10 @@ const Layout = () => {
           size="small"
           aria-label="scroll back to top"
           sx={{
-            backgroundColor: '#e86161',
+            backgroundColor: '#039be5',
             color: 'white',
             '&:hover': {
-              backgroundColor: '#d45555',
+              backgroundColor: '#0277bd',
             },
           }}
         >

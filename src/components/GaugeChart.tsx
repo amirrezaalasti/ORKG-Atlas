@@ -13,7 +13,7 @@ export default function GaugeChart({
   value,
   max,
   label,
-  color = '#e86161',
+  color = '#039be5',
   link,
 }: GaugeChartProps) {
   const theme = useTheme();

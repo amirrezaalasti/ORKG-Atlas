@@ -207,7 +207,7 @@ const QuestionAccordion = ({ query }: { query: Query }) => {
         py: 8,
       }}
     >
-      <CircularProgress sx={{ color: '#e86161', mb: 2 }} />
+      <CircularProgress sx={{ color: '#039be5', mb: 2 }} />
       <Typography color="text.secondary">Loading question data...</Typography>
     </Box>
   );
@@ -330,17 +330,17 @@ const QuestionAccordion = ({ query }: { query: Query }) => {
             variant="outlined"
             onClick={openQuestionPage}
             sx={{
-              color: '#e86161',
-              borderColor: '#e86161',
+              color: '#039be5',
+              borderColor: '#039be5',
               marginLeft: { xs: 0, sm: '10px' },
               minWidth: { xs: '100%', sm: 160 },
               '&:hover': {
-                backgroundColor: '#e86161',
+                backgroundColor: '#039be5',
                 color: 'white',
-                borderColor: '#e86161',
+                borderColor: '#039be5',
               },
               '&.MuiButton-outlined': {
-                borderColor: '#e86161',
+                borderColor: '#039be5',
               },
               mt: { xs: 1, sm: 0 },
             }}

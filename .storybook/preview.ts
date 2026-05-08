@@ -4,14 +4,16 @@ import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { createTheme } from '@mui/material/styles';
 
+import { brandColors } from '../src/constants/brandColors';
+
 // Create theme instance
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#c0392b',
+      main: brandColors.primary.main,
     },
     secondary: {
-      main: '#2c3e50',
+      main: brandColors.secondary.main,
     },
   },
 });

@@ -350,7 +350,7 @@ const HistoryManager: React.FC<HistoryManagerProps> = ({
           <IconButton
             size="small"
             onClick={() => openEditDialog(item)}
-            sx={{ color: '#e86161' }}
+            sx={{ color: '#039be5' }}
           >
             <EditIcon fontSize="small" />
           </IconButton>
@@ -391,7 +391,7 @@ const HistoryManager: React.FC<HistoryManagerProps> = ({
         variant="contained"
         onClick={() => applyHistoryItem(item)}
         sx={{
-          backgroundColor: '#e86161',
+          backgroundColor: '#039be5',
           '&:hover': { backgroundColor: '#d45151' },
           fontSize: '0.75rem',
         }}
@@ -436,7 +436,7 @@ const HistoryManager: React.FC<HistoryManagerProps> = ({
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <HistoryIcon sx={{ color: '#e86161' }} />
+              <HistoryIcon sx={{ color: '#039be5' }} />
               <Typography variant="h6">
                 {type
                   ? `${type.replace('_', ' ').toUpperCase()} History`
@@ -448,7 +448,7 @@ const HistoryManager: React.FC<HistoryManagerProps> = ({
               <IconButton
                 onClick={(e) => setSettingsMenuAnchor(e.currentTarget)}
                 size="small"
-                sx={{ color: '#e86161' }}
+                sx={{ color: '#039be5' }}
               >
                 <SettingsIcon />
               </IconButton>
@@ -475,7 +475,7 @@ const HistoryManager: React.FC<HistoryManagerProps> = ({
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon sx={{ color: '#e86161' }} />
+                    <SearchIcon sx={{ color: '#039be5' }} />
                   </InputAdornment>
                 ),
                 endAdornment: searchTerm && (
@@ -744,7 +744,7 @@ const HistoryManager: React.FC<HistoryManagerProps> = ({
           <Button
             onClick={saveEdit}
             variant="contained"
-            sx={{ backgroundColor: '#e86161' }}
+            sx={{ backgroundColor: '#039be5' }}
           >
             Save Changes
           </Button>
@@ -840,7 +840,7 @@ export const useHistoryManager = () => {
       <IconButton
         size="small"
         onClick={() => onOpen(type)}
-        sx={{ color: '#e86161' }}
+        sx={{ color: '#039be5' }}
       >
         <HistoryIcon fontSize="small" />
       </IconButton>
@@ -973,7 +973,7 @@ export const SectionHistoryDialog: React.FC<SectionHistoryDialogProps> = ({
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <HistoryIcon sx={{ color: '#e86161' }} />
+              <HistoryIcon sx={{ color: '#039be5' }} />
               <Typography variant="h6">{sectionTitle} History</Typography>
             </Box>
             <IconButton onClick={onClose} size="small">
@@ -1036,7 +1036,7 @@ export const SectionHistoryDialog: React.FC<SectionHistoryDialogProps> = ({
                           startIcon={<RestoreIcon />}
                           onClick={() => onRevert(item)}
                           sx={{
-                            backgroundColor: '#e86161',
+                            backgroundColor: '#039be5',
                             '&:hover': { backgroundColor: '#d45151' },
                           }}
                         >
@@ -1045,7 +1045,7 @@ export const SectionHistoryDialog: React.FC<SectionHistoryDialogProps> = ({
                         <IconButton
                           size="small"
                           onClick={() => openEditDialog(item)}
-                          sx={{ color: '#e86161' }}
+                          sx={{ color: '#039be5' }}
                         >
                           <EditIcon fontSize="small" />
                         </IconButton>
@@ -1141,7 +1141,7 @@ export const SectionHistoryDialog: React.FC<SectionHistoryDialogProps> = ({
           <Button
             onClick={saveEdit}
             variant="contained"
-            sx={{ backgroundColor: '#e86161' }}
+            sx={{ backgroundColor: '#039be5' }}
           >
             Save Changes
           </Button>

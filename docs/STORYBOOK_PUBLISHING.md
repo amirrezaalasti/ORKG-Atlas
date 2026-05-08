@@ -1,6 +1,6 @@
 # 🚀 Free Storybook Publishing Guide
 
-This guide shows you how to publish your EmpiRE-Compass Storybook for **free** using various platforms.
+This guide shows you how to publish your ORKG Atlas Storybook for **free** using various platforms.
 
 ## 📋 Quick Setup Checklist
 
@@ -267,8 +267,8 @@ import { create } from '@storybook/theming/create';
 
 const theme = create({
   base: 'light',
-  brandTitle: 'EmpiRE-Compass Design System',
-  brandUrl: 'https://github.com/okarras/EmpiRE-Compass',
+  brandTitle: 'ORKG Atlas Design System',
+  brandUrl: 'https://github.com/amirrezaalasti/ORKG-Atlas',
   brandImage: './logo.png',
   brandTarget: '_self',
 
@@ -315,7 +315,7 @@ addons.setConfig({
 
 ## 🎯 Recommended Setup
 
-For **EmpiRE-Compass**, I recommend this setup:
+For **ORKG Atlas**, I recommend this setup:
 
 1. **Primary**: **Chromatic** for professional deployment and visual testing
 2. **Backup**: **GitHub Pages** for open-source community access

@@ -1,4 +1,9 @@
-import { ToggleButton, ToggleButtonGroup, Box, Typography } from '@mui/material';
+import {
+  ToggleButton,
+  ToggleButtonGroup,
+  Box,
+  Typography,
+} from '@mui/material';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import PieChartIcon from '@mui/icons-material/PieChart';
 
@@ -8,8 +13,15 @@ interface ChartTypeSelectorProps {
   availableCharts?: ('bar' | 'pie')[];
 }
 
-const ChartTypeSelector = ({ chartType, setChartType, availableCharts = ['bar', 'pie'] }: ChartTypeSelectorProps) => {
-  const handleChange = (_event: React.MouseEvent<HTMLElement>, newType: 'bar' | 'pie' | null) => {
+const ChartTypeSelector = ({
+  chartType,
+  setChartType,
+  availableCharts = ['bar', 'pie'],
+}: ChartTypeSelectorProps) => {
+  const handleChange = (
+    _event: React.MouseEvent<HTMLElement>,
+    newType: 'bar' | 'pie' | null
+  ) => {
     if (newType !== null) {
       setChartType(newType);
     }
@@ -28,12 +40,12 @@ const ChartTypeSelector = ({ chartType, setChartType, availableCharts = ['bar', 
         size="small"
       >
         {availableCharts.includes('bar') && (
-          <ToggleButton 
-            value="bar" 
+          <ToggleButton
+            value="bar"
             aria-label="bar chart"
             sx={{
               '&.Mui-selected': {
-                backgroundColor: '#e86161 !important',
+                backgroundColor: '#039be5 !important',
                 color: 'white !important',
               },
             }}
@@ -42,12 +54,12 @@ const ChartTypeSelector = ({ chartType, setChartType, availableCharts = ['bar', 
           </ToggleButton>
         )}
         {availableCharts.includes('pie') && (
-          <ToggleButton 
-            value="pie" 
+          <ToggleButton
+            value="pie"
             aria-label="pie chart"
             sx={{
               '&.Mui-selected': {
-                backgroundColor: '#e86161 !important',
+                backgroundColor: '#039be5 !important',
                 color: 'white !important',
               },
             }}
@@ -60,4 +72,4 @@ const ChartTypeSelector = ({ chartType, setChartType, availableCharts = ['bar', 
   );
 };
 
-export default ChartTypeSelector; 
+export default ChartTypeSelector;

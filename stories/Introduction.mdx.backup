@@ -2,16 +2,16 @@ import { Meta } from '@storybook/addon-docs';
 
 <Meta title="Introduction" />
 
-# EmpiRE-Compass Design System
+# ORKG Atlas Design System
 
-## Welcome to EmpiRE-Compass
+## Welcome to ORKG Atlas
 *"Navigating the EmpiRE of Empirical Research in Requirements Engineering"*
 
 ---
 
 ## 🔬 About the Project
 
-EmpiRE-Compass is a comprehensive platform that facilitates the exploration, reproduction, and enrichment of empirical research data within the KG-EmpiRE ecosystem. By leveraging live data from the Open Research Knowledge Graph (ORKG), EmpiRE-Compass offers researchers a suite of tools for data visualization, comparative analysis, and structured data contribution—all while aligning with ACM standards.
+ORKG Atlas is a comprehensive platform that facilitates the exploration, reproduction, and enrichment of empirical research data within the KG-EmpiRE ecosystem. By leveraging live data from the Open Research Knowledge Graph (ORKG), ORKG Atlas offers researchers a suite of tools for data visualization, comparative analysis, and structured data contribution—all while aligning with ACM standards.
 
 ## 🎯 Key Features
 
@@ -42,7 +42,7 @@ EmpiRE-Compass is a comprehensive platform that facilitates the exploration, rep
 
 ## 🎨 Design System Overview
 
-This Storybook contains the complete component library for EmpiRE-Compass, organized into the following categories:
+This Storybook contains the complete component library for ORKG Atlas, organized into the following categories:
 
 ### 📱 Layout Components
 - Header, Footer, Navigation
@@ -91,7 +91,7 @@ This Storybook contains the complete component library for EmpiRE-Compass, organ
 
 ```bash
 # Clone the repository
-git clone https://github.com/okarras/EmpiRE-Compass.git
+git clone https://github.com/okarras/ORKG Atlas.git
 
 # Install dependencies
 npm install
@@ -105,14 +105,14 @@ npm run storybook
 
 ## 🔗 Useful Links
 
-- **Live Application**: [EmpiRE-Compass Demo](https://empire-compass.vercel.app)
-- **GitHub Repository**: [okarras/EmpiRE-Compass](https://github.com/okarras/EmpiRE-Compass)
+- **Live Application**: [ORKG Atlas Demo](https://empire-compass.vercel.app)
+- **GitHub Repository**: [okarras/ORKG Atlas](https://github.com/okarras/ORKG Atlas)
 - **ORKG Platform**: [Open Research Knowledge Graph](https://orkg.org)
-- **Documentation**: [Project Wiki](https://github.com/okarras/EmpiRE-Compass/wiki)
+- **Documentation**: [Project Wiki](https://github.com/okarras/ORKG Atlas/wiki)
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/okarras/EmpiRE-Compass/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/okarras/ORKG Atlas/blob/main/LICENSE) file for details.
 
 ---
 

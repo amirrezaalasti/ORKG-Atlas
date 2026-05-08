@@ -24,7 +24,7 @@ const FutureDevelopment = ({ content }: FutureDevelopmentProps) => {
         variant="h4"
         gutterBottom
         sx={{
-          color: '#e86161',
+          color: '#039be5',
           fontWeight: 700,
           mb: 3,
           fontSize: { xs: '1.75rem', sm: '2rem', md: '2.25rem' },
@@ -59,7 +59,7 @@ const FutureDevelopment = ({ content }: FutureDevelopmentProps) => {
               <Box
                 component="strong"
                 sx={{
-                  color: '#e86161',
+                  color: '#039be5',
                   mb: 1,
                   fontSize: { xs: '1.1rem', sm: '1.2rem' },
                 }}

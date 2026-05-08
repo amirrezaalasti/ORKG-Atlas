@@ -39,7 +39,7 @@ import { useAuthData } from '../auth/useAuthData';
 
 const DRAWER_WIDTH = 280;
 
-const ACCENT_COLOR = '#e86161';
+const ACCENT_COLOR = '#039be5';
 const ACTIVE_BG = 'rgba(232, 97, 97, 0.08)';
 const HOVER_BG = 'rgba(232, 97, 97, 0.05)';
 

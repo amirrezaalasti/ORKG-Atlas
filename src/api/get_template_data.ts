@@ -112,7 +112,7 @@ const templateApiRequest = async <T>(
   const url = `${API_BASE_URL}${endpoint}`;
   const headers: HeadersInit = {
     accept: 'application/vnd.orkg.template.v1+json',
-    'User-Agent': 'Mozilla/5.0 (compatible; EmpiRE-Compass/1.0)',
+    'User-Agent': 'Mozilla/5.0 (compatible; ORKG Atlas/1.0)',
     ...options.headers,
   };
 
@@ -140,7 +140,7 @@ const statementApiRequest = async <T>(
   const url = `${API_BASE_URL}${endpoint}`;
   const headers: HeadersInit = {
     accept: 'application/json',
-    'User-Agent': 'Mozilla/5.0 (compatible; EmpiRE-Compass/1.0)',
+    'User-Agent': 'Mozilla/5.0 (compatible; ORKG Atlas/1.0)',
     ...options.headers,
   };
 

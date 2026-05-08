@@ -193,7 +193,7 @@ const MuiDataGrid: React.FC<Props> = ({ questionData, gridOptions }) => {
                       handlePaperClick(paperId, value);
                     }}
                     onMouseDown={(e) => e.stopPropagation()}
-                    sx={{ color: '#e86161', flexShrink: 0 }}
+                    sx={{ color: '#039be5', flexShrink: 0 }}
                     aria-label="View paper in AI Assistant"
                   >
                     <AutoAwesome fontSize="small" />
@@ -366,7 +366,7 @@ const MuiDataGrid: React.FC<Props> = ({ questionData, gridOptions }) => {
             <Suspense
               fallback={
                 <Box sx={{ py: 6, display: 'flex', justifyContent: 'center' }}>
-                  <CircularProgress sx={{ color: '#e86161' }} />
+                  <CircularProgress sx={{ color: '#039be5' }} />
                 </Box>
               }
             >

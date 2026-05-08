@@ -45,7 +45,7 @@ const QuestionsTab = ({
           startIcon={<Add />}
           onClick={onAddQuestion}
           sx={{
-            backgroundColor: '#e86161',
+            backgroundColor: '#039be5',
             '&:hover': { backgroundColor: '#d55555' },
             textTransform: 'none',
           }}

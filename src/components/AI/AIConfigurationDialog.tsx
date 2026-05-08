@@ -307,7 +307,7 @@ const AIConfigurationDialog: React.FC<AIConfigurationDialogProps> = ({
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle sx={{ pb: 1 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Settings sx={{ color: '#e86161' }} />
+          <Settings sx={{ color: '#039be5' }} />
           <Typography variant="h5" sx={{ fontWeight: 600 }}>
             AI Assistant Setup
           </Typography>
@@ -324,7 +324,7 @@ const AIConfigurationDialog: React.FC<AIConfigurationDialogProps> = ({
         <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
           Choose the shared <strong>system default</strong> (server API keys) or
           your own <strong>OpenRouter</strong> account. Requests always go
-          through the EmpiRE Compass backend.
+          through the ORKG Atlas backend.
         </Typography>
       </DialogTitle>
 
@@ -345,7 +345,7 @@ const AIConfigurationDialog: React.FC<AIConfigurationDialogProps> = ({
                 label={
                   <Box>
                     <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                      System default (EmpiRE Compass)
+                      System default (ORKG Atlas)
                     </Typography>
                     <Typography variant="caption" color="text.secondary">
                       Uses API keys configured on the server. No personal
@@ -428,8 +428,8 @@ const AIConfigurationDialog: React.FC<AIConfigurationDialogProps> = ({
                     When you create your OpenRouter API key, you must set a
                     spending limit and an expiration date
                   </strong>{' '}
-                  in the OpenRouter dashboard for your own security. EmpiRE
-                  Compass and its operators{' '}
+                  in the OpenRouter dashboard for your own security. ORKG Atlas
+                  and its operators{' '}
                   <strong>
                     assume no responsibility if your key is leaked, stolen, or
                     misused
@@ -549,7 +549,7 @@ const AIConfigurationDialog: React.FC<AIConfigurationDialogProps> = ({
                   <Typography variant="body2">
                     I have read and agree to the security notice above,
                     including that I am responsible for key safety and limits on
-                    OpenRouter, and that EmpiRE Compass is not liable for key
+                    OpenRouter, and that ORKG Atlas is not liable for key
                     leakage or misuse.
                   </Typography>
                 }
@@ -557,11 +557,10 @@ const AIConfigurationDialog: React.FC<AIConfigurationDialogProps> = ({
 
               <Alert severity="info">
                 <Typography variant="body2">
-                  Requests go to your EmpiRE Compass backend, which calls
-                  OpenRouter using your key. The key is not written to
-                  application logs or mixed into client-side provider SDKs. AI
-                  features are enabled only after you save a key and accept
-                  these terms.
+                  Requests go to your ORKG Atlas backend, which calls OpenRouter
+                  using your key. The key is not written to application logs or
+                  mixed into client-side provider SDKs. AI features are enabled
+                  only after you save a key and accept these terms.
                 </Typography>
               </Alert>
             </>
@@ -588,7 +587,7 @@ const AIConfigurationDialog: React.FC<AIConfigurationDialogProps> = ({
           variant="contained"
           disabled={!canSave}
           sx={{
-            backgroundColor: '#e86161',
+            backgroundColor: '#039be5',
             textTransform: 'none',
             px: 3,
             '&:hover': {

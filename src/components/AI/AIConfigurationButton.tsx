@@ -37,7 +37,7 @@ const AIConfigurationButton: React.FC = () => {
         <IconButton
           onClick={handleOpenDialog}
           sx={{
-            color: isConfigured ? 'text.secondary' : '#e86161',
+            color: isConfigured ? 'text.secondary' : '#039be5',
             '&:hover': {
               backgroundColor: 'rgba(232, 97, 97, 0.08)',
             },

@@ -11,7 +11,7 @@ const meta: Meta<typeof Partners> = {
     docs: {
       description: {
         component:
-          'The `Partners` component visually highlights the key contributors to the EmpiRE-Compass project, including logos and direct links to their websites. It uses `StatCard` as a wrapper for logos and hover effects.',
+          'The `Partners` component visually highlights the key contributors to the ORKG Atlas project, including logos and direct links to their websites. It uses `StatCard` as a wrapper for logos and hover effects.',
       },
     },
   },

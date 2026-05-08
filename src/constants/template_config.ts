@@ -36,3 +36,11 @@ export const templateConfig: Record<string, TemplateConfig> = {
 export const getTemplateConfig = (templateId: string): TemplateConfig => {
   return templateConfig[templateId] || templateConfig['R186491'];
 };
+
+/** Built-ins with bundled SPARQL, statistics, and question definitions in ORKG Atlas */
+export function getBuiltinTemplateConfig(
+  templateId: string | undefined
+): TemplateConfig | undefined {
+  if (!templateId) return undefined;
+  return templateId in templateConfig ? templateConfig[templateId] : undefined;
+}

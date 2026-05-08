@@ -32,11 +32,11 @@ const TemplateSelector = ({
               sx={{
                 cursor: 'pointer',
                 border:
-                  selectedTemplate === id ? '2px solid #e86161' : '1px solid',
-                borderColor: selectedTemplate === id ? '#e86161' : 'divider',
+                  selectedTemplate === id ? '2px solid #039be5' : '1px solid',
+                borderColor: selectedTemplate === id ? '#039be5' : 'divider',
                 '&:hover': {
                   boxShadow: 3,
-                  borderColor: '#e86161',
+                  borderColor: '#039be5',
                 },
               }}
               onClick={() => onSelectTemplate(id)}

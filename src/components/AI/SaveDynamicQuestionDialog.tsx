@@ -127,9 +127,9 @@ const SaveDynamicQuestionDialog = ({
           startIcon={icon}
           disabled={loading || !name.trim()}
           sx={{
-            backgroundColor: '#e86161',
+            backgroundColor: '#039be5',
             '&:hover': {
-              backgroundColor: '#d45555',
+              backgroundColor: '#0277bd',
             },
           }}
         >

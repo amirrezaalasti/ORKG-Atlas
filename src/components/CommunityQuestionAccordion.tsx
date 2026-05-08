@@ -417,12 +417,12 @@ const CommunityQuestionAccordion = ({
             }}
             size="small"
             sx={{
-              color: '#e86161',
-              borderColor: '#e86161',
+              color: '#039be5',
+              borderColor: '#039be5',
               '&:hover': {
-                backgroundColor: '#e86161',
+                backgroundColor: '#039be5',
                 color: 'white',
-                borderColor: '#e86161',
+                borderColor: '#039be5',
               },
             }}
           >

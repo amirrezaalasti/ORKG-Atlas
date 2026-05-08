@@ -22,7 +22,7 @@ const IntroVideo = () => {
         variant="h4"
         gutterBottom
         sx={{
-          color: '#e86161',
+          color: '#039be5',
           fontWeight: 700,
           mb: 3,
           fontSize: { xs: '1.75rem', sm: '2rem', md: '2.25rem' },
@@ -42,7 +42,7 @@ const IntroVideo = () => {
       >
         <iframe
           src={embedUrl}
-          title="EmpiRE-Compass Tool Demonstration"
+          title="ORKG Atlas Tool Demonstration"
           style={{
             position: 'absolute',
             top: 0,

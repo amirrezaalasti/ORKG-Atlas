@@ -39,9 +39,9 @@ const swaggerOptions = {
   definition: {
     openapi: '3.1.0',
     info: {
-      title: 'EmpiRE Compass API',
+      title: 'ORKG Atlas API',
       version: '1.0.0',
-      description: 'API documentation for the EmpiRE Compass backend services',
+      description: 'API documentation for the ORKG Atlas backend services',
     },
     servers: [
       {

@@ -9,7 +9,7 @@ const meta: Meta<typeof AboutProject> = {
     docs: {
       description: {
         component:
-          'The `AboutProject` component introduces the purpose and scope of the EmpiRE-Compass dashboard. It outlines the structure of the underlying knowledge graph and the six key thematic areas it captures.',
+          'The `AboutProject` component introduces the purpose and scope of the ORKG Atlas dashboard. It outlines the structure of the underlying knowledge graph and the six key thematic areas it captures.',
       },
     },
   },

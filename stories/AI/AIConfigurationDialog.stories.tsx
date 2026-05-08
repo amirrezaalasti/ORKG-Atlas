@@ -49,7 +49,7 @@ const DialogWrapper = ({
           variant="contained"
           onClick={() => setOpen(true)}
           sx={{
-            backgroundColor: '#e86161',
+            backgroundColor: '#039be5',
             '&:hover': { backgroundColor: '#d45151' },
           }}
         >

@@ -279,7 +279,7 @@ const AdminPapers = () => {
 
   const handleDownloadAllBibtex = () => {
     const text = papersToBibtexBibliography(papers);
-    downloadBibtexFile(text, 'empire-compass-all-papers.bib');
+    downloadBibtexFile(text, 'orkg-atlas-all-papers.bib');
     setSuccess('Bibliography file download started');
     setTimeout(() => setSuccess(null), 4000);
   };
@@ -308,7 +308,7 @@ const AdminPapers = () => {
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <MenuBook sx={{ fontSize: 40, color: '#e86161' }} />
+          <MenuBook sx={{ fontSize: 40, color: '#039be5' }} />
           <Box>
             <Typography variant="h4" sx={{ fontWeight: 600 }}>
               Papers Management
@@ -330,8 +330,8 @@ const AdminPapers = () => {
             onClick={handleDownloadAllBibtex}
             disabled={papers.length === 0}
             sx={{
-              borderColor: '#e86161',
-              color: '#e86161',
+              borderColor: '#039be5',
+              color: '#039be5',
               '&:hover': {
                 borderColor: '#d45151',
                 backgroundColor: 'rgba(232, 97, 97, 0.06)',
@@ -345,7 +345,7 @@ const AdminPapers = () => {
             startIcon={<Add />}
             onClick={() => handleOpenDialog()}
             sx={{
-              backgroundColor: '#e86161',
+              backgroundColor: '#039be5',
               '&:hover': {
                 backgroundColor: '#d45151',
               },
@@ -546,7 +546,7 @@ const AdminPapers = () => {
               onChange={(e) =>
                 setFormData({ ...formData, title: e.target.value })
               }
-              placeholder="e.g. EmpiRE Compass: Navigating Empirical Research"
+              placeholder="e.g. ORKG Atlas: Navigating Empirical Research"
             />
             <TextField
               label="Authors"
@@ -629,7 +629,7 @@ const AdminPapers = () => {
             variant="contained"
             disabled={saving || !formData.title.trim()}
             sx={{
-              backgroundColor: '#e86161',
+              backgroundColor: '#039be5',
               '&:hover': {
                 backgroundColor: '#d45151',
               },

@@ -1,4 +1,4 @@
-# Gitleaks configuration for EmpiRE-Compass
+# Gitleaks configuration for ORKG Atlas
 # https://github.com/gitleaks/gitleaks
 
 # Allow example/template files - they contain placeholders, not real secrets

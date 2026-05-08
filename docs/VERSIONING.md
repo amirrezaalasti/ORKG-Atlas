@@ -1,6 +1,6 @@
 # Versioning and Release Process
 
-This document outlines the versioning and release process for the EmpiRE-Compass project. We follow a standardized approach to ensure that our version numbers are meaningful and our release process is automated and consistent.
+This document outlines the versioning and release process for the ORKG Atlas project. We follow a standardized approach to ensure that our version numbers are meaningful and our release process is automated and consistent.
 
 ## Semantic Versioning (SemVer)
 

@@ -94,7 +94,7 @@ service cloud.firestore {
 ### 4.1 Manual Workflow Test
 
 1. Go to your repository's **Actions** tab
-2. Click on **Update Empire Statistics** workflow
+2. Click on **Update Statistics (ORKG Atlas & NLP4RE)** workflow
 3. Click **Run workflow**
 4. Select your branch (usually `main`)
 5. Click **Run workflow**

@@ -30,7 +30,7 @@ const mockDataset = [
 const chartSetting: ChartSetting = {
   heading: 'Paper Distribution by Type',
   height: 400,
-  colors: ['#e86161', '#4c72b0', '#55a868'],
+  colors: ['#039be5', '#4c72b0', '#55a868'],
   className: '',
   series: [], // Not used in this chart, but required by ChartSetting type
   xAxis: [],

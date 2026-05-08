@@ -132,7 +132,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ query, questionData }) => {
           gap: 2,
         }}
       >
-        <CircularProgress sx={{ color: '#e86161' }} />
+        <CircularProgress sx={{ color: '#039be5' }} />
         <Typography variant="body2" color="text.secondary">
           Checking authentication...
         </Typography>
@@ -183,7 +183,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ query, questionData }) => {
             }}
           >
             <PsychologyIcon
-              sx={{ fontSize: 64, color: '#e86161', mb: 2, opacity: 0.7 }}
+              sx={{ fontSize: 64, color: '#039be5', mb: 2, opacity: 0.7 }}
             />
             <Typography variant="h5" sx={{ mb: 2, fontWeight: 600 }}>
               Authentication Required
@@ -207,7 +207,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ query, questionData }) => {
                 )
               }
               sx={{
-                backgroundColor: '#e86161',
+                backgroundColor: '#039be5',
                 '&:hover': {
                   backgroundColor: '#d45151',
                 },
@@ -274,7 +274,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ query, questionData }) => {
               <IconButton
                 onClick={() => setShowReasoning(!showReasoning)}
                 sx={{
-                  color: showReasoning ? '#e86161' : 'text.secondary',
+                  color: showReasoning ? '#039be5' : 'text.secondary',
                   '&:hover': {
                     backgroundColor: 'rgba(232, 97, 97, 0.08)',
                   },
@@ -287,7 +287,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ query, questionData }) => {
               <IconButton
                 onClick={() => setShowChart(!showChart)}
                 sx={{
-                  color: showChart ? '#e86161' : 'text.secondary',
+                  color: showChart ? '#039be5' : 'text.secondary',
                   '&:hover': {
                     backgroundColor: 'rgba(232, 97, 97, 0.08)',
                   },
@@ -334,9 +334,9 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ query, questionData }) => {
                 disabled={messages.length === 0}
               >
                 <ListItemIcon>
-                  <DeleteIcon fontSize="small" sx={{ color: '#e86161' }} />
+                  <DeleteIcon fontSize="small" sx={{ color: '#039be5' }} />
                 </ListItemIcon>
-                <ListItemText sx={{ color: '#e86161' }}>
+                <ListItemText sx={{ color: '#039be5' }}>
                   Clear Chat
                 </ListItemText>
               </MenuItem>
@@ -400,15 +400,15 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ query, questionData }) => {
               onClick={refreshInitialAnalysis}
               startIcon={
                 refreshingInitialAnalysis ? (
-                  <CircularProgress size={16} sx={{ color: '#e86161' }} />
+                  <CircularProgress size={16} sx={{ color: '#039be5' }} />
                 ) : (
                   <RefreshIcon />
                 )
               }
               size="small"
               sx={{
-                borderColor: '#e86161',
-                color: '#e86161',
+                borderColor: '#039be5',
+                color: '#039be5',
                 '&:hover': {
                   borderColor: '#d45151',
                   backgroundColor: 'rgba(232, 97, 97, 0.08)',
@@ -450,8 +450,8 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ query, questionData }) => {
               onClick={undoInitialAnalysis}
               size="small"
               sx={{
-                borderColor: '#e86161',
-                color: '#e86161',
+                borderColor: '#039be5',
+                color: '#039be5',
                 '&:hover': {
                   borderColor: '#d45151',
                   backgroundColor: 'rgba(232, 97, 97, 0.08)',
@@ -503,7 +503,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ query, questionData }) => {
                       display: 'inline-block',
                       width: '4px',
                       height: '20px',
-                      backgroundColor: '#e86161',
+                      backgroundColor: '#039be5',
                       animation: 'blink 1s infinite',
                       ml: 1,
                       verticalAlign: 'text-bottom',
@@ -574,12 +574,12 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ query, questionData }) => {
                 backgroundColor: 'background.paper',
                 '&:hover': {
                   '& > fieldset': {
-                    borderColor: '#e86161',
+                    borderColor: '#039be5',
                   },
                 },
                 '&.Mui-focused': {
                   '& > fieldset': {
-                    borderColor: '#e86161',
+                    borderColor: '#039be5',
                   },
                 },
               },
@@ -607,7 +607,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ query, questionData }) => {
               )
             }
             sx={{
-              backgroundColor: '#e86161',
+              backgroundColor: '#039be5',
               '&:hover': {
                 backgroundColor: '#d45151',
               },

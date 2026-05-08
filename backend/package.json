@@ -1,7 +1,7 @@
 {
-  "name": "empire-compass-backend",
+  "name": "orkg-atlas-backend",
   "version": "1.0.0",
-  "description": "Backend microservice for EmpiRE-Compass AI functionality",
+  "description": "Backend microservice for ORKG Atlas (AI and admin APIs)",
   "main": "src/server.ts",
   "type": "module",
   "scripts": {

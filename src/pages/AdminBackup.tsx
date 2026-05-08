@@ -230,7 +230,7 @@ const AdminBackup = () => {
       <Box sx={{ mb: 4 }}>
         <Typography
           variant="h4"
-          sx={{ fontWeight: 700, color: '#e86161', mb: 1 }}
+          sx={{ fontWeight: 700, color: '#039be5', mb: 1 }}
         >
           Firebase Backup Manager
         </Typography>
@@ -252,7 +252,7 @@ const AdminBackup = () => {
       {/* Main Backup Section */}
       <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-          <CloudDownload sx={{ fontSize: 40, color: '#e86161', mr: 2 }} />
+          <CloudDownload sx={{ fontSize: 40, color: '#039be5', mr: 2 }} />
           <Box>
             <Typography variant="h6" sx={{ fontWeight: 600 }}>
               Backup All Collections
@@ -270,7 +270,7 @@ const AdminBackup = () => {
           onClick={handleBackupAll}
           disabled={isBackingUp}
           sx={{
-            backgroundColor: '#e86161',
+            backgroundColor: '#039be5',
             '&:hover': {
               backgroundColor: '#d55555',
             },
@@ -314,7 +314,7 @@ const AdminBackup = () => {
                 borderRadius: 4,
                 backgroundColor: 'rgba(232, 97, 97, 0.1)',
                 '& .MuiLinearProgress-bar': {
-                  backgroundColor: '#e86161',
+                  backgroundColor: '#039be5',
                 },
               }}
             />
@@ -382,7 +382,7 @@ const AdminBackup = () => {
       {/* Individual Collections */}
       <Paper elevation={2} sx={{ p: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-          <Storage sx={{ fontSize: 32, color: '#e86161', mr: 2 }} />
+          <Storage sx={{ fontSize: 32, color: '#039be5', mr: 2 }} />
           <Box>
             <Typography variant="h6" sx={{ fontWeight: 600 }}>
               Individual Collection Backups
@@ -410,7 +410,7 @@ const AdminBackup = () => {
               }}
             >
               <ListItemIcon>
-                <Info sx={{ color: '#e86161' }} />
+                <Info sx={{ color: '#039be5' }} />
               </ListItemIcon>
               <ListItemText
                 primary={collection}
@@ -424,8 +424,8 @@ const AdminBackup = () => {
                 disabled={isBackingUp}
                 sx={{
                   textTransform: 'none',
-                  borderColor: '#e86161',
-                  color: '#e86161',
+                  borderColor: '#039be5',
+                  color: '#039be5',
                   '&:hover': {
                     borderColor: '#d55555',
                     backgroundColor: 'rgba(232, 97, 97, 0.08)',
@@ -442,7 +442,7 @@ const AdminBackup = () => {
       {/* Restore / Import Section */}
       <Paper elevation={2} sx={{ p: 3, mb: 3, mt: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-          <CloudUpload sx={{ fontSize: 32, color: '#e86161', mr: 2 }} />
+          <CloudUpload sx={{ fontSize: 32, color: '#039be5', mr: 2 }} />
           <Box>
             <Typography variant="h6" sx={{ fontWeight: 600 }}>
               Restore / Import to Firebase
@@ -472,8 +472,8 @@ const AdminBackup = () => {
             disabled={isRestoring || isBackingUp}
             sx={{
               textTransform: 'none',
-              borderColor: '#e86161',
-              color: '#e86161',
+              borderColor: '#039be5',
+              color: '#039be5',
               '&:hover': {
                 borderColor: '#d55555',
                 backgroundColor: 'rgba(232, 97, 97, 0.08)',
@@ -532,7 +532,7 @@ const AdminBackup = () => {
           onClick={handleRestore}
           disabled={!selectedFile || isRestoring}
           sx={{
-            backgroundColor: '#e86161',
+            backgroundColor: '#039be5',
             '&:hover': {
               backgroundColor: '#d55555',
             },
@@ -568,7 +568,7 @@ const AdminBackup = () => {
                 borderRadius: 4,
                 backgroundColor: 'rgba(232, 97, 97, 0.1)',
                 '& .MuiLinearProgress-bar': {
-                  backgroundColor: '#e86161',
+                  backgroundColor: '#039be5',
                 },
               }}
             />
@@ -614,14 +614,14 @@ const AdminBackup = () => {
         <CardContent>
           <Typography
             variant="h6"
-            sx={{ fontWeight: 600, mb: 2, color: '#e86161' }}
+            sx={{ fontWeight: 600, mb: 2, color: '#039be5' }}
           >
             📋 Backup Instructions
           </Typography>
           <List dense>
             <ListItem>
               <ListItemIcon>
-                <CheckCircle sx={{ color: '#e86161', fontSize: 20 }} />
+                <CheckCircle sx={{ color: '#039be5', fontSize: 20 }} />
               </ListItemIcon>
               <ListItemText
                 primary="Full Backup"
@@ -630,7 +630,7 @@ const AdminBackup = () => {
             </ListItem>
             <ListItem>
               <ListItemIcon>
-                <CheckCircle sx={{ color: '#e86161', fontSize: 20 }} />
+                <CheckCircle sx={{ color: '#039be5', fontSize: 20 }} />
               </ListItemIcon>
               <ListItemText
                 primary="Individual Backup"
@@ -639,7 +639,7 @@ const AdminBackup = () => {
             </ListItem>
             <ListItem>
               <ListItemIcon>
-                <CheckCircle sx={{ color: '#e86161', fontSize: 20 }} />
+                <CheckCircle sx={{ color: '#039be5', fontSize: 20 }} />
               </ListItemIcon>
               <ListItemText
                 primary="File Storage"
@@ -648,7 +648,7 @@ const AdminBackup = () => {
             </ListItem>
             <ListItem>
               <ListItemIcon>
-                <CheckCircle sx={{ color: '#e86161', fontSize: 20 }} />
+                <CheckCircle sx={{ color: '#039be5', fontSize: 20 }} />
               </ListItemIcon>
               <ListItemText
                 primary="Restore / Import"
@@ -657,7 +657,7 @@ const AdminBackup = () => {
             </ListItem>
             <ListItem>
               <ListItemIcon>
-                <ErrorIcon sx={{ color: '#e86161', fontSize: 20 }} />
+                <ErrorIcon sx={{ color: '#039be5', fontSize: 20 }} />
               </ListItemIcon>
               <ListItemText
                 primary="Important"

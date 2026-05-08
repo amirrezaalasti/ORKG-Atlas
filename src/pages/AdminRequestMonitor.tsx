@@ -253,7 +253,7 @@ const AdminRequestMonitor = () => {
             mb: 2,
           }}
         >
-          <Typography variant="h4" sx={{ fontWeight: 700, color: '#e86161' }}>
+          <Typography variant="h4" sx={{ fontWeight: 700, color: '#039be5' }}>
             Firebase Request Monitor
           </Typography>
           <Box sx={{ display: 'flex', gap: 1 }}>
@@ -295,7 +295,7 @@ const AdminRequestMonitor = () => {
                 size="small"
                 onClick={fetchLogs}
                 disabled={loading}
-                sx={{ color: '#e86161' }}
+                sx={{ color: '#039be5' }}
               >
                 <Refresh />
               </IconButton>

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-hot-toast';
 import type { RootState } from '../store';
-import { getTemplateConfig } from '../constants/template_config';
+import { getBuiltinTemplateConfig } from '../constants/template_config';
 import theme from '../utils/theme';
 import Question from '../components/Question';
 import { mergeQueryWithFirebase } from '../helpers/query';
@@ -22,7 +22,8 @@ const QuestionPage = () => {
       state.questions.firebaseQuestions as Record<string, FirebaseQuestion>
   );
 
-  const queries = getTemplateConfig(templateId).queries;
+  const builtin = getBuiltinTemplateConfig(templateId);
+  const queries = builtin?.queries;
   const targetQuery = queries?.find((query) => query.id === Number(id));
 
   useEffect(() => {
@@ -30,6 +31,10 @@ const QuestionPage = () => {
       toast.error('Question not found');
     }
   }, [targetQuery]);
+
+  if (!builtin || !queries) {
+    return <Navigate to={`/${templateId}/`} replace />;
+  }
 
   if (!targetQuery) {
     return <Navigate to={`/${templateId}/allquestions`} replace />;
@@ -65,7 +70,7 @@ const QuestionPage = () => {
             <Typography
               variant="h3"
               sx={{
-                color: '#e86161',
+                color: '#039be5',
                 fontWeight: 700,
                 fontSize: { xs: '1.75rem', sm: '2rem', md: '2.5rem' },
                 lineHeight: 1.3,
@@ -77,7 +82,7 @@ const QuestionPage = () => {
                   left: 0,
                   width: '100%',
                   height: '4px',
-                  backgroundColor: '#e86161',
+                  backgroundColor: '#039be5',
                   borderRadius: '2px',
                 },
               }}

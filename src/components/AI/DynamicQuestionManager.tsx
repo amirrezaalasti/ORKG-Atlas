@@ -245,7 +245,7 @@ const DynamicQuestionManager: React.FC = () => {
             mb: 2,
           }}
         >
-          <Typography variant="h6" sx={{ color: '#e86161', fontWeight: 600 }}>
+          <Typography variant="h6" sx={{ color: '#039be5', fontWeight: 600 }}>
             Dynamic Question Manager
           </Typography>
           <Box sx={{ display: 'flex', gap: 1 }}>
@@ -278,7 +278,7 @@ const DynamicQuestionManager: React.FC = () => {
             onClick={() => setShowSaveDialog(true)}
             disabled={!canSave}
             sx={{
-              backgroundColor: '#e86161',
+              backgroundColor: '#039be5',
               '&:hover': { backgroundColor: '#d45151' },
             }}
           >
@@ -326,7 +326,7 @@ const DynamicQuestionManager: React.FC = () => {
       >
         <DialogTitle>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Save sx={{ color: '#e86161' }} />
+            <Save sx={{ color: '#039be5' }} />
             <Typography variant="h6">Save Current Question</Typography>
           </Box>
         </DialogTitle>
@@ -357,7 +357,7 @@ const DynamicQuestionManager: React.FC = () => {
             variant="contained"
             disabled={!questionName.trim()}
             sx={{
-              backgroundColor: '#e86161',
+              backgroundColor: '#039be5',
               '&:hover': { backgroundColor: '#d45151' },
             }}
           >
@@ -375,7 +375,7 @@ const DynamicQuestionManager: React.FC = () => {
       >
         <DialogTitle>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <FolderOpen sx={{ color: '#e86161' }} />
+            <FolderOpen sx={{ color: '#039be5' }} />
             <Typography variant="h6">Load Saved Question</Typography>
           </Box>
         </DialogTitle>
@@ -408,7 +408,7 @@ const DynamicQuestionManager: React.FC = () => {
                           <IconButton
                             onClick={() => handleLoadQuestion(savedQuestion)}
                             sx={{
-                              color: '#e86161',
+                              color: '#039be5',
                               '&:hover': {
                                 backgroundColor: 'rgba(232, 97, 97, 0.08)',
                               },

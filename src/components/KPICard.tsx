@@ -38,7 +38,7 @@ export default function KPICard({
             p: 1.5,
             borderRadius: 2,
             backgroundColor: 'rgba(232, 97, 97, 0.1)',
-            color: '#e86161',
+            color: '#039be5',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',

@@ -905,7 +905,7 @@ const DynamicAIQuestion = () => {
           gap: 2,
         }}
       >
-        <CircularProgress sx={{ color: '#e86161' }} />
+        <CircularProgress sx={{ color: '#039be5' }} />
         <Typography variant="body2" color="text.secondary">
           Checking authentication...
         </Typography>
@@ -930,7 +930,7 @@ const DynamicAIQuestion = () => {
           }}
         >
           <Psychology
-            sx={{ fontSize: 80, color: '#e86161', mb: 3, opacity: 0.7 }}
+            sx={{ fontSize: 80, color: '#039be5', mb: 3, opacity: 0.7 }}
           />
           <Typography variant="h4" sx={{ mb: 2, fontWeight: 600 }}>
             Authentication Required
@@ -957,7 +957,7 @@ const DynamicAIQuestion = () => {
               )
             }
             sx={{
-              backgroundColor: '#e86161',
+              backgroundColor: '#039be5',
               '&:hover': {
                 backgroundColor: '#d45151',
               },

@@ -42,7 +42,7 @@ ORDER BY DESC(?count)`,
     xAxis: [{ scaleType: 'band', dataKey: 'method', label: 'Research Method' }],
     yAxis: [{ label: 'Number of Papers' }],
     series: [{ dataKey: 'count' }],
-    colors: ['#e86161'],
+    colors: ['#039be5'],
     margin: { left: 60, right: 20 },
     barLabel: 'value',
   },
@@ -135,7 +135,7 @@ const QuestionEditDialogWrapper = ({
         startIcon={<EditIcon />}
         onClick={() => setOpen(true)}
         sx={{
-          backgroundColor: '#e86161',
+          backgroundColor: '#039be5',
           '&:hover': { backgroundColor: '#d45151' },
         }}
       >

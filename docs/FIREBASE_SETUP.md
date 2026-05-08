@@ -1,4 +1,4 @@
-# Firebase Setup for Empire Statistics
+# Firebase Setup for ORKG Atlas statistics
 
 This guide explains how to set up Firebase integration for automatic statistics updates.
 
@@ -166,7 +166,7 @@ CRUDStatistics.getStatistics().then((statisticsValues) => {
 If automatic updates fail, you can manually trigger the workflow:
 
 1. Go to **Actions** tab in GitHub
-2. Select **Update Empire Statistics** workflow
+2. Select **Update Statistics (ORKG Atlas & NLP4RE)** workflow
 3. Click **Run workflow**
 4. Choose branch and click **Run workflow**
 

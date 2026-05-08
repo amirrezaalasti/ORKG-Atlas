@@ -1,4 +1,4 @@
-import { Box, Divider, Paper, Typography } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 import { AboutProjectContent } from '../../firestore/CRUDHomeContent';
 
 interface AboutProjectProps {
@@ -6,8 +6,6 @@ interface AboutProjectProps {
 }
 
 const AboutProject = ({ content }: AboutProjectProps) => {
-  const embedUrl = `https://av.tib.eu/player/72249`;
-
   return (
     <Paper
       elevation={2}
@@ -21,7 +19,7 @@ const AboutProject = ({ content }: AboutProjectProps) => {
         variant="h4"
         gutterBottom
         sx={{
-          color: '#e86161',
+          color: '#039be5',
           fontWeight: 700,
           mb: 3,
           fontSize: { xs: '1.75rem', sm: '2rem', md: '2.25rem' },
@@ -61,47 +59,6 @@ const AboutProject = ({ content }: AboutProjectProps) => {
             </Typography>
           ))}
         </Typography>
-      </Box>
-
-      <Divider sx={{ my: 4 }} />
-
-      <Typography
-        variant="h5"
-        sx={{
-          color: '#e86161',
-          fontWeight: 600,
-          mb: 2,
-          fontSize: { xs: '1.25rem', sm: '1.5rem' },
-        }}
-      >
-        Dashboard Demonstration
-      </Typography>
-
-      <Box
-        sx={{
-          position: 'relative',
-          width: '100%',
-          paddingTop: '56.25%', // 16:9 aspect ratio
-          borderRadius: 2,
-          overflow: 'hidden',
-          border: '2px solid #000',
-        }}
-      >
-        <iframe
-          src={embedUrl}
-          title="EmpiRE-Compass Tool Demonstration"
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            border: 'none',
-            aspectRatio: '16 / 9',
-          }}
-          allow="autoplay; encrypted-media"
-          allowFullScreen
-        />
       </Box>
     </Paper>
   );

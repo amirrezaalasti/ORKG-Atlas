@@ -95,7 +95,7 @@ const HighPriorityNews = () => {
       elevation={1}
       sx={{
         backgroundColor: '#fff3f3',
-        borderLeft: '4px solid #e86161',
+        borderLeft: '4px solid #039be5',
         borderRadius: 1,
         mb: 2,
         overflow: 'hidden',
@@ -117,7 +117,7 @@ const HighPriorityNews = () => {
             px: 2,
           }}
         >
-          <CircularProgress size={20} sx={{ color: '#e86161' }} />
+          <CircularProgress size={20} sx={{ color: '#039be5' }} />
         </Box>
       ) : (
         currentNews && (
@@ -140,7 +140,7 @@ const HighPriorityNews = () => {
           >
             <PriorityHigh
               sx={{
-                color: '#e86161',
+                color: '#039be5',
                 fontSize: 20,
                 flexShrink: 0,
               }}
@@ -197,7 +197,7 @@ const HighPriorityNews = () => {
                     sx={{
                       transform: 'rotate(180deg)',
                       fontSize: 18,
-                      color: '#e86161',
+                      color: '#039be5',
                     }}
                   />
                 </IconButton>
@@ -226,7 +226,7 @@ const HighPriorityNews = () => {
                   <ChevronRight
                     sx={{
                       fontSize: 18,
-                      color: '#e86161',
+                      color: '#039be5',
                     }}
                   />
                 </IconButton>

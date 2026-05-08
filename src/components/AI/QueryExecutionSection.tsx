@@ -148,7 +148,7 @@ const QueryExecutionSection: React.FC<QueryExecutionSectionProps> = ({
               size="small"
               disabled={!question || !question.trim()}
               sx={{
-                backgroundColor: '#e86161',
+                backgroundColor: '#039be5',
                 color: 'white',
                 textTransform: 'none',
                 fontWeight: 600,
@@ -178,13 +178,13 @@ const QueryExecutionSection: React.FC<QueryExecutionSectionProps> = ({
               size="small"
               disabled={!question || !question.trim()}
               sx={{
-                borderColor: '#e86161',
-                color: '#e86161',
+                borderColor: '#039be5',
+                color: '#039be5',
                 textTransform: 'none',
                 fontWeight: 600,
                 borderWidth: '1px',
                 '&:hover': {
-                  borderColor: '#d45555',
+                  borderColor: '#0277bd',
                   backgroundColor: 'rgba(232, 97, 97, 0.04)',
                   borderWidth: '1px',
                 },
@@ -206,10 +206,10 @@ const QueryExecutionSection: React.FC<QueryExecutionSectionProps> = ({
               onClick={onOpenLlmContextHistory}
               size="small"
               sx={{
-                borderColor: '#e86161',
-                color: '#e86161',
+                borderColor: '#039be5',
+                color: '#039be5',
                 '&:hover': {
-                  borderColor: '#e86161',
+                  borderColor: '#039be5',
                   backgroundColor: 'rgba(232, 97, 97, 0.04)',
                 },
               }}
@@ -226,11 +226,11 @@ const QueryExecutionSection: React.FC<QueryExecutionSectionProps> = ({
                 size="small"
                 sx={{
                   ml: 1,
-                  borderColor: '#e86161',
-                  color: '#e86161',
+                  borderColor: '#039be5',
+                  color: '#039be5',
                   '&:hover': {
-                    borderColor: '#e86161',
-                    color: '#e86161',
+                    borderColor: '#039be5',
+                    color: '#039be5',
                     backgroundColor: 'rgba(232, 97, 97, 0.04)',
                   },
                 }}
@@ -252,9 +252,9 @@ const QueryExecutionSection: React.FC<QueryExecutionSectionProps> = ({
           sx={{
             mb: 3,
             backgroundColor: 'rgba(232, 97, 97, 0.08)',
-            borderLeft: '4px solid #e86161',
+            borderLeft: '4px solid #039be5',
             '& .MuiAlert-icon': {
-              color: '#e86161',
+              color: '#039be5',
             },
           }}
         >
@@ -287,7 +287,7 @@ const QueryExecutionSection: React.FC<QueryExecutionSectionProps> = ({
                   borderRadius: 4,
                   backgroundColor: 'rgba(232, 97, 97, 0.1)',
                   '& .MuiLinearProgress-bar': {
-                    backgroundColor: '#e86161',
+                    backgroundColor: '#039be5',
                     borderRadius: 4,
                   },
                 }}
@@ -326,7 +326,7 @@ const QueryExecutionSection: React.FC<QueryExecutionSectionProps> = ({
                   onClick={handleToggleIterationHistory}
                   size="small"
                   sx={{
-                    color: '#e86161',
+                    color: '#039be5',
                     '&:hover': {
                       backgroundColor: 'rgba(232, 97, 97, 0.08)',
                     },
@@ -393,7 +393,7 @@ const QueryExecutionSection: React.FC<QueryExecutionSectionProps> = ({
                       <Typography
                         variant="subtitle2"
                         fontWeight="bold"
-                        sx={{ mb: 1, color: '#e86161' }}
+                        sx={{ mb: 1, color: '#039be5' }}
                       >
                         📤 Prompt Sent to LLM:
                       </Typography>
@@ -421,7 +421,7 @@ const QueryExecutionSection: React.FC<QueryExecutionSectionProps> = ({
                       <Typography
                         variant="subtitle2"
                         fontWeight="bold"
-                        sx={{ mb: 1, color: '#e86161' }}
+                        sx={{ mb: 1, color: '#039be5' }}
                       >
                         📥 LLM Response:
                       </Typography>
@@ -451,7 +451,7 @@ const QueryExecutionSection: React.FC<QueryExecutionSectionProps> = ({
                           <Typography
                             variant="subtitle2"
                             fontWeight="bold"
-                            sx={{ mb: 1, color: '#e86161' }}
+                            sx={{ mb: 1, color: '#039be5' }}
                           >
                             🔍 Generated SPARQL Query:
                           </Typography>
@@ -508,7 +508,7 @@ const QueryExecutionSection: React.FC<QueryExecutionSectionProps> = ({
                       <Typography
                         variant="subtitle2"
                         fontWeight="bold"
-                        sx={{ mb: 1, color: '#e86161' }}
+                        sx={{ mb: 1, color: '#039be5' }}
                       >
                         💬 Evaluation Feedback:
                       </Typography>

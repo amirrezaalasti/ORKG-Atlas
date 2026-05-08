@@ -64,7 +64,7 @@ const RelatedPapersSlider: React.FC<{
     <Box sx={{ mt: 2, mb: 2 }}>
       <Typography
         variant="subtitle2"
-        sx={{ fontWeight: 600, mb: 1.5, color: '#e86161' }}
+        sx={{ fontWeight: 600, mb: 1.5, color: '#039be5' }}
       >
         Related papers in ORKG Ask ({index + 1} / {papers.length})
       </Typography>
@@ -121,7 +121,7 @@ const RelatedPapersSlider: React.FC<{
             )}
             <Typography
               variant="caption"
-              sx={{ mt: 1, display: 'block', color: '#e86161' }}
+              sx={{ mt: 1, display: 'block', color: '#039be5' }}
             >
               Open in ORKG Ask →
             </Typography>
@@ -166,7 +166,7 @@ const PaperInfoView: React.FC<{
     >
       <Typography
         variant="h6"
-        sx={{ color: '#e86161', fontWeight: 700, mb: 2 }}
+        sx={{ color: '#039be5', fontWeight: 700, mb: 2 }}
       >
         {item.title ?? 'Paper'}
       </Typography>
@@ -208,7 +208,7 @@ const PaperInfoView: React.FC<{
         <Box sx={{ mt: 2, mb: 2 }}>
           <Typography
             variant="subtitle2"
-            sx={{ fontWeight: 600, mb: 1, color: '#e86161' }}
+            sx={{ fontWeight: 600, mb: 1, color: '#039be5' }}
           >
             Abstract
           </Typography>
@@ -247,7 +247,7 @@ const PaperInfoView: React.FC<{
             <Suspense
               fallback={
                 <Box sx={{ py: 4, display: 'flex', justifyContent: 'center' }}>
-                  <CircularProgress size={32} sx={{ color: '#e86161' }} />
+                  <CircularProgress size={32} sx={{ color: '#039be5' }} />
                 </Box>
               }
             >
@@ -285,15 +285,15 @@ const ProjectOverview = () => (
     }}
   >
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-      <SmartToyIcon sx={{ color: '#e86161' }} />
-      <Typography variant="h6" sx={{ color: '#e86161', fontWeight: 700 }}>
-        Welcome to EmpiRE-Compass!
+      <SmartToyIcon sx={{ color: '#039be5' }} />
+      <Typography variant="h6" sx={{ color: '#039be5', fontWeight: 700 }}>
+        Welcome to ORKG Atlas!
       </Typography>
     </Box>
     <Typography sx={{ mb: 2 }}>
-      <b>EmpiRE-Compass</b> is a community-maintainable knowledge graph
-      dashboard for empirical research in Requirements Engineering. Explore
-      research questions, analyze data, and get AI-powered insights.
+      <b>ORKG Atlas</b> is a community-maintainable knowledge graph dashboard
+      for empirical research in Requirements Engineering. Explore research
+      questions, analyze data, and get AI-powered insights.
     </Typography>
     <Typography sx={{ mb: 1 }}>
       <b>Helpful Links:</b>
@@ -301,7 +301,7 @@ const ProjectOverview = () => (
     <ul style={{ margin: 0, paddingLeft: 20 }}>
       <li>
         <a
-          href="https://github.com/okarras/empire-Compass"
+          href="https://github.com/amirrezaalasti/ORKG-Atlas"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -460,7 +460,7 @@ const FloatingAIAssistant: React.FC = () => {
             position: 'fixed',
             bottom: 24,
             right: 24,
-            backgroundColor: '#e86161',
+            backgroundColor: '#039be5',
             '&:hover': {
               backgroundColor: '#d45151',
               transform: 'scale(1.1)',
@@ -574,7 +574,7 @@ const FloatingAIAssistant: React.FC = () => {
               justifyContent: 'space-between',
               borderBottom: '1px solid',
               borderColor: 'divider',
-              backgroundColor: '#e86161',
+              backgroundColor: '#039be5',
               color: 'white',
               cursor: isExpanded ? 'default' : 'grab',
               userSelect: 'none',

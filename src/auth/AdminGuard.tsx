@@ -33,7 +33,7 @@ const AdminGuard = ({ children }: AdminGuardProps) => {
           minHeight: '60vh',
         }}
       >
-        <CircularProgress sx={{ color: '#e86161' }} />
+        <CircularProgress sx={{ color: '#039be5' }} />
       </Box>
     );
   }

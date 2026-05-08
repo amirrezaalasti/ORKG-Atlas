@@ -428,7 +428,7 @@ export const getHomeContent = async () => {
       },
     },
     header: {
-      title: 'Welcome to EmpiRE Compass',
+      title: 'Welcome to ORKG Atlas',
       subtitle: 'Navigating Empirical Research in Software Engineering',
     },
     templates: [

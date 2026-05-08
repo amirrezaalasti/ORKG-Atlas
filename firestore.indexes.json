@@ -1,0 +1,13 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "DynamicQuestions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "isCommunity", "order": "ASCENDING" },
+        { "fieldPath": "timestamp", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

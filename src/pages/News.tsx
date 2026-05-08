@@ -163,7 +163,7 @@ const News = () => {
               minHeight: '60vh',
             }}
           >
-            <CircularProgress sx={{ color: '#e86161' }} />
+            <CircularProgress sx={{ color: '#039be5' }} />
           </Box>
         </Container>
       </ThemeProvider>
@@ -178,7 +178,7 @@ const News = () => {
           <Typography
             variant="h3"
             sx={{
-              color: '#e86161',
+              color: '#039be5',
               fontWeight: 700,
               fontSize: { xs: '1.75rem', sm: '2rem', md: '2.5rem' },
               mb: 2,
@@ -192,7 +192,7 @@ const News = () => {
           </Typography>
           <Typography variant="body1" color="text.secondary">
             Stay updated with the latest announcements, features, and news from
-            EmpiRE Compass.
+            ORKG Atlas.
           </Typography>
         </Box>
 

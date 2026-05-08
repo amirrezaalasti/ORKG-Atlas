@@ -9,13 +9,10 @@ import {
   useTheme as useMuiTheme,
   useMediaQuery,
   Tooltip,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  SelectChangeEvent,
   Badge,
+  Button,
 } from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import MenuIcon from '@mui/icons-material/Menu';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 // import LightModeIcon from '@mui/icons-material/LightMode';
@@ -35,8 +32,10 @@ import { queries } from '../constants/queries_chart_info';
 // import { useTheme } from '../contexts/ThemeContext';
 import LoginORKG from './LoginORKG';
 import { templateConfig } from '../constants/template_config';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import CRUDHomeContent, { Template } from '../firestore/CRUDHomeContent';
+import { listAllOrkgTemplatesAsAtlasTemplates } from '../services/orkgTemplatesApi';
+import TemplatePickerDialog from './TemplatePickerDialog';
 import { toast } from 'react-hot-toast';
 import CRUDNews from '../firestore/CRUDNews';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -56,6 +55,13 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
   // const { mode, toggleColorMode } = useTheme();
 
   const [templates, setTemplates] = useState<Template[]>([]);
+  const [templatePickerOpen, setTemplatePickerOpen] = useState(false);
+  const [catalogSource, setCatalogSource] = useState<
+    'orkg' | 'home_content' | 'default'
+  >('default');
+  const [orkgApiTotalElements, setOrkgApiTotalElements] = useState<
+    number | null
+  >(null);
   const [selectedTemplate, setSelectedTemplate] = useState<string>('R186491');
   const [highPriorityNewsCount, setHighPriorityNewsCount] = useState<number>(0);
   const { templateId } = useParams<{ templateId: string }>();
@@ -69,19 +75,61 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
     setCurrentBackupName(name || ''); // Clear if no backup
   }, [backupVersion]); // Re-run when backup changes
 
-  // Load templates from Firebase
+  /** Full ORKG template catalog for the dropdown; Firebase list is fallback if the API fails. */
   useEffect(() => {
+    let cancelled = false;
     const loadTemplates = async () => {
-      const content = await CRUDHomeContent.getHomeContent();
-      if (content.templates && content.templates.length > 0) {
-        setTemplates(content.templates);
-      } else {
-        // Fallback to default templates
-        setTemplates(CRUDHomeContent.defaultHomeContent.templates);
+      try {
+        const { templates: orkgTemplates, totalElementsReported } =
+          await listAllOrkgTemplatesAsAtlasTemplates();
+        if (!cancelled && orkgTemplates.length > 0) {
+          setTemplates(orkgTemplates);
+          setCatalogSource('orkg');
+          setOrkgApiTotalElements(totalElementsReported);
+          return;
+        }
+      } catch (err) {
+        console.warn('Failed to load ORKG template catalog:', err);
+      }
+
+      try {
+        const content = await CRUDHomeContent.getHomeContent();
+        if (cancelled) return;
+        if (content.templates && content.templates.length > 0) {
+          setTemplates(content.templates);
+          setCatalogSource('home_content');
+          setOrkgApiTotalElements(null);
+        } else {
+          setTemplates(CRUDHomeContent.defaultHomeContent.templates);
+          setCatalogSource('default');
+          setOrkgApiTotalElements(null);
+        }
+      } catch {
+        if (!cancelled) {
+          setTemplates(CRUDHomeContent.defaultHomeContent.templates);
+          setCatalogSource('default');
+          setOrkgApiTotalElements(null);
+        }
       }
     };
     loadTemplates();
-  }, [currentBackupName]); // Re-fetch when backup changes (currentBackupName updates via interval)
+    return () => {
+      cancelled = true;
+    };
+  }, [currentBackupName]);
+
+  const templatesForSelect = useMemo(() => {
+    const map = new Map(templates.map((t) => [t.id, t]));
+    const tid = templateId || selectedTemplate;
+    if (tid && /^R\d+$/.test(tid) && !map.has(tid)) {
+      map.set(tid, { id: tid, title: tid });
+    }
+    return [...map.values()].sort((a, b) =>
+      (a.title || a.id).localeCompare(b.title || b.id, undefined, {
+        sensitivity: 'base',
+      })
+    );
+  }, [templates, templateId, selectedTemplate]);
 
   // Fetch high priority news count
   useEffect(() => {
@@ -101,24 +149,26 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
     fetchHighPriorityNewsCount();
   }, []); // Run only on mount
 
-  // Read template from URL on mount
+  // Keep header selection in sync with URL for any ORKG resource id segment
   useEffect(() => {
     const pathSegments = location.pathname.split('/').filter(Boolean);
     const templateFromUrl = pathSegments[0];
-    if (templateFromUrl && templates.some((t) => t.id === templateFromUrl)) {
+    if (templateFromUrl && /^R\d+$/.test(templateFromUrl)) {
       setSelectedTemplate(templateFromUrl);
     }
-  }, [location.pathname, templates]);
+  }, [location.pathname]);
 
-  const handleTemplateChange = (event: SelectChangeEvent<string>) => {
-    const newTemplate = event.target.value;
+  const applyTemplateSelection = (newTemplate: string) => {
     setSelectedTemplate(newTemplate);
-    toast.success(`Theme changed to ${templateConfig[newTemplate]?.title}`);
+    const choice = templatesForSelect.find((t) => t.id === newTemplate);
+    const label =
+      choice?.title ?? templateConfig[newTemplate]?.title ?? newTemplate;
+    toast.success(`Theme changed to ${label}`);
 
-    // Navigate to new template, preserving the rest of the path
     const pathSegments = location.pathname.split('/').filter(Boolean);
     pathSegments[0] = newTemplate;
     navigate(`/${pathSegments.join('/')}`);
+    setTemplatePickerOpen(false);
   };
 
   const getBreadcrumbs = () => {
@@ -128,7 +178,7 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
     if (paths.length > 0) {
       // Add template name as first breadcrumb
       const templateId = paths[0];
-      const template = templates.find((t) => t.id === templateId);
+      const template = templatesForSelect.find((t) => t.id === templateId);
       const templateName =
         template?.title || templateConfig[templateId]?.title || 'Theme';
       breadcrumbs.push({
@@ -188,7 +238,7 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
     return breadcrumbs;
   };
   const redirectToGitHub = () => {
-    window.open('https://github.com/okarras/empire-Compass/', '_blank');
+    window.open('https://github.com/amirrezaalasti/ORKG-Atlas/', '_blank');
   };
 
   const redirectToStorybook = () => {
@@ -268,7 +318,7 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
             sx={{
               flexGrow: { xs: 1, sm: 0 },
               textDecoration: 'none',
-              color: '#e86161',
+              color: '#039be5',
               fontWeight: 600,
               fontSize: { xs: '1.2rem', sm: '1.25rem' },
               display: 'flex',
@@ -282,7 +332,7 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
               transition: 'opacity 0.2s ease-in-out',
             }}
           >
-            EmpiRE-Compass
+            ORKG Atlas
           </Typography>
 
           {!isMobile && (
@@ -327,7 +377,7 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
                       textDecoration: 'none',
                       fontSize: '0.875rem',
                       '&:hover': {
-                        color: '#e86161',
+                        color: '#039be5',
                         textDecoration: 'underline',
                       },
                     }}
@@ -427,59 +477,79 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
             </Tooltip>
           )}
 
-          {/* Templates dropdown */}
-          <FormControl
+          <Button
+            id="header-template-picker-button"
+            variant="outlined"
             size="small"
-            fullWidth={isMobile}
+            onClick={() => setTemplatePickerOpen(true)}
+            endIcon={<KeyboardArrowDownIcon sx={{ fontSize: 18 }} />}
             sx={{
-              minWidth: { xs: '100%', md: 200 },
-              '& .MuiInputLabel-root': {
-                fontSize: '0.8125rem',
-                fontWeight: 500,
-              },
-              '& .MuiOutlinedInput-root': {
-                borderRadius: 1.5,
-                backgroundColor: { xs: 'background.default', sm: 'inherit' },
-                '& fieldset': {
-                  borderColor: 'divider',
-                },
-                '&:hover fieldset': {
-                  borderColor: 'text.secondary',
-                },
-                '&.Mui-focused fieldset': {
-                  borderColor: '#e86161',
-                  borderWidth: 1.5,
-                },
-                '& .MuiSelect-select': {
-                  fontWeight: 500,
-                  fontSize: '0.8125rem',
-                  py: 1,
+              minWidth: { xs: '100%', md: 220 },
+              maxWidth: { xs: '100%', md: 280 },
+              borderRadius: 1.5,
+              py: 0.75,
+              px: 1.25,
+              justifyContent: 'space-between',
+              textAlign: 'left',
+              borderColor: 'divider',
+              backgroundColor: { xs: 'background.default', sm: 'inherit' },
+              '&:hover': {
+                borderColor: 'text.secondary',
+                backgroundColor: {
+                  xs: 'action.hover',
+                  sm: 'rgba(232,97,97,0.06)',
                 },
               },
             }}
           >
-            <InputLabel id="header-templates-select-label">Theme</InputLabel>
-            <Select
-              labelId="header-templates-select-label"
-              value={selectedTemplate}
-              label="Theme"
-              onChange={handleTemplateChange}
-              size="small"
-              id="header-templates-select"
-            >
-              {templates
-                .filter((t): t is Template => !!t && !!t.id)
-                .map((template) => (
-                  <MenuItem
-                    key={template.id}
-                    value={template.id}
-                    sx={{ fontSize: '0.875rem' }}
-                  >
-                    {template.title ?? template.id ?? 'Unknown'}
-                  </MenuItem>
-                ))}
-            </Select>
-          </FormControl>
+            <Box sx={{ overflow: 'hidden', textAlign: 'left' }}>
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                display="block"
+              >
+                Theme
+              </Typography>
+              <Typography
+                variant="body2"
+                fontWeight={600}
+                noWrap
+                sx={{
+                  color: 'text.primary',
+                  fontSize: '0.8125rem',
+                }}
+              >
+                {templatesForSelect.find((t) => t.id === selectedTemplate)
+                  ?.title ??
+                  templateConfig[selectedTemplate]?.title ??
+                  selectedTemplate}
+              </Typography>
+              <Typography
+                variant="caption"
+                sx={{
+                  fontFamily: 'monospace',
+                  fontSize: '0.65rem',
+                  color: 'text.secondary',
+                  display: 'block',
+                }}
+                noWrap
+              >
+                {selectedTemplate}
+              </Typography>
+            </Box>
+          </Button>
+
+          <TemplatePickerDialog
+            open={templatePickerOpen}
+            onClose={() => setTemplatePickerOpen(false)}
+            items={templatesForSelect.filter(
+              (t): t is Template => !!t && !!t.id
+            )}
+            selectedId={selectedTemplate}
+            onConfirm={applyTemplateSelection}
+            catalogSource={catalogSource}
+            orkgApiTotalElements={orkgApiTotalElements}
+          />
         </Box>
 
         <Box
@@ -497,9 +567,9 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
                 size="small"
                 sx={{
                   color:
-                    highPriorityNewsCount > 0 ? '#e86161' : 'text.secondary',
+                    highPriorityNewsCount > 0 ? '#039be5' : 'text.secondary',
                   '&:hover': {
-                    color: '#e86161',
+                    color: '#039be5',
                     backgroundColor: 'rgba(232, 97, 97, 0.08)',
                   },
                 }}
