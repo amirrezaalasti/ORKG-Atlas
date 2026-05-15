@@ -25,6 +25,9 @@ import statementsRouter from './routes/statements.js';
 import restoreRouter from './routes/restore.js';
 import questionOverridesRouter from './routes/questionOverrides.js';
 import backupRouter from './routes/backup.js';
+import mcpRouter from './routes/mcp.js';
+import chatRouter from './routes/chat.js';
+import conversationsRouter from './routes/conversations.js';
 
 dotenv.config();
 
@@ -184,6 +187,9 @@ app.use('/api/statements', statementsRouter);
 app.use('/api/restore', restoreRouter);
 app.use('/api/question-overrides', questionOverridesRouter);
 app.use('/api/backup', backupRouter);
+app.use('/api/mcp', mcpRouter);
+app.use('/api/chat', chatRouter);
+app.use('/api/conversations', conversationsRouter);
 
 const swaggerUiOptions = {
   customCssUrl:

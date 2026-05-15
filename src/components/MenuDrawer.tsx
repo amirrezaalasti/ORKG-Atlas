@@ -24,6 +24,7 @@ import {
   Edit,
   MenuBook,
   Groups3,
+  AutoAwesome,
 } from '@mui/icons-material';
 import type { SxProps, Theme } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router';
@@ -161,6 +162,24 @@ const COMMUNITY_NAV_ITEMS: NavItemConfig[] = [
     label: 'Dynamic Question',
     tooltip: 'AI-supported question generation',
     Icon: Psychology,
+  },
+];
+
+/**
+ * Top-level (template-independent) navigation entries that should not be
+ * scoped under `/${templateId}`. Rendered separately from `NavItem`.
+ */
+const GLOBAL_NAV_ITEMS: Array<{
+  path: string;
+  label: string;
+  tooltip: string;
+  Icon: React.ComponentType<{ sx?: SxProps<Theme> }>;
+}> = [
+  {
+    path: '/chat',
+    label: 'AI Chat (ORKG)',
+    tooltip: 'Open the advanced chat assistant grounded in ORKG',
+    Icon: AutoAwesome,
   },
 ];
 
@@ -430,6 +449,38 @@ function MenuDrawer({ open, handleDrawerClose }: MenuDrawerProps) {
         {/* General */}
         <SectionHeader>General</SectionHeader>
         {renderNavItems(GENERAL_NAV_ITEMS)}
+
+        {GLOBAL_NAV_ITEMS.map(({ path, label, tooltip, Icon }) => {
+          const isActive = location.pathname.startsWith(path);
+          return (
+            <Tooltip key={path} title={tooltip} placement="right" arrow>
+              <ListItem
+                onClick={() => handleNavigate(path)}
+                sx={{
+                  ...listItemStyles,
+                  backgroundColor: isActive ? ACTIVE_BG : 'transparent',
+                }}
+              >
+                <ListItemIcon>
+                  <Icon sx={{ color: ACCENT_COLOR }} />
+                </ListItemIcon>
+                <ListItemText
+                  primary={
+                    <Typography
+                      variant="subtitle1"
+                      sx={{
+                        color: ACCENT_COLOR,
+                        fontWeight: isActive ? 600 : 500,
+                      }}
+                    >
+                      {label}
+                    </Typography>
+                  }
+                />
+              </ListItem>
+            </Tooltip>
+          );
+        })}
 
         {/* Admin (guarded) */}
         {user?.is_admin && (
