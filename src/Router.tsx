@@ -30,6 +30,7 @@ const AdminTeam = lazy(() => import('./pages/AdminTeam'));
 const CommunityQuestionDetailsPage = lazy(
   () => import('./pages/CommunityQuestionDetailsPage')
 );
+const ChatPage = lazy(() => import('./pages/ChatPage'));
 
 const Router = () => {
   return (
@@ -174,6 +175,17 @@ const Router = () => {
               errorElement={<ErrorFallback />}
             />
           </Route>
+
+          <Route
+            path="/chat"
+            element={<ChatPage />}
+            errorElement={<ErrorFallback />}
+          />
+          <Route
+            path="/chat/share/:shareToken"
+            element={<ChatPage />}
+            errorElement={<ErrorFallback />}
+          />
 
           <Route path="/" element={<Navigate to="/R186491/" replace />} />
 
