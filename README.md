@@ -1,9 +1,6 @@
 <a id='top'></a>
 
 <div align="center">
-  <a href="https://github.com/amirrezaalasti/ORKG-Atlas">
-    <img src="logo.png" alt="Logo" width="500" height="250">
-  </a>
 
 <h2 align="center" style="font-weight: normal">ORKG Atlas<br/>
 <i>"A Neuro-Symbolic Dashboard for Navigating the Knowledge Landscape of Empirical Research Practice in Requirements Engineering"</i></h2><br/>
