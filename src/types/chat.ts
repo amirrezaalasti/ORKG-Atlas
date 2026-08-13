@@ -15,6 +15,7 @@ export type ToolRenderKind =
   | 'comparison'
   | 'comparisons'
   | 'template'
+  | 'templates'
   | 'statements'
   | 'sparql_results'
   | 'chart_spec'
@@ -22,6 +23,8 @@ export type ToolRenderKind =
   | 'stats'
   | 'dynamic_questions'
   | 'ask_synthesis'
+  | 'ask_paper_related'
+  | 'ask_answer'
   | 'text';
 
 export interface ToolResultEnvelopeOk<T = unknown> {
@@ -104,12 +107,20 @@ export type ChatStreamEvent =
   | { type: 'error'; error: string }
   | { type: 'end' };
 
+/** Row value in chart data; itemsInGroup enables bar-click paper drill-down (dashboard parity). */
+export type ChartDataCell =
+  | string
+  | number
+  | boolean
+  | null
+  | Array<Record<string, unknown>>;
+
 export interface ChartSpec {
   type: 'bar' | 'line' | 'pie' | 'scatter' | 'area';
   title?: string;
   xKey: string;
   yKeys: string[];
-  data: Array<Record<string, string | number | boolean | null>>;
+  data: Array<Record<string, ChartDataCell>>;
   xLabel?: string;
   yLabel?: string;
   stacked?: boolean;

@@ -28,6 +28,7 @@ import backupRouter from './routes/backup.js';
 import mcpRouter from './routes/mcp.js';
 import chatRouter from './routes/chat.js';
 import conversationsRouter from './routes/conversations.js';
+import browserRouter from './routes/browser.js';
 
 dotenv.config();
 
@@ -190,6 +191,7 @@ app.use('/api/backup', backupRouter);
 app.use('/api/mcp', mcpRouter);
 app.use('/api/chat', chatRouter);
 app.use('/api/conversations', conversationsRouter);
+app.use('/api/browser', browserRouter);
 
 const swaggerUiOptions = {
   customCssUrl:

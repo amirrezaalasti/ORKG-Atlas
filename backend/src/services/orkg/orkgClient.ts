@@ -80,6 +80,7 @@ export interface OrkgStatement {
     id: string;
     _class: 'resource' | 'literal' | 'class' | 'predicate';
     label?: string;
+    classes?: string[];
   };
   object: {
     id: string;
@@ -158,15 +159,81 @@ export class OrkgUpstreamError extends Error {
   }
 }
 
-const SPARQL_PREFIXES = `
-PREFIX r: <http://orkg.org/orkg/resource/>
-PREFIX c: <http://orkg.org/orkg/class/>
-PREFIX p: <http://orkg.org/orkg/predicate/>
-PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-PREFIX owl: <http://www.w3.org/2002/07/owl#>
-`;
+/** ORKG namespace URIs — both short (r:/c:/p:) and long (orkgr:/orkgc:/orkgp:) aliases. */
+const ORKG_PREFIX_URIS: Record<string, string> = {
+  r: 'http://orkg.org/orkg/resource/',
+  orkgr: 'http://orkg.org/orkg/resource/',
+  c: 'http://orkg.org/orkg/class/',
+  orkgc: 'http://orkg.org/orkg/class/',
+  p: 'http://orkg.org/orkg/predicate/',
+  orkgp: 'http://orkg.org/orkg/predicate/',
+  rdf: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+  rdfs: 'http://www.w3.org/2000/01/rdf-schema#',
+  xsd: 'http://www.w3.org/2001/XMLSchema#',
+  owl: 'http://www.w3.org/2002/07/owl#',
+};
+
+const DEFAULT_SPARQL_PREFIX_BLOCK = Object.entries(ORKG_PREFIX_URIS)
+  .map(([alias, uri]) => `PREFIX ${alias}: <${uri}>`)
+  .join('\n');
+
+const collectDeclaredPrefixes = (query: string): Set<string> => {
+  const declared = new Set<string>();
+  for (const m of query.matchAll(/^\s*PREFIX\s+([\w-]+):/gim)) {
+    declared.add(m[1]);
+  }
+  return declared;
+};
+
+/** Find QName prefixes used in the query body (excluding PREFIX declarations). */
+const collectUsedPrefixes = (query: string): Set<string> => {
+  const body = query.replace(/^\s*PREFIX\s+[^\n]+$/gim, '');
+  const used = new Set<string>();
+  for (const m of body.matchAll(/\b([a-zA-Z][\w-]*):(?=[A-Za-z_$])/g)) {
+    used.add(m[1]);
+  }
+  return used;
+};
+
+/**
+ * Ensure all QName prefixes used in the query are declared.
+ * Atlas prompts use orkgp:/orkgc:; older queries may use p:/c:/r: — both are supported.
+ */
+export const ensureSparqlPrefixes = (query: string): string => {
+  const declared = collectDeclaredPrefixes(query);
+  const used = collectUsedPrefixes(query);
+  const missing = [...used].filter(
+    (p) => ORKG_PREFIX_URIS[p] && !declared.has(p)
+  );
+
+  if (declared.size === 0 && used.size === 0) {
+    return `${DEFAULT_SPARQL_PREFIX_BLOCK}\n${query}`;
+  }
+
+  if (missing.length === 0) {
+    return query;
+  }
+
+  const prepend = missing
+    .map((p) => `PREFIX ${p}: <${ORKG_PREFIX_URIS[p]}>`)
+    .join('\n');
+  return `${prepend}\n${query}`;
+};
+
+/**
+ * Fix ORDER BY forms that Virtuoso rejects (common LLM mistakes).
+ * Invalid: `ORDER BY ?year ASC`, `ORDER BY ?year ?count DESC`
+ * Valid:   `ORDER BY ?year`, `ORDER BY ?year DESC(?count)`
+ */
+export const normalizeSparqlForVirtuoso = (query: string): string =>
+  query.replace(/\bORDER\s+BY\b([^\n#;]+)/gi, (_, clause: string) => {
+    let c = clause;
+    c = c.replace(/(\?\w+)\s+ASC\b/gi, '$1');
+    while (/\?\w+\s+DESC\s*$/i.test(c.trim())) {
+      c = c.replace(/(\?\w+)\s+DESC\s*$/i, 'DESC($1)');
+    }
+    return `ORDER BY${c}`;
+  });
 
 /**
  * Run a SELECT/ASK SPARQL query against ORKG triplestore.
@@ -178,7 +245,7 @@ export async function sparqlQuery(
   query: string,
   options: { timeoutMs?: number; readonly?: boolean } = {}
 ): Promise<SparqlResponse> {
-  const trimmed = query.trim();
+  const trimmed = normalizeSparqlForVirtuoso(query.trim());
   if (!trimmed) throw new Error('SPARQL query is empty.');
 
   const { readonly = true } = options;
@@ -202,8 +269,7 @@ export async function sparqlQuery(
     }
   }
 
-  const hasPrefixes = /^\s*PREFIX\s/im.test(trimmed);
-  const fullQuery = hasPrefixes ? trimmed : SPARQL_PREFIXES + '\n' + trimmed;
+  const fullQuery = ensureSparqlPrefixes(trimmed);
 
   const body = new URLSearchParams({ query: fullQuery });
   const timeoutMs = options.timeoutMs ?? SPARQL_DEFAULT_TIMEOUT_MS;
@@ -376,6 +442,24 @@ export const orkgRest = {
         subject_id: subjectId,
         page: options?.page ?? 0,
         size: options?.size ?? 50,
+      },
+    });
+  },
+
+  async getStatements(params: {
+    subject_id?: string;
+    object_id?: string;
+    predicate_id?: string;
+    page?: number;
+    size?: number;
+  }): Promise<{ content: OrkgStatement[]; totalElements?: number }> {
+    return restGet(`/statements/`, {
+      params: {
+        subject_id: params.subject_id,
+        object_id: params.object_id,
+        predicate_id: params.predicate_id,
+        page: params.page ?? 0,
+        size: params.size ?? 200,
       },
     });
   },

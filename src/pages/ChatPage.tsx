@@ -2,13 +2,11 @@
  * Main `/chat` page: a dedicated, full-screen ORKG Atlas chat experience.
  *
  * Layout:
- *   ┌──────────────┬──────────────────────────────────────┐
- *   │ Conversations│  Sticky blurred header + pickers     │
- *   │  sidebar     │──────────────────────────────────────│
- *   │              │  Hero (empty) | Messages list        │
- *   │              │──────────────────────────────────────│
- *   │              │  Floating composer + suggestions     │
- *   └──────────────┴──────────────────────────────────────┘
+ *   ┌──────────────┬─────────────────────────┬─────────────┐
+ *   │ Conversations│  Chat (messages, input) │ ORKG preview│
+ *   │  sidebar     │                         │  (iframe)   │
+ *   └──────────────┴─────────────────────────┴─────────────┘
+ *   ORKG / ORKG Ask links open in the preview panel (modifier-click → new tab).
  *
  * Streams responses from `/api/chat/stream`, persists every turn to Firestore
  * via the backend, and renders all tool outputs as inline cards / charts /
@@ -49,7 +47,6 @@ import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import { useAuthData } from '../auth/useAuthData';
-import { templateConfig } from '../constants/template_config';
 import { conversationsApi, streamChat } from '../services/chatStreamClient';
 import type {
   ChatMessage,
@@ -60,6 +57,8 @@ import type {
 import ConversationSidebar from '../components/Chat/ConversationSidebar';
 import MessageView from '../components/Chat/MessageView';
 import ChatComposer from '../components/Chat/ChatComposer';
+import ChatPreviewPanel from '../components/Chat/ChatPreviewPanel';
+import { ChatPreviewProvider } from '../context/ChatPreviewContext';
 import AttachResourceDialog from '../components/Chat/AttachResourceDialog';
 import ModelCompareDialog from '../components/Chat/ModelCompareDialog';
 import {
@@ -151,7 +150,6 @@ const ChatPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [composer, setComposer] = useState('');
   const [attachments, setAttachments] = useState<ChatAttachment[]>([]);
-  const [templateId, setTemplateId] = useState<string>('R186491');
   const [provider, setProvider] = useState<AIProvider>(
     (aiConfig.provider as AIProvider) || 'openrouter'
   );
@@ -209,8 +207,6 @@ const ChatPage = () => {
       const detail = await conversationsApi.get(conv.id);
       setActiveConv(detail.conversation);
       setMessages(detail.messages);
-      if (detail.conversation.templateId)
-        setTemplateId(detail.conversation.templateId);
       if (detail.conversation.provider) {
         const p = detail.conversation.provider as AIProvider;
         setProvider(p);
@@ -295,7 +291,6 @@ const ChatPage = () => {
         {
           messages: transcript,
           conversationId: activeConv?.id,
-          templateId,
           provider,
           model,
           attachments: sentAttachments,
@@ -312,7 +307,6 @@ const ChatPage = () => {
                 id,
                 ownerId: user?.id ?? '',
                 title: text.slice(0, 80),
-                templateId,
                 provider,
                 model,
                 createdAt: Date.now(),
@@ -380,7 +374,6 @@ const ChatPage = () => {
     attachments,
     messages,
     activeConv,
-    templateId,
     provider,
     model,
     aiConfig,
@@ -416,13 +409,6 @@ const ChatPage = () => {
   };
 
   // ── Derived UI state ───────────────────────────────────────────────────────
-  const headerTemplateOptions = useMemo(() => {
-    return Object.entries(templateConfig).map(([id, cfg]) => ({
-      id,
-      label: cfg.title,
-    }));
-  }, []);
-
   const allMessages: ChatMessage[] = useMemo(() => {
     if (!streamingMessage) return messages;
     const trace = streamingToolCalls;
@@ -506,420 +492,384 @@ const ChatPage = () => {
   }
 
   return (
-    <Box
-      sx={(theme) => ({
-        display: 'flex',
-        height: 'calc(100vh - 64px)',
-        minHeight: 500,
-        background: isDark
-          ? `radial-gradient(circle at 0% 0%, ${alpha(theme.palette.primary.main, 0.06)} 0%, transparent 40%), radial-gradient(circle at 100% 100%, ${alpha(theme.palette.secondary.main, 0.04)} 0%, transparent 40%), ${theme.palette.background.default}`
-          : `radial-gradient(circle at 0% 0%, ${alpha(theme.palette.primary.main, 0.04)} 0%, transparent 40%), radial-gradient(circle at 100% 100%, ${alpha(theme.palette.secondary.main, 0.03)} 0%, transparent 40%), ${theme.palette.background.default}`,
-      })}
-    >
-      {!readonlyShared && (
-        <ConversationSidebar
-          activeId={activeConv?.id}
-          onSelect={loadConversation}
-          onNew={startNewChat}
-          refreshKey={refreshKey}
-        />
-      )}
+    <ChatPreviewProvider>
       <Box
-        sx={{
-          flex: 1,
+        sx={(theme) => ({
           display: 'flex',
-          flexDirection: 'column',
-          minWidth: 0,
-        }}
+          height: 'calc(100vh - 64px)',
+          minHeight: 500,
+          background: isDark
+            ? `radial-gradient(circle at 0% 0%, ${alpha(theme.palette.primary.main, 0.06)} 0%, transparent 40%), radial-gradient(circle at 100% 100%, ${alpha(theme.palette.secondary.main, 0.04)} 0%, transparent 40%), ${theme.palette.background.default}`
+            : `radial-gradient(circle at 0% 0%, ${alpha(theme.palette.primary.main, 0.04)} 0%, transparent 40%), radial-gradient(circle at 100% 100%, ${alpha(theme.palette.secondary.main, 0.03)} 0%, transparent 40%), ${theme.palette.background.default}`,
+        })}
       >
-        {/* Sticky header */}
+        {!readonlyShared && (
+          <ConversationSidebar
+            activeId={activeConv?.id}
+            onSelect={loadConversation}
+            onNew={startNewChat}
+            refreshKey={refreshKey}
+          />
+        )}
         <Box
-          sx={(theme) => ({
-            position: 'sticky',
-            top: 0,
-            zIndex: 5,
+          sx={{
+            flex: 1,
             display: 'flex',
-            alignItems: 'center',
-            gap: 1,
-            px: { xs: 1.5, sm: 2 },
-            py: 1.25,
-            borderBottom: `1px solid ${theme.palette.divider}`,
-            backgroundColor: alpha(theme.palette.background.paper, 0.7),
-            backdropFilter: 'blur(14px)',
-          })}
+            minWidth: 0,
+          }}
         >
-          {/* Title block */}
-          <Stack
-            direction="row"
-            spacing={1.25}
-            alignItems="center"
-            sx={{ flex: 1, minWidth: 0 }}
+          <Box
+            sx={{
+              flex: 1,
+              display: 'flex',
+              flexDirection: 'column',
+              minWidth: 0,
+            }}
           >
+            {/* Sticky header */}
             <Box
               sx={(theme) => ({
-                width: 32,
-                height: 32,
-                borderRadius: 1.5,
-                flexShrink: 0,
+                position: 'sticky',
+                top: 0,
+                zIndex: 5,
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center',
-                background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
-                boxShadow: `0 2px 8px -2px ${alpha(theme.palette.primary.main, 0.5)}`,
+                gap: 1,
+                px: { xs: 1.5, sm: 2 },
+                py: 1.25,
+                borderBottom: `1px solid ${theme.palette.divider}`,
+                backgroundColor: alpha(theme.palette.background.paper, 0.7),
+                backdropFilter: 'blur(14px)',
               })}
             >
-              <AutoAwesome sx={{ fontSize: 18, color: '#fff' }} />
-            </Box>
-            <Box sx={{ flex: 1, minWidth: 0 }}>
-              {titleEditing && activeConv ? (
-                <TextField
-                  size="small"
-                  value={draftTitle}
-                  autoFocus
-                  variant="standard"
-                  onChange={(e) => setDraftTitle(e.target.value)}
-                  onBlur={onSaveTitle}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') onSaveTitle();
-                    if (e.key === 'Escape') setTitleEditing(false);
-                  }}
-                  fullWidth
-                  sx={{ '& input': { fontSize: '1rem', fontWeight: 600 } }}
-                />
-              ) : (
-                <Stack
-                  direction="row"
-                  spacing={0.75}
-                  alignItems="center"
-                  sx={{ minWidth: 0 }}
+              {/* Title block */}
+              <Stack
+                direction="row"
+                spacing={1.25}
+                alignItems="center"
+                sx={{ flex: 1, minWidth: 0 }}
+              >
+                <Box
+                  sx={(theme) => ({
+                    width: 32,
+                    height: 32,
+                    borderRadius: 1.5,
+                    flexShrink: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                    boxShadow: `0 2px 8px -2px ${alpha(theme.palette.primary.main, 0.5)}`,
+                  })}
                 >
-                  <Typography
-                    variant="subtitle1"
-                    noWrap
-                    sx={{
-                      fontWeight: 600,
-                      cursor:
-                        activeConv && !readonlyShared ? 'text' : 'default',
-                      flex: '0 1 auto',
-                      minWidth: 0,
-                    }}
-                    onClick={() => {
-                      if (activeConv && !readonlyShared) {
-                        setDraftTitle(activeConv.title);
-                        setTitleEditing(true);
-                      }
-                    }}
-                  >
-                    {activeConv?.title ?? 'New conversation'}
-                  </Typography>
-                  {activeConv && !readonlyShared && (
-                    <Tooltip title="Rename">
-                      <IconButton
-                        size="small"
-                        onClick={() => {
-                          setDraftTitle(activeConv.title);
-                          setTitleEditing(true);
-                        }}
+                  <AutoAwesome sx={{ fontSize: 18, color: '#fff' }} />
+                </Box>
+                <Box sx={{ flex: 1, minWidth: 0 }}>
+                  {titleEditing && activeConv ? (
+                    <TextField
+                      size="small"
+                      value={draftTitle}
+                      autoFocus
+                      variant="standard"
+                      onChange={(e) => setDraftTitle(e.target.value)}
+                      onBlur={onSaveTitle}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') onSaveTitle();
+                        if (e.key === 'Escape') setTitleEditing(false);
+                      }}
+                      fullWidth
+                      sx={{ '& input': { fontSize: '1rem', fontWeight: 600 } }}
+                    />
+                  ) : (
+                    <Stack
+                      direction="row"
+                      spacing={0.75}
+                      alignItems="center"
+                      sx={{ minWidth: 0 }}
+                    >
+                      <Typography
+                        variant="subtitle1"
+                        noWrap
                         sx={{
-                          p: 0.25,
-                          opacity: 0.5,
-                          '&:hover': { opacity: 1 },
+                          fontWeight: 600,
+                          cursor:
+                            activeConv && !readonlyShared ? 'text' : 'default',
+                          flex: '0 1 auto',
+                          minWidth: 0,
+                        }}
+                        onClick={() => {
+                          if (activeConv && !readonlyShared) {
+                            setDraftTitle(activeConv.title);
+                            setTitleEditing(true);
+                          }
                         }}
                       >
-                        <EditOutlined sx={{ fontSize: 14 }} />
-                      </IconButton>
-                    </Tooltip>
+                        {activeConv?.title ?? 'New conversation'}
+                      </Typography>
+                      {activeConv && !readonlyShared && (
+                        <Tooltip title="Rename">
+                          <IconButton
+                            size="small"
+                            onClick={() => {
+                              setDraftTitle(activeConv.title);
+                              setTitleEditing(true);
+                            }}
+                            sx={{
+                              p: 0.25,
+                              opacity: 0.5,
+                              '&:hover': { opacity: 1 },
+                            }}
+                          >
+                            <EditOutlined sx={{ fontSize: 14 }} />
+                          </IconButton>
+                        </Tooltip>
+                      )}
+                      {readonlyShared && (
+                        <Chip
+                          size="small"
+                          icon={<Lock sx={{ fontSize: 12 }} />}
+                          label="Read-only"
+                          variant="outlined"
+                          sx={{ height: 22, fontSize: '0.7rem', ml: 0.5 }}
+                        />
+                      )}
+                    </Stack>
                   )}
-                  {readonlyShared && (
-                    <Chip
+                </Box>
+              </Stack>
+
+              {/* Pickers (hidden in read-only mode) */}
+              {!readonlyShared && (
+                <Stack
+                  direction="row"
+                  spacing={1}
+                  alignItems="center"
+                  sx={{ flexShrink: 0 }}
+                >
+                  <Select
+                    size="small"
+                    value={provider}
+                    onChange={(e) =>
+                      onProviderChange(e.target.value as AIProvider)
+                    }
+                    disabled={isStreaming}
+                    sx={{ minWidth: 130, height: 34, fontSize: '0.82rem' }}
+                    renderValue={(v) => {
+                      const info = PROVIDERS[v as AIProvider];
+                      return (
+                        <Stack
+                          direction="row"
+                          spacing={0.75}
+                          alignItems="center"
+                        >
+                          <Box
+                            sx={{
+                              width: 8,
+                              height: 8,
+                              borderRadius: '50%',
+                              backgroundColor: info?.accent ?? '#888',
+                            }}
+                          />
+                          <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                            {info?.label ?? v}
+                          </Typography>
+                        </Stack>
+                      );
+                    }}
+                  >
+                    {PROVIDER_LIST.map((p) => (
+                      <MenuItem
+                        key={p.id}
+                        value={p.id}
+                        sx={{ fontSize: '0.85rem' }}
+                      >
+                        <Stack direction="row" spacing={1} alignItems="center">
+                          <Box
+                            sx={{
+                              width: 8,
+                              height: 8,
+                              borderRadius: '50%',
+                              backgroundColor: p.accent,
+                            }}
+                          />
+                          {p.label}
+                        </Stack>
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {provider === 'openrouter' ? (
+                    <TextField
                       size="small"
-                      icon={<Lock sx={{ fontSize: 12 }} />}
-                      label="Read-only"
-                      variant="outlined"
-                      sx={{ height: 22, fontSize: '0.7rem', ml: 0.5 }}
+                      value={model}
+                      onChange={(e) => setModel(e.target.value)}
+                      placeholder="vendor/model"
+                      disabled={isStreaming}
+                      sx={{
+                        width: { xs: 150, sm: 220 },
+                        '& input': {
+                          fontSize: '0.82rem',
+                          fontFamily: 'monospace',
+                          height: 18,
+                        },
+                        '& .MuiOutlinedInput-root': { height: 34 },
+                      }}
                     />
+                  ) : (
+                    <Select
+                      size="small"
+                      value={
+                        providerModels.includes(model)
+                          ? model
+                          : (providerInfo?.defaultModel ?? '')
+                      }
+                      onChange={(e) => setModel(e.target.value)}
+                      disabled={isStreaming}
+                      sx={{
+                        minWidth: { xs: 150, sm: 220 },
+                        height: 34,
+                        fontSize: '0.82rem',
+                        fontFamily: 'monospace',
+                      }}
+                    >
+                      {providerModels.map((m) => (
+                        <MenuItem
+                          key={m}
+                          value={m}
+                          sx={{ fontSize: '0.82rem', fontFamily: 'monospace' }}
+                        >
+                          {m}
+                        </MenuItem>
+                      ))}
+                    </Select>
                   )}
+                  <Tooltip title="New chat">
+                    <span>
+                      <IconButton
+                        onClick={startNewChat}
+                        disabled={isStreaming}
+                        sx={(theme) => ({
+                          width: 34,
+                          height: 34,
+                          border: `1px solid ${theme.palette.divider}`,
+                          borderRadius: 1.5,
+                          '&:hover': {
+                            backgroundColor: alpha(
+                              theme.palette.primary.main,
+                              0.08
+                            ),
+                            borderColor: alpha(theme.palette.primary.main, 0.5),
+                          },
+                        })}
+                      >
+                        <Add fontSize="small" />
+                      </IconButton>
+                    </span>
+                  </Tooltip>
                 </Stack>
               )}
             </Box>
-          </Stack>
 
-          {/* Pickers (hidden in read-only mode) */}
-          {!readonlyShared && (
-            <Stack
-              direction="row"
-              spacing={1}
-              alignItems="center"
-              sx={{ flexShrink: 0 }}
-            >
-              <Tooltip title="Template context for the assistant">
-                <Select
-                  size="small"
-                  value={templateId}
-                  onChange={(e) => setTemplateId(e.target.value)}
-                  disabled={isStreaming}
-                  sx={(theme) => ({
-                    minWidth: { xs: 130, sm: 200 },
-                    height: 34,
-                    fontSize: '0.82rem',
-                    '& .MuiOutlinedInput-notchedOutline': {
-                      borderColor: alpha(theme.palette.primary.main, 0.25),
-                    },
-                    '&:hover .MuiOutlinedInput-notchedOutline': {
-                      borderColor: alpha(theme.palette.primary.main, 0.5),
-                    },
-                  })}
-                >
-                  {headerTemplateOptions.map((o) => (
-                    <MenuItem
-                      key={o.id}
-                      value={o.id}
-                      sx={{ fontSize: '0.85rem' }}
-                    >
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          minWidth: 0,
-                        }}
-                      >
-                        <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                          {o.label}
-                        </Typography>
-                        <Typography
-                          variant="caption"
-                          color="text.secondary"
-                          sx={{ fontFamily: 'monospace' }}
-                        >
-                          {o.id}
-                        </Typography>
-                      </Box>
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Tooltip>
-              <Select
-                size="small"
-                value={provider}
-                onChange={(e) => onProviderChange(e.target.value as AIProvider)}
-                disabled={isStreaming}
-                sx={{ minWidth: 130, height: 34, fontSize: '0.82rem' }}
-                renderValue={(v) => {
-                  const info = PROVIDERS[v as AIProvider];
-                  return (
-                    <Stack direction="row" spacing={0.75} alignItems="center">
-                      <Box
-                        sx={{
-                          width: 8,
-                          height: 8,
-                          borderRadius: '50%',
-                          backgroundColor: info?.accent ?? '#888',
-                        }}
-                      />
-                      <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                        {info?.label ?? v}
-                      </Typography>
-                    </Stack>
-                  );
-                }}
-              >
-                {PROVIDER_LIST.map((p) => (
-                  <MenuItem
-                    key={p.id}
-                    value={p.id}
-                    sx={{ fontSize: '0.85rem' }}
-                  >
-                    <Stack direction="row" spacing={1} alignItems="center">
-                      <Box
-                        sx={{
-                          width: 8,
-                          height: 8,
-                          borderRadius: '50%',
-                          backgroundColor: p.accent,
-                        }}
-                      />
-                      {p.label}
-                    </Stack>
-                  </MenuItem>
-                ))}
-              </Select>
-              {provider === 'openrouter' ? (
-                <TextField
-                  size="small"
-                  value={model}
-                  onChange={(e) => setModel(e.target.value)}
-                  placeholder="vendor/model"
-                  disabled={isStreaming}
-                  sx={{
-                    width: { xs: 150, sm: 220 },
-                    '& input': {
-                      fontSize: '0.82rem',
-                      fontFamily: 'monospace',
-                      height: 18,
-                    },
-                    '& .MuiOutlinedInput-root': { height: 34 },
-                  }}
-                />
-              ) : (
-                <Select
-                  size="small"
-                  value={
-                    providerModels.includes(model)
-                      ? model
-                      : (providerInfo?.defaultModel ?? '')
-                  }
-                  onChange={(e) => setModel(e.target.value)}
-                  disabled={isStreaming}
-                  sx={{
-                    minWidth: { xs: 150, sm: 220 },
-                    height: 34,
-                    fontSize: '0.82rem',
-                    fontFamily: 'monospace',
-                  }}
-                >
-                  {providerModels.map((m) => (
-                    <MenuItem
-                      key={m}
-                      value={m}
-                      sx={{ fontSize: '0.82rem', fontFamily: 'monospace' }}
-                    >
-                      {m}
-                    </MenuItem>
-                  ))}
-                </Select>
-              )}
-              <Tooltip title="New chat">
-                <span>
-                  <IconButton
-                    onClick={startNewChat}
-                    disabled={isStreaming}
-                    sx={(theme) => ({
-                      width: 34,
-                      height: 34,
-                      border: `1px solid ${theme.palette.divider}`,
-                      borderRadius: 1.5,
-                      '&:hover': {
-                        backgroundColor: alpha(
-                          theme.palette.primary.main,
-                          0.08
-                        ),
-                        borderColor: alpha(theme.palette.primary.main, 0.5),
-                      },
-                    })}
-                  >
-                    <Add fontSize="small" />
-                  </IconButton>
-                </span>
-              </Tooltip>
-            </Stack>
-          )}
-        </Box>
-
-        {/* Messages */}
-        <Box
-          ref={scrollRef}
-          sx={{
-            flex: 1,
-            overflowY: 'auto',
-            scrollBehavior: 'smooth',
-          }}
-        >
-          {allMessages.length === 0 ? (
-            <ChatHero
-              templateId={templateId}
-              templateLabel={templateConfig[templateId]?.title}
-              onPick={(p) => setComposer(p)}
-            />
-          ) : (
+            {/* Messages */}
             <Box
+              ref={scrollRef}
               sx={{
-                maxWidth: 920,
-                mx: 'auto',
-                px: { xs: 1.5, sm: 3 },
-                pt: 3,
-                pb: 2,
+                flex: 1,
+                overflowY: 'auto',
+                scrollBehavior: 'smooth',
               }}
             >
-              {allMessages.map((m) => (
-                <MessageView
-                  key={m.id}
-                  message={m}
-                  isStreaming={isStreaming && m.id === streamingMessage?.id}
-                />
-              ))}
+              {allMessages.length === 0 ? (
+                <ChatHero onPick={(p) => setComposer(p)} />
+              ) : (
+                <Box
+                  sx={{
+                    maxWidth: 920,
+                    mx: 'auto',
+                    px: { xs: 1.5, sm: 3 },
+                    pt: 3,
+                    pb: 2,
+                  }}
+                >
+                  {allMessages.map((m) => (
+                    <MessageView
+                      key={m.id}
+                      message={m}
+                      isStreaming={isStreaming && m.id === streamingMessage?.id}
+                    />
+                  ))}
+                </Box>
+              )}
+              {error && (
+                <Box sx={{ maxWidth: 920, mx: 'auto', px: 2, pb: 2 }}>
+                  <Alert
+                    severity="error"
+                    onClose={() => setError(null)}
+                    sx={{ borderRadius: 2 }}
+                  >
+                    {error}
+                  </Alert>
+                </Box>
+              )}
             </Box>
-          )}
-          {error && (
-            <Box sx={{ maxWidth: 920, mx: 'auto', px: 2, pb: 2 }}>
-              <Alert
-                severity="error"
-                onClose={() => setError(null)}
-                sx={{ borderRadius: 2 }}
-              >
-                {error}
-              </Alert>
-            </Box>
-          )}
+
+            {/* Composer */}
+            {!readonlyShared && (
+              <ChatComposer
+                value={composer}
+                onChange={setComposer}
+                onSend={send}
+                onStop={onStop}
+                isStreaming={isStreaming}
+                attachments={attachments}
+                onAttachClick={() => setAttachOpen(true)}
+                onCompareClick={() => setCompareOpen(true)}
+                onRemoveAttachment={(a) =>
+                  setAttachments((prev) =>
+                    prev.filter((p) => !(p.type === a.type && p.id === a.id))
+                  )
+                }
+                suggestions={
+                  allMessages.length === 0
+                    ? STARTER_PROMPTS.map((s) => s.prompt)
+                    : []
+                }
+              />
+            )}
+
+            <AttachResourceDialog
+              open={attachOpen}
+              onClose={() => setAttachOpen(false)}
+              onAttach={(a) => {
+                setAttachments((prev) =>
+                  prev.some((p) => p.type === a.type && p.id === a.id)
+                    ? prev
+                    : [...prev, a]
+                );
+              }}
+            />
+            <ModelCompareDialog
+              open={compareOpen}
+              onClose={() => setCompareOpen(false)}
+              messages={allMessages.map((m) => ({
+                role:
+                  m.role === 'tool'
+                    ? 'assistant'
+                    : (m.role as 'user' | 'assistant' | 'system'),
+                content: m.content,
+              }))}
+              defaultProvider={provider}
+              defaultModel={model}
+              openrouterKey={aiConfig.openrouterApiKey || undefined}
+            />
+          </Box>
+          <ChatPreviewPanel />
         </Box>
-
-        {/* Composer */}
-        {!readonlyShared && (
-          <ChatComposer
-            value={composer}
-            onChange={setComposer}
-            onSend={send}
-            onStop={onStop}
-            isStreaming={isStreaming}
-            attachments={attachments}
-            onAttachClick={() => setAttachOpen(true)}
-            onCompareClick={() => setCompareOpen(true)}
-            onRemoveAttachment={(a) =>
-              setAttachments((prev) =>
-                prev.filter((p) => !(p.type === a.type && p.id === a.id))
-              )
-            }
-            suggestions={
-              allMessages.length === 0
-                ? STARTER_PROMPTS.map((s) => s.prompt)
-                : []
-            }
-          />
-        )}
-
-        <AttachResourceDialog
-          open={attachOpen}
-          onClose={() => setAttachOpen(false)}
-          onAttach={(a) => {
-            setAttachments((prev) =>
-              prev.some((p) => p.type === a.type && p.id === a.id)
-                ? prev
-                : [...prev, a]
-            );
-          }}
-        />
-        <ModelCompareDialog
-          open={compareOpen}
-          onClose={() => setCompareOpen(false)}
-          messages={allMessages.map((m) => ({
-            role:
-              m.role === 'tool'
-                ? 'assistant'
-                : (m.role as 'user' | 'assistant' | 'system'),
-            content: m.content,
-          }))}
-          templateId={templateId}
-          defaultProvider={provider}
-          defaultModel={model}
-          openrouterKey={aiConfig.openrouterApiKey || undefined}
-        />
       </Box>
-    </Box>
+    </ChatPreviewProvider>
   );
 };
 
 interface ChatHeroProps {
-  templateId: string;
-  templateLabel?: string;
   onPick: (p: string) => void;
 }
 
@@ -932,7 +882,7 @@ const CATEGORY_COLORS: Record<StarterPrompt['category'], string> = {
   Synthesis: '#5b8def',
 };
 
-const ChatHero = ({ templateId, templateLabel, onPick }: ChatHeroProps) => (
+const ChatHero = ({ onPick }: ChatHeroProps) => (
   <Box
     sx={{
       maxWidth: 880,
@@ -987,19 +937,9 @@ const ChatHero = ({ templateId, templateLabel, onPick }: ChatHeroProps) => (
         </Typography>
         <Chip
           size="small"
-          label={
-            templateLabel
-              ? `Grounded in: ${templateLabel} · ${templateId}`
-              : `Grounded in template ${templateId}`
-          }
-          sx={(theme) => ({
-            mt: 0.5,
-            backgroundColor: alpha(theme.palette.primary.main, 0.08),
-            border: `1px solid ${alpha(theme.palette.primary.main, 0.25)}`,
-            color: 'primary.main',
-            fontFamily: 'monospace',
-            fontSize: '0.72rem',
-          })}
+          label="Explores all ORKG templates · picks the best match per question"
+          variant="outlined"
+          sx={{ mt: 0.5, fontSize: '0.72rem' }}
         />
       </Stack>
     </Stack>

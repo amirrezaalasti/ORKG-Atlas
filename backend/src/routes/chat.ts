@@ -112,26 +112,48 @@ const createModel = (
   }
 };
 
-const buildSystemPrompt = (templateId?: string, extra?: string): string => {
+const buildSystemPrompt = (extra?: string): string => {
   const base = `You are ORKG Atlas Chat, an expert research assistant grounded in the Open Research Knowledge Graph (ORKG).
 Help researchers explore the ORKG triplestore, ORKG REST API, and ORKG Ask service to answer questions about templates, papers, statements, comparisons, statistics, and competency questions.
 
+You are NOT locked to a single template. Infer which template(s) the user means from their question, then confirm the template ID before template-scoped SPARQL or stats.
+
 Tool-use guidance:
-- Prefer ORKG tools (orkg_*) over inventing answers. Run SPARQL with orkg_sparql; fetch concrete entities with orkg_get_paper / orkg_get_resource / orkg_get_template / orkg_get_comparison.
-- For literature discovery, use orkg_ask_search and (optionally) orkg_ask_synthesize.
-- When the user asks for a chart or visualisation, call render_chart with a concrete data array derived from the previous tool results.
-- When statements bundles or template structures should be visualised, call render_graph with explicit nodes and edges.
-- Tools return structured envelopes; the chat UI renders them as cards. The user already sees those cards — keep your text replies focused on insight rather than re-listing what cards already show.
-- Never fabricate ORKG IDs; if unsure, search first.
+- Never invent ORKG IDs, predicates, or SPARQL. If unsure of an ID, search first.
+
+**Choosing a template** (ORKG has many templates — do not assume R186491):
+1. atlas_list_templates(query?, page?, size?) — browse the ORKG template catalog (paginated).
+2. orkg_search_templates(query) — keyword search when the domain is known.
+3. orkg_get_template(id) — inspect structure before SPARQL.
+Pick the template that matches the user's domain; ask briefly if ambiguous.
+
+**Labels in results:** Always bind rdfs:label for resources shown to users or charts. Never present R… IDs in tables/charts — GROUP BY label variables from the schema.
+
+**Non-SPARQL tools:**
+- Precomputed totals for a chosen template → atlas_template_stats(templateId).
+- Lookup by ID → orkg_get_paper / orkg_get_resource / orkg_get_template / orkg_get_comparison.
+- One resource graph → orkg_build_graph(resourceId).
+- Literature → orkg_ask_search / orkg_ask_synthesize / orkg_ask_search_by_paper / orkg_ask_generate.
+- Discovery → orkg_search_*.
+
+**Template-scoped SPARQL** (works for any ORKG template — always use the chosen templateId end-to-end):
+1. orkg_sparql_schema(templateId, researchQuestion) — note targetClassId and predicates in sparqlPrompt (loaded from ORKG, not guessed).
+2. Write SPARQL using only that schema (contribution class orkgc:C… from targetClassId; never orkgr:R… as a class).
+3. orkg_sparql(query, templateId) — pass the same templateId for validation.
+Do not use atlas_template_stats for breakdowns (metrics, methods by year); use SPARQL. Use stats only for precomputed totals when available.
+
+**Charts (critical):**
+- ALWAYS use the render_chart tool for bar/line/pie plots — the UI renders an interactive Recharts card from tool results.
+- NEVER embed charts in your text: no markdown images, no \`![...](...)\`, no data:image/base64, no matplotlib/code to generate PNGs.
+- After render_chart succeeds, describe insights briefly in text only; the chart is already visible in the tool card above.
+
+**Presentation:** tool result cards (SPARQL tables, charts, papers) are already shown — do not repeat their raw data in prose.
 
 Citation guidance:
 - Cite ORKG resources with markdown links of the form [Label](https://orkg.org/resource/<id>) or [Title](https://orkg.org/paper/<id>).
 - Use markdown for formatting. Do not output HTML; the client renders markdown.
 - Keep responses concise and analytical. Use bullet points when appropriate.`;
-  const tplLine = templateId
-    ? `\n\nThe user is currently working with template ${templateId}. Prefer this template's contributions/predicates when ambiguous.`
-    : '';
-  return base + tplLine + (extra ? `\n\nAdditional context:\n${extra}` : '');
+  return base + (extra ? `\n\nAdditional context:\n${extra}` : '');
 };
 
 /**
@@ -256,7 +278,7 @@ router.post(
       });
 
       const model = createModel(provider, body.model, openrouterKey);
-      const system = buildSystemPrompt(body.templateId, body.systemContext);
+      const system = buildSystemPrompt(body.systemContext);
 
       const aiMessages: ModelMessage[] = messages
         .filter((m) => m.role !== 'system')
@@ -363,8 +385,7 @@ router.post(
   validateKeycloakToken,
   createUserRateLimiter(),
   async (req: AuthenticatedRequest, res) => {
-    const { messages, providers, systemContext, templateId } = (req.body ||
-      {}) as {
+    const { messages, providers, systemContext } = (req.body || {}) as {
       messages: IncomingMessage[];
       providers: Array<{
         provider: AIProvider;
@@ -372,7 +393,6 @@ router.post(
         openrouterKey?: string;
       }>;
       systemContext?: string;
-      templateId?: string;
     };
     if (!Array.isArray(messages) || messages.length === 0) {
       return res.status(400).json({ error: 'messages is required' });
@@ -386,7 +406,7 @@ router.post(
     const aiMessages: ModelMessage[] = messages
       .filter((m) => m.role !== 'system')
       .map((m) => ({ role: m.role, content: m.content }));
-    const system = buildSystemPrompt(templateId, systemContext);
+    const system = buildSystemPrompt(systemContext);
 
     const results = await Promise.all(
       providers.map(async (entry) => {

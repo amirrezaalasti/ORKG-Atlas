@@ -29,7 +29,6 @@ interface Props {
   open: boolean;
   onClose: () => void;
   messages: Array<{ role: 'user' | 'assistant' | 'system'; content: string }>;
-  templateId?: string;
   defaultProvider?: AIProvider;
   defaultModel?: string;
   openrouterKey?: string;
@@ -53,7 +52,6 @@ const ModelCompareDialog = ({
   open,
   onClose,
   messages,
-  templateId,
   openrouterKey,
 }: Props) => {
   const [a, setA] = useState<Pair>(PRESETS[0]);
@@ -70,7 +68,6 @@ const ModelCompareDialog = ({
     try {
       const { results: list } = await compareApi.run({
         messages,
-        templateId,
         providers: [
           {
             ...a,

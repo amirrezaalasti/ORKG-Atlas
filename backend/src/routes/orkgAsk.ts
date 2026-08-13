@@ -2,6 +2,7 @@ import { Router, Response } from 'express';
 import {
   orkgAskService,
   OrkgUpstreamHttpError,
+  extractOrkgAskGenerateText,
 } from '../services/orkgAskService.js';
 import {
   validateKeycloakTokenOrOrkgAskConfigured,
@@ -200,29 +201,7 @@ router.post(
         console.log('ORKG generate payload (truncated):', logPayload);
       }
 
-      // Normalize ORKG response to { text }
-      // ORKG returns: { uuid, timestamp, payload: { response: { generated_text: "..." } } }
-      const payload = result?.payload as Record<string, unknown> | undefined;
-      const innerResponse =
-        payload?.response && typeof payload.response === 'object'
-          ? (payload.response as Record<string, unknown>)
-          : undefined;
-
-      const text =
-        (innerResponse?.generated_text as string) ??
-        (payload?.response as string) ??
-        (payload?.text as string) ??
-        (payload?.output as string) ??
-        (payload?.content as string) ??
-        (payload?.generated_text as string) ??
-        (result?.response as string) ??
-        (result?.text as string) ??
-        (result?.output as string) ??
-        (result?.content as string) ??
-        (result?.generated_text as string) ??
-        (result?.result as string) ??
-        '';
-      const finalText = typeof text === 'string' ? text : '';
+      const finalText = extractOrkgAskGenerateText(result);
 
       // ORKG can return empty payload {} per API docs; surface a clear error
       if (!finalText && result?.uuid && result?.payload !== undefined) {

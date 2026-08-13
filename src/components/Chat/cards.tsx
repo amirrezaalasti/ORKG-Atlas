@@ -27,7 +27,10 @@ import {
   ExpandMore,
   ExpandLess,
 } from '@mui/icons-material';
-import { useState } from 'react';
+import { useState, type MouseEvent } from 'react';
+import { useChatPreviewOptional } from '../../context/ChatPreviewContext';
+import { canOpenInChatPreview } from '../../utils/chatPreview';
+import PreviewLink from './PreviewLink';
 
 interface OrkgPaperLike {
   id: string;
@@ -84,20 +87,38 @@ const ExternalLinkButton = ({
 }: {
   href?: string;
   label: string;
-}) =>
-  href ? (
-    <Tooltip title={label} arrow>
+}) => {
+  const { tryOpenPreviewFromClick } = useChatPreviewOptional();
+  if (!href) return null;
+
+  const openInPanel = canOpenInChatPreview(href);
+  const tooltip = openInPanel ? `${label} (side panel)` : label;
+
+  const onClick = (e: MouseEvent) => {
+    if (openInPanel) {
+      if (tryOpenPreviewFromClick(e, href, label)) return;
+    }
+    if (!e.defaultPrevented && !e.metaKey && !e.ctrlKey) {
+      e.preventDefault();
+      window.open(href, '_blank', 'noopener,noreferrer');
+    }
+  };
+
+  return (
+    <Tooltip title={tooltip} arrow>
       <IconButton
         size="small"
         component="a"
         href={href}
-        target="_blank"
-        rel="noreferrer"
+        target={openInPanel ? undefined : '_blank'}
+        rel={openInPanel ? undefined : 'noreferrer'}
+        onClick={onClick}
       >
         <OpenInNew fontSize="small" />
       </IconButton>
     </Tooltip>
-  ) : null;
+  );
+};
 
 export const PaperCard = ({ paper }: { paper: OrkgPaperLike }) => {
   const [open, setOpen] = useState(false);
@@ -347,13 +368,123 @@ export const TemplateCard = ({ template }: { template: OrkgTemplateLike }) => {
   );
 };
 
+export interface TemplateListItemLike {
+  id: string;
+  label: string;
+  description?: string;
+  targetClassId?: string;
+  link?: string;
+  inAtlas?: boolean;
+  hasPrecomputedStats?: boolean;
+}
+
+export const TemplatesListCard = ({
+  items,
+  total,
+  page,
+}: {
+  items: TemplateListItemLike[];
+  total?: number;
+  page?: number;
+}) => (
+  <Card variant="outlined" sx={cardSx}>
+    <CardContent>
+      <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
+        <Chip size="small" label="Templates" variant="outlined" />
+        <Typography variant="caption" color="text.secondary">
+          {items.length} shown
+          {total != null ? ` · ${total} in ORKG` : ''}
+          {page != null ? ` · page ${page}` : ''}
+        </Typography>
+      </Stack>
+      <Stack spacing={0.75}>
+        {items.slice(0, 25).map((t) => (
+          <Box
+            key={t.id}
+            sx={{
+              display: 'flex',
+              alignItems: 'flex-start',
+              gap: 1,
+              py: 0.5,
+              borderBottom: '1px solid',
+              borderColor: 'divider',
+            }}
+          >
+            <Box sx={{ flex: 1, minWidth: 0 }}>
+              <Stack
+                direction="row"
+                spacing={0.5}
+                flexWrap="wrap"
+                alignItems="center"
+              >
+                <Chip
+                  size="small"
+                  label={t.id}
+                  sx={{ fontFamily: 'monospace', height: 20 }}
+                />
+                {t.inAtlas && (
+                  <Chip
+                    size="small"
+                    label="Atlas"
+                    color="primary"
+                    variant="outlined"
+                    sx={{ height: 20 }}
+                  />
+                )}
+                {t.hasPrecomputedStats && (
+                  <Chip
+                    size="small"
+                    label="stats"
+                    variant="outlined"
+                    sx={{ height: 20 }}
+                  />
+                )}
+              </Stack>
+              <Typography variant="body2" sx={{ fontWeight: 600, mt: 0.25 }}>
+                {t.link ? (
+                  <MuiLink
+                    href={t.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    underline="hover"
+                  >
+                    {t.label}
+                  </MuiLink>
+                ) : (
+                  t.label
+                )}
+              </Typography>
+              {t.targetClassId && (
+                <Typography variant="caption" color="text.secondary">
+                  class {t.targetClassId}
+                </Typography>
+              )}
+            </Box>
+          </Box>
+        ))}
+        {items.length > 25 && (
+          <Typography variant="caption" color="text.secondary">
+            +{items.length - 25} more — use atlas_list_templates with a higher
+            page/size
+          </Typography>
+        )}
+      </Stack>
+    </CardContent>
+  </Card>
+);
+
 export const StatsCard = ({
   data,
 }: {
   data: {
     templateId?: string;
+    templateLabel?: string;
     statistics?: Array<{ id: string }>;
     statisticId?: string;
+    paperCount?: number;
+    paperCountSource?: string;
+    venueCount?: number;
+    relatedStatisticIds?: string[];
     data?: Record<string, unknown>;
   };
 }) => {
@@ -374,15 +505,26 @@ export const StatsCard = ({
     );
   }
   const stats = (data.data || {}) as Record<string, unknown>;
+  const paperCount =
+    data.paperCount ??
+    (typeof stats.paperCount === 'number' ? stats.paperCount : undefined);
   return (
     <Card variant="outlined" sx={cardSx}>
       <CardContent>
         <Stack direction="row" spacing={1} alignItems="center">
           <Chip size="small" label="Stats" variant="outlined" />
           <Typography variant="subtitle2">
-            {data.templateId} · {data.statisticId}
+            {data.templateLabel ?? data.templateId} · {data.statisticId}
           </Typography>
         </Stack>
+        {paperCount != null && paperCount > 0 && (
+          <Typography variant="h6" sx={{ mt: 1, fontWeight: 700 }}>
+            {paperCount.toLocaleString()} papers
+            {data.paperCountSource && data.paperCountSource !== data.statisticId
+              ? ` (${data.paperCountSource})`
+              : ''}
+          </Typography>
+        )}
         <Box
           sx={{
             display: 'grid',
@@ -434,6 +576,174 @@ export const AskSynthesisCard = ({
       </Typography>
       <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
         {synthesis || '(no synthesis returned)'}
+      </Typography>
+    </CardContent>
+  </Card>
+);
+
+const ORKG_ASK_ITEM_URL = 'https://ask.orkg.org/item/';
+
+export interface AskRelatedItem {
+  id: string;
+  title?: string;
+  abstract?: string;
+  year?: number;
+  doi?: string;
+  link?: string;
+}
+
+export const AskPaperRelatedCard = ({
+  sourcePaper,
+  relatedItems,
+  totalHits,
+}: {
+  sourcePaper: OrkgPaperLike & { link?: string };
+  relatedItems: AskRelatedItem[];
+  totalHits?: number;
+}) => {
+  const { openPreview } = useChatPreviewOptional();
+  const [idx, setIdx] = useState(0);
+  const rp = relatedItems[idx];
+  const authors = (sourcePaper.authors || [])
+    .map((a) => a.name)
+    .filter((s): s is string => !!s);
+
+  return (
+    <Card variant="outlined" sx={cardSx}>
+      <CardContent>
+        <Chip
+          size="small"
+          label="ORKG Ask · related literature"
+          variant="outlined"
+          sx={{ mb: 1 }}
+        />
+        <Stack direction="row" spacing={1} alignItems="flex-start">
+          <Article color="primary" fontSize="small" />
+          <Box sx={{ flex: 1, minWidth: 0 }}>
+            <Typography variant="subtitle2">
+              {sourcePaper.title || sourcePaper.id}
+            </Typography>
+            {authors.length > 0 && (
+              <Typography variant="caption" color="text.secondary">
+                {authors.join(', ')}
+                {sourcePaper.year ? ` · ${sourcePaper.year}` : ''}
+              </Typography>
+            )}
+          </Box>
+          <ExternalLinkButton href={sourcePaper.link} label="Open in ORKG" />
+        </Stack>
+
+        {relatedItems.length === 0 ? (
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+            No related papers found in ORKG Ask.
+          </Typography>
+        ) : (
+          <Box sx={{ mt: 2 }}>
+            <Typography variant="caption" color="text.secondary">
+              Related in ORKG Ask ({idx + 1} / {relatedItems.length}
+              {totalHits != null && totalHits > relatedItems.length
+                ? ` · ${totalHits} total hits`
+                : ''}
+              )
+            </Typography>
+            {rp && (
+              <Card
+                variant="outlined"
+                sx={{
+                  mt: 1,
+                  borderColor: 'primary.light',
+                  cursor: rp.link ? 'pointer' : 'default',
+                }}
+                onClick={() => {
+                  const url = rp.link || `${ORKG_ASK_ITEM_URL}${rp.id}`;
+                  openPreview(url, rp.title || rp.id);
+                }}
+              >
+                <CardContent sx={{ py: 1.5, '&:last-child': { pb: 1.5 } }}>
+                  <PreviewLink
+                    href={rp.link || `${ORKG_ASK_ITEM_URL}${rp.id}`}
+                    underline="hover"
+                    variant="subtitle2"
+                    sx={{ fontWeight: 600 }}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {rp.title || rp.id}
+                  </PreviewLink>
+                  {rp.year && (
+                    <Typography
+                      variant="caption"
+                      color="text.secondary"
+                      display="block"
+                    >
+                      {rp.year}
+                    </Typography>
+                  )}
+                  {rp.abstract && (
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{
+                        mt: 0.5,
+                        display: '-webkit-box',
+                        WebkitLineClamp: 3,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden',
+                        fontSize: '0.8rem',
+                      }}
+                    >
+                      {rp.abstract}
+                    </Typography>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+            {relatedItems.length > 1 && (
+              <Stack direction="row" spacing={1} sx={{ mt: 1 }}>
+                <Chip
+                  size="small"
+                  label="Previous"
+                  disabled={idx === 0}
+                  onClick={() => setIdx((i) => Math.max(0, i - 1))}
+                  variant="outlined"
+                />
+                <Chip
+                  size="small"
+                  label="Next"
+                  disabled={idx >= relatedItems.length - 1}
+                  onClick={() =>
+                    setIdx((i) => Math.min(relatedItems.length - 1, i + 1))
+                  }
+                  variant="outlined"
+                />
+              </Stack>
+            )}
+          </Box>
+        )}
+      </CardContent>
+    </Card>
+  );
+};
+
+export const AskAnswerCard = ({
+  prompt,
+  answer,
+}: {
+  prompt: string;
+  answer: string;
+}) => (
+  <Card variant="outlined" sx={cardSx}>
+    <CardContent>
+      <Chip size="small" label="ORKG Ask" variant="outlined" sx={{ mb: 1 }} />
+      <Typography
+        variant="caption"
+        color="text.secondary"
+        display="block"
+        gutterBottom
+      >
+        {prompt}
+      </Typography>
+      <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
+        {answer}
       </Typography>
     </CardContent>
   </Card>

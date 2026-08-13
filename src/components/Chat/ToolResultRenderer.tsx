@@ -30,8 +30,11 @@ import {
   ResourceCard,
   ComparisonCard,
   TemplateCard,
+  TemplatesListCard,
   StatsCard,
   AskSynthesisCard,
+  AskPaperRelatedCard,
+  AskAnswerCard,
   DynamicQuestionsCard,
 } from './cards';
 import {
@@ -206,6 +209,21 @@ const ToolResultRenderer = ({ result, toolName }: Props) => {
         />
       );
 
+    case 'templates': {
+      const data = result.data as {
+        items: Parameters<typeof TemplatesListCard>[0]['items'];
+        total?: number;
+        page?: number;
+      };
+      return (
+        <TemplatesListCard
+          items={data.items}
+          total={data.total}
+          page={data.page}
+        />
+      );
+    }
+
     case 'statements': {
       const bundle = result.data as StatementsBundle;
       return (
@@ -252,6 +270,26 @@ const ToolResultRenderer = ({ result, toolName }: Props) => {
     case 'ask_synthesis': {
       const d = result.data as { question: string; synthesis: string };
       return <AskSynthesisCard question={d.question} synthesis={d.synthesis} />;
+    }
+
+    case 'ask_paper_related': {
+      const d = result.data as {
+        sourcePaper: Parameters<typeof AskPaperRelatedCard>[0]['sourcePaper'];
+        relatedItems: Parameters<typeof AskPaperRelatedCard>[0]['relatedItems'];
+        totalHits?: number;
+      };
+      return (
+        <AskPaperRelatedCard
+          sourcePaper={d.sourcePaper}
+          relatedItems={d.relatedItems}
+          totalHits={d.totalHits}
+        />
+      );
+    }
+
+    case 'ask_answer': {
+      const d = result.data as { prompt: string; answer: string };
+      return <AskAnswerCard prompt={d.prompt} answer={d.answer} />;
     }
 
     case 'text':

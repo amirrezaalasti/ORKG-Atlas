@@ -19,8 +19,17 @@ import {
   type OrkgStatement,
   type OrkgTemplate,
 } from '../orkg/orkgClient.js';
-import { orkgAskService } from '../orkgAskService.js';
+import {
+  orkgAskService,
+  extractOrkgAskGenerateText,
+  type OrkgPaperForDisplay,
+} from '../orkgAskService.js';
 import { fail, ok, toolRegistry } from './registry.js';
+import { buildSparqlSchemaPrompt } from '../sparqlPromptService.js';
+import { fetchAtlasTemplateStats } from '../atlasTemplateStatsService.js';
+import { listOrkgTemplates } from '../orkgTemplatesService.js';
+import { loadTemplateFlow } from '../orkg/templateFlow.js';
+import { validateTemplateScopedSparql } from '../sparqlTemplateValidation.js';
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Helpers
@@ -36,6 +45,83 @@ const summarisePaper = (p: OrkgPaper): string => {
   return [p.title, authors && `by ${authors}`, year && `(${year})`]
     .filter(Boolean)
     .join(' ');
+};
+
+const ORKG_ASK_ITEM_URL = 'https://ask.orkg.org/item/';
+
+const mapAskItems = (
+  items: Array<{
+    id: string;
+    title?: string;
+    abstract?: string;
+    year?: number;
+    doi?: string;
+  }>
+) =>
+  items.map((i) => ({
+    id: i.id,
+    title: i.title,
+    abstract: i.abstract,
+    year: i.year,
+    doi: i.doi,
+    link: i.id ? `${ORKG_ASK_ITEM_URL}${i.id}` : undefined,
+  }));
+
+const statementsToGraphSpec = (
+  resourceId: string,
+  statements: OrkgStatement[],
+  rootLabel?: string
+) => {
+  const seen = new Set<string>();
+  const nodes: Array<{
+    id: string;
+    label?: string;
+    kind?: 'resource' | 'literal' | 'class' | 'predicate';
+  }> = [];
+  const edges: Array<{
+    source: string;
+    target: string;
+    label?: string;
+    predicateId?: string;
+  }> = [];
+
+  const addNode = (
+    id: string,
+    label?: string,
+    kind?: 'resource' | 'literal' | 'class' | 'predicate'
+  ) => {
+    if (seen.has(id)) return;
+    seen.add(id);
+    nodes.push({ id, label, kind });
+  };
+
+  const limit = Math.min(120, statements.length);
+  for (let i = 0; i < limit; i++) {
+    const s = statements[i];
+    const subjKind =
+      s.subject._class === 'literal'
+        ? ('literal' as const)
+        : ('resource' as const);
+    const objKind =
+      s.object._class === 'literal'
+        ? ('literal' as const)
+        : ('resource' as const);
+    addNode(s.subject.id, s.subject.label, subjKind);
+    addNode(s.object.id, s.object.label, objKind);
+    edges.push({
+      source: s.subject.id,
+      target: s.object.id,
+      label: s.predicate.label || s.predicate.id,
+      predicateId: s.predicate.id,
+    });
+  }
+
+  return {
+    rootId: resourceId,
+    rootLabel: rootLabel || resourceId,
+    nodes,
+    edges,
+  };
 };
 
 const normaliseSparqlBindings = (
@@ -57,20 +143,67 @@ const normaliseSparqlBindings = (
 // ──────────────────────────────────────────────────────────────────────────────
 
 toolRegistry.register({
+  name: 'orkg_sparql_schema',
+  title: 'Get SPARQL schema prompt for template',
+  description:
+    'REQUIRED before orkg_sparql for template-scoped questions. ' +
+    'Resolve templateId first (atlas_list_templates / orkg_search_templates) if the user did not give one. ' +
+    'Returns sparqlPrompt with predicates, hierarchy, rules, and canonical examples. ' +
+    'Returns templateId, targetClassId (contribution class), and sparqlPrompt. ' +
+    'Pass researchQuestion, then write SPARQL and call orkg_sparql with the same templateId.',
+  category: 'ORKG',
+  schema: z.object({
+    templateId: z.string().min(2),
+    researchQuestion: z.string().optional(),
+  }),
+  async handler({ templateId, researchQuestion }) {
+    try {
+      const result = await buildSparqlSchemaPrompt(
+        templateId,
+        researchQuestion
+      );
+      return ok('text', result, {
+        summary: `SPARQL schema for template ${result.templateLabel ?? templateId} (${result.predicateCount} predicates, class ${result.targetClassId ?? 'n/a'}).`,
+      });
+    } catch (err) {
+      return fail(err instanceof Error ? err.message : String(err));
+    }
+  },
+});
+
+toolRegistry.register({
   name: 'orkg_sparql',
   title: 'Run SPARQL query',
   description:
     'Run a read-only SPARQL SELECT/ASK query against the ORKG triplestore. ' +
-    'Standard ORKG prefixes (r:, c:, p:, rdfs:, xsd:) are auto-prepended if missing. ' +
+    'Use for cross-paper analytics not covered by atlas_template_stats (trends by year, method distributions, custom filters). ' +
+    'Do not use for total template paper count — use atlas_template_stats (precomputed). ' +
+    'For template-scoped analytics: call orkg_sparql_schema(templateId) first, then orkg_sparql(query, templateId) with the SAME templateId so contribution class is validated. ' +
+    'Prefer orkg_get_* / orkg_ask_* / orkg_build_graph when they already answer the question. ' +
+    'Missing PREFIX declarations for orkgp:/orkgc:/orkgr: (or p:/c:/r:) are auto-added. ' +
+    'ORDER BY: use `ORDER BY ?year` or `ORDER BY DESC(?count)` — never `?year ASC` or `?year ?count DESC`. ' +
+    'Traverse template hierarchy for methods (e.g. contribution → P56008 data collection → P1005 method → P94003 method type → rdfs:label). ' +
     'Returns rows as a list of {variable: value} objects (max 1000 rows).',
   category: 'ORKG',
   schema: z.object({
     query: z.string().min(5),
+    /** Same templateId as orkg_sparql_schema — validates contribution class (orkgc:C…). */
+    templateId: z.string().min(2).optional(),
     /** Maximum rows to return after running the query; serves as a guard rail. */
     rowLimit: z.number().int().positive().max(1000).optional(),
   }),
-  async handler({ query, rowLimit }) {
+  async handler({ query, templateId, rowLimit }) {
     try {
+      let validationCtx;
+      if (templateId) {
+        const { targetClassId } = await loadTemplateFlow(templateId);
+        validationCtx = { templateId, targetClassId };
+      }
+      const validation = validateTemplateScopedSparql(query, validationCtx);
+      if (validation) {
+        return fail(`${validation.message} ${validation.hint}`);
+      }
+
       const result = await sparqlQuery(query, { readonly: true });
       const rawBindings = result.results?.bindings ?? [];
       const limited = rowLimit
@@ -352,7 +485,7 @@ toolRegistry.register({
   name: 'orkg_get_template',
   title: 'Get ORKG template',
   description:
-    'Fetch an ORKG template (definition of a contribution’s structured properties) by ID. Useful to ground SPARQL generation in the template’s predicates and target class.',
+    'Fetch raw ORKG template JSON by ID. For SPARQL generation, prefer orkg_sparql_schema(templateId) which loads subtemplates and returns the full dynamic schema prompt.',
   category: 'ORKG',
   schema: z.object({ id: z.string().min(2) }),
   async handler({ id }) {
@@ -381,18 +514,10 @@ toolRegistry.register({
   }),
   async handler({ query, page, size }) {
     try {
-      const res = await orkgRest.listTemplates({ q: query, page, size });
-      const items = (res.content || []).map((t) => ({
-        ...t,
-        link: orkgPublicLink('template', t.id),
-      }));
-      return ok(
-        'resources',
-        { items, total: res.totalElements, page: page ?? 0 },
-        {
-          summary: `${items.length} templates matching “${query}”.`,
-        }
-      );
+      const result = await listOrkgTemplates({ query, page, size });
+      return ok('templates', result, {
+        summary: `${result.items.length} templates matching “${query}”.`,
+      });
     } catch (err) {
       return fail(err instanceof Error ? err.message : String(err));
     }
@@ -407,7 +532,7 @@ toolRegistry.register({
   name: 'orkg_ask_search',
   title: 'ORKG Ask: semantic search',
   description:
-    'Run a semantic search over scientific literature via ORKG Ask. Best for open-ended literature queries that benefit from vector similarity.',
+    'Run a semantic search over scientific literature via ORKG Ask. Best for open-ended literature queries that benefit from vector similarity. Returns papers with links to ask.orkg.org.',
   category: 'ORKG Ask',
   schema: z.object({
     query: z.string().min(1),
@@ -418,14 +543,7 @@ toolRegistry.register({
       const result = await orkgAskService.semanticSearch(query, {
         limit: limit ?? 10,
       });
-      const items = result.payload.items.map((i) => ({
-        id: i.id,
-        title: i.title,
-        abstract: i.abstract,
-        year: i.year,
-        doi: i.doi,
-        link: i.id ? `https://ask.orkg.org/item/${i.id}` : undefined,
-      }));
+      const items = mapAskItems(result.payload.items);
       return ok(
         'papers',
         { items, total: result.payload.total_hits, page: 0 },
@@ -438,10 +556,51 @@ toolRegistry.register({
 });
 
 toolRegistry.register({
+  name: 'orkg_ask_search_by_paper',
+  title: 'ORKG Ask: related papers for an ORKG paper',
+  description:
+    'Given an ORKG paper ID (e.g. R12345), fetch the paper from ORKG and find semantically related literature in ORKG Ask. ' +
+    'Use when the user asks about a specific paper, wants related work, or before synthesising an answer grounded in that paper.',
+  category: 'ORKG Ask',
+  schema: z.object({
+    paperId: z.string().min(2),
+    limit: z.number().int().positive().max(30).optional(),
+  }),
+  async handler({ paperId, limit }) {
+    try {
+      const result = await orkgAskService.searchByPaper(paperId);
+      const related = mapAskItems(result.payload.items.slice(0, limit ?? 10));
+      const source = result.orkgPaper as OrkgPaperForDisplay | undefined;
+      return ok(
+        'ask_paper_related',
+        {
+          sourcePaper: source
+            ? {
+                ...source,
+                link: orkgPublicLink('paper', source.id),
+              }
+            : { id: paperId, link: orkgPublicLink('paper', paperId) },
+          relatedItems: related,
+          totalHits: result.payload.total_hits,
+        },
+        {
+          summary: source?.title
+            ? `“${source.title}”: ${related.length} related papers in ORKG Ask.`
+            : `${related.length} related papers for ${paperId}.`,
+        }
+      );
+    } catch (err) {
+      return fail(err instanceof Error ? err.message : String(err));
+    }
+  },
+});
+
+toolRegistry.register({
   name: 'orkg_ask_synthesize',
   title: 'ORKG Ask: synthesise abstracts',
   description:
-    'Synthesise a citable answer for a research question from a list of ORKG Ask item IDs (use orkg_ask_search first to get them).',
+    'Synthesise a citable, literature-grounded answer for a research question from ORKG Ask item IDs. ' +
+    'Obtain item IDs from orkg_ask_search or orkg_ask_search_by_paper first. Best for “what does the literature say about …?”',
   category: 'ORKG Ask',
   schema: z.object({
     question: z.string().min(3),
@@ -472,15 +631,146 @@ toolRegistry.register({
   },
 });
 
+toolRegistry.register({
+  name: 'orkg_ask_generate',
+  title: 'ORKG Ask: answer a question',
+  description:
+    'Use the ORKG Ask LLM to answer a research question in natural language (e.g. explain a concept, summarise findings, interpret SPARQL results). ' +
+    'Optionally pass systemContext with paper abstracts, SPARQL rows, or prior tool output. ' +
+    'For literature-grounded answers with citations, prefer orkg_ask_synthesize after orkg_ask_search.',
+  category: 'ORKG Ask',
+  schema: z.object({
+    prompt: z.string().min(3),
+    systemContext: z.string().optional(),
+  }),
+  async handler({ prompt, systemContext }) {
+    try {
+      const raw = (await orkgAskService.generate(prompt, {
+        system: systemContext?.trim() || undefined,
+      })) as Record<string, unknown>;
+      const answer = extractOrkgAskGenerateText(raw);
+      if (!answer) {
+        return fail(
+          'ORKG Ask returned an empty response. Try again or use orkg_ask_synthesize with item IDs.'
+        );
+      }
+      return ok(
+        'ask_answer',
+        { prompt, answer, systemContext: systemContext?.trim() || undefined },
+        { summary: answer.slice(0, 240) }
+      );
+    } catch (err) {
+      return fail(err instanceof Error ? err.message : String(err));
+    }
+  },
+});
+
+/** Unified ORKG Ask entry point — routes to search / paper / synthesize / generate. */
+const OrkgAskUnifiedSchema = z.object({
+  action: z.enum(['search', 'search_by_paper', 'synthesize', 'generate']),
+  query: z.string().optional(),
+  paperId: z.string().optional(),
+  question: z.string().optional(),
+  prompt: z.string().optional(),
+  itemIds: z.array(z.string()).optional(),
+  systemContext: z.string().optional(),
+  limit: z.number().int().positive().max(50).optional(),
+});
+
+toolRegistry.register({
+  name: 'orkg_ask',
+  title: 'ORKG Ask (unified)',
+  description:
+    'Single entry point for ORKG Ask. action=search needs query; search_by_paper needs paperId; ' +
+    'synthesize needs question+itemIds; generate needs prompt (optional systemContext).',
+  category: 'ORKG Ask',
+  schema: OrkgAskUnifiedSchema,
+  async handler(args) {
+    switch (args.action) {
+      case 'search': {
+        if (!args.query?.trim()) return fail('orkg_ask search requires query.');
+        const tool = toolRegistry.get('orkg_ask_search');
+        if (!tool) return fail('orkg_ask_search not registered');
+        return tool.handler({ query: args.query, limit: args.limit }, {});
+      }
+      case 'search_by_paper': {
+        if (!args.paperId?.trim())
+          return fail('orkg_ask search_by_paper requires paperId.');
+        const tool = toolRegistry.get('orkg_ask_search_by_paper');
+        if (!tool) return fail('orkg_ask_search_by_paper not registered');
+        return tool.handler({ paperId: args.paperId, limit: args.limit }, {});
+      }
+      case 'synthesize': {
+        if (!args.question?.trim())
+          return fail('orkg_ask synthesize requires question.');
+        if (!args.itemIds?.length)
+          return fail('orkg_ask synthesize requires itemIds.');
+        const tool = toolRegistry.get('orkg_ask_synthesize');
+        if (!tool) return fail('orkg_ask_synthesize not registered');
+        return tool.handler(
+          { question: args.question, itemIds: args.itemIds },
+          {}
+        );
+      }
+      case 'generate': {
+        if (!args.prompt?.trim())
+          return fail('orkg_ask generate requires prompt.');
+        const tool = toolRegistry.get('orkg_ask_generate');
+        if (!tool) return fail('orkg_ask_generate not registered');
+        return tool.handler(
+          { prompt: args.prompt, systemContext: args.systemContext },
+          {}
+        );
+      }
+      default:
+        return fail('Unknown orkg_ask action');
+    }
+  },
+});
+
 // ──────────────────────────────────────────────────────────────────────────────
-// Atlas-internal: Statistics
+// Atlas-internal: Templates & statistics
 // ──────────────────────────────────────────────────────────────────────────────
+
+toolRegistry.register({
+  name: 'atlas_list_templates',
+  title: 'List ORKG templates',
+  description:
+    'List templates from the ORKG API (paginated catalog) merged with Atlas metadata. ' +
+    'Call when you need to pick a templateId — not limited to EmpiRE/NLP4RE. ' +
+    'Use optional query to filter by name; increase page/size for more results. ' +
+    'Then orkg_get_template(id) or orkg_sparql_schema(id) for the chosen template.',
+  category: 'Atlas',
+  schema: z.object({
+    query: z.string().optional(),
+    page: z.number().int().nonnegative().optional(),
+    size: z.number().int().positive().max(100).optional(),
+  }),
+  async handler({ query, page, size }) {
+    try {
+      const result = await listOrkgTemplates({ query, page, size });
+      return ok('templates', result, {
+        summary: query
+          ? `${result.items.length} ORKG templates matching “${query}”${result.total != null ? ` (${result.total} total)` : ''}.`
+          : `${result.items.length} ORKG templates on this page${result.total != null ? ` of ${result.total}` : ''}.`,
+      });
+    } catch (err) {
+      return fail(err instanceof Error ? err.message : String(err));
+    }
+  },
+});
 
 toolRegistry.register({
   name: 'atlas_template_stats',
   title: 'Get template statistics (Atlas)',
   description:
-    'Fetch precomputed Firestore statistics for a known Atlas template (e.g. R186491 EmpiRE, R1544125 NLP4RE).',
+    'Only for template-level totals (paper count, venue count, statement totals). ' +
+    'Only for templates with precomputed Atlas statistics in Firestore (not all ORKG templates). ' +
+    'Returns precomputed Firestore stats — faster and authoritative vs ad-hoc SPARQL COUNT. ' +
+    'Use for precomputed totals after you know templateId (see atlas_list_templates). ' +
+    'Use for: "how many papers does [template] have?", venue counts, statement totals. ' +
+    'Omit statisticId to load the default document (empire-statistics / nlp4re-statistics). ' +
+    'Use SPARQL only when the question needs a breakdown not present here (e.g. by year, by method type).',
   category: 'Atlas',
   schema: z.object({
     templateId: z.string().min(2),
@@ -488,25 +778,25 @@ toolRegistry.register({
   }),
   async handler({ templateId, statisticId }) {
     try {
-      const ref = db
-        .collection('Templates')
-        .doc(templateId)
-        .collection('Statistics');
-      if (statisticId) {
-        const snap = await ref.doc(statisticId).get();
-        if (!snap.exists)
-          return fail(`Statistic ${statisticId} not found for ${templateId}.`);
-        return ok('stats', { templateId, statisticId, data: snap.data() });
-      }
-      const snap = await ref.get();
-      const data = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
-      return ok(
-        'stats',
-        { templateId, statistics: data },
-        {
-          summary: `${data.length} statistic documents for ${templateId}.`,
-        }
-      );
+      const result = await fetchAtlasTemplateStats(templateId, statisticId);
+      const label = result.templateLabel ?? result.templateId;
+      const summaryParts = [
+        result.paperCount != null ? `${result.paperCount} papers` : null,
+        result.venueCount != null ? `${result.venueCount} venues` : null,
+      ].filter(Boolean);
+
+      const sourceNote =
+        result.paperCountSource &&
+        result.paperCountSource !== result.statisticId
+          ? ` (from ${result.paperCountSource})`
+          : '';
+
+      return ok('stats', result, {
+        summary:
+          summaryParts.length > 0
+            ? `${label} (${result.templateId}): ${summaryParts.join(', ')}${sourceNote}.`
+            : `Statistics for ${label} (${result.templateId}).`,
+      });
     } catch (err) {
       return fail(err instanceof Error ? err.message : String(err));
     }
@@ -563,31 +853,91 @@ toolRegistry.register({
 // Visualisation helper
 // ──────────────────────────────────────────────────────────────────────────────
 
+const ChartCellSchema = z.union([
+  z.string(),
+  z.number(),
+  z.boolean(),
+  z.null(),
+  z.array(z.record(z.unknown())),
+]);
+
 const ChartSpecSchema = z.object({
   type: z.enum(['bar', 'line', 'pie', 'scatter', 'area']),
   title: z.string().optional(),
   xKey: z.string(),
   yKeys: z.array(z.string()).min(1).max(10),
-  data: z
-    .array(z.record(z.union([z.string(), z.number(), z.boolean(), z.null()])))
-    .max(2000),
+  data: z.array(z.record(ChartCellSchema)).max(2000),
   xLabel: z.string().optional(),
   yLabel: z.string().optional(),
   stacked: z.boolean().optional(),
 });
 
 toolRegistry.register({
-  name: 'render_chart',
-  title: 'Render an inline chart',
+  name: 'orkg_build_graph',
+  title: 'Build knowledge graph from ORKG resource',
   description:
-    'Produce a chart specification the chat UI renders inline using Recharts. ' +
-    'Provide chart `type`, `xKey`, `yKeys`, and a `data` array of row objects. ' +
-    'Use this when the user wants to visualise tabular data the LLM derives from SPARQL or Atlas tools.',
+    'Fetch an ORKG statements bundle for a resource (paper, contribution, etc.) and render it as an interactive knowledge graph in the chat. ' +
+    'Prefer this over manually calling render_graph when the user wants to see how a paper or resource is structured in ORKG.',
+  category: 'Visualisation',
+  schema: z.object({
+    resourceId: z.string().min(2),
+    maxLevel: z.number().int().positive().max(10).optional(),
+    maxStatements: z.number().int().positive().max(200).optional(),
+    rootLabel: z.string().optional(),
+  }),
+  async handler({ resourceId, maxLevel, maxStatements, rootLabel }) {
+    try {
+      const bundle = await orkgRest.getStatementsBundle(resourceId, {
+        maxLevel,
+      });
+      const all = bundle.statements || [];
+      const limited = all.slice(0, maxStatements ?? 120);
+      if (limited.length === 0) {
+        return fail(`No statements found for ${resourceId}.`);
+      }
+      const spec = statementsToGraphSpec(resourceId, limited, rootLabel);
+      return ok('graph', spec, {
+        summary: `Knowledge graph for ${resourceId}: ${spec.nodes.length} nodes, ${spec.edges.length} edges${all.length > limited.length ? ` (from ${all.length} statements)` : ''}.`,
+      });
+    } catch (err) {
+      return fail(err instanceof Error ? err.message : String(err));
+    }
+  },
+});
+
+toolRegistry.register({
+  name: 'render_chart',
+  title: 'Render a scientific chart',
+  description:
+    'ONLY way to show charts in chat. The UI renders an interactive Recharts card from this spec — do not also paste markdown images or base64 in your text. ' +
+    'Provide type (bar|line|area|pie|scatter), xKey, yKeys (numeric fields), title, optional axis labels, and data: array of row objects from SPARQL/stats. ' +
+    'Use human-readable label columns for xKey (e.g. metric_label from rdfs:label), never bare R… IDs. ' +
+    'Example row: { "metric_label": "F1-score", "count": 42 }. Optional itemsInGroup per row for clickable bar → papers list. ' +
+    'Use after aggregated SPARQL (orkg_sparql).',
   category: 'Visualisation',
   schema: ChartSpecSchema,
   async handler(spec) {
-    return ok('chart_spec', spec, {
-      summary: `${spec.type} chart titled “${spec.title ?? 'Chart'}” with ${spec.data.length} rows.`,
+    const normalized = {
+      ...spec,
+      data: spec.data.map((row) => {
+        const out: Record<string, string | number | boolean | null> = {
+          ...row,
+        };
+        for (const y of spec.yKeys) {
+          const v = out[y];
+          if (
+            typeof v === 'string' &&
+            v.trim() !== '' &&
+            !Number.isNaN(Number(v))
+          ) {
+            out[y] = Number(v);
+          }
+        }
+        return out;
+      }),
+    };
+    return ok('chart_spec', normalized, {
+      summary: `${spec.type} chart titled “${spec.title ?? 'Chart'}” with ${normalized.data.length} rows.`,
     });
   },
 });
@@ -618,10 +968,11 @@ const GraphSpecSchema = z.object({
 
 toolRegistry.register({
   name: 'render_graph',
-  title: 'Render an inline knowledge graph',
+  title: 'Render a custom knowledge graph',
   description:
     'Produce a node/edge graph specification the chat UI renders inline (React Flow). ' +
-    'Use this when statements bundles or template structures should be visualised as a graph.',
+    'Use for custom RDF/ORKG visualisations when you already have explicit nodes and edges. ' +
+    'For ORKG statement bundles, prefer orkg_build_graph(resourceId) instead.',
   category: 'Visualisation',
   schema: GraphSpecSchema,
   async handler(spec) {
