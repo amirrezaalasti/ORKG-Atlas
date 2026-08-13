@@ -23,6 +23,7 @@ export type ToolRenderKind =
   | 'comparison'
   | 'comparisons'
   | 'template'
+  | 'templates'
   | 'statements'
   | 'sparql_results'
   | 'chart_spec'
@@ -30,6 +31,8 @@ export type ToolRenderKind =
   | 'stats'
   | 'dynamic_questions'
   | 'ask_synthesis'
+  | 'ask_paper_related'
+  | 'ask_answer'
   | 'text';
 
 export interface ToolResultEnvelope<T = unknown> {

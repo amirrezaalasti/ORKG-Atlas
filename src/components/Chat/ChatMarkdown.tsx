@@ -10,9 +10,20 @@
  * this renderer is ~150 lines and easy to evolve when we need more features.
  */
 
-import { useMemo } from 'react';
+import { useMemo, type MouseEvent } from 'react';
 import DOMPurify from 'dompurify';
 import { Box, type SxProps, type Theme } from '@mui/material';
+import { useChatPreviewOptional } from '../../context/ChatPreviewContext';
+
+/** Strip hallucinated inline chart images / huge base64 blobs from assistant text. */
+export const sanitizeChatMarkdown = (markdown: string): string => {
+  let out = markdown;
+  out = out.replace(/!\[[^\]]*]\(data:[^)]+\)/gi, '');
+  out = out.replace(/!\[[^\]]*]\([^)]*base64[^)]*\)/gi, '');
+  out = out.replace(/data:image\/[a-z+]+;base64,[A-Za-z0-9+/=\s]{80,}/gi, '');
+  out = out.replace(/\n{3,}/g, '\n\n');
+  return out.trim();
+};
 
 const escapeHtml = (s: string): string =>
   s
@@ -210,18 +221,31 @@ interface ChatMarkdownProps {
 }
 
 const ChatMarkdown = ({ text, dense }: ChatMarkdownProps) => {
+  const { tryOpenPreviewFromClick } = useChatPreviewOptional();
   const html = useMemo(() => {
-    const raw = renderMarkdownToHtml(text);
+    const raw = renderMarkdownToHtml(sanitizeChatMarkdown(text));
     return DOMPurify.sanitize(raw, {
       ADD_ATTR: ['target', 'rel'],
     });
   }, [text]);
 
+  const onContentClick = (e: MouseEvent<HTMLDivElement>) => {
+    const anchor = (e.target as HTMLElement).closest('a');
+    if (!anchor?.href) return;
+    tryOpenPreviewFromClick(
+      e,
+      anchor.href,
+      anchor.textContent?.trim() || undefined
+    );
+  };
+
   return (
     <Box
+      onClick={onContentClick}
       sx={{
         ...markdownStyles,
         ...(dense ? { '& p': { mb: 0.5, lineHeight: 1.4 } } : {}),
+        '& a': { cursor: 'pointer' },
       }}
       dangerouslySetInnerHTML={{ __html: html }}
     />

@@ -11,6 +11,10 @@ import {
   Card,
   CardContent,
   Chip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
   IconButton,
   Stack,
   Typography,
@@ -55,6 +59,11 @@ import ReactFlow, {
 import dagre from '@dagrejs/dagre';
 import 'reactflow/dist/style.css';
 import { mcpApi } from '../../services/chatStreamClient';
+import { resolveOrkgUriLink } from '../../utils/orkgResource';
+import { truncateLabel } from '../../utils/chartUtils';
+import BarChartPapersDialog from '../CustomCharts/BarChartPapersDialog';
+import PreviewLink from './PreviewLink';
+import { canOpenInChatPreview } from '../../utils/chatPreview';
 import type {
   ChartSpec,
   GraphSpec,
@@ -184,6 +193,26 @@ export const InlineSparqlRunner = ({
   );
 };
 
+const SparqlCellLink = ({ href, label }: { href: string; label: string }) => {
+  if (canOpenInChatPreview(href)) {
+    return (
+      <PreviewLink
+        href={href}
+        underline="hover"
+        variant="body2"
+        component="span"
+      >
+        {label}
+      </PreviewLink>
+    );
+  }
+  return (
+    <a href={href} target="_blank" rel="noreferrer">
+      {label}
+    </a>
+  );
+};
+
 const ResultsTable = ({
   vars,
   rows,
@@ -253,13 +282,20 @@ const ResultsTable = ({
                   }}
                   title={row[c]}
                 >
-                  {row[c]?.startsWith('http') ? (
-                    <a href={row[c]} target="_blank" rel="noreferrer">
-                      {row[c]}
-                    </a>
-                  ) : (
-                    row[c]
-                  )}
+                  {(() => {
+                    const cell = row[c];
+                    if (!cell) return null;
+                    if (cell.startsWith('http')) {
+                      const orkg = resolveOrkgUriLink(cell);
+                      if (orkg) {
+                        return (
+                          <SparqlCellLink href={orkg.href} label={orkg.label} />
+                        );
+                      }
+                      return <SparqlCellLink href={cell} label={cell} />;
+                    }
+                    return cell;
+                  })()}
                 </td>
               ))}
             </tr>
@@ -283,24 +319,115 @@ const ResultsTable = ({
 // Chart
 // ──────────────────────────────────────────────────────────────────────────────
 
+type ChartRow = Record<string, string | number | boolean | null | unknown>;
+
+const chartTickFormatter = (dataLength: number) => {
+  const maxLen = Math.max(
+    6,
+    Math.min(28, Math.floor(520 / Math.max(dataLength, 1)))
+  );
+  return (value: string) => truncateLabel(String(value), maxLen);
+};
+
+const getItemsInGroup = (row: ChartRow): Record<string, unknown>[] | null => {
+  const raw = row.itemsInGroup;
+  if (!Array.isArray(raw) || raw.length === 0) return null;
+  return raw.filter((x) => x && typeof x === 'object') as Record<
+    string,
+    unknown
+  >[];
+};
+
 export const InlineChart = ({ spec }: { spec: ChartSpec }) => {
-  const data = spec.data;
+  const data = spec.data as ChartRow[];
+  const [papersDialog, setPapersDialog] = useState<{
+    open: boolean;
+    barTitle: string;
+    itemsInGroup: Record<string, unknown>[];
+  }>({ open: false, barTitle: '', itemsInGroup: [] });
+  const [detailRow, setDetailRow] = useState<{
+    title: string;
+    row: ChartRow;
+  } | null>(null);
+
+  const xTickFormatter = useMemo(
+    () => chartTickFormatter(data.length),
+    [data.length]
+  );
+
+  const onBarClick = (row: ChartRow) => {
+    const label = String(row[spec.xKey] ?? '');
+    const items = getItemsInGroup(row);
+    if (items) {
+      setPapersDialog({ open: true, barTitle: label, itemsInGroup: items });
+      return;
+    }
+    setDetailRow({ title: label, row });
+  };
+
+  const chartHeight = spec.type === 'bar' ? 360 : 320;
+
   return (
     <Card variant="outlined" sx={cardSx}>
       <CardContent>
-        {spec.title && (
-          <Typography variant="subtitle2" gutterBottom>
-            {spec.title}
-          </Typography>
-        )}
-        <Box sx={{ width: '100%', height: 320 }}>
+        <Stack
+          direction="row"
+          spacing={1}
+          alignItems="center"
+          sx={{ mb: 1 }}
+          flexWrap="wrap"
+        >
+          <Chip size="small" label={`${spec.type} chart`} variant="outlined" />
+          {spec.title && (
+            <Typography variant="subtitle2">{spec.title}</Typography>
+          )}
+          {spec.type === 'bar' && (
+            <Typography variant="caption" color="text.secondary">
+              Click a bar for details
+            </Typography>
+          )}
+        </Stack>
+        <Box sx={{ width: '100%', height: chartHeight }}>
           <ResponsiveContainer width="100%" height="100%">
             {spec.type === 'bar' ? (
-              <BarChart data={data}>
+              <BarChart
+                data={data}
+                margin={{ top: 8, right: 16, left: 8, bottom: 56 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey={spec.xKey} label={spec.xLabel} />
-                <YAxis label={spec.yLabel} />
-                <RTooltip />
+                <XAxis
+                  dataKey={spec.xKey}
+                  interval={0}
+                  angle={-40}
+                  textAnchor="end"
+                  height={70}
+                  tick={{ fontSize: 11 }}
+                  tickFormatter={xTickFormatter}
+                  label={
+                    spec.xLabel
+                      ? {
+                          value: spec.xLabel,
+                          position: 'insideBottom',
+                          offset: -4,
+                        }
+                      : undefined
+                  }
+                />
+                <YAxis
+                  label={
+                    spec.yLabel
+                      ? {
+                          value: spec.yLabel,
+                          angle: -90,
+                          position: 'insideLeft',
+                        }
+                      : undefined
+                  }
+                />
+                <RTooltip
+                  labelFormatter={(label) => String(label)}
+                  formatter={(value: number, name: string) => [value, name]}
+                />
                 <Legend />
                 {spec.yKeys.map((y, i) => (
                   <Bar
@@ -308,6 +435,14 @@ export const InlineChart = ({ spec }: { spec: ChartSpec }) => {
                     dataKey={y}
                     fill={CHART_COLORS[i % CHART_COLORS.length]}
                     stackId={spec.stacked ? 'stack' : undefined}
+                    cursor="pointer"
+                    radius={[4, 4, 0, 0]}
+                    onClick={(barData) => {
+                      const row = (
+                        barData as { payload?: ChartRow } | undefined
+                      )?.payload;
+                      if (row) onBarClick(row);
+                    }}
                   />
                 ))}
               </BarChart>
@@ -378,6 +513,56 @@ export const InlineChart = ({ spec }: { spec: ChartSpec }) => {
           </ResponsiveContainer>
         </Box>
       </CardContent>
+
+      <BarChartPapersDialog
+        open={papersDialog.open}
+        onClose={() => setPapersDialog((d) => ({ ...d, open: false }))}
+        barTitle={papersDialog.barTitle}
+        itemsInGroup={papersDialog.itemsInGroup}
+      />
+
+      <Dialog
+        open={detailRow != null}
+        onClose={() => setDetailRow(null)}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>{detailRow?.title || 'Bar details'}</DialogTitle>
+        <DialogContent dividers>
+          {detailRow &&
+            Object.entries(detailRow.row)
+              .filter(([k]) => k !== 'itemsInGroup')
+              .map(([key, value]) => (
+                <Box
+                  key={key}
+                  sx={{
+                    display: 'flex',
+                    gap: 2,
+                    py: 0.75,
+                    borderBottom: '1px solid',
+                    borderColor: 'divider',
+                  }}
+                >
+                  <Typography
+                    variant="body2"
+                    sx={{ fontWeight: 600, minWidth: 120 }}
+                  >
+                    {key}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {value == null
+                      ? '—'
+                      : typeof value === 'object'
+                        ? JSON.stringify(value)
+                        : String(value)}
+                  </Typography>
+                </Box>
+              ))}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDetailRow(null)}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </Card>
   );
 };
@@ -513,7 +698,7 @@ export const InlineGraph = ({ spec, statements }: InlineGraphProps) => {
     <Card variant="outlined" sx={cardSx}>
       <CardContent sx={{ pb: 0 }}>
         <Stack direction="row" spacing={1} alignItems="center">
-          <Chip size="small" label="Graph" variant="outlined" />
+          <Chip size="small" label="Knowledge graph" variant="outlined" />
           <Typography variant="subtitle2">{title}</Typography>
           <Box sx={{ flex: 1 }} />
           <Typography variant="caption" color="text.secondary">

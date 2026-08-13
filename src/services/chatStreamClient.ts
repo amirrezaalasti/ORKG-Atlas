@@ -229,6 +229,50 @@ export const conversationsApi = {
     ),
 };
 
+export interface BrowserFrame {
+  sessionId: string;
+  url: string;
+  title: string;
+  screenshot: string;
+  viewport: { width: number; height: number };
+}
+
+export const browserApi = {
+  status: () =>
+    apiJson<{
+      configured: boolean;
+      available: boolean;
+      hint: string;
+    }>('/api/browser/status'),
+  createSession: (url: string) =>
+    apiJson<BrowserFrame>('/api/browser/sessions', {
+      method: 'POST',
+      body: JSON.stringify({ url }),
+    }),
+  getFrame: (sessionId: string) =>
+    apiJson<BrowserFrame>(`/api/browser/sessions/${sessionId}`),
+  navigate: (sessionId: string, url: string) =>
+    apiJson<BrowserFrame>(`/api/browser/sessions/${sessionId}/navigate`, {
+      method: 'POST',
+      body: JSON.stringify({ url }),
+    }),
+  click: (sessionId: string, x: number, y: number) =>
+    apiJson<BrowserFrame>(`/api/browser/sessions/${sessionId}/click`, {
+      method: 'POST',
+      body: JSON.stringify({ x, y }),
+    }),
+  back: (sessionId: string) =>
+    apiJson<BrowserFrame>(`/api/browser/sessions/${sessionId}/back`, {
+      method: 'POST',
+    }),
+  forward: (sessionId: string) =>
+    apiJson<BrowserFrame>(`/api/browser/sessions/${sessionId}/forward`, {
+      method: 'POST',
+    }),
+  closeSession: (sessionId: string) =>
+    apiJson<void>(`/api/browser/sessions/${sessionId}`, { method: 'DELETE' }),
+};
+
 export const mcpApi = {
   listTools: () =>
     apiJson<{ protocol: string; tools: ToolDescriptor[] }>(

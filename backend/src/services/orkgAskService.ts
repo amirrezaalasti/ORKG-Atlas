@@ -88,6 +88,33 @@ function sleep(ms: number): Promise<void> {
 
 const ORKG_PAPER_FETCH_MAX_ATTEMPTS = 3;
 
+/** Normalize ORKG Ask /llm/generate response to plain text. */
+export function extractOrkgAskGenerateText(
+  result: Record<string, unknown>
+): string {
+  const payload = result?.payload as Record<string, unknown> | undefined;
+  const innerResponse =
+    payload?.response && typeof payload.response === 'object'
+      ? (payload.response as Record<string, unknown>)
+      : undefined;
+
+  const text =
+    (innerResponse?.generated_text as string) ??
+    (payload?.response as string) ??
+    (payload?.text as string) ??
+    (payload?.output as string) ??
+    (payload?.content as string) ??
+    (payload?.generated_text as string) ??
+    (result?.response as string) ??
+    (result?.text as string) ??
+    (result?.output as string) ??
+    (result?.content as string) ??
+    (result?.generated_text as string) ??
+    (result?.result as string) ??
+    '';
+  return typeof text === 'string' ? text : '';
+}
+
 export const orkgAskService = {
   /**
    * Semantic search: searches for similar documents using vector search.
