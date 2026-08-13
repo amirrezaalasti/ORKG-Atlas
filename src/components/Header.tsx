@@ -15,13 +15,12 @@ import {
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import MenuIcon from '@mui/icons-material/Menu';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-// import LightModeIcon from '@mui/icons-material/LightMode';
-// import DarkModeIcon from '@mui/icons-material/DarkMode';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import BookIcon from '@mui/icons-material/Book';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import ApiIcon from '@mui/icons-material/Api';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import {
   useLocation,
   Link as RouterLink,
@@ -29,7 +28,6 @@ import {
   useParams,
 } from 'react-router-dom';
 import { queries } from '../constants/queries_chart_info';
-// import { useTheme } from '../contexts/ThemeContext';
 import LoginORKG from './LoginORKG';
 import { templateConfig } from '../constants/template_config';
 import { useState, useEffect, useMemo } from 'react';
@@ -52,7 +50,6 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
   const isMobile = useMediaQuery(muiTheme.breakpoints.down('sm'));
   const location = useLocation();
   const navigate = useNavigate();
-  // const { mode, toggleColorMode } = useTheme();
 
   const [templates, setTemplates] = useState<Template[]>([]);
   const [templatePickerOpen, setTemplatePickerOpen] = useState(false);
@@ -70,7 +67,6 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
   const backupVersion = useBackupChange(); // Listen for backup changes
 
   useEffect(() => {
-    // Check for current backup and update state
     const name = BackupService.getCurrentBackupName();
     setCurrentBackupName(name || ''); // Clear if no backup
   }, [backupVersion]); // Re-run when backup changes
@@ -262,6 +258,11 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
   const redirectToNews = () => {
     const currentTemplateId = templateId || selectedTemplate;
     navigate(`/${currentTemplateId}/news`);
+  };
+
+  const redirectToScidQuest = () => {
+    const currentTemplateId = templateId || selectedTemplate;
+    navigate(`/${currentTemplateId}/scid-quest`);
   };
 
   return (
@@ -604,6 +605,21 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
               }}
             >
               <BookIcon sx={{ fontSize: '1.1rem' }} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Scid-Quest">
+            <IconButton
+              onClick={redirectToScidQuest}
+              size="small"
+              sx={{
+                color: 'text.secondary',
+                '&:hover': {
+                  color: 'text.primary',
+                  backgroundColor: 'action.hover',
+                },
+              }}
+            >
+              <AssignmentIcon sx={{ fontSize: '1.1rem' }} />
             </IconButton>
           </Tooltip>
           <Tooltip title="API Docs">

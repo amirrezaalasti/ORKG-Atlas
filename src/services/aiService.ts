@@ -4,7 +4,6 @@ import { createOpenAI } from '@ai-sdk/openai';
 import { createGroq } from '@ai-sdk/groq';
 import { createMistral } from '@ai-sdk/mistral';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
-import { useAppSelector } from '../store/hooks';
 import type {
   AIProvider,
   OpenAIModel,
@@ -117,7 +116,6 @@ export class AIService {
 
   public getEnhancedModel(provider?: AIProvider, modelName?: string) {
     const targetProvider = provider || this.config.provider;
-    // Return the provider model directly; cast to satisfy SDK typings
     return this.getModel(targetProvider, modelName) as unknown as any;
   }
 
@@ -129,6 +127,7 @@ export class AIService {
       provider?: AIProvider;
       model?: string;
       systemContext?: string;
+      signal?: AbortSignal;
     }
   ) {
     const targetProvider = options?.provider || this.config.provider;
@@ -139,6 +138,7 @@ export class AIService {
       prompt,
       system: options?.systemContext,
       temperature: options?.temperature ?? 0.3,
+      abortSignal: options?.signal,
       // omit maxTokens to match SDK typings
     });
 
@@ -257,33 +257,6 @@ export class AIService {
   }
 }
 
-// Hook to get AI service instance
-export const useAIService = () => {
-  const aiConfig = useAppSelector((state) => state.ai);
-
-  // Ensure we have valid configuration
-  const config: AIConfig = {
-    provider: aiConfig.provider || 'openrouter',
-    openaiModel: aiConfig.openaiModel || 'gpt-4o-mini',
-    groqModel: aiConfig.groqModel || 'llama-3.1-8b-instant',
-    mistralModel: aiConfig.mistralModel || 'mistral-large-latest',
-    googleModel: aiConfig.googleModel || 'gemini-2.5-flash',
-    openrouterModel: aiConfig.openrouterModel || 'openai/gpt-4o-mini',
-    openaiApiKey: aiConfig.openaiApiKey || '',
-    groqApiKey: aiConfig.groqApiKey || '',
-    mistralApiKey: aiConfig.mistralApiKey || '',
-    googleApiKey: aiConfig.googleApiKey || '',
-    openrouterApiKey: aiConfig.openrouterApiKey || '',
-    openRouterTermsAccepted: aiConfig.openRouterTermsAccepted ?? false,
-    useEnvironmentKeys:
-      aiConfig.useEnvironmentKeys !== undefined
-        ? aiConfig.useEnvironmentKeys
-        : false,
-  };
-
-  return new AIService(config);
-};
-
 // Default AI service for components that don't use hooks
 export const createDefaultAIService = () => {
   return new AIService({
@@ -292,7 +265,7 @@ export const createDefaultAIService = () => {
     groqModel: 'llama-3.1-8b-instant',
     mistralModel: 'mistral-large-latest',
     googleModel: 'gemini-2.5-flash',
-    openrouterModel: 'openai/gpt-4o-mini',
+    openrouterModel: 'openai/gpt-oss-120b',
     openaiApiKey: '',
     groqApiKey: '',
     mistralApiKey: '',

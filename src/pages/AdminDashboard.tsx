@@ -48,6 +48,7 @@ import {
   PersonRemove,
   Article,
   MenuBook,
+  FactCheck,
 } from '@mui/icons-material';
 import StatisticsUpdateSection from '../components/Admin/StatisticsUpdateSection';
 import {
@@ -246,7 +247,6 @@ const AdminDashboard = () => {
         getKeycloakToken() || undefined
       );
 
-      // Update local state
       setUsers((prev) =>
         prev.map((u) =>
           u.id === user.id ? { ...u, is_admin: newAdminStatus } : u
@@ -282,15 +282,12 @@ const AdminDashboard = () => {
       if (timestamp.toDate && typeof timestamp.toDate === 'function') {
         return timestamp.toDate().toLocaleString();
       }
-      // Handle if it's already a Date object
       if (timestamp instanceof Date) {
         return timestamp.toLocaleString();
       }
-      // Handle if it's a number (Unix timestamp)
       if (typeof timestamp === 'number') {
         return new Date(timestamp).toLocaleString();
       }
-      // Handle if it's a string
       if (typeof timestamp === 'string') {
         return new Date(timestamp).toLocaleString();
       }
@@ -695,6 +692,26 @@ const AdminDashboard = () => {
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
                     Manage published papers on Team page
+                  </Typography>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <Card
+              sx={{ cursor: 'pointer', '&:hover': { boxShadow: 4 } }}
+              onClick={() => navigate(`/${templateId}/admin/contributions`)}
+            >
+              <CardContent
+                sx={{ display: 'flex', alignItems: 'center', gap: 2 }}
+              >
+                <FactCheck sx={{ color: '#039be5' }} />
+                <Box>
+                  <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                    Contributions
+                  </Typography>
+                  <Typography variant="caption" color="text.secondary">
+                    Review and accept questionnaire submissions
                   </Typography>
                 </Box>
               </CardContent>

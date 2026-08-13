@@ -32,6 +32,7 @@ import type { CostBreakdown } from '../utils/costCalculator';
 import type { DynamicQuestion } from '../firestore/CRUDDynamicQuestions';
 import { useAuthData } from '../auth/useAuthData';
 import CRUDDynamicQuestions from '../firestore/CRUDDynamicQuestions';
+import AiEvaluationWidget from './AI/AiEvaluationWidget';
 
 const DynamicAIQuestion = () => {
   const aiService = useAIService();
@@ -412,7 +413,6 @@ const DynamicAIQuestion = () => {
   };
 
   const handleRunEditedQuery = async (queryToRun?: string) => {
-    // Use the provided query or fall back to state
     const query = queryToRun || state.sparqlQuery;
 
     if (!query || !query.trim()) {
@@ -548,7 +548,6 @@ const DynamicAIQuestion = () => {
     costs: CostBreakdown[];
   } | null>(null);
 
-  // Check if user is authenticated and admin
   const {
     isAuthenticated,
     isLoading: authLoading,
@@ -688,7 +687,6 @@ const DynamicAIQuestion = () => {
     // Reset iteration history when loading a new example
     resetIterationHistory();
 
-    // Load all state from the example
     if (exampleState.question) {
       updateQuestion(exampleState.question);
     }
@@ -1047,6 +1045,19 @@ const DynamicAIQuestion = () => {
         onChartHtmlChange={updateChartHtml}
         costs={state.costs}
       />
+
+      {!loading &&
+        !error &&
+        state.queryResults &&
+        state.queryResults.length > 0 &&
+        state.question && (
+          <Box sx={{ mt: 4 }}>
+            <AiEvaluationWidget
+              targetType="question"
+              targetId={state.question}
+            />
+          </Box>
+        )}
 
       <HistoryManager
         onApplyHistoryItem={handleApplyHistoryItem}
