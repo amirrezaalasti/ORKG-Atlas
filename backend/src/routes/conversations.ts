@@ -1,8 +1,10 @@
 /**
  * REST routes for chat conversations.
  *
- * All routes require Keycloak auth. Read access to a conversation is granted
- * to its owner; the GET-by-share-token route is intentionally permissive
+ * All routes go through `validateKeycloakToken`, which in public-access mode
+ * admits anonymous callers under their per-browser guest id. Read access to a
+ * conversation is granted to its owner — a signed-in user or the guest id that
+ * created it; the GET-by-share-token route is intentionally permissive
  * (read-only) for shared chat links.
  *
  * Each handler is wrapped in try/catch so an unexpected Firestore error
@@ -44,7 +46,7 @@ const handleError = (res: Response, err: unknown, prefix: string) => {
 
 /** Wrap an async Express handler so rejections become a 500 instead of crashing. */
 const safe =
-  <Req extends AuthenticatedRequest>(
+  <Req extends AuthenticatedRequest = AuthenticatedRequest>(
     fn: (req: Req, res: Response, next: NextFunction) => Promise<unknown>
   ) =>
   (req: Req, res: Response, next: NextFunction) => {
@@ -63,7 +65,7 @@ const safe =
 router.get(
   '/',
   validateKeycloakToken,
-  safe(async (req, res) => {
+  safe(async (req: AuthenticatedRequest, res) => {
     if (!req.userId) return res.status(401).json({ error: 'Unauthenticated' });
     const limit = Math.min(200, Number(req.query.limit) || 50);
     const items = await chatService.listConversations(req.userId, limit);
@@ -74,7 +76,7 @@ router.get(
 router.post(
   '/',
   validateKeycloakToken,
-  safe(async (req, res) => {
+  safe(async (req: AuthenticatedRequest, res) => {
     if (!req.userId) return res.status(401).json({ error: 'Unauthenticated' });
     const { title, templateId, provider, model } = req.body || {};
     const conv = await chatService.createConversation({
@@ -104,7 +106,7 @@ router.get(
 router.get(
   '/:id',
   validateKeycloakToken,
-  safe(async (req, res) => {
+  safe(async (req: AuthenticatedRequest, res) => {
     const conv = await ensureOwnerOrAdmin(req, req.params.id, res);
     if (!conv) return;
     const messages = await chatService.listMessages(conv.id, 500);
@@ -115,7 +117,7 @@ router.get(
 router.patch(
   '/:id',
   validateKeycloakToken,
-  safe(async (req, res) => {
+  safe(async (req: AuthenticatedRequest, res) => {
     const conv = await ensureOwnerOrAdmin(req, req.params.id, res);
     if (!conv) return;
     const { title, templateId, provider, model } = req.body || {};
@@ -133,7 +135,7 @@ router.patch(
 router.delete(
   '/:id',
   validateKeycloakToken,
-  safe(async (req, res) => {
+  safe(async (req: AuthenticatedRequest, res) => {
     const conv = await ensureOwnerOrAdmin(req, req.params.id, res);
     if (!conv) return;
     await chatService.deleteConversation(conv.id);
@@ -144,7 +146,7 @@ router.delete(
 router.post(
   '/:id/share',
   validateKeycloakToken,
-  safe(async (req, res) => {
+  safe(async (req: AuthenticatedRequest, res) => {
     const conv = await ensureOwnerOrAdmin(req, req.params.id, res);
     if (!conv) return;
     const enable = req.body?.enable !== false;

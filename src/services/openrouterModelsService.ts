@@ -1,4 +1,6 @@
 import { getKeycloakToken } from '../auth/keycloakStore';
+import { guestHeaders } from '../auth/guestIdentity';
+import { AUTH_DISABLED } from '../auth/publicAccess';
 
 /**
  * Fetches the public OpenRouter model catalog (proxied via our backend to avoid CORS).
@@ -157,6 +159,10 @@ function buildBackendAuthHeaders(): Record<string, string> {
     } catch {
       /* ignore */
     }
+  }
+
+  if (!token && AUTH_DISABLED) {
+    Object.assign(headers, guestHeaders());
   }
 
   return headers;

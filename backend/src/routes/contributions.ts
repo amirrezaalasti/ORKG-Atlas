@@ -107,6 +107,8 @@ const VALID_REVIEW_STATUSES: ContributionStatus[] = ['approved', 'rejected'];
  */
 const resolveIsAdmin = async (req: AuthenticatedRequest): Promise<boolean> => {
   if (req.isAdmin) return true;
+  // A public-access guest id is not an account, so skip the Firestore lookup.
+  if (req.isGuest) return false;
   if (!req.userId) return false;
 
   try {
@@ -124,7 +126,10 @@ const resolveIsAdmin = async (req: AuthenticatedRequest): Promise<boolean> => {
 /** Strips fields only the server may set, so a submitter cannot self-approve. */
 const sanitizeSubmission = (
   body: Partial<Contribution>
-): Pick<Contribution, 'paper' | 'answers' | 'templateId' | 'templateVersion'> => {
+): Pick<
+  Contribution,
+  'paper' | 'answers' | 'templateId' | 'templateVersion'
+> => {
   const paper = (body.paper || {}) as ContributionPaper;
 
   return {
@@ -162,59 +167,63 @@ const sanitizeSubmission = (
  *       '401':
  *         description: Authentication required
  */
-router.get('/', validateKeycloakToken, async (req: AuthenticatedRequest, res) => {
-  try {
-    const statusFilter = req.query.status as ContributionStatus | undefined;
-    const isAdmin = await resolveIsAdmin(req);
+router.get(
+  '/',
+  validateKeycloakToken,
+  async (req: AuthenticatedRequest, res) => {
+    try {
+      const statusFilter = req.query.status as ContributionStatus | undefined;
+      const isAdmin = await resolveIsAdmin(req);
 
-    let query: FirebaseFirestore.Query = db.collection(COLLECTION);
-    if (!isAdmin) {
-      query = query.where('submittedByUserId', '==', req.userId);
+      let query: FirebaseFirestore.Query = db.collection(COLLECTION);
+      if (!isAdmin) {
+        query = query.where('submittedByUserId', '==', req.userId);
+      }
+      if (statusFilter) {
+        query = query.where('status', '==', statusFilter);
+      }
+
+      const snapshot = await query.get();
+      const contributions: Contribution[] = [];
+      snapshot.forEach((doc) => {
+        contributions.push({ id: doc.id, ...doc.data() } as Contribution);
+      });
+
+      // Newest first. Sorted in memory so the status/owner filters above do not
+      // require a composite Firestore index.
+      contributions.sort((a, b) =>
+        String(b.submittedAt ?? '').localeCompare(String(a.submittedAt ?? ''))
+      );
+
+      await logRequest(
+        'read',
+        COLLECTION,
+        'all',
+        true,
+        req.userId,
+        req.userEmail,
+        undefined,
+        { scope: isAdmin ? 'all' : 'own', status: statusFilter ?? 'any' }
+      );
+
+      res.json(contributions);
+    } catch (error) {
+      console.error('Error fetching contributions:', error);
+
+      await logRequest(
+        'read',
+        COLLECTION,
+        'all',
+        false,
+        req.userId,
+        req.userEmail,
+        error instanceof Error ? error.message : 'Unknown error'
+      );
+
+      res.status(500).json({ error: 'Failed to fetch contributions' });
     }
-    if (statusFilter) {
-      query = query.where('status', '==', statusFilter);
-    }
-
-    const snapshot = await query.get();
-    const contributions: Contribution[] = [];
-    snapshot.forEach((doc) => {
-      contributions.push({ id: doc.id, ...doc.data() } as Contribution);
-    });
-
-    // Newest first. Sorted in memory so the status/owner filters above do not
-    // require a composite Firestore index.
-    contributions.sort((a, b) =>
-      String(b.submittedAt ?? '').localeCompare(String(a.submittedAt ?? ''))
-    );
-
-    await logRequest(
-      'read',
-      COLLECTION,
-      'all',
-      true,
-      req.userId,
-      req.userEmail,
-      undefined,
-      { scope: isAdmin ? 'all' : 'own', status: statusFilter ?? 'any' }
-    );
-
-    res.json(contributions);
-  } catch (error) {
-    console.error('Error fetching contributions:', error);
-
-    await logRequest(
-      'read',
-      COLLECTION,
-      'all',
-      false,
-      req.userId,
-      req.userEmail,
-      error instanceof Error ? error.message : 'Unknown error'
-    );
-
-    res.status(500).json({ error: 'Failed to fetch contributions' });
   }
-});
+);
 
 /**
  * @swagger

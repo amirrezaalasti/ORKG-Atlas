@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { getKeycloakToken as getKeycloakTokenFromStore } from '../../auth/keycloakStore';
+import { guestHeaders } from '../../auth/guestIdentity';
+import { AUTH_DISABLED } from '../../auth/publicAccess';
 
 const getBackendUrl = () => {
   const isVercel =
@@ -63,6 +65,9 @@ export const apiRequest = async <T = any>(
   const token = keycloakToken || getKeycloakToken();
   if (token) {
     requestHeaders['Authorization'] = `Bearer ${token}`;
+  } else if (AUTH_DISABLED) {
+    // Keeps anonymous visitors' records separate from each other.
+    Object.assign(requestHeaders, guestHeaders());
   }
 
   if (requiresAuth || requiresAdmin) {

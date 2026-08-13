@@ -9,6 +9,8 @@ import type {
 import { useAppSelector } from '../store/hooks';
 import { AIService, type AIConfig } from './aiService';
 import { getKeycloakToken as getKeycloakTokenFromStore } from '../auth/keycloakStore';
+import { guestHeaders } from '../auth/guestIdentity';
+import { AUTH_DISABLED } from '../auth/publicAccess';
 
 export interface BackendAIConfig {
   provider: AIProvider;
@@ -176,6 +178,12 @@ export class BackendAIService {
           );
         }
       }
+    }
+
+    if (!token && AUTH_DISABLED) {
+      // Anonymous visitor: identify the browser so per-user records (rate
+      // limits, conversations) stay separate without a login.
+      Object.assign(headers, guestHeaders());
     }
 
     const response = await fetch(url, {

@@ -9,6 +9,8 @@
  */
 
 import { getKeycloakToken as getKeycloakTokenFromStore } from '../auth/keycloakStore';
+import { guestHeaders } from '../auth/guestIdentity';
+import { AUTH_DISABLED } from '../auth/publicAccess';
 import type {
   ChatMessage,
   ChatStreamEvent,
@@ -40,7 +42,9 @@ const BACKEND_URL = getBackendUrl();
 
 const authHeaders = (): Record<string, string> => {
   const token = getKeycloakTokenFromStore();
-  return token ? { Authorization: `Bearer ${token}` } : {};
+  if (token) return { Authorization: `Bearer ${token}` };
+  // Anonymous visitor: identify the browser so conversations stay separate.
+  return AUTH_DISABLED ? guestHeaders() : {};
 };
 
 export interface StreamChatInput {

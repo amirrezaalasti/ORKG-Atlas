@@ -19,8 +19,16 @@ import { Login, Logout, CheckCircle, Refresh } from '@mui/icons-material';
 import { useAuthData } from '../auth/useAuthData';
 
 export default function LoginORKG() {
-  const { isAuthenticated, isLoading, user, login, logout, error } =
-    useAuthData();
+  // The header must reflect the real session, not the public-access guest, so
+  // admins can still sign in while everyone else browses anonymously.
+  const {
+    isRealAuthenticated: isAuthenticated,
+    isLoading,
+    user,
+    login,
+    logout,
+    error,
+  } = useAuthData();
   const [timedOut, setTimedOut] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
