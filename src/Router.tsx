@@ -25,12 +25,14 @@ const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 const AdminRequestMonitor = lazy(() => import('./pages/AdminRequestMonitor'));
 const AdminNews = lazy(() => import('./pages/AdminNews'));
 const AdminPapers = lazy(() => import('./pages/AdminPapers'));
+const AdminContributions = lazy(() => import('./pages/AdminContributions'));
 const AdminTeam = lazy(() => import('./pages/AdminTeam'));
 
 const CommunityQuestionDetailsPage = lazy(
   () => import('./pages/CommunityQuestionDetailsPage')
 );
 const ChatPage = lazy(() => import('./pages/ChatPage'));
+const ScidQuestPage = lazy(() => import('./pages/ScidQuestPage'));
 
 const Router = () => {
   return (
@@ -91,6 +93,11 @@ const Router = () => {
             <Route
               path="community-questions/:id"
               element={<CommunityQuestionDetailsPage />}
+              errorElement={<ErrorFallback />}
+            />
+            <Route
+              path="scid-quest"
+              element={<ScidQuestPage />}
               errorElement={<ErrorFallback />}
             />
             <Route
@@ -170,6 +177,15 @@ const Router = () => {
               element={
                 <AdminGuard>
                   <AdminTeam />
+                </AdminGuard>
+              }
+              errorElement={<ErrorFallback />}
+            />
+            <Route
+              path="admin/contributions"
+              element={
+                <AdminGuard>
+                  <AdminContributions />
                 </AdminGuard>
               }
               errorElement={<ErrorFallback />}

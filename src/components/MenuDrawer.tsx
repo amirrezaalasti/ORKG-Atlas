@@ -25,6 +25,8 @@ import {
   MenuBook,
   Groups3,
   AutoAwesome,
+  Assignment,
+  FactCheck,
 } from '@mui/icons-material';
 import type { SxProps, Theme } from '@mui/material';
 import { useNavigate, useLocation } from 'react-router';
@@ -33,10 +35,6 @@ import TemplateManagement, {
   type QuestionData,
 } from '../firestore/TemplateManagement';
 import { useAuthData } from '../auth/useAuthData';
-
-// ---------------------------------------------------------------------------
-// Constants
-// ---------------------------------------------------------------------------
 
 const DRAWER_WIDTH = 280;
 
@@ -58,10 +56,6 @@ const sectionHeaderStyles: SxProps<Theme> = {
   mb: 1,
 };
 
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-
 interface NavItemConfig {
   path: string;
   label: string;
@@ -73,10 +67,6 @@ interface MenuDrawerProps {
   open: boolean;
   handleDrawerClose: () => void;
 }
-
-// ---------------------------------------------------------------------------
-// Navigation Items Config
-// ---------------------------------------------------------------------------
 
 const GENERAL_NAV_ITEMS: NavItemConfig[] = [
   {
@@ -148,6 +138,12 @@ const ADMIN_NAV_ITEMS: NavItemConfig[] = [
     tooltip: 'Manage published papers',
     Icon: MenuBook,
   },
+  {
+    path: '/admin/contributions',
+    label: 'Contributions',
+    tooltip: 'Review and accept submitted questionnaires',
+    Icon: FactCheck,
+  },
 ];
 
 const COMMUNITY_NAV_ITEMS: NavItemConfig[] = [
@@ -162,6 +158,12 @@ const COMMUNITY_NAV_ITEMS: NavItemConfig[] = [
     label: 'Dynamic Question',
     tooltip: 'AI-supported question generation',
     Icon: Psychology,
+  },
+  {
+    path: '/scid-quest',
+    label: 'Contribute (SciD-QuESt)',
+    tooltip: 'Fill the EmpiRE questionnaire and submit it for review',
+    Icon: Assignment,
   },
 ];
 
@@ -318,10 +320,6 @@ function QuestionNavItem({
   );
 }
 
-// ---------------------------------------------------------------------------
-// Main Component
-// ---------------------------------------------------------------------------
-
 function MenuDrawer({ open, handleDrawerClose }: MenuDrawerProps) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -330,7 +328,6 @@ function MenuDrawer({ open, handleDrawerClose }: MenuDrawerProps) {
   const [selectedTemplate, setSelectedTemplate] = useState('R186491');
   const [questions, setQuestions] = useState<QuestionData[]>([]);
 
-  // Sync template from URL
   useEffect(() => {
     const pathSegments = location.pathname.split('/').filter(Boolean);
     const templateFromUrl = pathSegments[0];
@@ -530,7 +527,7 @@ function MenuDrawer({ open, handleDrawerClose }: MenuDrawerProps) {
 
         {questions.map((question, index) => (
           <QuestionNavItem
-            key={question.id}
+            key={`${question.id}-${index}`}
             question={question}
             index={index}
             isCurrentPath={isCurrentPath}
