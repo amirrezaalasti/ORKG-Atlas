@@ -20,7 +20,9 @@ interface AdminGuardProps {
  * Only allows access if user is authenticated AND is_admin === true
  */
 const AdminGuard = ({ children }: AdminGuardProps) => {
-  const { isAuthenticated, isLoading, user } = useAuthData();
+  // Deliberately `isRealAuthenticated`, not `isAuthenticated`: public-access
+  // mode reports guests as authenticated, and admin areas must not accept them.
+  const { isRealAuthenticated, isLoading, user } = useAuthData();
 
   // Show loading state
   if (isLoading) {
@@ -38,8 +40,8 @@ const AdminGuard = ({ children }: AdminGuardProps) => {
     );
   }
 
-  // Not authenticated - redirect to login
-  if (!isAuthenticated) {
+  // Not signed in with a real account - send back to the public site
+  if (!isRealAuthenticated) {
     return <Navigate to="/R186491/" replace />;
   }
 

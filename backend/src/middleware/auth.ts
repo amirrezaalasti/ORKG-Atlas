@@ -7,7 +7,42 @@ export interface AuthenticatedRequest extends Request {
   userId?: string;
   userEmail?: string;
   isAdmin?: boolean;
+  /** True when the caller was admitted without a token by public-access mode. */
+  isGuest?: boolean;
 }
+
+/**
+ * Public-access mode: requests without a token are admitted as guests instead
+ * of being rejected with 401, so the site is usable without signing in.
+ *
+ * This never grants admin: `requireAdmin` still rejects guests, so admin routes
+ * continue to demand a verified Keycloak token from an allowlisted account.
+ * Set `DISABLE_AUTH=false` to restore the sign-in requirement.
+ */
+const isAuthDisabled = (): boolean => process.env.DISABLE_AUTH !== 'false';
+
+/**
+ * Identify an anonymous caller by the per-browser id the frontend generates.
+ * Falls back to a shared id, which only affects users who strip the header.
+ */
+const guestIdentity = (req: Request): { userId: string; userEmail: string } => {
+  const raw = req.headers['x-guest-id'];
+  const headerId = Array.isArray(raw) ? raw[0] : raw;
+  const safeId =
+    typeof headerId === 'string' && /^[A-Za-z0-9_-]{1,80}$/.test(headerId)
+      ? headerId
+      : 'guest';
+  return { userId: safeId, userEmail: '' };
+};
+
+const admitGuest = (req: AuthenticatedRequest, next: NextFunction) => {
+  const { userId, userEmail } = guestIdentity(req);
+  req.userId = userId;
+  req.userEmail = userEmail;
+  req.isAdmin = false;
+  req.isGuest = true;
+  return next();
+};
 
 /**
  * Validate Keycloak token and extract user info
@@ -42,6 +77,8 @@ export const validateKeycloakToken = async (
         return next();
       } catch (verifyError) {
         console.error('Token verification failed:', verifyError);
+        // A bad token is still a failed sign-in attempt, not anonymous
+        // browsing, so it is rejected even in public-access mode.
         return res.status(401).json({
           error: 'Invalid or expired token',
           ...(isDevelopment && {
@@ -72,6 +109,11 @@ export const validateKeycloakToken = async (
         req.isAdmin = isAdminEmail(userEmail);
         return next();
       }
+    }
+
+    // Public-access mode: let anonymous visitors through as guests
+    if (isAuthDisabled()) {
+      return admitGuest(req, next);
     }
 
     // No token and no headers (or in production) - require authentication
@@ -128,6 +170,10 @@ export const validateKeycloakTokenOrOrkgAskConfigured = async (
     return next();
   }
 
+  if (isAuthDisabled()) {
+    return admitGuest(req, next);
+  }
+
   return res.status(401).json({
     error: 'Missing or invalid authorization header',
     ...(isDevelopment && {
@@ -144,6 +190,12 @@ export const requireAdmin = async (
 ) => {
   try {
     if (!req.userId) {
+      return res.status(401).json({ error: 'Authentication required' });
+    }
+
+    // Public-access guests are anonymous by construction: never treat the
+    // guest id as an account that could be looked up and promoted.
+    if (req.isGuest) {
       return res.status(401).json({ error: 'Authentication required' });
     }
 

@@ -26,10 +26,14 @@ export const createUserRateLimiter = () => {
     try {
       // For anonymous users, use IP-based rate limiting
       // For authenticated users, use user-based rate limiting
-      const userId =
-        req.userId ||
-        `anon_${req.ip || req.connection?.remoteAddress || 'unknown'}`;
-      const isAnonymous = !req.userId;
+      //
+      // Public-access guests count as anonymous: their id comes from a client
+      // header, so keying the quota on it would let anyone reset their own
+      // limit by generating a new one.
+      const isAnonymous = !req.userId || req.isGuest === true;
+      const userId = isAnonymous
+        ? `anon_${req.ip || req.connection?.remoteAddress || 'unknown'}`
+        : req.userId!;
       // Skip rate limiting for admin users
       if (req.isAdmin) {
         return next();
