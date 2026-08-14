@@ -24,7 +24,7 @@ router.get('/:queryUid', async (req: Request, res: Response) => {
 
     const doc = await getQuestionOverride(queryUid);
     if (!doc) {
-      return res.status(404).json({ error: 'Not found' });
+      return res.status(200).json(null);
     }
 
     return res.status(200).json(doc);

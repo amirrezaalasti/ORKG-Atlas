@@ -10,7 +10,7 @@ const meta: Meta<typeof ChatMessage> = {
     docs: {
       description: {
         component:
-          '`ChatMessage` displays a chat message bubble with support for user/assistant styling, code blocks, reasoning sections, and chart rendering. Messages are styled differently based on whether they are from the user or the AI assistant. User messages appear with a red background (#039be5) and are right-aligned, while assistant messages have a white background with a border and are left-aligned. The component automatically extracts `<pre>` blocks from HTML content and renders them as interactive CodeBlock components when `showChart` is enabled.',
+          '`ChatMessage` displays a chat message bubble with support for user/assistant styling, code blocks, reasoning sections, and chart rendering. Messages are styled differently based on whether they are from the user or the AI assistant. User messages appear with a red background (#e86161) and are right-aligned, while assistant messages have a white background with a border and are left-aligned. The component automatically extracts `<pre>` blocks from HTML content and renders them as interactive CodeBlock components when `showChart` is enabled.',
       },
     },
   },
@@ -26,7 +26,7 @@ const meta: Meta<typeof ChatMessage> = {
     isUser: {
       control: 'boolean',
       description:
-        'Determines message styling and alignment. When true: red background (#039be5), right-aligned, white text. When false: white background, left-aligned, dark text with border. This prop is also passed to child components (CodeBlock, MessageContent, ReasoningSection) to maintain consistent styling.',
+        'Determines message styling and alignment. When true: red background (#e86161), right-aligned, white text. When false: white background, left-aligned, dark text with border. This prop is also passed to child components (CodeBlock, MessageContent, ReasoningSection) to maintain consistent styling.',
       table: {
         type: { summary: 'boolean' },
         defaultValue: { summary: 'false' },
@@ -137,7 +137,7 @@ export const UserMessage: Story = {
     docs: {
       description: {
         story:
-          'A message from the user asking about ORKG data analysis. Displayed with red background (#039be5), white text, and right-aligned. User messages typically contain questions or requests for the AI assistant.',
+          'A message from the user asking about ORKG data analysis. Displayed with red background (#e86161), white text, and right-aligned. User messages typically contain questions or requests for the AI assistant.',
       },
     },
   },

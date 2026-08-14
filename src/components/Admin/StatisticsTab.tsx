@@ -49,7 +49,7 @@ const StatisticsTab = ({
           startIcon={<Add />}
           onClick={onAddStatistic}
           sx={{
-            backgroundColor: '#039be5',
+            backgroundColor: '#e86161',
             '&:hover': { backgroundColor: '#d55555' },
             textTransform: 'none',
           }}
@@ -73,7 +73,7 @@ const StatisticsTab = ({
                     width: '100%',
                   }}
                 >
-                  <Code sx={{ color: '#039be5' }} />
+                  <Code sx={{ color: '#e86161' }} />
                   <Typography sx={{ flex: 1 }}>{statistic.name}</Typography>
                   <Chip label={statistic.id} size="small" variant="outlined" />
                 </Box>

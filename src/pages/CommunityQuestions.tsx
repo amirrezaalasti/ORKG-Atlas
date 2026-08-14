@@ -181,7 +181,7 @@ const CommunityQuestions = () => {
           textAlign: 'center',
         }}
       >
-        <Groups3Icon sx={{ fontSize: 48, color: '#039be5', mb: 2 }} />
+        <Groups3Icon sx={{ fontSize: 48, color: '#e86161', mb: 2 }} />
         <Typography
           variant="h4"
           gutterBottom
@@ -283,7 +283,7 @@ const CommunityQuestions = () => {
 
         {loading && (
           <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
-            <CircularProgress sx={{ color: '#039be5' }} />
+            <CircularProgress sx={{ color: '#e86161' }} />
           </Box>
         )}
 

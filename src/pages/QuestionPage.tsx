@@ -4,7 +4,10 @@ import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-hot-toast';
 import type { RootState } from '../store';
-import { getBuiltinTemplateConfig } from '../constants/template_config';
+import {
+  getBuiltinTemplateConfig,
+  findBuiltinQuery,
+} from '../constants/template_config';
 import theme from '../utils/theme';
 import Question from '../components/Question';
 import { mergeQueryWithFirebase } from '../helpers/query';
@@ -23,8 +26,7 @@ const QuestionPage = () => {
   );
 
   const builtin = getBuiltinTemplateConfig(templateId);
-  const queries = builtin?.queries;
-  const targetQuery = queries?.find((query) => query.id === Number(id));
+  const targetQuery = findBuiltinQuery(templateId, id);
 
   useEffect(() => {
     if (!targetQuery) {
@@ -32,7 +34,7 @@ const QuestionPage = () => {
     }
   }, [targetQuery]);
 
-  if (!builtin || !queries) {
+  if (!builtin) {
     return <Navigate to={`/${templateId}/`} replace />;
   }
 
@@ -42,7 +44,7 @@ const QuestionPage = () => {
 
   const firebaseTargetQuery = Object.values(firebaseQuestions).find(
     (q) => q.id === targetQuery.id || q.uid === targetQuery.uid
-  ) as unknown as Record<string, unknown>;
+  ) as unknown as Record<string, unknown> | undefined;
 
   const finalQuery = mergeQueryWithFirebase(targetQuery, firebaseTargetQuery);
 
@@ -70,7 +72,7 @@ const QuestionPage = () => {
             <Typography
               variant="h3"
               sx={{
-                color: '#039be5',
+                color: '#e86161',
                 fontWeight: 700,
                 fontSize: { xs: '1.75rem', sm: '2rem', md: '2.5rem' },
                 lineHeight: 1.3,
@@ -82,7 +84,7 @@ const QuestionPage = () => {
                   left: 0,
                   width: '100%',
                   height: '4px',
-                  backgroundColor: '#039be5',
+                  backgroundColor: '#e86161',
                   borderRadius: '2px',
                 },
               }}

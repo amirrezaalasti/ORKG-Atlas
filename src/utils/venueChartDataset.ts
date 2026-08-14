@@ -1,3 +1,4 @@
+import { resolveChartColors } from '../constants/brandColors';
 import type { ChartSetting } from '../constants/queries_chart_info';
 import type { RawDataItem } from '../constants/data_processing_helper_functions';
 import {
@@ -8,7 +9,7 @@ import {
 
 /** Distinct colors for venue series (cycles if there are many venues). */
 export const VENUE_CHART_COLOR_PALETTE = [
-  '#039be5',
+  '#e86161',
   '#1976d2',
   '#2e7d32',
   '#ed6c02',
@@ -33,9 +34,11 @@ export function getColorsForVenueSeries(
   baseColors?: string[]
 ): string[] {
   const palette =
-    baseColors && baseColors.length > 0
-      ? [...baseColors]
-      : [...VENUE_CHART_COLOR_PALETTE];
+    resolveChartColors(
+      baseColors && baseColors.length > 0
+        ? baseColors
+        : VENUE_CHART_COLOR_PALETTE
+    ) ?? [...VENUE_CHART_COLOR_PALETTE];
   const out: string[] = [];
   for (let i = 0; i < venueCount; i++) {
     out.push(palette[i % palette.length]);

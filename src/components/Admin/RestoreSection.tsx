@@ -43,7 +43,7 @@ const RestoreSection = ({
 
       <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
-          <CloudUpload sx={{ fontSize: 48, color: '#039be5', mr: 2 }} />
+          <CloudUpload sx={{ fontSize: 48, color: '#e86161', mr: 2 }} />
           <Box>
             <Typography variant="h5" sx={{ fontWeight: 700, mb: 0.5 }}>
               Restore from Backup File
@@ -58,7 +58,7 @@ const RestoreSection = ({
         <Box
           sx={{
             border: '2px dashed',
-            borderColor: restoring ? '#039be5' : 'divider',
+            borderColor: restoring ? '#e86161' : 'divider',
             borderRadius: 2,
             p: 4,
             textAlign: 'center',
@@ -67,7 +67,7 @@ const RestoreSection = ({
               : 'transparent',
           }}
         >
-          <Storage sx={{ fontSize: 64, color: '#039be5', mb: 2 }} />
+          <Storage sx={{ fontSize: 64, color: '#e86161', mb: 2 }} />
           <Typography variant="h6" sx={{ mb: 1 }}>
             {restoring ? 'Restoring Data...' : 'Upload Backup File'}
           </Typography>
@@ -81,7 +81,7 @@ const RestoreSection = ({
             startIcon={<Upload />}
             disabled={restoring}
             sx={{
-              backgroundColor: '#039be5',
+              backgroundColor: '#e86161',
               '&:hover': { backgroundColor: '#d55555' },
               textTransform: 'none',
               fontWeight: 600,

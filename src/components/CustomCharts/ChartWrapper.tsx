@@ -5,6 +5,7 @@ import CustomHeatMap from './CustomHeatMap';
 import { ChartSetting } from '../../constants/queries_chart_info';
 import CustomBoxPlot from './CustomBoxPlot';
 import CustomScatterChart from './CustomScatterChart';
+import { resolveChartColors } from '../../constants/brandColors';
 
 interface ChartWrapperProps {
   dataset: any[];
@@ -26,31 +27,36 @@ const ChartWrapper = ({
   defaultChartType = 'bar',
   isSubChart = false,
 }: ChartWrapperProps) => {
+  const themedChartSetting: ChartSetting = {
+    ...chartSetting,
+    colors: resolveChartColors(chartSetting.colors) ?? chartSetting.colors,
+  };
+
   return (
     <Box sx={{ width: '100%' }}>
       {defaultChartType === 'pie' ? (
         <CustomPieChart
           dataset={dataset}
-          chartSetting={chartSetting}
+          chartSetting={themedChartSetting}
           question_id={question_id}
         />
       ) : defaultChartType === 'heatmap' ? (
         <CustomHeatMap
           dataset={dataset}
-          chartSetting={chartSetting}
+          chartSetting={themedChartSetting}
           question_id={question_id}
         />
       ) : defaultChartType === 'boxplot' ? (
         <CustomBoxPlot
           dataset={dataset}
-          chartSetting={chartSetting}
+          chartSetting={themedChartSetting}
           question_id={question_id}
           loading={loading}
         />
       ) : defaultChartType === 'scatter' ? (
         <CustomScatterChart
           dataset={dataset}
-          chartSetting={chartSetting}
+          chartSetting={themedChartSetting}
           question_id={question_id}
           normalized={normalized}
           loading={loading}
@@ -58,7 +64,7 @@ const ChartWrapper = ({
       ) : (
         <CustomBarChart
           dataset={dataset}
-          chartSetting={chartSetting}
+          chartSetting={themedChartSetting}
           question_id={question_id}
           normalized={normalized}
           loading={loading}

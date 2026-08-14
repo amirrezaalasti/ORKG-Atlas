@@ -29,7 +29,7 @@ const ChartSettingsHelp = () => {
                 fontWeight: 600,
                 display: 'block',
                 mb: 1,
-                color: '#039be5',
+                color: '#e86161',
               }}
             >
               🎯 Basic Properties
@@ -66,7 +66,7 @@ const ChartSettingsHelp = () => {
                 fontWeight: 600,
                 display: 'block',
                 mb: 1,
-                color: '#039be5',
+                color: '#e86161',
               }}
             >
               📊 X-Axis Configuration
@@ -107,7 +107,7 @@ const ChartSettingsHelp = () => {
                 fontWeight: 600,
                 display: 'block',
                 mb: 1,
-                color: '#039be5',
+                color: '#e86161',
               }}
             >
               📈 Y-Axis Configuration
@@ -153,7 +153,7 @@ const ChartSettingsHelp = () => {
                 fontWeight: 600,
                 display: 'block',
                 mb: 1,
-                color: '#039be5',
+                color: '#e86161',
               }}
             >
               📊 Series Configuration
@@ -204,7 +204,7 @@ const ChartSettingsHelp = () => {
                 fontWeight: 600,
                 display: 'block',
                 mb: 1,
-                color: '#039be5',
+                color: '#e86161',
               }}
             >
               🎨 Colors
@@ -220,7 +220,7 @@ const ChartSettingsHelp = () => {
             >
               <code style={{ fontSize: '0.7rem', whiteSpace: 'pre-wrap' }}>
                 {`// Single Color
-"colors": ["#039be5"]
+"colors": ["#e86161"]
 
 // Multiple Colors (one per series)
 "colors": [
@@ -246,7 +246,7 @@ const ChartSettingsHelp = () => {
                 fontWeight: 600,
                 display: 'block',
                 mb: 1,
-                color: '#039be5',
+                color: '#e86161',
               }}
             >
               📐 Layout & Margins
@@ -303,7 +303,7 @@ const ChartSettingsHelp = () => {
                 fontWeight: 600,
                 display: 'block',
                 mb: 1,
-                color: '#039be5',
+                color: '#e86161',
               }}
             >
               📏 Bar Spacing & Width
@@ -346,7 +346,7 @@ const ChartSettingsHelp = () => {
                 fontWeight: 600,
                 display: 'block',
                 mb: 1,
-                color: '#039be5',
+                color: '#e86161',
               }}
             >
               🎭 Legend & Display Options
@@ -382,7 +382,7 @@ const ChartSettingsHelp = () => {
                 fontWeight: 600,
                 display: 'block',
                 mb: 1,
-                color: '#039be5',
+                color: '#e86161',
               }}
             >
               ✨ Complete Example (Horizontal Chart with Multiple Series)
@@ -442,7 +442,7 @@ const ChartSettingsHelp = () => {
               backgroundColor: 'rgba(232, 97, 97, 0.05)',
               p: 1.5,
               borderRadius: 1,
-              borderLeft: '4px solid #039be5',
+              borderLeft: '4px solid #e86161',
             }}
           >
             <Typography

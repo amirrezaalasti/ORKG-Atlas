@@ -160,7 +160,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({
         sx={{
           p: 2,
           maxWidth: '80%',
-          backgroundColor: isUser ? '#039be5' : 'background.paper',
+          backgroundColor: isUser ? '#e86161' : 'background.paper',
           color: isUser ? 'white' : 'text.primary',
           borderRadius: 2,
           border: isUser ? 'none' : '1px solid',

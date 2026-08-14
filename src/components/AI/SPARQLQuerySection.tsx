@@ -333,7 +333,7 @@ const SPARQLQuerySection: React.FC<SPARQLQuerySectionProps> = ({
           sx={{
             mb: 2,
             backgroundColor: 'rgba(232, 97, 97, 0.04)',
-            borderLeft: '4px solid #039be5',
+            borderLeft: '4px solid #e86161',
           }}
         >
           <Typography variant="body2" sx={{ mb: 0.5 }}>
@@ -387,7 +387,7 @@ const SPARQLQuerySection: React.FC<SPARQLQuerySectionProps> = ({
             sx={{
               mb: 1,
               '& .MuiOutlinedInput-root': {
-                '&.Mui-focused > fieldset': { borderColor: '#039be5' },
+                '&.Mui-focused > fieldset': { borderColor: '#e86161' },
               },
             }}
           />
@@ -439,7 +439,7 @@ const SPARQLQuerySection: React.FC<SPARQLQuerySectionProps> = ({
                 }
               }}
               sx={{
-                backgroundColor: '#039be5',
+                backgroundColor: '#e86161',
                 '&:hover': { backgroundColor: '#d45151' },
               }}
             >
@@ -463,7 +463,7 @@ const SPARQLQuerySection: React.FC<SPARQLQuerySectionProps> = ({
           severity="info"
           sx={{
             backgroundColor: 'rgba(232, 97, 97, 0.04)',
-            borderLeft: '4px solid #039be5',
+            borderLeft: '4px solid #e86161',
             cursor: isAdmin ? 'text' : 'default',
             ...(isAdmin && {
               '&:hover': { backgroundColor: 'rgba(232, 97, 97, 0.08)' },
@@ -863,8 +863,8 @@ Modified SPARQL Query:`;
       >
         <DialogTitle>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Info sx={{ color: '#039be5' }} />
-            <Typography variant="h6" sx={{ color: '#039be5', fontWeight: 600 }}>
+            <Info sx={{ color: '#e86161' }} />
+            <Typography variant="h6" sx={{ color: '#e86161', fontWeight: 600 }}>
               Query Explanation
             </Typography>
           </Box>
@@ -886,7 +886,7 @@ Modified SPARQL Query:`;
                           label={templateInsights.predicateDetails.length}
                           size="small"
                           sx={{
-                            backgroundColor: '#039be5',
+                            backgroundColor: '#e86161',
                             color: 'white',
                             fontWeight: 600,
                             height: '20px',
@@ -929,7 +929,7 @@ Modified SPARQL Query:`;
                                   e.stopPropagation();
                                 }}
                                 sx={{
-                                  backgroundColor: '#039be5',
+                                  backgroundColor: '#e86161',
                                   color: 'white',
                                   fontWeight: 500,
                                   fontSize: '0.7rem',
@@ -1065,7 +1065,7 @@ Modified SPARQL Query:`;
                           }
                           size="small"
                           sx={{
-                            backgroundColor: '#039be5',
+                            backgroundColor: '#e86161',
                             color: 'white',
                             fontWeight: 600,
                             height: '20px',
@@ -1184,7 +1184,7 @@ Modified SPARQL Query:`;
                                 sx={{
                                   backgroundColor:
                                     resource.type === 'active'
-                                      ? '#039be5'
+                                      ? '#e86161'
                                       : resource.type === 'template'
                                         ? '#4CAF50'
                                         : '#757575',

@@ -148,13 +148,19 @@ async function restoreTemplatesCollectionAsync(
 
       for (let j = 0; j < batchQuestions.length; j++) {
         const q = batchQuestions[j];
-        const questionId = String(q.id ?? q.uid ?? `query_${i + j}`);
+        const questionId = String(
+          q.uid ??
+            (typeof q.id === 'number' ? `query_${q.id}` : q.id) ??
+            `query_${i + j}`
+        );
         const questionRef = firestoreDb
           .collection('Templates')
           .doc(templateId)
           .collection('Questions')
           .doc(questionId);
         const qData = prepareDocumentForWrite(q);
+        if (q.id !== undefined) qData.id = q.id;
+        if (q.uid !== undefined) qData.uid = q.uid;
         batch.set(questionRef, qData);
         totalRestored++;
       }

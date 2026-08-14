@@ -558,7 +558,7 @@ const LLMContextHistoryDialog: React.FC<LLMContextHistoryDialogProps> = ({
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-              <History sx={{ color: '#039be5' }} />
+              <History sx={{ color: '#e86161' }} />
               <Typography variant="h6">LLM Context History Manager</Typography>
               <Badge badgeContent={totalItems} color="primary" />
             </Box>
@@ -566,7 +566,7 @@ const LLMContextHistoryDialog: React.FC<LLMContextHistoryDialogProps> = ({
               <IconButton
                 onClick={(e) => setSettingsMenuAnchor(e.currentTarget)}
                 size="small"
-                sx={{ color: '#039be5' }}
+                sx={{ color: '#e86161' }}
               >
                 <SettingsIcon />
               </IconButton>
@@ -609,7 +609,7 @@ const LLMContextHistoryDialog: React.FC<LLMContextHistoryDialogProps> = ({
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon sx={{ color: '#039be5' }} />
+                    <SearchIcon sx={{ color: '#e86161' }} />
                   </InputAdornment>
                 ),
                 endAdornment: searchTerm && (

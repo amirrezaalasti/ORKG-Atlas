@@ -874,7 +874,7 @@ interface ChatHeroProps {
 }
 
 const CATEGORY_COLORS: Record<StarterPrompt['category'], string> = {
-  Templates: '#039be5',
+  Templates: '#e86161',
   Papers: '#7c4dff',
   SPARQL: '#10a37f',
   Stats: '#f59e0b',

@@ -72,9 +72,14 @@ const Dashboard = () => {
 
   const mergedQuestions = queriesForCuratedTemplate
     ? sortedFirebaseQuestions.map((question) => {
+        const local = queriesForCuratedTemplate.find(
+          (q) => q.uid === question.uid || q.id === question.id
+        );
         return {
-          ...queriesForCuratedTemplate.find((q) => q.id === question.id),
+          ...local,
           ...question,
+          id: typeof question.id === 'number' ? question.id : local?.id,
+          uid: question.uid || local?.uid,
         };
       })
     : [];
@@ -125,7 +130,7 @@ const Dashboard = () => {
               border: '1px solid',
               borderColor: 'divider',
               borderRadius: 2,
-              borderLeft: '4px solid #039be5',
+              borderLeft: '4px solid #e86161',
             }}
           >
             <Box
@@ -143,7 +148,7 @@ const Dashboard = () => {
                   flexShrink: 0,
                 }}
               >
-                <InfoIcon sx={{ color: '#039be5', fontSize: '1.25rem' }} />
+                <InfoIcon sx={{ color: '#e86161', fontSize: '1.25rem' }} />
               </Box>
               <Typography
                 variant="h6"
@@ -202,7 +207,7 @@ const Dashboard = () => {
                 variant="contained"
                 component={RouterLink}
                 to={`/${templateId}/schema`}
-                sx={{ bgcolor: '#039be5', '&:hover': { bgcolor: '#0277bd' } }}
+                sx={{ bgcolor: '#e86161', '&:hover': { bgcolor: '#d45555' } }}
               >
                 Template schema graph
               </Button>
@@ -211,9 +216,9 @@ const Dashboard = () => {
                 component={RouterLink}
                 to={`/${templateId}/dynamic-question`}
                 sx={{
-                  borderColor: '#039be5',
-                  color: '#039be5',
-                  '&:hover': { borderColor: '#0277bd', color: '#0277bd' },
+                  borderColor: '#e86161',
+                  color: '#e86161',
+                  '&:hover': { borderColor: '#d45555', color: '#d45555' },
                 }}
               >
                 Dynamic question
@@ -277,7 +282,7 @@ const Dashboard = () => {
             border: '1px solid',
             borderColor: 'divider',
             borderRadius: 2,
-            borderLeft: '4px solid #039be5',
+            borderLeft: '4px solid #e86161',
           }}
         >
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, gap: 1.5 }}>
@@ -293,7 +298,7 @@ const Dashboard = () => {
                 flexShrink: 0,
               }}
             >
-              <InfoIcon sx={{ color: '#039be5', fontSize: '1.25rem' }} />
+              <InfoIcon sx={{ color: '#e86161', fontSize: '1.25rem' }} />
             </Box>
             <Typography
               variant="h6"
@@ -334,7 +339,7 @@ const Dashboard = () => {
               size="small"
               sx={{
                 backgroundColor: 'rgba(232, 97, 97, 0.1)',
-                color: '#039be5',
+                color: '#e86161',
                 fontWeight: 500,
                 fontSize: '0.75rem',
                 height: 24,

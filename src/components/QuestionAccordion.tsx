@@ -166,7 +166,8 @@ const QuestionAccordion = ({ query }: { query: Query }) => {
   };
 
   const openQuestionPage = () => {
-    navigate(`/${templateId}/questions/${query.id}`);
+    const routeId = typeof query.id === 'number' ? query.id : query.uid;
+    navigate(`/${templateId}/questions/${routeId}`);
   };
 
   const getProcessedChartData = () => {
@@ -207,7 +208,7 @@ const QuestionAccordion = ({ query }: { query: Query }) => {
         py: 8,
       }}
     >
-      <CircularProgress sx={{ color: '#039be5', mb: 2 }} />
+      <CircularProgress sx={{ color: '#e86161', mb: 2 }} />
       <Typography color="text.secondary">Loading question data...</Typography>
     </Box>
   );
@@ -330,17 +331,17 @@ const QuestionAccordion = ({ query }: { query: Query }) => {
             variant="outlined"
             onClick={openQuestionPage}
             sx={{
-              color: '#039be5',
-              borderColor: '#039be5',
+              color: '#e86161',
+              borderColor: '#e86161',
               marginLeft: { xs: 0, sm: '10px' },
               minWidth: { xs: '100%', sm: 160 },
               '&:hover': {
-                backgroundColor: '#039be5',
+                backgroundColor: '#e86161',
                 color: 'white',
-                borderColor: '#039be5',
+                borderColor: '#e86161',
               },
               '&.MuiButton-outlined': {
-                borderColor: '#039be5',
+                borderColor: '#e86161',
               },
               mt: { xs: 1, sm: 0 },
             }}

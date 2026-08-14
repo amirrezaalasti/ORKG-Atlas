@@ -16,6 +16,20 @@ const QUE_CACHE_TTL_MS = 60 * 1000; // 1 minute
 const statsCache: Record<string, { data: StatisticData[]; time: number }> = {};
 const STATS_CACHE_TTL_MS = 60 * 1000; // 1 minute
 
+/** Firestore docs are keyed by uid (query_1) and often omit numeric `id`. */
+export function hydrateStoredQuestion(
+  data: QuestionData,
+  docId: string
+): QuestionData {
+  const uid = data.uid?.trim() || docId;
+  if (typeof data.id === 'number' && Number.isFinite(data.id)) {
+    return { ...data, uid };
+  }
+  const parsed = uid.match(/query_(\d+)/i);
+  const id = parsed ? Number(parsed[1]) : data.id;
+  return { ...data, uid, id };
+}
+
 export function invalidateTemplatesCache(): void {
   templatesCache = null;
 }
@@ -148,7 +162,8 @@ export async function getQuestions(
 
   const questions: QuestionData[] = [];
   questionsSnapshot.forEach((doc) => {
-    questions.push(doc.data() as QuestionData);
+    const data = doc.data() as QuestionData;
+    questions.push(hydrateStoredQuestion(data, doc.id));
   });
 
   questions.sort((a, b) => a.id - b.id);
@@ -158,22 +173,34 @@ export async function getQuestions(
   return questions;
 }
 
+function candidateQuestionDocIds(questionId: string): string[] {
+  const ids = [questionId];
+  const fromUid = questionId.match(/query_(\d+)/i);
+  if (fromUid) ids.push(fromUid[1]);
+  if (/^\d+$/.test(questionId)) ids.push(`query_${questionId}`);
+  return [...new Set(ids)];
+}
+
 export async function getQuestionById(
   templateId: string,
   questionId: string
 ): Promise<QuestionData | null> {
-  const questionDoc = await db
+  const questionsCollection = db
     .collection('Templates')
     .doc(templateId)
-    .collection('Questions')
-    .doc(questionId)
-    .get();
+    .collection('Questions');
 
-  if (!questionDoc.exists) {
-    return null;
+  for (const docId of candidateQuestionDocIds(questionId)) {
+    const questionDoc = await questionsCollection.doc(docId).get();
+    if (questionDoc.exists) {
+      return hydrateStoredQuestion(
+        questionDoc.data() as QuestionData,
+        questionDoc.id
+      );
+    }
   }
 
-  return questionDoc.data() as QuestionData;
+  return null;
 }
 
 export function resolveQuestionDocId(questionData: QuestionData): string {

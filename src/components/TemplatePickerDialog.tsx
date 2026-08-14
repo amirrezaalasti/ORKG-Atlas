@@ -315,7 +315,7 @@ export default function TemplatePickerDialog({
                     '&:last-of-type': { borderBottom: 'none' },
                     '&.Mui-selected': {
                       backgroundColor: 'rgba(232, 97, 97, 0.12)',
-                      borderLeft: '3px solid #039be5',
+                      borderLeft: '3px solid #e86161',
                     },
                   }}
                 >

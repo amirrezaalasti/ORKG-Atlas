@@ -72,7 +72,7 @@ import type {
 } from '../../types/chat';
 
 const CHART_COLORS = [
-  '#039be5',
+  '#e86161',
   '#43a047',
   '#fb8c00',
   '#8e24aa',
@@ -805,7 +805,7 @@ export const StatementsTable = ({
                     style={{
                       padding: '4px 8px',
                       borderBottom: '1px solid #eee',
-                      color: '#1976d2',
+                      color: '#e86161',
                     }}
                   >
                     {s.predicate.label ?? s.predicate.id}

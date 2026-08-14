@@ -121,7 +121,7 @@ const StatisticsUpdateSection = () => {
           gap: 1,
         }}
       >
-        <Science sx={{ color: '#039be5' }} />
+        <Science sx={{ color: '#e86161' }} />
         ORKG Statistics Update
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
@@ -147,7 +147,7 @@ const StatisticsUpdateSection = () => {
           onClick={() => handleUpdate('empire')}
           disabled={!!updating}
           sx={{
-            backgroundColor: '#039be5',
+            backgroundColor: '#e86161',
             '&:hover': { backgroundColor: '#d55555' },
             textTransform: 'none',
           }}
@@ -160,7 +160,7 @@ const StatisticsUpdateSection = () => {
           onClick={() => handleUpdate('nlp4re')}
           disabled={!!updating}
           sx={{
-            backgroundColor: '#039be5',
+            backgroundColor: '#e86161',
             '&:hover': { backgroundColor: '#d55555' },
             textTransform: 'none',
           }}

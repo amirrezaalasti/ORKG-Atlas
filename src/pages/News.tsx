@@ -5,7 +5,6 @@ import {
   Container,
   Typography,
   Paper,
-  Card,
   CardContent,
   CardMedia,
   CardActionArea,
@@ -32,6 +31,12 @@ import {
 import CRUDNews, { NewsItem } from '../firestore/CRUDNews';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../utils/theme';
+import {
+  fadeUp,
+  hoverLift,
+  MotionCard,
+} from '../constants/motion';
+import { useReducedMotion } from 'motion/react';
 
 const News = () => {
   const { templateId } = useParams<{ templateId: string }>();
@@ -39,6 +44,7 @@ const News = () => {
   const [filteredNews, setFilteredNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const reduceMotion = useReducedMotion();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTag, setSelectedTag] = useState<string>('all');
   const [selectedPriority, setSelectedPriority] = useState<string>('all');
@@ -163,7 +169,7 @@ const News = () => {
               minHeight: '60vh',
             }}
           >
-            <CircularProgress sx={{ color: '#039be5' }} />
+            <CircularProgress sx={{ color: '#e86161' }} />
           </Box>
         </Container>
       </ThemeProvider>
@@ -178,7 +184,7 @@ const News = () => {
           <Typography
             variant="h3"
             sx={{
-              color: '#039be5',
+              color: '#e86161',
               fontWeight: 700,
               fontSize: { xs: '1.75rem', sm: '2rem', md: '2.5rem' },
               mb: 2,
@@ -293,18 +299,23 @@ const News = () => {
         ) : (
           <>
             <Grid container spacing={3}>
-              {paginatedNews.map((news) => (
+              {paginatedNews.map((news, index) => (
                 <Grid item xs={12} sm={6} md={4} key={news.id}>
-                  <Card
+                  <MotionCard
+                    initial={reduceMotion ? false : 'hidden'}
+                    whileInView="show"
+                    viewport={{ once: true, amount: 0.15 }}
+                    variants={fadeUp}
+                    transition={{
+                      delay: reduceMotion ? 0 : index * 0.06,
+                      duration: 0.45,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                    whileHover={reduceMotion ? undefined : hoverLift}
                     sx={{
                       height: '100%',
                       display: 'flex',
                       flexDirection: 'column',
-                      transition: 'transform 0.2s, box-shadow 0.2s',
-                      '&:hover': {
-                        transform: 'translateY(-4px)',
-                        boxShadow: 4,
-                      },
                     }}
                   >
                     <CardActionArea
@@ -435,7 +446,7 @@ const News = () => {
                         </Box>
                       </CardContent>
                     </CardActionArea>
-                  </Card>
+                  </MotionCard>
                 </Grid>
               ))}
             </Grid>

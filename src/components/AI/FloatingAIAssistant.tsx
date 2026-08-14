@@ -64,7 +64,7 @@ const RelatedPapersSlider: React.FC<{
     <Box sx={{ mt: 2, mb: 2 }}>
       <Typography
         variant="subtitle2"
-        sx={{ fontWeight: 600, mb: 1.5, color: '#039be5' }}
+        sx={{ fontWeight: 600, mb: 1.5, color: '#e86161' }}
       >
         Related papers in ORKG Ask ({index + 1} / {papers.length})
       </Typography>
@@ -121,7 +121,7 @@ const RelatedPapersSlider: React.FC<{
             )}
             <Typography
               variant="caption"
-              sx={{ mt: 1, display: 'block', color: '#039be5' }}
+              sx={{ mt: 1, display: 'block', color: '#e86161' }}
             >
               Open in ORKG Ask →
             </Typography>
@@ -166,7 +166,7 @@ const PaperInfoView: React.FC<{
     >
       <Typography
         variant="h6"
-        sx={{ color: '#039be5', fontWeight: 700, mb: 2 }}
+        sx={{ color: '#e86161', fontWeight: 700, mb: 2 }}
       >
         {item.title ?? 'Paper'}
       </Typography>
@@ -208,7 +208,7 @@ const PaperInfoView: React.FC<{
         <Box sx={{ mt: 2, mb: 2 }}>
           <Typography
             variant="subtitle2"
-            sx={{ fontWeight: 600, mb: 1, color: '#039be5' }}
+            sx={{ fontWeight: 600, mb: 1, color: '#e86161' }}
           >
             Abstract
           </Typography>
@@ -247,7 +247,7 @@ const PaperInfoView: React.FC<{
             <Suspense
               fallback={
                 <Box sx={{ py: 4, display: 'flex', justifyContent: 'center' }}>
-                  <CircularProgress size={32} sx={{ color: '#039be5' }} />
+                  <CircularProgress size={32} sx={{ color: '#e86161' }} />
                 </Box>
               }
             >
@@ -285,8 +285,8 @@ const ProjectOverview = () => (
     }}
   >
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-      <SmartToyIcon sx={{ color: '#039be5' }} />
-      <Typography variant="h6" sx={{ color: '#039be5', fontWeight: 700 }}>
+      <SmartToyIcon sx={{ color: '#e86161' }} />
+      <Typography variant="h6" sx={{ color: '#e86161', fontWeight: 700 }}>
         Welcome to ORKG Atlas!
       </Typography>
     </Box>
@@ -459,7 +459,7 @@ const FloatingAIAssistant: React.FC = () => {
             position: 'fixed',
             bottom: 24,
             right: 24,
-            backgroundColor: '#039be5',
+            backgroundColor: '#e86161',
             '&:hover': {
               backgroundColor: '#d45151',
               transform: 'scale(1.1)',
@@ -573,7 +573,7 @@ const FloatingAIAssistant: React.FC = () => {
               justifyContent: 'space-between',
               borderBottom: '1px solid',
               borderColor: 'divider',
-              backgroundColor: '#039be5',
+              backgroundColor: '#e86161',
               color: 'white',
               cursor: isExpanded ? 'default' : 'grab',
               userSelect: 'none',

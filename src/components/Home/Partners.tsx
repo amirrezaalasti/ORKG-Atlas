@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import StatCard from '../StatCard';
 import { PartnersContent } from '../../firestore/CRUDHomeContent';
+import { MotionBox, staggerContainer } from '../../constants/motion';
+import { useRevealMotion } from '../../hooks/useRevealMotion';
 
 // Import logos for fallback/mapping
 import tibLogo from '../../assets/TIB.png';
@@ -24,6 +26,7 @@ const logoMap: Record<string, string> = {
 };
 
 const Partners = ({ content }: PartnersProps) => {
+  const reveal = useRevealMotion();
   // Track failed image loads to prevent infinite retries
   const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
 
@@ -63,7 +66,9 @@ const Partners = ({ content }: PartnersProps) => {
       >
         {content.title}
       </Typography>
-      <Box
+      <MotionBox
+        {...reveal}
+        variants={staggerContainer}
         sx={{
           width: '100%',
           display: 'grid',
@@ -124,7 +129,7 @@ const Partners = ({ content }: PartnersProps) => {
             </StatCard>
           );
         })}
-      </Box>
+      </MotionBox>
     </Box>
   );
 };

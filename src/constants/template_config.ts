@@ -44,3 +44,45 @@ export function getBuiltinTemplateConfig(
   if (!templateId) return undefined;
   return templateId in templateConfig ? templateConfig[templateId] : undefined;
 }
+
+/** Firestore often stores uid (query_1) without a numeric id used in routes. */
+export function hydrateQuestionNumericId<
+  T extends { id?: unknown; uid?: string },
+>(question: T, templateId?: string): T {
+  if (typeof question.id === 'number' && Number.isFinite(question.id)) {
+    return question;
+  }
+  const local = templateId
+    ? getBuiltinTemplateConfig(templateId)?.queries
+    : undefined;
+  const match = local?.find((q) => q.uid === question.uid);
+  if (match) {
+    return { ...question, id: match.id };
+  }
+  const parsed = String(question.uid || '').match(/query_(\d+)/i);
+  if (parsed) {
+    return { ...question, id: Number(parsed[1]) };
+  }
+  return question;
+}
+
+export function findBuiltinQuery(
+  templateId: string | undefined,
+  routeId: string | undefined
+): Query | undefined {
+  const queries = getBuiltinTemplateConfig(templateId)?.queries;
+  if (
+    !queries ||
+    routeId == null ||
+    routeId === '' ||
+    routeId === 'undefined'
+  ) {
+    return undefined;
+  }
+  const numeric = Number(routeId);
+  if (Number.isFinite(numeric)) {
+    const byId = queries.find((q) => q.id === numeric);
+    if (byId) return byId;
+  }
+  return queries.find((q) => q.uid === routeId);
+}

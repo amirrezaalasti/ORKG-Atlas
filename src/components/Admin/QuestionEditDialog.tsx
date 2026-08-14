@@ -159,7 +159,7 @@ const QuestionEditDialog = ({
             >
               <Typography
                 variant="subtitle1"
-                sx={{ fontWeight: 600, color: '#039be5' }}
+                sx={{ fontWeight: 600, color: '#e86161' }}
               >
                 Basic Information & Configuration
               </Typography>
@@ -193,7 +193,7 @@ const QuestionEditDialog = ({
 
               {/* Tab Names (only show for dual query) */}
               {isDualQuery && (
-                <Box sx={{ pl: 2, pt: 1, borderLeft: '3px solid #039be5' }}>
+                <Box sx={{ pl: 2, pt: 1, borderLeft: '3px solid #e86161' }}>
                   <Typography
                     variant="caption"
                     color="text.secondary"
@@ -247,7 +247,7 @@ const QuestionEditDialog = ({
           >
             <Typography
               variant="subtitle1"
-              sx={{ fontWeight: 600, mb: 2, color: '#039be5' }}
+              sx={{ fontWeight: 600, mb: 2, color: '#e86161' }}
             >
               Data Analysis Information
             </Typography>
@@ -306,7 +306,7 @@ const QuestionEditDialog = ({
                   helperText="Methodology and analysis approach used"
                 />
               ) : (
-                <Box sx={{ pl: 2, pt: 1, borderLeft: '3px solid #039be5' }}>
+                <Box sx={{ pl: 2, pt: 1, borderLeft: '3px solid #e86161' }}>
                   <Typography
                     variant="caption"
                     color="text.secondary"
@@ -399,7 +399,7 @@ const QuestionEditDialog = ({
                   helperText="Interpretation with tables - supports HTML: <table>, <tr>, <td>, etc."
                 />
               ) : (
-                <Box sx={{ pl: 2, pt: 1, borderLeft: '3px solid #039be5' }}>
+                <Box sx={{ pl: 2, pt: 1, borderLeft: '3px solid #e86161' }}>
                   <Typography
                     variant="caption"
                     color="text.secondary"
@@ -515,7 +515,7 @@ const QuestionEditDialog = ({
             >
               <Typography
                 variant="subtitle1"
-                sx={{ fontWeight: 600, color: '#039be5' }}
+                sx={{ fontWeight: 600, color: '#e86161' }}
               >
                 SPARQL Queries
               </Typography>
@@ -579,7 +579,7 @@ const QuestionEditDialog = ({
 
               {/* Query 2 - Data Analysis (only for dual query) */}
               {isDualQuery && (
-                <Box sx={{ pl: 2, pt: 2, borderLeft: '3px solid #039be5' }}>
+                <Box sx={{ pl: 2, pt: 2, borderLeft: '3px solid #e86161' }}>
                   <Box
                     sx={{
                       display: 'flex',
@@ -657,7 +657,7 @@ const QuestionEditDialog = ({
             >
               <Typography
                 variant="subtitle1"
-                sx={{ fontWeight: 600, color: '#039be5' }}
+                sx={{ fontWeight: 600, color: '#e86161' }}
               >
                 Chart Configuration (JSON)
               </Typography>
@@ -843,7 +843,7 @@ const QuestionEditDialog = ({
 
               {/* Chart Settings 2 (only for dual query) */}
               {isDualQuery && (
-                <Box sx={{ pl: 2, pt: 2, borderLeft: '3px solid #039be5' }}>
+                <Box sx={{ pl: 2, pt: 2, borderLeft: '3px solid #e86161' }}>
                   <Box
                     sx={{
                       display: 'flex',
@@ -915,7 +915,7 @@ const QuestionEditDialog = ({
   "series": [
     { "dataKey": "normalizedRatio" }
   ],
-  "colors": ["#039be5"],
+  "colors": ["#e86161"],
   "margin": {
     "left": 150,
     "right": 20
@@ -1019,7 +1019,7 @@ const QuestionEditDialog = ({
             >
               <Typography
                 variant="subtitle1"
-                sx={{ fontWeight: 600, color: '#1976d2' }}
+                sx={{ fontWeight: 600, color: '#e86161' }}
               >
                 Grid Statistics Default Options
               </Typography>
@@ -1141,7 +1141,7 @@ const QuestionEditDialog = ({
           onClick={handleSave}
           variant="contained"
           sx={{
-            backgroundColor: '#039be5',
+            backgroundColor: '#e86161',
             '&:hover': { backgroundColor: '#d55555' },
           }}
         >

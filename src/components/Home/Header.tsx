@@ -1,45 +1,56 @@
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
+import { useReducedMotion } from 'motion/react';
 import { HeaderContent } from '../../firestore/CRUDHomeContent';
+import { fadeUp, MotionBox, staggerContainer } from '../../constants/motion';
 
 interface HeaderProps {
   content: HeaderContent;
 }
 
 const Header = ({ content }: HeaderProps) => {
+  const reduceMotion = useReducedMotion();
+
   return (
-    <Box
+    <MotionBox
+      initial={reduceMotion ? false : 'hidden'}
+      animate="show"
+      variants={staggerContainer}
       sx={{
         textAlign: 'center',
         mb: { xs: 4, sm: 5, md: 6 },
         px: { xs: 2, sm: 4, md: 6 },
       }}
     >
-      <Typography
-        variant="h2"
-        component="h1"
-        gutterBottom
-        sx={{
-          color: '#039be5',
-          fontWeight: 800,
-          fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4rem' },
-          letterSpacing: '-0.02em',
-        }}
-      >
-        {content.title ?? 'undefined title'}
-      </Typography>
-      <Typography
-        variant="h5"
-        color="text.secondary"
-        sx={{
-          fontSize: { xs: '1.1rem', sm: '1.3rem', md: '1.5rem' },
-          lineHeight: 1.5,
-          maxWidth: '800px',
-          mx: 'auto',
-        }}
-      >
-        {content.subtitle}
-      </Typography>
-    </Box>
+      <MotionBox variants={fadeUp}>
+        <Typography
+          variant="h2"
+          component="h1"
+          gutterBottom
+          sx={{
+            color: '#e86161',
+            fontWeight: 800,
+            fontSize: { xs: '2.5rem', sm: '3.5rem', md: '4rem' },
+            letterSpacing: '-0.02em',
+          }}
+        >
+          {content.title ?? 'undefined title'}
+        </Typography>
+      </MotionBox>
+      <MotionBox variants={fadeUp}>
+        <Typography
+          variant="h5"
+          color="text.secondary"
+          sx={{
+            fontSize: { xs: '1.1rem', sm: '1.3rem', md: '1.5rem' },
+            lineHeight: 1.5,
+            maxWidth: '800px',
+            mx: 'auto',
+          }}
+        >
+          {content.subtitle}
+        </Typography>
+      </MotionBox>
+    </MotionBox>
   );
 };
 

@@ -29,9 +29,9 @@ import {
 import type { ChatToolCall } from '../../types/chat';
 
 const pulse = keyframes`
-  0%   { box-shadow: 0 0 0 0 rgba(3, 155, 229, 0.55); }
-  70%  { box-shadow: 0 0 0 12px rgba(3, 155, 229, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(3, 155, 229, 0); }
+  0%   { box-shadow: 0 0 0 0 rgba(232, 97, 97, 0.55); }
+  70%  { box-shadow: 0 0 0 12px rgba(232, 97, 97, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(232, 97, 97, 0); }
 `;
 
 const formatDuration = (call: ChatToolCall): string | null => {

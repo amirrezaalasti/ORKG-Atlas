@@ -1,49 +1,63 @@
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { FutureDevelopmentContent } from '../../firestore/CRUDHomeContent';
+import {
+  fadeUp,
+  hoverLift,
+  MotionBox,
+  MotionPaper,
+  staggerReveal,
+} from '../../constants/motion';
+import { useRevealMotion } from '../../hooks/useRevealMotion';
+import { useReducedMotion } from 'motion/react';
 
 interface FutureDevelopmentProps {
   content: FutureDevelopmentContent;
 }
 
 const FutureDevelopment = ({ content }: FutureDevelopmentProps) => {
+  const reveal = useRevealMotion();
+  const reduceMotion = useReducedMotion();
+
   return (
-    <Paper
+    <MotionPaper
       elevation={2}
+      {...reveal}
+      variants={staggerReveal}
+      whileHover={reduceMotion ? undefined : hoverLift}
       sx={{
         p: { xs: 3, sm: 4, md: 5 },
         borderRadius: 4,
         backgroundColor: 'rgba(255, 255, 255, 0.9)',
-        transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
-        '&:hover': {
-          transform: 'translateY(-4px)',
-          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.1)',
-        },
       }}
     >
-      <Typography
-        variant="h4"
-        gutterBottom
-        sx={{
-          color: '#039be5',
-          fontWeight: 700,
-          mb: 3,
-          fontSize: { xs: '1.75rem', sm: '2rem', md: '2.25rem' },
-        }}
-      >
-        {content.title}
-      </Typography>
-      <Typography
-        paragraph
-        sx={{
-          fontSize: { xs: '1rem', sm: '1.1rem' },
-          lineHeight: 1.7,
-          mb: 3,
-        }}
-      >
-        {content.intro}
-      </Typography>
-      <Box sx={{ pl: { xs: 2, sm: 3, md: 4 } }}>
-        <Typography component="ul" sx={{ listStyle: 'none', p: 0 }}>
+      <MotionBox variants={fadeUp}>
+        <Typography
+          variant="h4"
+          gutterBottom
+          sx={{
+            color: '#e86161',
+            fontWeight: 700,
+            mb: 3,
+            fontSize: { xs: '1.75rem', sm: '2rem', md: '2.25rem' },
+          }}
+        >
+          {content.title}
+        </Typography>
+      </MotionBox>
+      <MotionBox variants={fadeUp}>
+        <Typography
+          paragraph
+          sx={{
+            fontSize: { xs: '1rem', sm: '1.1rem' },
+            lineHeight: 1.7,
+            mb: 3,
+          }}
+        >
+          {content.intro}
+        </Typography>
+      </MotionBox>
+      <MotionBox variants={fadeUp} sx={{ pl: { xs: 2, sm: 3, md: 4 } }}>
+        <Box component="ul" sx={{ listStyle: 'none', p: 0, m: 0 }}>
           {content.phases.map((item, index) => (
             <Typography
               component="li"
@@ -59,7 +73,7 @@ const FutureDevelopment = ({ content }: FutureDevelopmentProps) => {
               <Box
                 component="strong"
                 sx={{
-                  color: '#039be5',
+                  color: '#e86161',
                   mb: 1,
                   fontSize: { xs: '1.1rem', sm: '1.2rem' },
                 }}
@@ -69,9 +83,9 @@ const FutureDevelopment = ({ content }: FutureDevelopmentProps) => {
               <Box dangerouslySetInnerHTML={{ __html: item.goal }} />
             </Typography>
           ))}
-        </Typography>
-      </Box>
-    </Paper>
+        </Box>
+      </MotionBox>
+    </MotionPaper>
   );
 };
 

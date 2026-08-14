@@ -220,7 +220,7 @@ const sampleDynamicQuery = {
   },
   chartSettings: {
     series: [{ dataKey: 'paperCount', label: 'Papers' }],
-    colors: ['#039be5'],
+    colors: ['#e86161'],
     yAxis: [{ label: 'Number of Papers', dataKey: 'paperCount' }],
     height: 400,
     sx: {},

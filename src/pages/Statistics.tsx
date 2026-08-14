@@ -30,6 +30,8 @@ import { getBuiltinTemplateConfig } from '../constants/template_config';
 import GaugeChart from '../components/GaugeChart';
 // import KPICard from '../components/KPICard';
 import { FormControlLabel, Switch, Box } from '@mui/material';
+import { MotionStack, staggerContainer } from '../constants/motion';
+import { useRevealMotion } from '../hooks/useRevealMotion';
 // import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 // import StorageIcon from '@mui/icons-material/Storage';
 // import CustomGaugeChart from '../components/CustomCharts/CustomGaugeChart';
@@ -83,6 +85,7 @@ export default function Statistics() {
   const [loading, setLoading] = useState(true);
   const [statistics, setStatistics] = useState<StatisticsData>(DEFAULT_STATS);
   const [isGaugeMode, setIsGaugeMode] = useState(false);
+  const reveal = useRevealMotion();
   // const [chartType, setChartType] = useState<'gauge' | 'card'>('gauge');
 
   useEffect(() => {
@@ -247,7 +250,7 @@ export default function Statistics() {
                 label="Papers with Empirical Studies"
                 value={paperCount}
                 max={totalORKGPapersCount}
-                color="#039be5"
+                color="#e86161"
                 link="https://orkg.org/papers"
               />
             </Box>
@@ -256,7 +259,7 @@ export default function Statistics() {
                 label="Venues"
                 value={venueCount}
                 max={totalORKGObservatories || venueCount}
-                color="#039be5"
+                color="#e86161"
                 link="https://orkg.org/observatories"
               />
             </Box> */}
@@ -265,7 +268,7 @@ export default function Statistics() {
                 label="Resources"
                 value={total_resources}
                 max={totalORKGResources || total_resources}
-                color="#039be5"
+                color="#e86161"
                 link="https://orkg.org/resources"
               />
             </Box>
@@ -274,7 +277,7 @@ export default function Statistics() {
                 label="Distinct Resources"
                 value={global_distinct_resources}
                 max={totalORKGResources || total_resources}
-                color="#039be5"
+                color="#e86161"
                 link="https://orkg.org/classes"
               />
             </Box>
@@ -283,13 +286,15 @@ export default function Statistics() {
                 label="Statements"
                 value={total_statements}
                 max={totalORKGStatements || total_statements}
-                color="#039be5"
+                color="#e86161"
                 link="https://orkg.org/rs/statements"
               />
             </Box>
           </Stack>
         ) : (
-          <Stack
+          <MotionStack
+            {...reveal}
+            variants={staggerContainer}
             direction="row"
             flexWrap="wrap"
             spacing={{ xs: 2, md: 3 }}
@@ -334,7 +339,7 @@ export default function Statistics() {
             >
               <AccountTreeIcon sx={{ fontSize: 40, color: '#c0392b' }} />
             </StatCard>
-          </Stack>
+          </MotionStack>
         )}
 
         <Divider sx={{ mt: 2 }} />

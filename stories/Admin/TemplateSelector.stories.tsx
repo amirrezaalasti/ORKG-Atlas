@@ -43,7 +43,7 @@ const meta: Meta<typeof TemplateSelector> = {
     docs: {
       description: {
         component:
-          '`TemplateSelector` displays a grid of template cards that allow administrators to select which template they want to manage in the admin panel. Each card shows the template title, description, and metadata chips (template ID and Firestore collection name). The selected template is highlighted with a colored border (#039be5). Templates are stored in the root "Templates" Firestore collection, with Questions and Statistics as subcollections.',
+          '`TemplateSelector` displays a grid of template cards that allow administrators to select which template they want to manage in the admin panel. Each card shows the template title, description, and metadata chips (template ID and Firestore collection name). The selected template is highlighted with a colored border (#e86161). Templates are stored in the root "Templates" Firestore collection, with Questions and Statistics as subcollections.',
       },
     },
   },
@@ -66,7 +66,7 @@ const meta: Meta<typeof TemplateSelector> = {
         'systematic-reviews',
       ],
       description:
-        "The ID of the currently selected template. The corresponding card is highlighted with a red border (#039be5). An empty string indicates no selection. This value should be managed by the parent component's state.",
+        "The ID of the currently selected template. The corresponding card is highlighted with a red border (#e86161). An empty string indicates no selection. This value should be managed by the parent component's state.",
       table: {
         type: { summary: 'string' },
         defaultValue: { summary: '""' },

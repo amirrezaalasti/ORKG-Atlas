@@ -13,7 +13,7 @@ const InstructionsCard = () => {
       <CardContent>
         <Typography
           variant="h6"
-          sx={{ fontWeight: 600, mb: 2, color: '#039be5' }}
+          sx={{ fontWeight: 600, mb: 2, color: '#e86161' }}
         >
           📋 How to Use
         </Typography>

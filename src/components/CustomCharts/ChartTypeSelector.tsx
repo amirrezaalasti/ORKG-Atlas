@@ -45,7 +45,7 @@ const ChartTypeSelector = ({
             aria-label="bar chart"
             sx={{
               '&.Mui-selected': {
-                backgroundColor: '#039be5 !important',
+                backgroundColor: '#e86161 !important',
                 color: 'white !important',
               },
             }}
@@ -59,7 +59,7 @@ const ChartTypeSelector = ({
             aria-label="pie chart"
             sx={{
               '&.Mui-selected': {
-                backgroundColor: '#039be5 !important',
+                backgroundColor: '#e86161 !important',
                 color: 'white !important',
               },
             }}

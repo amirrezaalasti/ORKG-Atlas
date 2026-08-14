@@ -297,10 +297,10 @@ const GridStats: React.FC<Props> = ({ questionData, gridOptions }) => {
         <Box
           sx={{ display: 'flex', alignItems: 'center', gap: 2, width: '100%' }}
         >
-          <BarChart sx={{ color: '#039be5', fontSize: 28 }} />
+          <BarChart sx={{ color: '#e86161', fontSize: 28 }} />
           <Typography
             variant="h6"
-            sx={{ fontWeight: 700, color: '#039be5', letterSpacing: '-0.5px' }}
+            sx={{ fontWeight: 700, color: '#e86161', letterSpacing: '-0.5px' }}
           >
             Column Statistics & Distribution
           </Typography>
@@ -328,15 +328,15 @@ const GridStats: React.FC<Props> = ({ questionData, gridOptions }) => {
                 sx={{
                   backgroundColor:
                     selectedColumns.length > 0
-                      ? 'rgba(33, 150, 243, 0.1)'
+                      ? 'rgba(232, 97, 97, 0.1)'
                       : 'transparent',
-                  '&:hover': { backgroundColor: 'rgba(33, 150, 243, 0.2)' },
+                  '&:hover': { backgroundColor: 'rgba(232, 97, 97, 0.2)' },
                 }}
               >
                 <Badge badgeContent={selectedColumns.length} color="primary">
                   <ViewColumn
                     sx={{
-                      color: selectedColumns.length > 0 ? '#1976d2' : '#757575',
+                      color: selectedColumns.length > 0 ? '#e86161' : '#757575',
                     }}
                   />
                 </Badge>
@@ -576,7 +576,7 @@ const GridStats: React.FC<Props> = ({ questionData, gridOptions }) => {
                                         borderRadius: 4,
                                         backgroundColor: '#e0e0e0',
                                         '& .MuiLinearProgress-bar': {
-                                          backgroundColor: '#039be5',
+                                          backgroundColor: '#e86161',
                                         },
                                       }}
                                     />
@@ -607,16 +607,16 @@ const GridStats: React.FC<Props> = ({ questionData, gridOptions }) => {
                         mb: 3,
                         p: 2,
                         background:
-                          'linear-gradient(135deg, rgba(33, 150, 243, 0.08) 0%, rgba(33, 150, 243, 0.03) 100%)',
+                          'linear-gradient(135deg, rgba(232, 97, 97, 0.08) 0%, rgba(232, 97, 97, 0.03) 100%)',
                         borderRadius: 2,
-                        border: '1px solid rgba(33, 150, 243, 0.2)',
+                        border: '1px solid rgba(232, 97, 97, 0.2)',
                       }}
                     >
                       <Typography
                         variant="h6"
                         sx={{
                           fontWeight: 700,
-                          color: '#1976d2',
+                          color: '#e86161',
                           letterSpacing: '-0.3px',
                         }}
                       >
@@ -662,10 +662,10 @@ const GridStats: React.FC<Props> = ({ questionData, gridOptions }) => {
                             borderRadius: '4px',
                           },
                           '&::-webkit-scrollbar-thumb': {
-                            backgroundColor: '#2196f3',
+                            backgroundColor: '#e86161',
                             borderRadius: '4px',
                             '&:hover': {
-                              backgroundColor: '#1976d2',
+                              backgroundColor: '#e86161',
                             },
                           },
                         }}
@@ -689,7 +689,7 @@ const GridStats: React.FC<Props> = ({ questionData, gridOptions }) => {
                                   transition: 'all 0.2s ease',
                                   '&:hover': {
                                     boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
-                                    borderColor: '#2196f3',
+                                    borderColor: '#e86161',
                                   },
                                 }}
                               >
@@ -703,7 +703,7 @@ const GridStats: React.FC<Props> = ({ questionData, gridOptions }) => {
                                 >
                                   <Typography
                                     variant="subtitle1"
-                                    sx={{ fontWeight: 700, color: '#1976d2' }}
+                                    sx={{ fontWeight: 700, color: '#e86161' }}
                                   >
                                     📅 {groupValue}
                                   </Typography>
@@ -820,7 +820,7 @@ const GridStats: React.FC<Props> = ({ questionData, gridOptions }) => {
                                                 sx={{
                                                   fontSize: '0.85rem',
                                                   fontWeight: 600,
-                                                  color: '#1976d2',
+                                                  color: '#e86161',
                                                 }}
                                               >
                                                 {percentage}%
@@ -846,7 +846,7 @@ const GridStats: React.FC<Props> = ({ questionData, gridOptions }) => {
                                                       '& .MuiLinearProgress-bar':
                                                         {
                                                           backgroundColor:
-                                                            '#2196f3',
+                                                            '#e86161',
                                                         },
                                                     }}
                                                   />
@@ -906,7 +906,7 @@ const GridStats: React.FC<Props> = ({ questionData, gridOptions }) => {
               gap: 1,
             }}
           >
-            <ViewColumn sx={{ color: '#1976d2' }} />
+            <ViewColumn sx={{ color: '#e86161' }} />
             Select Columns
           </Typography>
           <Divider sx={{ mb: 2 }} />
