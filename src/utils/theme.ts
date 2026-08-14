@@ -152,7 +152,7 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
           '&:hover': {
             transform: 'translateY(-1px)',
             boxShadow:
-              mode === 'dark' ? '0 4px 12px rgba(3, 155, 229, 0.35)' : 'none',
+              mode === 'dark' ? '0 4px 12px rgba(255, 123, 123, 0.3)' : 'none',
           },
         },
       },

@@ -161,7 +161,7 @@ export default function LoginORKG() {
               borderColor: 'divider',
               color: 'text.primary',
               '&:hover': {
-                borderColor: '#039be5',
+                borderColor: '#e86161',
                 backgroundColor: 'rgba(232, 97, 97, 0.04)',
               },
               transition: 'all 0.2s ease-in-out',

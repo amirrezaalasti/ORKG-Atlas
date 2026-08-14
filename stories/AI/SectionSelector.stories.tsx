@@ -72,7 +72,7 @@ const sampleQuery = {
   chartSettings: {
     heading: 'Number of empirical studies per year',
     series: [{ label: 'Papers', dataKey: 'paperCount' }],
-    colors: ['#039be5'],
+    colors: ['#e86161'],
     yAxis: [{ label: 'Number of Papers', dataKey: 'paperCount' }],
     height: 400,
     sx: {},

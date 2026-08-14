@@ -211,7 +211,7 @@ const AdminTeam = () => {
         maxWidth="lg"
         sx={{ py: 4, display: 'flex', justifyContent: 'center' }}
       >
-        <CircularProgress sx={{ color: '#039be5' }} />
+        <CircularProgress sx={{ color: '#e86161' }} />
       </Container>
     );
   }
@@ -232,12 +232,12 @@ const AdminTeam = () => {
             <Box
               sx={{ display: 'flex', alignItems: 'center', gap: 2, flex: 1 }}
             >
-              <TeamIcon sx={{ fontSize: 40, color: '#039be5' }} />
+              <TeamIcon sx={{ fontSize: 40, color: '#e86161' }} />
               <Box>
                 <Typography
                   variant="h4"
                   sx={{
-                    color: '#039be5',
+                    color: '#e86161',
                     fontWeight: 700,
                     fontSize: { xs: '1.5rem', sm: '2.125rem' },
                   }}
@@ -263,7 +263,7 @@ const AdminTeam = () => {
                 startIcon={<Add />}
                 onClick={() => handleOpenDialog()}
                 sx={{
-                  backgroundColor: '#039be5',
+                  backgroundColor: '#e86161',
                   '&:hover': { backgroundColor: '#d45151' },
                 }}
               >
@@ -327,7 +327,7 @@ const AdminTeam = () => {
                               <Typography
                                 variant="subtitle2"
                                 sx={{
-                                  color: '#039be5',
+                                  color: '#e86161',
                                   fontWeight: 500,
                                   textTransform: 'uppercase',
                                   letterSpacing: '0.5px',
@@ -370,7 +370,7 @@ const AdminTeam = () => {
                               href={member.link}
                               target="_blank"
                               rel="noopener noreferrer"
-                              style={{ color: '#039be5' }}
+                              style={{ color: '#e86161' }}
                             >
                               {member.link}
                             </a>
@@ -513,7 +513,7 @@ const AdminTeam = () => {
               onClick={handleSaveMember}
               disabled={saving}
               sx={{
-                backgroundColor: '#039be5',
+                backgroundColor: '#e86161',
                 '&:hover': { backgroundColor: '#d45151' },
               }}
             >

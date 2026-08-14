@@ -22,7 +22,7 @@ const IntroVideo = () => {
         variant="h4"
         gutterBottom
         sx={{
-          color: '#039be5',
+          color: '#e86161',
           fontWeight: 700,
           mb: 3,
           fontSize: { xs: '1.75rem', sm: '2rem', md: '2.25rem' },

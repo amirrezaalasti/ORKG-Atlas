@@ -60,10 +60,10 @@ export const WithFloatingButton: Story = {
           size="small"
           aria-label="scroll back to top"
           sx={{
-            backgroundColor: '#039be5',
+            backgroundColor: '#e86161',
             color: 'white',
             '&:hover': {
-              backgroundColor: '#0277bd',
+              backgroundColor: '#d45555',
             },
           }}
         >

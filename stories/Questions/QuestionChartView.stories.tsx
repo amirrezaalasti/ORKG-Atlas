@@ -23,7 +23,7 @@ const mockQuery: Query = {
         dataKey: 'value',
       },
     ],
-    colors: ['#039be5'],
+    colors: ['#e86161'],
     yAxis: [
       {
         label: 'Proportion of papers without an empirical study',

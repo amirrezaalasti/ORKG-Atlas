@@ -23,7 +23,7 @@ const QuestionInformation = (props: Props) => {
       <Typography
         variant="h6"
         sx={{
-          color: '#039be5',
+          color: '#e86161',
           fontWeight: 600,
           mb: 2,
           fontSize: { xs: '1.1rem', sm: '1.2rem' },
@@ -40,7 +40,7 @@ const QuestionInformation = (props: Props) => {
             mb: 2,
           },
           '& a': {
-            color: '#039be5',
+            color: '#e86161',
             textDecoration: 'none',
             fontWeight: 500,
             '&:hover': {

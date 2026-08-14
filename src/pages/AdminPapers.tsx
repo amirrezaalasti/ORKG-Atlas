@@ -308,7 +308,7 @@ const AdminPapers = () => {
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <MenuBook sx={{ fontSize: 40, color: '#039be5' }} />
+          <MenuBook sx={{ fontSize: 40, color: '#e86161' }} />
           <Box>
             <Typography variant="h4" sx={{ fontWeight: 600 }}>
               Papers Management
@@ -330,8 +330,8 @@ const AdminPapers = () => {
             onClick={handleDownloadAllBibtex}
             disabled={papers.length === 0}
             sx={{
-              borderColor: '#039be5',
-              color: '#039be5',
+              borderColor: '#e86161',
+              color: '#e86161',
               '&:hover': {
                 borderColor: '#d45151',
                 backgroundColor: 'rgba(232, 97, 97, 0.06)',
@@ -345,7 +345,7 @@ const AdminPapers = () => {
             startIcon={<Add />}
             onClick={() => handleOpenDialog()}
             sx={{
-              backgroundColor: '#039be5',
+              backgroundColor: '#e86161',
               '&:hover': {
                 backgroundColor: '#d45151',
               },
@@ -629,7 +629,7 @@ const AdminPapers = () => {
             variant="contained"
             disabled={saving || !formData.title.trim()}
             sx={{
-              backgroundColor: '#039be5',
+              backgroundColor: '#e86161',
               '&:hover': {
                 backgroundColor: '#d45151',
               },

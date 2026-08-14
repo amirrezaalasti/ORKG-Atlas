@@ -77,7 +77,7 @@ export const Default: Story = {
     docs: {
       description: {
         story:
-          'Default state with gauge chart type selected. The gauge icon (DonutLargeIcon) is highlighted with the primary red color (#039be5), indicating it is the active selection.',
+          'Default state with gauge chart type selected. The gauge icon (DonutLargeIcon) is highlighted with the primary red color (#e86161), indicating it is the active selection.',
       },
     },
   },

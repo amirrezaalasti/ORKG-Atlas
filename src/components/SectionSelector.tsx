@@ -158,7 +158,7 @@ const SectionSelector: React.FC<SectionSelectorProps> = ({
         {getSectionIcon()}
         <Typography
           variant="subtitle2"
-          sx={{ color: '#039be5', fontWeight: 600 }}
+          sx={{ color: '#e86161', fontWeight: 600 }}
         >
           AI Analysis Options for {sectionTitle}
         </Typography>
@@ -166,7 +166,7 @@ const SectionSelector: React.FC<SectionSelectorProps> = ({
           label="AI"
           size="small"
           sx={{
-            backgroundColor: '#039be5',
+            backgroundColor: '#e86161',
             color: 'white',
             fontWeight: 600,
             fontSize: '0.75rem',
@@ -193,8 +193,8 @@ const SectionSelector: React.FC<SectionSelectorProps> = ({
               startIcon={promptConfig.icon}
               onClick={() => handlePromptClick(promptConfig.prompt)}
               sx={{
-                borderColor: '#039be5',
-                color: '#039be5',
+                borderColor: '#e86161',
+                color: '#e86161',
                 '&:hover': {
                   borderColor: '#d45151',
                   backgroundColor: 'rgba(232, 97, 97, 0.08)',

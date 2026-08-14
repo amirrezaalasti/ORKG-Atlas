@@ -83,7 +83,7 @@ const SparqlHistoryDialog: React.FC<SparqlHistoryDialogProps> = ({
           }}
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <History sx={{ color: '#039be5' }} />
+            <History sx={{ color: '#e86161' }} />
             <Typography variant="h6">SPARQL Query History</Typography>
           </Box>
           <IconButton onClick={onClose} size="small">
@@ -187,7 +187,7 @@ const SparqlHistoryDialog: React.FC<SparqlHistoryDialogProps> = ({
                         startIcon={<Restore />}
                         onClick={() => handleRevertHistory(item)}
                         sx={{
-                          backgroundColor: '#039be5',
+                          backgroundColor: '#e86161',
                           '&:hover': { backgroundColor: '#d45151' },
                         }}
                       >

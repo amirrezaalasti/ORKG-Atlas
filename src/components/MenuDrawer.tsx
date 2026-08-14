@@ -38,7 +38,7 @@ import { useAuthData } from '../auth/useAuthData';
 
 const DRAWER_WIDTH = 280;
 
-const ACCENT_COLOR = '#039be5';
+const ACCENT_COLOR = '#e86161';
 const ACTIVE_BG = 'rgba(232, 97, 97, 0.08)';
 const HOVER_BG = 'rgba(232, 97, 97, 0.05)';
 
@@ -385,7 +385,9 @@ function MenuDrawer({ open, handleDrawerClose }: MenuDrawerProps) {
         `/${selectedTemplate}/community-questions/${question.communityQuestionId}`
       );
     } else {
-      navigate(`/${selectedTemplate}/questions/${question.id}`);
+      const routeId =
+        typeof question.id === 'number' ? question.id : question.uid;
+      navigate(`/${selectedTemplate}/questions/${routeId}`);
     }
     handleDrawerClose();
   };

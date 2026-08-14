@@ -60,8 +60,8 @@ const mockQuery: Query = {
     heading: 'Distribution of Research Methods in RE Studies',
     yAxis: { dataKey: 'count', name: 'Number of Papers' },
     xAxis: { dataKey: 'method', name: 'Research Method' },
-    series: [{ dataKey: 'count', name: 'Papers', color: '#039be5' }],
-    colors: ['#039be5', '#61e8aa', '#6161e8'],
+    series: [{ dataKey: 'count', name: 'Papers', color: '#e86161' }],
+    colors: ['#e86161', '#61e8aa', '#6161e8'],
     height: 400,
     sx: {},
   },
@@ -137,10 +137,10 @@ const FloatingAIAssistantWrapper = ({
               <Box
                 sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}
               >
-                <SmartToyIcon sx={{ color: '#039be5', fontSize: 32 }} />
+                <SmartToyIcon sx={{ color: '#e86161', fontSize: 32 }} />
                 <Typography
                   variant="h5"
-                  sx={{ color: '#039be5', fontWeight: 600 }}
+                  sx={{ color: '#e86161', fontWeight: 600 }}
                 >
                   ORKG Atlas Demo Page
                 </Typography>
@@ -153,7 +153,7 @@ const FloatingAIAssistantWrapper = ({
               <List dense>
                 <ListItem>
                   <ListItemIcon>
-                    <QuestionAnswerIcon sx={{ color: '#039be5' }} />
+                    <QuestionAnswerIcon sx={{ color: '#e86161' }} />
                   </ListItemIcon>
                   <ListItemText
                     primary="Interactive AI Chat"
@@ -162,7 +162,7 @@ const FloatingAIAssistantWrapper = ({
                 </ListItem>
                 <ListItem>
                   <ListItemIcon>
-                    <BarChartIcon sx={{ color: '#039be5' }} />
+                    <BarChartIcon sx={{ color: '#e86161' }} />
                   </ListItemIcon>
                   <ListItemText
                     primary="Data Visualization"

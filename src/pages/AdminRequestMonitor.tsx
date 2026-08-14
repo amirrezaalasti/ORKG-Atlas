@@ -225,7 +225,7 @@ const AdminRequestMonitor = () => {
             mb: 2,
           }}
         >
-          <Typography variant="h4" sx={{ fontWeight: 700, color: '#039be5' }}>
+          <Typography variant="h4" sx={{ fontWeight: 700, color: '#e86161' }}>
             Firebase Request Monitor
           </Typography>
           <Box sx={{ display: 'flex', gap: 1 }}>
@@ -267,7 +267,7 @@ const AdminRequestMonitor = () => {
                 size="small"
                 onClick={fetchLogs}
                 disabled={loading}
-                sx={{ color: '#039be5' }}
+                sx={{ color: '#e86161' }}
               >
                 <Refresh />
               </IconButton>
@@ -371,7 +371,7 @@ const AdminRequestMonitor = () => {
       {/* Filters */}
       <Paper sx={{ p: 2, mb: 3 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
-          <FilterList sx={{ color: '#1976d2' }} />
+          <FilterList sx={{ color: '#e86161' }} />
           <Typography variant="h6" sx={{ fontWeight: 600 }}>
             Filters
           </Typography>

@@ -62,11 +62,15 @@ const initializeDefaultData = async () => {
     const defaultFilename = import.meta.env.VITE_DEFAULT_BACKUP_FILENAME;
     const storedFilename = localStorage.getItem(STORAGE_KEY);
     const availableBackups = getAvailableBackups();
+    const liveMode = isLiveModeEnabled();
 
     let fileToLoad = '';
+    // Only persist when restoring a user-selected backup. Env defaults and
+    // API-failure fallbacks must not re-enter explicit backup mode.
+    let persistSelection = false;
 
     // Priority 1: explicitly selected backup from localStorage
-    if (storedFilename) {
+    if (!liveMode && storedFilename) {
       if (storedFilename === 'UPLOADED_FILE') {
         // If it was an uploaded file, we can't reload it automatically from disk
         console.log(
@@ -76,24 +80,22 @@ const initializeDefaultData = async () => {
         const found = availableBackups.find((f) => f === storedFilename);
         if (found) {
           fileToLoad = found;
+          persistSelection = true;
         }
       }
     }
 
-    // Priority 2: default from env var
-    if (!fileToLoad && defaultFilename) {
+    // Priority 2: default from env var (in-memory fallback only)
+    if (!fileToLoad && !liveMode && defaultFilename) {
       const found = availableBackups.find((f) => f === defaultFilename);
       if (found) {
         fileToLoad = found;
       }
     }
 
-    // Priority 3: fallback to latest backup (when live fails or no selection)
-    // Don't persist - this is a temporary fallback, not an explicit user choice
-    let persistSelection = true;
+    // Priority 3: latest backup when live fails or no selection
     if (!fileToLoad && availableBackups.length > 0) {
       fileToLoad = getLatestBackupFilename();
-      persistSelection = false;
       console.log(
         'BackupService: Using latest backup as temporary fallback (live may recover):',
         fileToLoad
@@ -143,11 +145,14 @@ export const loadBackupFile = async (
 
     // Set new data
     setData(backupData);
-    currentBackupFilename = filename;
     if (persistSelection) {
+      currentBackupFilename = filename;
       localStorage.setItem(STORAGE_KEY, filename);
+      localStorage.removeItem(LIVE_MODE_KEY);
+    } else {
+      // In-memory fallback only — do not show Backup Mode in the UI
+      currentBackupFilename = '';
     }
-    // Note: We no longer clear LIVE_MODE_KEY - users can switch between live and backup freely
     const hasNestedQuestions = backupData.Templates?.some(
       (t: any) =>
         t.Questions && Array.isArray(t.Questions) && t.Questions.length > 0

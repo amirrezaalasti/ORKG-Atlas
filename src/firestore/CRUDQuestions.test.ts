@@ -52,4 +52,15 @@ describe('CRUDQuestions.getQuestions backup fallback', () => {
 
     expect(result).toEqual([{ id: 3, uid: 'fallback' }]);
   });
+
+  it('fills numeric id from uid when the API omits id', async () => {
+    vi.mocked(getQuestionsApi).mockResolvedValue([
+      { uid: 'query_1', title: 'Empirical studies per year' },
+    ]);
+
+    const result = await CRUDQuestions.getQuestions('R186491');
+
+    expect(result[0].id).toBe(1);
+    expect(result[0].uid).toBe('query_1');
+  });
 });

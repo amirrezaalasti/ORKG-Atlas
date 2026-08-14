@@ -40,7 +40,7 @@ const HistoryManagerWrapper = () => {
         onClick={() => setOpen(true)}
         startIcon={<HistoryIcon />}
         sx={{
-          backgroundColor: '#039be5',
+          backgroundColor: '#e86161',
           '&:hover': { backgroundColor: '#d45151' },
           mb: 2,
         }}

@@ -313,7 +313,7 @@ const AIConfigurationDialog: React.FC<AIConfigurationDialogProps> = ({
     <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
       <DialogTitle sx={{ pb: 1 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <Settings sx={{ color: '#039be5' }} />
+          <Settings sx={{ color: '#e86161' }} />
           <Typography variant="h5" sx={{ fontWeight: 600 }}>
             AI Assistant Setup
           </Typography>
@@ -595,7 +595,7 @@ const AIConfigurationDialog: React.FC<AIConfigurationDialogProps> = ({
           variant="contained"
           disabled={!canSave}
           sx={{
-            backgroundColor: '#039be5',
+            backgroundColor: '#e86161',
             textTransform: 'none',
             px: 3,
             '&:hover': {

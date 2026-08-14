@@ -21,7 +21,8 @@ import {
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CloudOffIcon from '@mui/icons-material/CloudOff';
+import CloudDoneOutlinedIcon from '@mui/icons-material/CloudDoneOutlined';
+import { getSnapshotColors } from '../constants/brandColors';
 import BackupService, { BackupData } from '../services/BackupService';
 import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
@@ -216,8 +217,7 @@ const BackupSelector: React.FC<BackupSelectorProps> = ({
     setIsDragging(false);
   };
 
-  const isUsingBackup =
-    BackupService.isExplicitlyUsingBackup() || !!currentBackup;
+  const isUsingBackup = BackupService.isExplicitlyUsingBackup();
   const isLiveModeEnabled = BackupService.isLiveModeEnabled();
 
   const getDisplayNameForBackup = (filename: string) => {
@@ -280,50 +280,56 @@ const BackupSelector: React.FC<BackupSelectorProps> = ({
 
   return (
     <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Select Data Source</DialogTitle>
+      <DialogTitle sx={{ pb: 1 }}>Data source</DialogTitle>
       <DialogContent>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          ORKG Atlas can load its data either from the live Firebase database or
-          from JSON backup files. This dialog lets you switch to a specific
-          backup snapshot (from the built-in backups folder or an uploaded file)
-          for reproducible analyses, demos, or when live data is not available.
-          When backup mode is active, the application reads data only from the
-          selected backup, and some write or admin features may be limited.
+          Use live ORKG data, or pin charts to a saved snapshot for a demo or
+          reproducible analysis. Snapshots are read-only.
         </Typography>
 
         {isUsingBackup && (
-          <Alert severity="warning" sx={{ mb: 2 }}>
-            <AlertTitle>Backup Mode Active</AlertTitle>
-            You are currently using backup data (
-            {currentBackup || 'uploaded file'}). Some features may be limited.
+          <Alert
+            severity="warning"
+            sx={(theme) => {
+              const snapshot = getSnapshotColors(theme.palette.mode);
+              return {
+                mb: 2,
+                backgroundColor: snapshot.wash,
+                color: snapshot.ink,
+                border: `1px solid ${snapshot.main}`,
+                '& .MuiAlert-icon': { color: snapshot.main },
+              };
+            }}
+          >
+            <AlertTitle>Using a saved snapshot</AlertTitle>
+            {currentBackup || 'uploaded file'}
           </Alert>
         )}
 
         {isLiveModeEnabled && !isUsingBackup && (
-          <Alert severity="info" sx={{ mb: 2 }}>
-            <AlertTitle>Live Mode Active</AlertTitle>
-            You are currently using live data. You can switch to backup mode at
-            any time.
+          <Alert severity="success" sx={{ mb: 2 }}>
+            <AlertTitle>Using live data</AlertTitle>
+            Choose a snapshot below if you need a frozen copy.
           </Alert>
         )}
 
-        <Box sx={{ mb: 2, display: 'flex', justifyContent: 'flex-end' }}>
+        <Box sx={{ mb: 2, display: 'flex', justifyContent: 'flex-start' }}>
           <Button
-            variant="outlined"
+            variant="contained"
             color="primary"
-            startIcon={<CloudOffIcon />}
+            startIcon={<CloudDoneOutlinedIcon />}
             onClick={handleClearBackup}
             disabled={
               !currentBackup && !BackupService.isExplicitlyUsingBackup()
             }
           >
-            Use Live Data
+            Use live data
           </Button>
         </Box>
 
         <Typography variant="subtitle2" color="text.secondary" gutterBottom>
-          Available Backups
-          {isLoadingMetadata && ' (loading metadata...)'}
+          Snapshots
+          {isLoadingMetadata && ' (loading details…)'}
         </Typography>
         <Paper
           variant="outlined"
@@ -506,10 +512,10 @@ const BackupSelector: React.FC<BackupSelectorProps> = ({
             sx={{ fontSize: 40, color: 'text.secondary', mb: 1 }}
           />
           <Typography variant="body1" gutterBottom>
-            Drag and drop a JSON file here
+            Drop a snapshot JSON here
           </Typography>
           <Typography variant="caption" color="text.secondary">
-            or click to browse
+            or click to choose a file
           </Typography>
           <input
             type="file"

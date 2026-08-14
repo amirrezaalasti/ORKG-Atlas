@@ -15,6 +15,7 @@ import {
   deleteStatistic as deleteStatisticApi,
 } from '../services/backendApi';
 import BackupService from '../services/BackupService';
+import { hydrateQuestionNumericId } from '../constants/template_config';
 
 /**
  *
@@ -205,11 +206,15 @@ export const getAllQuestions = async (
 ): Promise<QuestionData[]> => {
   try {
     const questions = (await getQuestionsApi(templateId)) as QuestionData[];
-    return questions.sort((a, b) => a.id - b.id);
+    return questions
+      .map((q) => hydrateQuestionNumericId(q, templateId))
+      .sort((a, b) => a.id - b.id);
   } catch (error) {
     console.warn('Backend failed, falling back to local backup:', error);
     const questions = (await BackupService.getQuestions(templateId)) || [];
-    return questions.sort((a: any, b: any) => a.id - b.id) as QuestionData[];
+    return questions
+      .map((q: QuestionData) => hydrateQuestionNumericId(q, templateId))
+      .sort((a, b) => a.id - b.id);
   }
 };
 

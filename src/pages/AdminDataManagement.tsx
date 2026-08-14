@@ -402,7 +402,7 @@ const AdminDataManagement = () => {
       <Box sx={{ mb: 4 }}>
         <Typography
           variant="h4"
-          sx={{ fontWeight: 700, color: '#039be5', mb: 1 }}
+          sx={{ fontWeight: 700, color: '#e86161', mb: 1 }}
         >
           Template Data Management
         </Typography>
@@ -440,10 +440,10 @@ const AdminDataManagement = () => {
               fontWeight: 600,
             },
             '& .Mui-selected': {
-              color: '#039be5',
+              color: '#e86161',
             },
             '& .MuiTabs-indicator': {
-              backgroundColor: '#039be5',
+              backgroundColor: '#e86161',
             },
           }}
         >

@@ -112,7 +112,7 @@ const Team = () => {
             justifyContent: 'center',
           }}
         >
-          <CircularProgress sx={{ color: '#039be5' }} />
+          <CircularProgress sx={{ color: '#e86161' }} />
         </Box>
       </ThemeProvider>
     );
@@ -245,7 +245,7 @@ const Team = () => {
                         <Typography
                           variant="subtitle2"
                           sx={{
-                            color: '#039be5',
+                            color: '#e86161',
                             fontWeight: 500,
                             mb: 1.5,
                             fontSize: { xs: '0.85rem', sm: '0.9rem' },
@@ -275,12 +275,12 @@ const Team = () => {
                             display: 'flex',
                             alignItems: 'center',
                             gap: 1,
-                            color: '#039be5',
+                            color: '#e86161',
                             textDecoration: 'none',
                             fontSize: { xs: '0.85rem', sm: '0.9rem' },
                             '&:hover': {
                               textDecoration: 'underline',
-                              color: '#0277bd',
+                              color: '#d45555',
                             },
                             transition: 'color 0.2s ease-in-out',
                           }}
@@ -321,7 +321,7 @@ const Team = () => {
                     gap: 1,
                   }}
                 >
-                  <MenuBookIcon sx={{ color: '#039be5' }} />
+                  <MenuBookIcon sx={{ color: '#e86161' }} />
                   Publications
                 </Typography>
                 <Button
@@ -330,8 +330,8 @@ const Team = () => {
                   startIcon={<DownloadIcon />}
                   onClick={handleDownloadAllBibtex}
                   sx={{
-                    borderColor: '#039be5',
-                    color: '#039be5',
+                    borderColor: '#e86161',
+                    color: '#e86161',
                     '&:hover': {
                       borderColor: '#d45151',
                       backgroundColor: 'rgba(232, 97, 97, 0.06)',
@@ -439,7 +439,7 @@ const Team = () => {
                             size="small"
                             aria-label="Copy BibTeX citation"
                             onClick={() => void handleCopyBibtex(paper)}
-                            sx={{ color: '#039be5' }}
+                            sx={{ color: '#e86161' }}
                           >
                             <ContentCopyIcon fontSize="small" />
                           </IconButton>
@@ -453,7 +453,7 @@ const Team = () => {
                               target="_blank"
                               rel="noopener noreferrer"
                               aria-label="Open publication link"
-                              sx={{ color: '#039be5' }}
+                              sx={{ color: '#e86161' }}
                             >
                               <OpenInNewIcon fontSize="small" />
                             </IconButton>

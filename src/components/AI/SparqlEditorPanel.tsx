@@ -101,7 +101,7 @@ const SparqlEditorPanel: React.FC<SparqlEditorPanelProps> = ({
             mb: 2,
           }}
         >
-          <Typography variant="h5" sx={{ color: '#039be5', fontWeight: 600 }}>
+          <Typography variant="h5" sx={{ color: '#e86161', fontWeight: 600 }}>
             SPARQL Query
           </Typography>
           <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
@@ -113,7 +113,7 @@ const SparqlEditorPanel: React.FC<SparqlEditorPanelProps> = ({
                   onClick={handleSave}
                   startIcon={<Save />}
                   sx={{
-                    backgroundColor: '#039be5',
+                    backgroundColor: '#e86161',
                     '&:hover': { backgroundColor: '#d45151' },
                   }}
                 >
@@ -134,8 +134,8 @@ const SparqlEditorPanel: React.FC<SparqlEditorPanelProps> = ({
                     onClick={onOpenHistory}
                     startIcon={<History />}
                     sx={{
-                      borderColor: '#039be5',
-                      color: '#039be5',
+                      borderColor: '#e86161',
+                      color: '#e86161',
                       '&:hover': {
                         borderColor: '#d45151',
                         backgroundColor: 'rgba(232, 97, 97, 0.08)',
@@ -151,7 +151,7 @@ const SparqlEditorPanel: React.FC<SparqlEditorPanelProps> = ({
                 <Button
                   onClick={handleOpenInORKG}
                   sx={{
-                    color: '#039be5',
+                    color: '#e86161',
                     mt: { xs: 2, sm: 0 },
                     ml: 2,
                     '&:hover': {
@@ -170,7 +170,7 @@ const SparqlEditorPanel: React.FC<SparqlEditorPanelProps> = ({
                     onClick={handleEdit}
                     size="small"
                     sx={{
-                      color: '#039be5',
+                      color: '#e86161',
                       '&:hover': {
                         backgroundColor: 'rgba(232, 97, 97, 0.08)',
                       },
@@ -198,7 +198,7 @@ const SparqlEditorPanel: React.FC<SparqlEditorPanelProps> = ({
                     onClick={onOpenExplanation}
                     size="small"
                     sx={{
-                      color: '#039be5',
+                      color: '#e86161',
                       '&:hover': {
                         backgroundColor: 'rgba(232, 97, 97, 0.08)',
                       },
@@ -213,7 +213,7 @@ const SparqlEditorPanel: React.FC<SparqlEditorPanelProps> = ({
                       onClick={onOpenHistory}
                       size="small"
                       sx={{
-                        color: '#039be5',
+                        color: '#e86161',
                         '&:hover': {
                           backgroundColor: 'rgba(232, 97, 97, 0.08)',
                         },
@@ -337,7 +337,7 @@ LIMIT 10`}
       >
         <DialogTitle>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <SmartToy sx={{ color: '#039be5' }} />
+            <SmartToy sx={{ color: '#e86161' }} />
             <Typography variant="h6">AI Query Modification</Typography>
           </Box>
         </DialogTitle>
@@ -378,7 +378,7 @@ LIMIT 10`}
               isAIModifying ? <CircularProgress size={16} /> : <Refresh />
             }
             sx={{
-              backgroundColor: '#039be5',
+              backgroundColor: '#e86161',
               '&:hover': { backgroundColor: '#d45151' },
             }}
           >

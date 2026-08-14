@@ -1,5 +1,7 @@
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { ReactElement } from 'react';
+import { useReducedMotion } from 'motion/react';
+import { fadeUp, hoverLift, MotionPaper } from '../constants/motion';
 
 interface StatCardProps {
   children: ReactElement;
@@ -14,6 +16,8 @@ export default function StatCard({
   label,
   link,
 }: StatCardProps): ReactElement {
+  const reduceMotion = useReducedMotion();
+
   const handleClick = () => {
     if (link) {
       window.open(link, '_blank', 'noopener,noreferrer');
@@ -21,8 +25,10 @@ export default function StatCard({
   };
 
   return (
-    <Paper
+    <MotionPaper
       elevation={3}
+      variants={fadeUp}
+      whileHover={link && !reduceMotion ? hoverLift : undefined}
       sx={{
         p: 3,
         borderRadius: 4,
@@ -38,11 +44,6 @@ export default function StatCard({
         minHeight: { xs: 168, sm: 'auto' },
         boxSizing: 'border-box',
         cursor: link ? 'pointer' : 'default',
-        transition: 'all 0.3s ease-in-out',
-        '&:hover': {
-          transform: link ? 'translateY(-4px)' : 'none',
-          boxShadow: link ? '0px 6px 20px rgba(0, 0, 0, 0.08)' : 'none',
-        },
       }}
       onClick={handleClick}
     >
@@ -71,6 +72,6 @@ export default function StatCard({
       >
         {label}
       </Typography>
-    </Paper>
+    </MotionPaper>
   );
 }

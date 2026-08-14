@@ -207,6 +207,7 @@ export const corsOptions = {
     'x-api-key',
     'x-user-id',
     'x-user-email',
+    'x-guest-id',
     'x-openrouter-api-key',
   ],
 };

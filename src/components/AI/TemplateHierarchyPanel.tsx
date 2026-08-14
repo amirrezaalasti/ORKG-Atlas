@@ -80,7 +80,7 @@ const HierarchyNode: React.FC<NodeRowProps> = ({
             variant="caption"
             sx={{
               ml: 1,
-              color: '#039be5',
+              color: '#e86161',
               fontWeight: 600,
               fontSize: '0.65rem',
             }}
@@ -142,7 +142,7 @@ const TemplateHierarchyPanel: React.FC<TemplateHierarchyPanelProps> = ({
         sx={{ minHeight: 48, '& .MuiAccordionSummary-content': { my: 1 } }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <AccountTree sx={{ fontSize: 20, color: '#039be5' }} />
+          <AccountTree sx={{ fontSize: 20, color: '#e86161' }} />
           <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
             Template schema (hierarchy)
           </Typography>

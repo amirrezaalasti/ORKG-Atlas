@@ -71,7 +71,7 @@ export const buildDynamicQuery = ({
             .replace(/_/g, ' ')
             .replace(/\b\w/g, (l) => l.toUpperCase()),
         })),
-      colors: ['#039be5', '#4CAF50', '#2196F3', '#FF9800', '#9C27B0'],
+      colors: ['#e86161', '#4CAF50', '#2196F3', '#FF9800', '#9C27B0'],
       yAxis: [
         {
           label: 'Count',

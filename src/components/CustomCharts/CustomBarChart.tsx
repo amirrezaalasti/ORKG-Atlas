@@ -138,7 +138,7 @@ const CustomBarChart = (props: CustomBarChartInterface) => {
               ? s.dataKey
               : 'count',
         }))}
-        colors={chartSetting.colors ?? ['#039be5']}
+        colors={chartSetting.colors ?? ['#e86161']}
         loading={loading}
         onItemClick={handleBarItemClick}
         slotProps={{

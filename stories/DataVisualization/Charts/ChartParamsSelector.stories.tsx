@@ -33,7 +33,7 @@ const mockQuery: Query = {
         dataKey: 'normalizedRatio',
       },
     ],
-    colors: ['#039be5'],
+    colors: ['#e86161'],
     yAxis: [
       {
         label: 'Normalized Ratio',

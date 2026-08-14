@@ -114,7 +114,7 @@ const formKeys: FormKeyConfig[] = [
     key: 'colors',
     label: 'Colors',
     type: 'colors',
-    placeholder: '#039be5, #1976d2',
+    placeholder: '#e86161, #1976d2',
   },
   {
     key: 'layout',
@@ -461,7 +461,7 @@ const ChartSettingsEditor: React.FC<ChartSettingsEditorProps> = ({
             mb: 2,
           }}
         >
-          <Typography variant="h6" sx={{ fontWeight: 600, color: '#039be5' }}>
+          <Typography variant="h6" sx={{ fontWeight: 600, color: '#e86161' }}>
             Edit chart settings
           </Typography>
           <IconButton onClick={onClose} size="small" aria-label="Close">
@@ -654,7 +654,7 @@ const ChartSettingsEditor: React.FC<ChartSettingsEditorProps> = ({
               saving ? <CircularProgress size={16} color="inherit" /> : <Save />
             }
             sx={{
-              backgroundColor: '#039be5',
+              backgroundColor: '#e86161',
               '&:hover': { backgroundColor: '#d45151' },
             }}
           >

@@ -10,7 +10,12 @@ import {
   IconButton,
 } from '@mui/material';
 import { PriorityHigh, ChevronRight, Close } from '@mui/icons-material';
+import { AnimatePresence, useReducedMotion } from 'motion/react';
 import CRUDNews, { NewsItem } from '../../firestore/CRUDNews';
+import {
+  easeOutExpo,
+  MotionTypography,
+} from '../../constants/motion';
 
 const HighPriorityNews = () => {
   const { templateId } = useParams<{ templateId: string }>();
@@ -19,6 +24,7 @@ const HighPriorityNews = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [dismissed, setDismissed] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     fetchHighPriorityNews();
@@ -94,7 +100,7 @@ const HighPriorityNews = () => {
       elevation={1}
       sx={{
         backgroundColor: '#fff3f3',
-        borderLeft: '4px solid #039be5',
+        borderLeft: '4px solid #e86161',
         borderRadius: 1,
         mb: 2,
         overflow: 'hidden',
@@ -116,7 +122,7 @@ const HighPriorityNews = () => {
             px: 2,
           }}
         >
-          <CircularProgress size={20} sx={{ color: '#039be5' }} />
+          <CircularProgress size={20} sx={{ color: '#e86161' }} />
         </Box>
       ) : (
         currentNews && (
@@ -139,7 +145,7 @@ const HighPriorityNews = () => {
           >
             <PriorityHigh
               sx={{
-                color: '#039be5',
+                color: '#e86161',
                 fontSize: 20,
                 flexShrink: 0,
               }}
@@ -157,20 +163,43 @@ const HighPriorityNews = () => {
                 }}
               />
             )}
-            <Box sx={{ flex: 1, minWidth: 0 }}>
-              <Typography
-                variant="body2"
-                sx={{
-                  fontWeight: 600,
-                  color: '#333',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                  fontSize: { xs: '0.875rem', sm: '0.9rem' },
-                }}
-              >
-                {currentNews.title}
-              </Typography>
+            <Box sx={{ flex: 1, minWidth: 0, overflow: 'hidden' }}>
+              {reduceMotion ? (
+                <Typography
+                  variant="body2"
+                  sx={{
+                    fontWeight: 600,
+                    color: '#333',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    fontSize: { xs: '0.875rem', sm: '0.9rem' },
+                  }}
+                >
+                  {currentNews.title}
+                </Typography>
+              ) : (
+                <AnimatePresence mode="wait">
+                  <MotionTypography
+                    key={currentNews.id}
+                    variant="body2"
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.25, ease: easeOutExpo }}
+                    sx={{
+                      fontWeight: 600,
+                      color: '#333',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      fontSize: { xs: '0.875rem', sm: '0.9rem' },
+                    }}
+                  >
+                    {currentNews.title}
+                  </MotionTypography>
+                </AnimatePresence>
+              )}
             </Box>
             {highPriorityNews.length > 1 && (
               <Box
@@ -196,7 +225,7 @@ const HighPriorityNews = () => {
                     sx={{
                       transform: 'rotate(180deg)',
                       fontSize: 18,
-                      color: '#039be5',
+                      color: '#e86161',
                     }}
                   />
                 </IconButton>
@@ -225,7 +254,7 @@ const HighPriorityNews = () => {
                   <ChevronRight
                     sx={{
                       fontSize: 18,
-                      color: '#039be5',
+                      color: '#e86161',
                     }}
                   />
                 </IconButton>

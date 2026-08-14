@@ -96,7 +96,7 @@ const StatisticEditDialog = ({
           onClick={() => onSave(form)}
           variant="contained"
           sx={{
-            backgroundColor: '#039be5',
+            backgroundColor: '#e86161',
             '&:hover': { backgroundColor: '#d55555' },
           }}
         >

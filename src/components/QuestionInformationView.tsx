@@ -91,7 +91,7 @@ const QuestionInformationView: React.FC<QuestionInformationViewProps> = ({
       <Box sx={{ mb: 3 }}>
         <Typography
           variant="subtitle1"
-          sx={{ fontWeight: 600, color: '#039be5', mb: 1 }}
+          sx={{ fontWeight: 600, color: '#e86161', mb: 1 }}
         >
           {title}
         </Typography>

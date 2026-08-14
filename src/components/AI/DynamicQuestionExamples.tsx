@@ -166,7 +166,7 @@ const DynamicQuestionExamples = ({
           onClick={() => setExpanded(!expanded)}
         >
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Lightbulb sx={{ color: '#039be5', fontSize: '1.25rem' }} />
+            <Lightbulb sx={{ color: '#e86161', fontSize: '1.25rem' }} />
             <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
               Example Questions
             </Typography>
@@ -177,7 +177,7 @@ const DynamicQuestionExamples = ({
                 height: 20,
                 fontSize: '0.7rem',
                 backgroundColor: 'rgba(232, 97, 97, 0.1)',
-                color: '#039be5',
+                color: '#e86161',
               }}
             />
           </Box>
@@ -208,7 +208,7 @@ const DynamicQuestionExamples = ({
                             onClick={(e) => handleEditClick(e, example)}
                             sx={{
                               color: 'text.secondary',
-                              '&:hover': { color: '#1976d2' },
+                              '&:hover': { color: '#e86161' },
                             }}
                           >
                             <Edit fontSize="small" />

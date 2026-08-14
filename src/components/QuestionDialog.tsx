@@ -50,17 +50,17 @@ const QuestionDialog = (props: Props) => {
         variant="outlined"
         onClick={handleClickOpen}
         sx={{
-          color: '#039be5',
-          borderColor: '#039be5',
+          color: '#e86161',
+          borderColor: '#e86161',
           marginLeft: '10px',
           minWidth: '15vw',
           '&:hover': {
-            backgroundColor: '#039be5',
+            backgroundColor: '#e86161',
             color: 'white',
-            borderColor: '#039be5',
+            borderColor: '#e86161',
           },
           '&.MuiButton-outlined': {
-            borderColor: '#039be5',
+            borderColor: '#e86161',
           },
         }}
         size="small"

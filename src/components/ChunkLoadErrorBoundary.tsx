@@ -59,7 +59,7 @@ export class ChunkLoadErrorBoundary extends Component<Props, State> {
             style={{
               padding: '0.5rem 1.5rem',
               fontSize: '1rem',
-              backgroundColor: '#1976d2',
+              backgroundColor: '#e86161',
               color: 'white',
               border: 'none',
               borderRadius: '4px',

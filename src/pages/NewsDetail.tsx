@@ -138,7 +138,7 @@ const NewsDetail = () => {
               minHeight: '60vh',
             }}
           >
-            <CircularProgress sx={{ color: '#039be5' }} />
+            <CircularProgress sx={{ color: '#e86161' }} />
           </Box>
         </Container>
       </ThemeProvider>
@@ -195,7 +195,7 @@ const NewsDetail = () => {
             <Typography
               variant="h3"
               sx={{
-                color: '#039be5',
+                color: '#e86161',
                 fontWeight: 700,
                 fontSize: { xs: '1.75rem', sm: '2rem', md: '2.5rem' },
                 mb: 2,
@@ -266,7 +266,7 @@ const NewsDetail = () => {
                 marginBottom: 1.5,
               },
               '& a': {
-                color: '#039be5',
+                color: '#e86161',
                 textDecoration: 'none',
                 '&:hover': {
                   textDecoration: 'underline',

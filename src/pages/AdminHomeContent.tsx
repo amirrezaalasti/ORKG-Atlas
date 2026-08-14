@@ -394,7 +394,7 @@ const AdminHomeContent = () => {
         maxWidth="lg"
         sx={{ py: 4, display: 'flex', justifyContent: 'center' }}
       >
-        <CircularProgress sx={{ color: '#039be5' }} />
+        <CircularProgress sx={{ color: '#e86161' }} />
       </Container>
     );
   }
@@ -412,9 +412,9 @@ const AdminHomeContent = () => {
       <Paper elevation={3} sx={{ p: 4 }}>
         {/* Header */}
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 4, gap: 2 }}>
-          <HomeIcon sx={{ fontSize: 40, color: '#039be5' }} />
+          <HomeIcon sx={{ fontSize: 40, color: '#e86161' }} />
           <Box sx={{ flex: 1 }}>
-            <Typography variant="h4" sx={{ color: '#039be5', fontWeight: 700 }}>
+            <Typography variant="h4" sx={{ color: '#e86161', fontWeight: 700 }}>
               Home Page Content Management
             </Typography>
             <Typography variant="body2" color="text.secondary">
@@ -436,7 +436,7 @@ const AdminHomeContent = () => {
               onClick={handleSave}
               disabled={saving}
               sx={{
-                backgroundColor: '#039be5',
+                backgroundColor: '#e86161',
                 '&:hover': { backgroundColor: '#d45151' },
               }}
             >
@@ -451,7 +451,7 @@ const AdminHomeContent = () => {
         <Box sx={{ mb: 4 }}>
           <Typography
             variant="h5"
-            sx={{ mb: 2, color: '#039be5', fontWeight: 600 }}
+            sx={{ mb: 2, color: '#e86161', fontWeight: 600 }}
           >
             Header Section
           </Typography>
@@ -478,7 +478,7 @@ const AdminHomeContent = () => {
         <Box sx={{ mb: 4 }}>
           <Typography
             variant="h5"
-            sx={{ mb: 2, color: '#039be5', fontWeight: 600 }}
+            sx={{ mb: 2, color: '#e86161', fontWeight: 600 }}
           >
             About Project Section
           </Typography>
@@ -545,7 +545,7 @@ const AdminHomeContent = () => {
         <Box sx={{ mb: 4 }}>
           <Typography
             variant="h5"
-            sx={{ mb: 2, color: '#039be5', fontWeight: 600 }}
+            sx={{ mb: 2, color: '#e86161', fontWeight: 600 }}
           >
             Key Features Section
           </Typography>
@@ -629,7 +629,7 @@ const AdminHomeContent = () => {
         <Box sx={{ mb: 4 }}>
           <Typography
             variant="h5"
-            sx={{ mb: 2, color: '#039be5', fontWeight: 600 }}
+            sx={{ mb: 2, color: '#e86161', fontWeight: 600 }}
           >
             Future Development Section
           </Typography>
@@ -729,7 +729,7 @@ const AdminHomeContent = () => {
         <Box sx={{ mb: 4 }}>
           <Typography
             variant="h5"
-            sx={{ mb: 2, color: '#039be5', fontWeight: 600 }}
+            sx={{ mb: 2, color: '#e86161', fontWeight: 600 }}
           >
             Contact Section
           </Typography>
@@ -786,7 +786,7 @@ const AdminHomeContent = () => {
         <Box sx={{ mb: 4 }}>
           <Typography
             variant="h5"
-            sx={{ mb: 2, color: '#039be5', fontWeight: 600 }}
+            sx={{ mb: 2, color: '#e86161', fontWeight: 600 }}
           >
             Partners Section
           </Typography>
@@ -876,7 +876,7 @@ const AdminHomeContent = () => {
         <Box sx={{ mb: 4 }}>
           <Typography
             variant="h5"
-            sx={{ mb: 2, color: '#039be5', fontWeight: 600 }}
+            sx={{ mb: 2, color: '#e86161', fontWeight: 600 }}
           >
             Templates List
           </Typography>
@@ -949,7 +949,7 @@ const AdminHomeContent = () => {
         <Box sx={{ mb: 4 }}>
           <Typography
             variant="h5"
-            sx={{ mb: 2, color: '#039be5', fontWeight: 600 }}
+            sx={{ mb: 2, color: '#e86161', fontWeight: 600 }}
           >
             Template Info Boxes
           </Typography>
@@ -993,7 +993,7 @@ const AdminHomeContent = () => {
                       size="small"
                       sx={{
                         backgroundColor: 'rgba(232, 97, 97, 0.1)',
-                        color: '#039be5',
+                        color: '#e86161',
                         fontFamily: 'monospace',
                       }}
                     />
@@ -1050,7 +1050,7 @@ const AdminHomeContent = () => {
             onClick={handleSave}
             disabled={saving}
             sx={{
-              backgroundColor: '#039be5',
+              backgroundColor: '#e86161',
               '&:hover': { backgroundColor: '#d45151' },
             }}
           >

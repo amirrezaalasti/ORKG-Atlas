@@ -1,10 +1,16 @@
-import { Box, CircularProgress, useTheme } from '@mui/material';
+import { CircularProgress, useTheme } from '@mui/material';
+import { useReducedMotion } from 'motion/react';
+import { easeOutExpo, MotionBox } from '../constants/motion';
 
 const LoadingSpinner = () => {
   const theme = useTheme();
+  const reduceMotion = useReducedMotion();
 
   return (
-    <Box
+    <MotionBox
+      initial={reduceMotion ? false : { opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.3, ease: easeOutExpo }}
       sx={{
         display: 'flex',
         justifyContent: 'center',
@@ -15,7 +21,7 @@ const LoadingSpinner = () => {
       }}
     >
       <CircularProgress sx={{ color: theme.palette.primary.main }} />
-    </Box>
+    </MotionBox>
   );
 };
 

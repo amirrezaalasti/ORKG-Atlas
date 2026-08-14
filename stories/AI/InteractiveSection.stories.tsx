@@ -29,7 +29,7 @@ const meta: Meta<typeof InteractiveSection> = {
     title: {
       control: 'text',
       description:
-        'The title displayed at the top of the section. Styled with the primary color (#039be5) and bold font weight. Should describe the content type (e.g., "SPARQL Query", "Data Analysis Interpretation").',
+        'The title displayed at the top of the section. Styled with the primary color (#e86161) and bold font weight. Should describe the content type (e.g., "SPARQL Query", "Data Analysis Interpretation").',
       table: {
         type: { summary: 'string' },
       },

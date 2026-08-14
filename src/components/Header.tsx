@@ -40,6 +40,7 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import BackupSelector from './BackupSelector';
 import BackupService from '../services/BackupService';
 import { useBackupChange } from '../hooks/useBackupChange';
+import { getSnapshotColors } from '../constants/brandColors';
 
 interface HeaderProps {
   handleDrawerOpen: () => void;
@@ -67,7 +68,9 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
   const backupVersion = useBackupChange(); // Listen for backup changes
 
   useEffect(() => {
-    const name = BackupService.getCurrentBackupName();
+    const name = BackupService.isExplicitlyUsingBackup()
+      ? BackupService.getCurrentBackupName()
+      : '';
     setCurrentBackupName(name || ''); // Clear if no backup
   }, [backupVersion]); // Re-run when backup changes
 
@@ -319,7 +322,7 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
             sx={{
               flexGrow: { xs: 1, sm: 0 },
               textDecoration: 'none',
-              color: '#039be5',
+              color: '#e86161',
               fontWeight: 600,
               fontSize: { xs: '1.2rem', sm: '1.25rem' },
               display: 'flex',
@@ -378,7 +381,7 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
                       textDecoration: 'none',
                       fontSize: '0.875rem',
                       '&:hover': {
-                        color: '#039be5',
+                        color: '#e86161',
                         textDecoration: 'underline',
                       },
                     }}
@@ -416,64 +419,77 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
           </Box>
 
           {currentBackupName && (
-            <Tooltip title={`Using data from: ${currentBackupName}`}>
+            <Tooltip
+              title={`Change data source — currently ${currentBackupName}`}
+            >
               <Box
+                role="button"
+                tabIndex={0}
+                aria-label="Change data source"
                 onClick={() => setBackupSelectorOpen(true)}
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 1,
-                  px: 1.5,
-                  height: 34,
-                  boxSizing: 'border-box',
-                  borderRadius: 2,
-                  backgroundColor: 'rgba(237, 108, 2, 0.1)',
-                  border: '1px solid rgba(237, 108, 2, 0.3)',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease-in-out',
-                  '&:hover': {
-                    backgroundColor: 'rgba(237, 108, 2, 0.15)',
-                    borderColor: 'rgba(237, 108, 2, 0.5)',
-                    transform: 'translateY(-1px)',
-                  },
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    setBackupSelectorOpen(true);
+                  }
+                }}
+                sx={(theme) => {
+                  const snapshot = getSnapshotColors(theme.palette.mode);
+                  return {
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 0.75,
+                    px: 1.25,
+                    height: 34,
+                    boxSizing: 'border-box',
+                    borderRadius: 1,
+                    backgroundColor: snapshot.wash,
+                    color: snapshot.ink,
+                    border: `1px solid ${snapshot.main}`,
+                    boxShadow: `inset 3px 0 0 ${snapshot.main}`,
+                    cursor: 'pointer',
+                    transition:
+                      'border-color 0.2s ease, background-color 0.2s ease',
+                    '&:hover': {
+                      filter: 'brightness(0.97)',
+                    },
+                    '&:focus-visible': {
+                      outline: '2px solid',
+                      outlineColor: theme.palette.primary.main,
+                      outlineOffset: 2,
+                    },
+                  };
                 }}
               >
                 <Box
-                  sx={{
-                    width: 8,
-                    height: 8,
+                  sx={(theme) => ({
+                    width: 7,
+                    height: 7,
                     borderRadius: '50%',
-                    backgroundColor: '#ed6c02',
-                    boxShadow: '0 0 8px #ed6c02',
-                    animation: 'pulse 2s infinite',
-                    '@keyframes pulse': {
-                      '0%': {
-                        opacity: 1,
-                        boxShadow: '0 0 0 0 rgba(237, 108, 2, 0.7)',
-                      },
-                      '70%': {
-                        opacity: 1,
-                        boxShadow: '0 0 0 6px rgba(237, 108, 2, 0)',
-                      },
-                      '100%': {
-                        opacity: 1,
-                        boxShadow: '0 0 0 0 rgba(237, 108, 2, 0)',
-                      },
+                    backgroundColor: getSnapshotColors(theme.palette.mode).main,
+                    '@media (prefers-reduced-motion: no-preference)': {
+                      animation: 'snapshotPip 2.4s ease-out infinite',
                     },
-                  }}
+                    '@keyframes snapshotPip': {
+                      '0%': { opacity: 1 },
+                      '70%': { opacity: 0.45 },
+                      '100%': { opacity: 1 },
+                    },
+                  })}
                 />
                 <Typography
                   variant="caption"
                   sx={{
-                    color: '#ed6c02',
-                    fontWeight: 600,
-                    letterSpacing: '0.02em',
+                    fontWeight: 700,
+                    letterSpacing: '0.08em',
                     textTransform: 'uppercase',
-                    fontSize: '0.7rem',
+                    fontSize: '0.68rem',
+                    lineHeight: 1,
                   }}
                 >
-                  {isMobile ? 'Backup' : 'Backup Mode'}
+                  Snapshot
                 </Typography>
+                <KeyboardArrowDownIcon sx={{ fontSize: 16, opacity: 0.7 }} />
               </Box>
             </Tooltip>
           )}
@@ -568,9 +584,9 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
                 size="small"
                 sx={{
                   color:
-                    highPriorityNewsCount > 0 ? '#039be5' : 'text.secondary',
+                    highPriorityNewsCount > 0 ? '#e86161' : 'text.secondary',
                   '&:hover': {
-                    color: '#039be5',
+                    color: '#e86161',
                     backgroundColor: 'rgba(232, 97, 97, 0.08)',
                   },
                 }}

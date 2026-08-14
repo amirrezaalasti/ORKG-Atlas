@@ -9,6 +9,7 @@ import {
 } from '../services/backendApi';
 import BackupService from '../services/BackupService';
 import { queries } from '../constants/queries_chart_info.js';
+import { hydrateQuestionNumericId } from '../constants/template_config';
 
 /**
  * Add multiple questions via backend API (legacy function - use createQuestion from backendApi directly)
@@ -51,15 +52,22 @@ const getQuestions = async (templateId = 'R186491') => {
     // If user has explicitly selected a backup/offline mode, use that first
     if (BackupService.isExplicitlyUsingBackup()) {
       console.log('Using explicit backup for questions');
-      return await BackupService.getQuestions(templateId);
+      const backupQuestions = await BackupService.getQuestions(templateId);
+      return (Array.isArray(backupQuestions) ? backupQuestions : []).map((q) =>
+        hydrateQuestionNumericId(q, templateId)
+      );
     }
 
     const questions = await getQuestionsApi(templateId);
-    return Array.isArray(questions) ? questions : [];
+    const list = Array.isArray(questions) ? questions : [];
+    return list.map((q) => hydrateQuestionNumericId(q, templateId));
   } catch (error) {
     console.warn('Backend API failed, falling back to local backup:', error);
     try {
-      return await BackupService.getQuestions(templateId);
+      const backupQuestions = await BackupService.getQuestions(templateId);
+      return (Array.isArray(backupQuestions) ? backupQuestions : []).map((q) =>
+        hydrateQuestionNumericId(q, templateId)
+      );
     } catch (backupError) {
       console.error('Error fetching questions from backup:', backupError);
       throw backupError;

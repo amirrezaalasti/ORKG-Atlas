@@ -306,7 +306,7 @@ function processData(rows) {
                     }}
                     size="small"
                     sx={{
-                      color: '#039be5',
+                      color: '#e86161',
                       '&:hover': {
                         backgroundColor: 'rgba(232, 97, 97, 0.08)',
                       },
@@ -455,7 +455,7 @@ function processData(rows) {
       >
         <DialogTitle>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <SmartToy sx={{ color: '#039be5' }} />
+            <SmartToy sx={{ color: '#e86161' }} />
             <Typography variant="h6">AI Modify Processing Function</Typography>
           </Box>
         </DialogTitle>
@@ -509,7 +509,7 @@ function processData(rows) {
       >
         <DialogTitle>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <History sx={{ color: '#039be5' }} />
+            <History sx={{ color: '#e86161' }} />
             <Typography variant="h6">Processing Function History</Typography>
           </Box>
         </DialogTitle>
@@ -562,8 +562,8 @@ function processData(rows) {
                       variant="outlined"
                       onClick={() => handleRevertHistory(item)}
                       sx={{
-                        color: '#039be5',
-                        borderColor: '#039be5',
+                        color: '#e86161',
+                        borderColor: '#e86161',
                         '&:hover': {
                           borderColor: '#d45151',
                           backgroundColor: 'rgba(232, 97, 97, 0.04)',

@@ -1,6 +1,7 @@
 import { Box, Fab } from '@mui/material';
-import { Outlet, useParams } from 'react-router-dom';
+import { Outlet, useParams, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useReducedMotion } from 'motion/react';
 import Header from '../components/Header';
 import MenuDrawer from '../components/MenuDrawer';
 import ScrollTop from '../components/ScrollTop';
@@ -10,9 +11,12 @@ import { fetchQuestionsFromFirebase } from '../store/slices/questionSlice';
 import { useDispatch } from 'react-redux';
 import type { AppDispatch } from '../store';
 import BackupWarningBanner from '../components/BackupWarningBanner';
+import { easeOutExpo, MotionBox } from '../constants/motion';
 
 const Layout = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const location = useLocation();
+  const reduceMotion = useReducedMotion();
 
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
@@ -66,9 +70,15 @@ const Layout = () => {
           }),
         }}
       >
-        <Box sx={{ flexGrow: 1 }}>
+        <MotionBox
+          key={location.pathname}
+          initial={reduceMotion ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, ease: easeOutExpo }}
+          sx={{ flexGrow: 1 }}
+        >
           <Outlet />
-        </Box>
+        </MotionBox>
         <Footer />
       </Box>
 
@@ -77,10 +87,10 @@ const Layout = () => {
           size="small"
           aria-label="scroll back to top"
           sx={{
-            backgroundColor: '#039be5',
+            backgroundColor: '#e86161',
             color: 'white',
             '&:hover': {
-              backgroundColor: '#0277bd',
+              backgroundColor: '#d45555',
             },
           }}
         >

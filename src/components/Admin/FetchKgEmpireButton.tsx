@@ -312,7 +312,7 @@ const FetchKgEmpireButton = ({
         onClick={handleClick}
         disabled={disabled || fetching}
         sx={{
-          backgroundColor: '#039be5',
+          backgroundColor: '#e86161',
           '&:hover': { backgroundColor: '#d55555' },
           textTransform: 'none',
         }}

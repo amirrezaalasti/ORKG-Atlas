@@ -18,12 +18,16 @@ import Contact from '../components/Home/Contact';
 import Partners from '../components/Home/Partners';
 import CRUDHomeContent, { HomeContentData } from '../firestore/CRUDHomeContent';
 import { useBackupChange } from '../hooks/useBackupChange';
+import Reveal from '../components/Reveal';
+import { MotionBox } from '../constants/motion';
+import { useReducedMotion } from 'motion/react';
 
 const Home = () => {
   const [homeContent, setHomeContent] = useState<HomeContentData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const backupVersion = useBackupChange(); // Listen for backup changes
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -48,7 +52,10 @@ const Home = () => {
   if (loading) {
     return (
       <ThemeProvider theme={theme}>
-        <Box
+        <MotionBox
+          initial={reduceMotion ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           sx={{
             minHeight: '100vh',
             width: '100%',
@@ -58,8 +65,8 @@ const Home = () => {
             justifyContent: 'center',
           }}
         >
-          <CircularProgress sx={{ color: '#039be5' }} />
-        </Box>
+          <CircularProgress sx={{ color: '#e86161' }} />
+        </MotionBox>
       </ThemeProvider>
     );
   }
@@ -94,13 +101,19 @@ const Home = () => {
             {homeContent && (
               <>
                 <Header content={homeContent.header} />
-                <HighPriorityNews />
+                <Reveal>
+                  <HighPriorityNews />
+                </Reveal>
                 <Divider sx={{ my: { xs: 3, sm: 4, md: 5 } }} />
                 <Stack spacing={4}>
-                  <AboutProject content={homeContent.aboutProject} />
+                  <Reveal>
+                    <AboutProject content={homeContent.aboutProject} />
+                  </Reveal>
                   <KeyFeatures content={homeContent.keyFeatures} />
                   <FutureDevelopment content={homeContent.futureDevelopment} />
-                  <Contact content={homeContent.contact} />
+                  <Reveal>
+                    <Contact content={homeContent.contact} />
+                  </Reveal>
                 </Stack>
                 <Partners content={homeContent.partners} />
               </>
