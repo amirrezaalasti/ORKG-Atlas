@@ -70,17 +70,15 @@ const Dashboard = () => {
   /** Curated dashboards: Empirical Research Practice & NLP4RE */
   const queriesForCuratedTemplate = builtinConfig?.queries ?? null;
 
-  const mergedQuestions = queriesForCuratedTemplate
-    ? sortedFirebaseQuestions.map((question) => {
+  const mergedQuestions: Query[] = queriesForCuratedTemplate
+    ? sortedFirebaseQuestions.flatMap((question) => {
         const local = queriesForCuratedTemplate.find(
           (q) => q.uid === question.uid || q.id === question.id
         );
-        return {
-          ...local,
-          ...question,
-          id: typeof question.id === 'number' ? question.id : local?.id,
-          uid: question.uid || local?.uid,
-        };
+        const id = typeof question.id === 'number' ? question.id : local?.id;
+        const uid = question.uid || local?.uid;
+        if (id === undefined || !uid) return [];
+        return [{ ...local, ...question, id, uid }];
       })
     : [];
 
@@ -359,7 +357,7 @@ const Dashboard = () => {
           </Box>
         </Paper>
       </Box>
-      {Object.values(mergedQuestions).map((query: Query) => (
+      {mergedQuestions.map((query) => (
         <Box
           key={`question-wrapper-${query.uid}`}
           id={`question-${query.id}`}
