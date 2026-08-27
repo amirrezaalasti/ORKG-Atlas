@@ -36,15 +36,13 @@ describe('getBackendUrl', () => {
     expect(getBackendUrl()).not.toContain('localhost');
   });
 
-  it('does not use localhost as a production fallback', () => {
+  it('ignores the EmpiRE Compass Vercel API URL on Atlas hosts', () => {
     vi.stubEnv('VITE_BACKEND_FEATURE_URL', '');
-    vi.stubEnv('VITE_BACKEND_URL', '');
+    vi.stubEnv('VITE_BACKEND_URL', 'https://empirecompassbackend.vercel.app');
     vi.stubGlobal('window', {
       location: { hostname: 'orkg-atlas.vercel.app' },
     });
-    const url = getBackendUrl();
-    expect(url).not.toContain('localhost');
-    expect(url).toBe(PRODUCTION_BACKEND_URL);
+    expect(getBackendUrl()).toBe(PRODUCTION_BACKEND_URL);
   });
 
   it('allows localhost only in local development', () => {
