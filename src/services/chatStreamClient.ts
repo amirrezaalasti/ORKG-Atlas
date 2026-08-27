@@ -11,6 +11,7 @@
 import { getKeycloakToken as getKeycloakTokenFromStore } from '../auth/keycloakStore';
 import { guestHeaders } from '../auth/guestIdentity';
 import { AUTH_DISABLED } from '../auth/publicAccess';
+import { BACKEND_URL } from './backendApi/client';
 import type {
   ChatMessage,
   ChatStreamEvent,
@@ -19,26 +20,6 @@ import type {
   ToolResultEnvelope,
 } from '../types/chat';
 import type { AIProvider } from '../store/slices/aiSlice';
-
-const getBackendUrl = (): string => {
-  const isVercel =
-    typeof window !== 'undefined' &&
-    (window.location.hostname.includes('.vercel.app') ||
-      window.location.hostname.includes('.vercel'));
-  if (isVercel) {
-    return (
-      import.meta.env.VITE_BACKEND_FEATURE_URL ||
-      import.meta.env.VITE_BACKEND_URL ||
-      'https://empirecompassbackend.vercel.app'
-    );
-  }
-  return (
-    import.meta.env.VITE_BACKEND_URL ||
-    'https://empirecompassbackend.vercel.app'
-  );
-};
-
-const BACKEND_URL = getBackendUrl();
 
 const authHeaders = (): Record<string, string> => {
   const token = getKeycloakTokenFromStore();

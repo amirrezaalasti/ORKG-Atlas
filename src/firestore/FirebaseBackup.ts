@@ -1,4 +1,5 @@
 import { getKeycloakToken } from '../auth/keycloakStore';
+import { getBackendUrl } from '../services/backendApi';
 
 export interface BackupResult {
   success: boolean;
@@ -27,13 +28,6 @@ const COLLECTIONS_TO_BACKUP = [
   'Papers',
   'AIRateLimits',
 ];
-
-const getBackendUrl = () => {
-  return (
-    import.meta.env.VITE_BACKEND_URL ||
-    'https://empirecompassbackend.vercel.app'
-  );
-};
 
 const authedFetch = async (path: string) => {
   const token = getKeycloakToken();

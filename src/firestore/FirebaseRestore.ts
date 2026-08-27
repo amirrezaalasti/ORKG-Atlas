@@ -1,4 +1,5 @@
 import { getKeycloakToken } from '../auth/keycloakStore';
+import { getBackendUrl } from '../services/backendApi';
 
 export interface RestoreProgress {
   currentCollection: string;
@@ -25,9 +26,6 @@ export interface BackupFileStructure {
   };
   data?: Record<string, any[]>;
 }
-
-const getBackendUrl = () =>
-  import.meta.env.VITE_BACKEND_URL || 'https://empirecompassbackend.vercel.app';
 
 export const parseBackupFile = (content: string): Record<string, any[]> => {
   const parsed = JSON.parse(content) as

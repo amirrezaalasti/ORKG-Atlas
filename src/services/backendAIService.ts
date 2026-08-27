@@ -11,6 +11,7 @@ import { AIService, type AIConfig } from './aiService';
 import { getKeycloakToken as getKeycloakTokenFromStore } from '../auth/keycloakStore';
 import { guestHeaders } from '../auth/guestIdentity';
 import { AUTH_DISABLED } from '../auth/publicAccess';
+import { getBackendUrl } from './backendApi/client';
 
 export interface BackendAIConfig {
   provider: AIProvider;
@@ -105,22 +106,7 @@ export class BackendAIService {
 
   constructor(config: BackendAIConfig) {
     this.config = config;
-
-    // Determine backend URL based on frontend domain
-    const isVercel =
-      typeof window !== 'undefined' &&
-      (window.location.hostname.includes('.vercel.app') ||
-        window.location.hostname.includes('.vercel'));
-
-    if (isVercel) {
-      this.baseUrl =
-        import.meta.env.VITE_BACKEND_FEATURE_URL ||
-        import.meta.env.VITE_BACKEND_URL ||
-        'http://localhost:5001';
-    } else {
-      this.baseUrl =
-        import.meta.env.VITE_BACKEND_URL || 'http://localhost:5001';
-    }
+    this.baseUrl = getBackendUrl();
   }
 
   private async makeRequest<T>(

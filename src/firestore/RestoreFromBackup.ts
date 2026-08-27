@@ -2,6 +2,7 @@
 import { SPARQL_QUERIES } from '../api/SPARQL_QUERIES';
 import STATISTICS_SPARQL_QUERIES from '../api/STATISTICS_SPARQL_QUERIES';
 import { getKeycloakToken } from '../auth/keycloakStore';
+import { getBackendUrl } from '../services/backendApi';
 
 /**
  * Restore utilities (frontend-side data conversion + backend restore API proxy).
@@ -206,9 +207,6 @@ export const convertStatisticsToNewFormat = (
 
   return statsFromCode;
 };
-
-const getBackendUrl = () =>
-  import.meta.env.VITE_BACKEND_URL || 'https://empirecompassbackend.vercel.app';
 
 export const restoreFromBackup = async (
   backupData: any,
