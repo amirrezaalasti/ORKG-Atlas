@@ -36,14 +36,6 @@
 
 ORKG Atlas is a **neuro-symbolic dashboard** that facilitates the exploration, synthesis, and reuse of knowledge about empirical research practice in Requirements Engineering (RE). It integrates two complementary layers: A symbolic layer based on the [Open Research Knowledge Graph (ORKG)](https://orkg.org) for structured, machine-actionable knowledge, and a neural layer leveraging large language models (LLMs) to answer both predefined and custom competency questions. This dual approach enables researchers to navigate the evolving knowledge landscape of empirical research practice in RE, identify reusable insights across publications, and promote Open Science through transparent, interoperable knowledge representations. ORKG Atlas currently focuses on two themes: Empirical research practices in RE using [KG-EmpiRE](https://www.oliver-karras.de/portfolio/kg-empire/), and empirical research practices in Natural Language Processing for RE using the [NLP4RE ID Card](https://zenodo.org/records/14197338).
 
-https://github.com/user-attachments/assets/27870a40-aaf6-4a66-8ba7-7d009397859d
-
-<div align="center">
-  
-[![Video DOI - https://doi.org/10.5446/72249](https://img.shields.io/badge/Video_DOI-10.5446%2F72249-blue)](https://doi.org/10.5446/72249)
-
-</div>
-
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 # Key Features
@@ -537,7 +529,7 @@ E-Mail: [oliver.karras@tib.eu](mailto:oliver.karras@tib.eu)
 
 If you want to cite this project, we suggest using the following reference:
 
-> Oliver Karras, Amirreza Alasti, Sushant Aggarwal, Yücel Celik, and Lena John:<br/> [**ORKG Atlas**](https://orkg-atlas.vercel.app/R186491/), Computer Software, Version v1.4, https://github.com/amirrezaalasti/ORKG-Atlas, 2026.
+> Amirreza Alasti and Oliver Karras:<br/> [**ORKG Atlas**](https://orkg-atlas.vercel.app/R186491/), Computer Software, Version v1.4, https://github.com/amirrezaalasti/ORKG-Atlas, 2026.
 >
 > You can also use the "**Cite this repository**" function in the top right menu, resulting from the included [citation file format file](CITATION.cff) for human- and machine-readable citation information for software and datasets. Further information can be found on the [Citation File Format (CFF) website](https://citation-file-format.github.io/).
 
@@ -545,4 +537,4 @@ If you want to cite the related publications, use the references in the section 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-Released under [MIT](/LICENSE) by [Oliver Karras](https://github.com/OKarras).
+Released under [MIT](/LICENSE) by [Amirreza Alasti](https://github.com/amirrezaalasti) and [Oliver Karras](https://github.com/OKarras).

@@ -6,6 +6,11 @@ title: ORKG Atlas
 message: ' A Neuro-Symbolic Dashboard for Navigating the Knowledge Landscape of Empirical Research in Requirements Engineering'
 type: software
 authors:
+  - given-names: Amirreza
+    family-names: Alasti
+    email: amirrezaalasti@gmail.com
+    affiliation: Leibniz University Hannover
+    orcid: 'https://orcid.org/0009-0002-1165-773X'
   - given-names: Oliver
     family-names: Karras
     email: oliver.karras@tib.eu
@@ -13,26 +18,6 @@ authors:
       TIB - Leibniz Information Centre for Science and
       Technology
     orcid: 'https://orcid.org/0000-0001-5336-6899'
-  - given-names: Amirreza
-    family-names: Alasti
-    email: amirrezaalasti@gmail.com
-    affiliation: Leibniz University Hannover
-    orcid: 'https://orcid.org/0009-0002-1165-773X'
-  - given-names: Lena
-    family-names: John
-    email: lena.john@tib.eu
-    affiliation: >-
-      TIB - Leibniz Information Centre for Science and
-      Technology
-    orcid: 'https://orcid.org/0009-0007-2097-9761'
-  - given-names: Sushant
-    family-names: Aggarwal
-    email: aggarwalsushant27@gmail.com
-    affiliation: Leibniz University Hannover
-  - given-names: Yücel
-    family-names: Celik
-    email: yucel.celik@stud.uni-hannover.de
-    affiliation: Leibniz University Hannover
 identifiers:
   - type: doi
     value: 10.5281/zenodo.18170203
