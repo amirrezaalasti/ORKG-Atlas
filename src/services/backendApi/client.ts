@@ -4,23 +4,42 @@ import { getKeycloakToken as getKeycloakTokenFromStore } from '../../auth/keyclo
 import { guestHeaders } from '../../auth/guestIdentity';
 import { AUTH_DISABLED } from '../../auth/publicAccess';
 
-const getBackendUrl = () => {
-  const isVercel =
-    typeof window !== 'undefined' &&
-    (window.location.hostname.includes('.vercel.app') ||
-      window.location.hostname.includes('.vercel'));
+/** Canonical production API. Never fall back to localhost on a deployed host. */
+export const PRODUCTION_BACKEND_URL = 'https://empirecompassbackend.vercel.app';
+export const LOCAL_BACKEND_URL = 'http://localhost:5001';
 
-  if (isVercel) {
-    return (
-      import.meta.env.VITE_BACKEND_FEATURE_URL ||
-      import.meta.env.VITE_BACKEND_URL ||
-      'https://empirecompassbackend.vercel.app'
-    );
+const isLocalBackendUrl = (url: string) => /localhost|127\.0\.0\.1/i.test(url);
+
+const isVercelHost = () =>
+  typeof window !== 'undefined' &&
+  (window.location.hostname.includes('.vercel.app') ||
+    window.location.hostname.includes('.vercel'));
+
+const isLocalBrowser = () =>
+  typeof window !== 'undefined' &&
+  (window.location.hostname === 'localhost' ||
+    window.location.hostname === '127.0.0.1');
+
+const usable = (url: string | undefined): string | undefined => {
+  const trimmed = url?.trim();
+  if (!trimmed) return undefined;
+  // A localhost API URL baked into the Vercel bundle must not be used
+  // when the page is served from a public host.
+  if (isLocalBackendUrl(trimmed) && !isLocalBrowser()) return undefined;
+  return trimmed;
+};
+
+export const getBackendUrl = (): string => {
+  const feature = usable(import.meta.env.VITE_BACKEND_FEATURE_URL);
+  const configured = usable(import.meta.env.VITE_BACKEND_URL);
+
+  if (isVercelHost()) {
+    return feature || configured || PRODUCTION_BACKEND_URL;
   }
 
   return (
-    import.meta.env.VITE_BACKEND_URL ||
-    'https://empirecompassbackend.vercel.app'
+    configured ||
+    (import.meta.env.DEV ? LOCAL_BACKEND_URL : PRODUCTION_BACKEND_URL)
   );
 };
 

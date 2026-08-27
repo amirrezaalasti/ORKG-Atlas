@@ -1,3 +1,5 @@
+import { getBackendUrl } from './backendApi/client';
+
 let backendAvailableCache: boolean | null = null;
 let lastCheckTime: number = 0;
 const CACHE_DURATION = 30000; // Cache for 30 seconds
@@ -11,9 +13,7 @@ export const checkBackendAvailability = async (): Promise<boolean> => {
   }
 
   try {
-    const backendUrl =
-      import.meta.env.VITE_BACKEND_URL ||
-      'https://empirecompassbackend.vercel.app';
+    const backendUrl = getBackendUrl();
     const response = await fetch(`${backendUrl}/api/health`, {
       method: 'GET',
       headers: {

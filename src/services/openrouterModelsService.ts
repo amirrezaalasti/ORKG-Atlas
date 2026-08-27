@@ -1,6 +1,7 @@
 import { getKeycloakToken } from '../auth/keycloakStore';
 import { guestHeaders } from '../auth/guestIdentity';
 import { AUTH_DISABLED } from '../auth/publicAccess';
+import { getBackendUrl } from './backendApi/client';
 
 /**
  * Fetches the public OpenRouter model catalog (proxied via our backend to avoid CORS).
@@ -37,21 +38,7 @@ export interface OpenRouterModelsResponse {
 }
 
 export function getBackendBaseUrl(): string {
-  if (typeof window === 'undefined') {
-    return import.meta.env.VITE_BACKEND_URL || 'http://localhost:5001';
-  }
-  const isVercel =
-    window.location.hostname.includes('.vercel.app') ||
-    window.location.hostname.includes('.vercel');
-
-  if (isVercel) {
-    return (
-      import.meta.env.VITE_BACKEND_FEATURE_URL ||
-      import.meta.env.VITE_BACKEND_URL ||
-      'http://localhost:5001'
-    );
-  }
-  return import.meta.env.VITE_BACKEND_URL || 'http://localhost:5001';
+  return getBackendUrl();
 }
 
 let cache: { models: OpenRouterApiModel[]; fetchedAt: number } | null = null;

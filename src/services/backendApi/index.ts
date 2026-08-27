@@ -1,7 +1,10 @@
 export {
   apiRequest,
   BACKEND_URL,
+  getBackendUrl,
   getKeycloakToken,
+  PRODUCTION_BACKEND_URL,
+  LOCAL_BACKEND_URL,
   type ApiRequestOptions,
 } from './client';
 export * from './users';
