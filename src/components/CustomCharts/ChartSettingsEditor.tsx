@@ -114,7 +114,7 @@ const formKeys: FormKeyConfig[] = [
     key: 'colors',
     label: 'Colors',
     type: 'colors',
-    placeholder: '#e86161, #1976d2',
+    placeholder: '#e86161, #55a868',
   },
   {
     key: 'layout',

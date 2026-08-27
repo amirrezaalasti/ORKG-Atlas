@@ -238,7 +238,7 @@ Requirements:
 - Return complete HTML with Chart.js CDN included
 - Use transparent background, no scrollbars
 - Include professional, responsive styling
-- Use brand colors (#e86161, #4CAF50, #2196F3, #FF9800, #9C27B0)
+- Use brand colors (#e86161, #4CAF50, #5c6b73, #FF9800, #9C27B0)
 - Set chart height to at least 500px for better visibility
 - Ensure the chart is properly sized and responsive
 - Include comprehensive interactivity (hover tooltips, click events, zoom/pan)

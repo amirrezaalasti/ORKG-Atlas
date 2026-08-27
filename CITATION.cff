@@ -38,7 +38,7 @@ identifiers:
     value: 10.5281/zenodo.18170203
     description: The DOI of the corresponding release on Zenodo.
 repository-code: 'https://github.com/amirrezaalasti/ORKG-Atlas'
-url: 'https://empire-compass.tib.eu/R186491/'
+url: 'https://orkg-atlas.vercel.app/R186491/'
 abstract: >-
   ORKG Atlas is a neuro-symbolic dashboard that
   facilitates the exploration, synthesis, and reuse of

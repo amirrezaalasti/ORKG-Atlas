@@ -743,7 +743,7 @@ const QuestionEditDialog = ({
   "series": [
     { "dataKey": "normalizedRatio" }
   ],
-  "colors": ["#4c72b0", "#dd8452", "#55a868"],
+  "colors": ["#e86161", "#dd8452", "#55a868"],
   "margin": {
     "left": 150,  // Increase for long labels
     "right": 20
@@ -802,10 +802,10 @@ const QuestionEditDialog = ({
                   </Box>
                   <Box
                     sx={{
-                      backgroundColor: 'rgba(33, 150, 243, 0.05)',
+                      backgroundColor: 'rgba(232, 97, 97, 0.05)',
                       p: 1,
                       borderRadius: 1,
-                      borderLeft: '3px solid #2196f3',
+                      borderLeft: '3px solid #e86161',
                     }}
                   >
                     <Typography
@@ -962,10 +962,10 @@ const QuestionEditDialog = ({
                     </Box>
                     <Box
                       sx={{
-                        backgroundColor: 'rgba(33, 150, 243, 0.05)',
+                        backgroundColor: 'rgba(232, 97, 97, 0.05)',
                         p: 1,
                         borderRadius: 1,
-                        borderLeft: '3px solid #2196f3',
+                        borderLeft: '3px solid #e86161',
                       }}
                     >
                       <Typography
@@ -1007,7 +1007,7 @@ const QuestionEditDialog = ({
           {/* Grid Statistics Options */}
           <Paper
             elevation={0}
-            sx={{ p: 2, backgroundColor: 'rgba(33, 150, 243, 0.05)' }}
+            sx={{ p: 2, backgroundColor: 'rgba(232, 97, 97, 0.05)' }}
           >
             <Box
               sx={{
@@ -1095,10 +1095,10 @@ const QuestionEditDialog = ({
 
               <Box
                 sx={{
-                  backgroundColor: 'rgba(33, 150, 243, 0.05)',
+                  backgroundColor: 'rgba(232, 97, 97, 0.05)',
                   p: 1,
                   borderRadius: 1,
-                  borderLeft: '3px solid #2196f3',
+                  borderLeft: '3px solid #e86161',
                 }}
               >
                 <Typography

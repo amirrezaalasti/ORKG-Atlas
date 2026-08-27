@@ -1,5 +1,6 @@
 /**
- * Brand palette: EmpiRE Compass coral primary; blue as MUI secondary accent.
+ * Brand palette: EmpiRE Compass coral as the dashboard primary.
+ * Secondary is a warm slate (not Atlas/MUI blue) so chrome stays coral-led.
  * Keep in sync with hardcoded chart/UI hex where imports are not used.
  */
 export const brandColors = {
@@ -16,14 +17,23 @@ export const brandColors = {
     contrastText: '#ffffff',
   },
   secondary: {
-    main: '#1e88e5',
-    light: '#6ab7ff',
-    dark: '#005cb2',
+    main: '#5c6b73',
+    light: '#8a99a1',
+    dark: '#3d4a51',
   },
   secondaryDarkMode: {
-    main: '#64b5f6',
-    light: '#9be7ff',
-    dark: '#0077c2',
+    main: '#9aa8af',
+    light: '#c5d0d5',
+    dark: '#6b787f',
+  },
+  surfaces: {
+    default: '#f5f5f5',
+    paper: '#ffffff',
+  },
+  surfacesDark: {
+    default: '#161314',
+    paper: '#211c1c',
+    tooltip: '#322828',
   },
   /** Archival amber for snapshot / backup-mode UI (not MUI warning yellow). */
   snapshot: {
@@ -41,8 +51,13 @@ export const brandColors = {
 export const getSnapshotColors = (mode: 'light' | 'dark') =>
   mode === 'dark' ? brandColors.snapshotDarkMode : brandColors.snapshot;
 
-/** Old Atlas light-blue primary stored on chart settings in Firestore. */
-const LEGACY_PRIMARY_HEX = new Set(['#039be5', '#0277bd']);
+/** Old Atlas light-blue primaries stored on chart settings in Firestore. */
+const LEGACY_PRIMARY_HEX = new Set([
+  '#039be5',
+  '#0277bd',
+  '#4fc3f7',
+  '#006db3',
+]);
 
 export function resolveChartColor(color: string): string {
   return LEGACY_PRIMARY_HEX.has(color.toLowerCase())

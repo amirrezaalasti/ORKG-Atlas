@@ -86,7 +86,7 @@ const citationChartSetting = {
   height: 450,
   heading: 'Citation Distribution by Publication Year',
   showOutliers: true,
-  colors: ['#e86161', '#4caf50', '#2196f3', '#ff9800'],
+  colors: ['#e86161', '#4caf50', '#5c6b73', '#ff9800'],
   xAxis: [{ label: 'Publication Year' }],
   yAxis: [{ label: 'Citation Count' }],
   margin: { top: 40, left: 80, right: 40, bottom: 80 },

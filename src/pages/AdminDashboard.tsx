@@ -379,7 +379,7 @@ const AdminDashboard = () => {
                   </Typography>
                   <Typography
                     variant="h4"
-                    sx={{ fontWeight: 600, color: '#4c72b0' }}
+                    sx={{ fontWeight: 600, color: '#e86161' }}
                   >
                     {totalUsers}
                   </Typography>
@@ -390,7 +390,7 @@ const AdminDashboard = () => {
                 </Box>
                 <Badge badgeContent={totalAdmins} color="error">
                   <People
-                    sx={{ fontSize: 48, color: '#4c72b0', opacity: 0.3 }}
+                    sx={{ fontSize: 48, color: '#e86161', opacity: 0.3 }}
                   />
                 </Badge>
               </Box>
@@ -460,7 +460,7 @@ const AdminDashboard = () => {
                   </Typography>
                   <Typography
                     variant="h4"
-                    sx={{ fontWeight: 600, color: '#4c72b0' }}
+                    sx={{ fontWeight: 600, color: '#e86161' }}
                   >
                     {totalRegularUsers}
                   </Typography>
@@ -470,7 +470,7 @@ const AdminDashboard = () => {
                       : '0% of users'}
                   </Typography>
                 </Box>
-                <People sx={{ fontSize: 48, color: '#4c72b0', opacity: 0.3 }} />
+                <People sx={{ fontSize: 48, color: '#e86161', opacity: 0.3 }} />
               </Box>
             </CardContent>
           </Card>
@@ -779,7 +779,7 @@ const AdminDashboard = () => {
                         >
                           <Avatar
                             sx={{
-                              bgcolor: user.is_admin ? '#e86161' : '#4c72b0',
+                              bgcolor: user.is_admin ? '#e86161' : '#e86161',
                             }}
                           >
                             {user.display_name?.charAt(0).toUpperCase() ||

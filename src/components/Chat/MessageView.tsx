@@ -162,8 +162,8 @@ const MessageView = ({ message, isStreaming }: MessageViewProps) => {
         sx={(theme) => ({
           width: 32,
           height: 32,
-          background: `linear-gradient(135deg, ${theme.palette.secondary.main} 0%, ${theme.palette.secondary.dark} 100%)`,
-          boxShadow: `0 2px 8px -2px ${alpha(theme.palette.secondary.main, 0.5)}`,
+          background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
+          boxShadow: `0 2px 8px -2px ${alpha(theme.palette.primary.main, 0.5)}`,
         })}
       >
         <AutoAwesome sx={{ fontSize: 18 }} />

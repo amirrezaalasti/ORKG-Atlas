@@ -39,8 +39,14 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
       contrastText: '#ffffff',
     },
     background: {
-      default: mode === 'light' ? '#f5f5f5' : '#0a1929',
-      paper: mode === 'light' ? '#ffffff' : '#0f2744',
+      default:
+        mode === 'light'
+          ? brandColors.surfaces.default
+          : brandColors.surfacesDark.default,
+      paper:
+        mode === 'light'
+          ? brandColors.surfaces.paper
+          : brandColors.surfacesDark.paper,
     },
     text: {
       primary: mode === 'light' ? 'rgba(0, 0, 0, 0.87)' : '#ffffff',
@@ -106,7 +112,10 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
           MozOsxFontSmoothing: 'grayscale',
         },
         body: {
-          backgroundColor: mode === 'light' ? '#f5f5f5' : '#0a1929',
+          backgroundColor:
+            mode === 'light'
+              ? brandColors.surfaces.default
+              : brandColors.surfacesDark.default,
           transition: 'background-color 0.3s ease',
         },
         '#root': {
@@ -200,13 +209,19 @@ const getDesignTokens = (mode: PaletteMode): ThemeOptions => ({
     MuiTooltip: {
       styleOverrides: {
         tooltip: {
-          backgroundColor: mode === 'dark' ? '#1e364d' : 'rgba(0, 0, 0, 0.8)',
+          backgroundColor:
+            mode === 'dark'
+              ? brandColors.surfacesDark.tooltip
+              : 'rgba(0, 0, 0, 0.8)',
           fontSize: '0.875rem',
           padding: '8px 12px',
           borderRadius: '6px',
         },
         arrow: {
-          color: mode === 'dark' ? '#1e364d' : 'rgba(0, 0, 0, 0.8)',
+          color:
+            mode === 'dark'
+              ? brandColors.surfacesDark.tooltip
+              : 'rgba(0, 0, 0, 0.8)',
         },
       },
     },

@@ -105,7 +105,7 @@ LIMIT 15`,
     xAxis: [{ label: 'Number of Papers' }],
     yAxis: [{ scaleType: 'band', dataKey: 'dataCollection', label: 'Method' }],
     series: [{ dataKey: 'count' }],
-    colors: ['#4c72b0'],
+    colors: ['#5c6b73'],
     margin: { left: 150, right: 20 },
   },
   chartSettings2: {
