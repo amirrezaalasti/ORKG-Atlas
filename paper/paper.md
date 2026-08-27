@@ -11,13 +11,6 @@ authors:
     orcid: 0009-0002-1165-773X
     corresponding: true
     affiliation: 2
-  - name: Lena John
-    orcid: 0009-0007-2097-9761
-    affiliation: 1
-  - name: Sushant Aggarwal
-    affiliation: 2
-  - name: Yücel Celik
-    affiliation: 2
   - name: Oliver Karras
     orcid: 0000-0001-5336-6899
     affiliation: 1
