@@ -398,7 +398,7 @@ export const queries: Query[] = [
         },
       ],
       colors: [
-        '#4C72B0',
+        '#e86161',
         '#DD8452',
         '#55A868',
         '#C44E52',

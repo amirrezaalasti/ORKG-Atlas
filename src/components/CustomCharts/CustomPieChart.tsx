@@ -28,7 +28,7 @@ const CustomPieChart = (props: CustomPieChartInterface) => {
   // Default colors if not provided
   const defaultColors = [
     '#e86161', // primary coral
-    '#4c72b0', // blue
+    '#5c6b73', // slate
     '#55a868', // green
     '#dd8452', // orange
     '#8172b3', // purple
@@ -36,7 +36,7 @@ const CustomPieChart = (props: CustomPieChartInterface) => {
     '#da8bc3', // pink
     '#8c8c8c', // gray
     '#ccb974', // yellow
-    '#64b5cd', // light blue
+    '#8d6e63', // taupe
   ];
 
   // Calculate total for percentage calculation

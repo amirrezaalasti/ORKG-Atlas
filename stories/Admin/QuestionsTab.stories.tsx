@@ -94,7 +94,7 @@ ORDER BY DESC(?count)`,
     chartSettings: {
       heading: 'Data Collection Methods',
       height: 400,
-      colors: ['#4c72b0'],
+      colors: ['#5c6b73'],
     },
     chartSettings2: {
       heading: 'Data Analysis Methods',

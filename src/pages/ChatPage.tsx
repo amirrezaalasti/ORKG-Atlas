@@ -450,7 +450,7 @@ const ChatPage = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+            background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
             boxShadow: `0 12px 40px -12px ${alpha(theme.palette.primary.main, 0.6)}`,
           })}
         >
@@ -499,8 +499,8 @@ const ChatPage = () => {
           height: 'calc(100vh - 64px)',
           minHeight: 500,
           background: isDark
-            ? `radial-gradient(circle at 0% 0%, ${alpha(theme.palette.primary.main, 0.06)} 0%, transparent 40%), radial-gradient(circle at 100% 100%, ${alpha(theme.palette.secondary.main, 0.04)} 0%, transparent 40%), ${theme.palette.background.default}`
-            : `radial-gradient(circle at 0% 0%, ${alpha(theme.palette.primary.main, 0.04)} 0%, transparent 40%), radial-gradient(circle at 100% 100%, ${alpha(theme.palette.secondary.main, 0.03)} 0%, transparent 40%), ${theme.palette.background.default}`,
+            ? `radial-gradient(circle at 0% 0%, ${alpha(theme.palette.primary.main, 0.06)} 0%, transparent 40%), radial-gradient(circle at 100% 100%, ${alpha(theme.palette.primary.dark, 0.04)} 0%, transparent 40%), ${theme.palette.background.default}`
+            : `radial-gradient(circle at 0% 0%, ${alpha(theme.palette.primary.main, 0.04)} 0%, transparent 40%), radial-gradient(circle at 100% 100%, ${alpha(theme.palette.primary.dark, 0.03)} 0%, transparent 40%), ${theme.palette.background.default}`,
         })}
       >
         {!readonlyShared && (
@@ -558,7 +558,7 @@ const ChatPage = () => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+                    background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
                     boxShadow: `0 2px 8px -2px ${alpha(theme.palette.primary.main, 0.5)}`,
                   })}
                 >
@@ -903,7 +903,7 @@ const ChatHero = ({ onPick }: ChatHeroProps) => (
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
+          background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
           boxShadow: `0 16px 50px -12px ${alpha(theme.palette.primary.main, 0.5)}`,
         })}
       >

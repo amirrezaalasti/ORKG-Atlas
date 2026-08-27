@@ -491,8 +491,8 @@ function processData(rows) {
               isAIModifying ? <CircularProgress size={16} /> : <SmartToy />
             }
             sx={{
-              backgroundColor: '#2196F3',
-              '&:hover': { backgroundColor: '#1976D2' },
+              backgroundColor: '#e86161',
+              '&:hover': { backgroundColor: '#d45555' },
             }}
           >
             {isAIModifying ? 'Modifying...' : 'Modify Function'}

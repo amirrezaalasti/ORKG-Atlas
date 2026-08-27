@@ -22,6 +22,7 @@ const getAllowedOrigins = (): string[] => {
   // Add Vercel frontend URL (hardcoded for your production deployment)
   origins.push('https://empire-compass.vercel.app');
   origins.push('https://empire-compass.tib.eu');
+  origins.push('https://orkg-atlas.vercel.app');
 
   return origins;
 };

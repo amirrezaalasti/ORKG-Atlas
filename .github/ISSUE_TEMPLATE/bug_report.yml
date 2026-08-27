@@ -70,7 +70,7 @@ body:
     attributes:
       label: App Version
       description: Version from package.json or deployed URL (if known)
-      placeholder: 'e.g. 1.12.0 or https://empire-compass.tib.eu'
+      placeholder: 'e.g. 1.12.0 or https://orkg-atlas.vercel.app'
     validations:
       required: false
 

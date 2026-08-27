@@ -10,7 +10,7 @@ import { ExpandMore, Info } from '@mui/icons-material';
 
 const ChartSettingsHelp = () => {
   return (
-    <Accordion sx={{ mb: 2, backgroundColor: 'rgba(33, 150, 243, 0.05)' }}>
+    <Accordion sx={{ mb: 2, backgroundColor: 'rgba(232, 97, 97, 0.05)' }}>
       <AccordionSummary expandIcon={<ExpandMore />}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <Info color="info" />
@@ -224,10 +224,10 @@ const ChartSettingsHelp = () => {
 
 // Multiple Colors (one per series)
 "colors": [
-  "#4c72b0",  // Blue
+  "#e86161",  // Coral (primary)
   "#dd8452",  // Orange
   "#55a868",  // Green
-  "#c44e52"   // Red
+  "#5c6b73"   // Slate
 ]`}
               </code>
             </Box>
@@ -424,7 +424,7 @@ const ChartSettingsHelp = () => {
   "series": [
     { "dataKey": "normalizedRatio" }
   ],
-  "colors": ["#4c72b0", "#dd8452", "#55a868"],
+  "colors": ["#e86161", "#dd8452", "#55a868"],
   "margin": {
     "left": 150,
     "right": 20

@@ -10,7 +10,7 @@
 </div>
 
 > [!IMPORTANT]  
-> Visit the live version of [ORKG Atlas](https://empire-compass.tib.eu/R186491/).
+> Visit the live version of [ORKG Atlas](https://orkg-atlas.vercel.app/R186491/).
 
 # Table of Contents
 
@@ -492,6 +492,7 @@ python scripts/empire-statistics.py --no_firebase
 # Repository Links
 
 ORKG Atlas: [https://github.com/amirrezaalasti/ORKG-Atlas](https://github.com/amirrezaalasti/ORKG-Atlas)  
+Live dashboard: [https://orkg-atlas.vercel.app/R186491/](https://orkg-atlas.vercel.app/R186491/)  
 EmpiRE-Analysis: [https://github.com/okarras/EmpiRE-Analysis](https://github.com/okarras/EmpiRE-Analysis)  
 Storybook (Design System): [https://empire-compass-storybook.tib.eu/?path=/docs/layout-menudrawer--docs](https://empire-compass-storybook.tib.eu/?path=/docs/layout-menudrawer--docs)  
 API Documentation (Swagger): [https://empire-compass-backend.tib.eu/api-docs/](https://empire-compass-backend.tib.eu/api-docs/)
@@ -536,7 +537,7 @@ E-Mail: [oliver.karras@tib.eu](mailto:oliver.karras@tib.eu)
 
 If you want to cite this project, we suggest using the following reference:
 
-> Oliver Karras, Amirreza Alasti, Sushant Aggarwal, Yücel Celik, and Lena John:<br/> [**ORKG Atlas**](https://empire-compass.tib.eu/R186491/), Computer Software, Version v1.4, https://github.com/amirrezaalasti/ORKG-Atlas, 2025.
+> Oliver Karras, Amirreza Alasti, Sushant Aggarwal, Yücel Celik, and Lena John:<br/> [**ORKG Atlas**](https://orkg-atlas.vercel.app/R186491/), Computer Software, Version v1.4, https://github.com/amirrezaalasti/ORKG-Atlas, 2026.
 >
 > You can also use the "**Cite this repository**" function in the top right menu, resulting from the included [citation file format file](CITATION.cff) for human- and machine-readable citation information for software and datasets. Further information can be found on the [Citation File Format (CFF) website](https://citation-file-format.github.io/).
 

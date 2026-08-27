@@ -49,7 +49,7 @@ const dataset = [
 const chartSetting: ChartSetting = {
   heading: 'Empirical Study Proportions',
   height: 400,
-  colors: ['#e86161', '#4c72b0'],
+  colors: ['#e86161', '#5c6b73'],
   layout: 'vertical',
   series: [{ label: 'Empirical Studies', dataKey: 'normalizedRatio' }],
   xAxis: [{ label: 'Year', dataKey: 'year', scaleType: 'band' }],
@@ -60,7 +60,7 @@ const chartSetting: ChartSetting = {
 const multiSeriesSetting: ChartSetting = {
   heading: 'Empirical vs Non-Empirical',
   height: 400,
-  colors: ['#e86161', '#4c72b0'],
+  colors: ['#e86161', '#5c6b73'],
   layout: 'vertical',
   series: [
     { label: 'Empirical', dataKey: 'empirical' },

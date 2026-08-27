@@ -307,9 +307,9 @@ const AdminRequestMonitor = () => {
         }}
       >
         <Paper
-          sx={{ p: 2, textAlign: 'center', borderLeft: '4px solid #2196f3' }}
+          sx={{ p: 2, textAlign: 'center', borderLeft: '4px solid #e86161' }}
         >
-          <Typography variant="h4" sx={{ fontWeight: 700, color: '#2196f3' }}>
+          <Typography variant="h4" sx={{ fontWeight: 700, color: '#e86161' }}>
             {stats.total}
           </Typography>
           <Typography variant="caption" color="text.secondary">
