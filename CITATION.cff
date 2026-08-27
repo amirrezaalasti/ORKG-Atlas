@@ -18,10 +18,6 @@ authors:
       TIB - Leibniz Information Centre for Science and
       Technology
     orcid: 'https://orcid.org/0000-0001-5336-6899'
-identifiers:
-  - type: doi
-    value: 10.5281/zenodo.18170203
-    description: The DOI of the corresponding release on Zenodo.
 repository-code: 'https://github.com/amirrezaalasti/ORKG-Atlas'
 url: 'https://orkg-atlas.vercel.app/R186491/'
 abstract: >-
