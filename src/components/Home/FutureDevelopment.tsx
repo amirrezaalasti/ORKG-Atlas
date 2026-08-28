@@ -1,14 +1,10 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { FutureDevelopmentContent } from '../../firestore/CRUDHomeContent';
-import {
-  fadeUp,
-  hoverLift,
-  MotionBox,
-  MotionPaper,
-  staggerReveal,
-} from '../../constants/motion';
+import { fadeUp, MotionBox, staggerReveal } from '../../constants/motion';
 import { useRevealMotion } from '../../hooks/useRevealMotion';
-import { useReducedMotion } from 'motion/react';
+import SectionHeading from './SectionHeading';
+import SafeHtml from './SafeHtml';
+import { ATLAS_DISPLAY_FONT, plateSx } from './atlasTokens';
 
 interface FutureDevelopmentProps {
   content: FutureDevelopmentContent;
@@ -16,76 +12,92 @@ interface FutureDevelopmentProps {
 
 const FutureDevelopment = ({ content }: FutureDevelopmentProps) => {
   const reveal = useRevealMotion();
-  const reduceMotion = useReducedMotion();
+  const theme = useTheme();
+  const count = content.phases.length || 1;
 
   return (
-    <MotionPaper
-      elevation={2}
-      {...reveal}
-      variants={staggerReveal}
-      whileHover={reduceMotion ? undefined : hoverLift}
-      sx={{
-        p: { xs: 3, sm: 4, md: 5 },
-        borderRadius: 4,
-        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-      }}
-    >
-      <MotionBox variants={fadeUp}>
-        <Typography
-          variant="h4"
-          gutterBottom
+    <Box sx={plateSx(theme.palette.mode)}>
+      <SectionHeading eyebrow="Horizons" title={content.title} />
+      <Typography
+        sx={{
+          fontSize: { xs: '1rem', sm: '1.05rem' },
+          lineHeight: 1.7,
+          color: 'text.secondary',
+          mb: 4,
+          maxWidth: 720,
+        }}
+      >
+        {content.intro}
+      </Typography>
+      <MotionBox {...reveal} variants={staggerReveal}>
+        <Box
+          aria-hidden
           sx={{
-            color: '#e86161',
-            fontWeight: 700,
-            mb: 3,
-            fontSize: { xs: '1.75rem', sm: '2rem', md: '2.25rem' },
+            position: 'relative',
+            height: 4,
+            mb: { xs: 3, md: 4 },
+            mx: { md: 2 },
+            borderRadius: 99,
+            bgcolor:
+              theme.palette.mode === 'dark'
+                ? 'rgba(255,255,255,0.08)'
+                : 'rgba(58,83,102,0.12)',
+            display: { xs: 'none', sm: 'block' },
+            '&:after': {
+              content: '""',
+              position: 'absolute',
+              inset: 0,
+              width: `${100 / count}%`,
+              borderRadius: 99,
+              bgcolor: 'primary.main',
+            },
+          }}
+        />
+        <Box
+          sx={{
+            display: 'grid',
+            gridTemplateColumns: {
+              xs: '1fr',
+              sm: `repeat(${Math.min(count, 3)}, 1fr)`,
+            },
+            gap: { xs: 3, sm: 3, md: 4 },
           }}
         >
-          {content.title}
-        </Typography>
-      </MotionBox>
-      <MotionBox variants={fadeUp}>
-        <Typography
-          paragraph
-          sx={{
-            fontSize: { xs: '1rem', sm: '1.1rem' },
-            lineHeight: 1.7,
-            mb: 3,
-          }}
-        >
-          {content.intro}
-        </Typography>
-      </MotionBox>
-      <MotionBox variants={fadeUp} sx={{ pl: { xs: 2, sm: 3, md: 4 } }}>
-        <Box component="ul" sx={{ listStyle: 'none', p: 0, m: 0 }}>
           {content.phases.map((item, index) => (
-            <Typography
-              component="li"
-              key={index}
-              sx={{
-                mb: 3,
-                fontSize: { xs: '1rem', sm: '1.1rem' },
-                lineHeight: 1.7,
-                display: 'flex',
-                flexDirection: 'column',
-              }}
-            >
+            <MotionBox key={item.phase} variants={fadeUp}>
               <Box
-                component="strong"
                 sx={{
-                  color: '#e86161',
+                  width: 12,
+                  height: 12,
+                  borderRadius: '50%',
+                  bgcolor: index === 0 ? 'primary.main' : 'transparent',
+                  border: '2px solid',
+                  borderColor: 'primary.main',
+                  mb: 1.5,
+                  display: { xs: 'none', sm: 'block' },
+                }}
+              />
+              <Typography
+                sx={{
+                  fontFamily: ATLAS_DISPLAY_FONT,
+                  fontWeight: 800,
+                  letterSpacing: '-0.02em',
+                  fontSize: '1.1rem',
+                  color: 'primary.main',
                   mb: 1,
-                  fontSize: { xs: '1.1rem', sm: '1.2rem' },
                 }}
               >
                 {item.phase}
-              </Box>
-              <Box dangerouslySetInnerHTML={{ __html: item.goal }} />
-            </Typography>
+              </Typography>
+              <SafeHtml
+                html={item.goal}
+                sx={{ color: 'text.secondary', lineHeight: 1.7 }}
+              />
+            </MotionBox>
           ))}
         </Box>
       </MotionBox>
-    </MotionPaper>
+    </Box>
   );
 };
 
