@@ -11,7 +11,6 @@ import { useReducedMotion } from 'motion/react';
 import { Template, TemplateInfoBoxes } from '../../firestore/CRUDHomeContent';
 import SectionHeading from './SectionHeading';
 import { plateSx } from './atlasTokens';
-import { ATLAS_DISPLAY_FONT } from './atlasTokens';
 
 interface TemplateTerritoriesProps {
   templates: Template[];
@@ -31,10 +30,7 @@ const TemplateTerritories = ({
 
   return (
     <Box id="templates" sx={{ scrollMarginTop: 96 }}>
-      <SectionHeading
-        eyebrow="The territories"
-        title="Choose a template"
-      />
+      <SectionHeading eyebrow="The territories" title="Choose a template" />
       <MotionBox
         {...reveal}
         variants={staggerContainer}
@@ -68,7 +64,6 @@ const TemplateTerritories = ({
               >
                 <Typography
                   sx={{
-                    fontFamily: ATLAS_DISPLAY_FONT,
                     fontWeight: 800,
                     letterSpacing: '-0.03em',
                     fontSize: '1.25rem',
@@ -105,7 +100,6 @@ const TemplateTerritories = ({
                 color="primary"
                 sx={{
                   alignSelf: 'flex-start',
-                  fontFamily: ATLAS_DISPLAY_FONT,
                   fontWeight: 700,
                   mt: 1,
                   boxShadow: 'none',

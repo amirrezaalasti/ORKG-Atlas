@@ -4,7 +4,7 @@ import { useRevealMotion } from '../../hooks/useRevealMotion';
 import { TemplateCoverageContent } from '../../firestore/CRUDHomeContent';
 import SectionHeading from './SectionHeading';
 import SafeHtml from './SafeHtml';
-import { ATLAS_DISPLAY_FONT, plateSx } from './atlasTokens';
+import { plateSx } from './atlasTokens';
 
 interface CoveragePlatesProps {
   content: TemplateCoverageContent;
@@ -66,7 +66,6 @@ const CoveragePlates = ({ content }: CoveragePlatesProps) => {
             />
             <Typography
               sx={{
-                fontFamily: ATLAS_DISPLAY_FONT,
                 fontWeight: 800,
                 letterSpacing: '-0.03em',
                 fontSize: '1.15rem',

@@ -1,7 +1,7 @@
 import { Box, Link, Typography, useTheme } from '@mui/material';
 import { ContactContent } from '../../firestore/CRUDHomeContent';
 import SectionHeading from './SectionHeading';
-import { ATLAS_DISPLAY_FONT, plateSx } from './atlasTokens';
+import { plateSx } from './atlasTokens';
 
 interface ContactProps {
   content: ContactContent;
@@ -46,7 +46,6 @@ const Contact = ({ content }: ContactProps) => {
         <Box>
           <Typography
             sx={{
-              fontFamily: ATLAS_DISPLAY_FONT,
               fontWeight: 800,
               letterSpacing: '-0.03em',
               fontSize: '1.35rem',

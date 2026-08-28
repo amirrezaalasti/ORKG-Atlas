@@ -4,7 +4,7 @@ import { fadeUp, MotionBox, staggerReveal } from '../../constants/motion';
 import { useRevealMotion } from '../../hooks/useRevealMotion';
 import SectionHeading from './SectionHeading';
 import SafeHtml from './SafeHtml';
-import { ATLAS_DISPLAY_FONT, plateSx } from './atlasTokens';
+import { plateSx } from './atlasTokens';
 
 interface FutureDevelopmentProps {
   content: FutureDevelopmentContent;
@@ -79,7 +79,6 @@ const FutureDevelopment = ({ content }: FutureDevelopmentProps) => {
               />
               <Typography
                 sx={{
-                  fontFamily: ATLAS_DISPLAY_FONT,
                   fontWeight: 800,
                   letterSpacing: '-0.02em',
                   fontSize: '1.1rem',
