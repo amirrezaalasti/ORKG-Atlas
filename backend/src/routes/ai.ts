@@ -1,5 +1,10 @@
 import { Router, Response, Request } from 'express';
-import { AIService, type AIConfig, type GroqModel } from '../aiService.js';
+import {
+  AIService,
+  extractAiProviderError,
+  type AIConfig,
+  type GroqModel,
+} from '../aiService.js';
 import { validateGenerateTextRequest } from '../middleware.js';
 import {
   validateKeycloakToken,
@@ -438,27 +443,27 @@ router.post(
           : undefined
       );
 
-      // Calculate cost if usage information is available
+      // Cost is best-effort: a missing shared module must not fail a
+      // successful generation (this was surfacing as the generic 500).
       let costInfo = undefined;
       if (result.usage) {
-        const service = getAIService();
-        const config = service.getCurrentConfig();
-        const actualProvider = effectiveProvider;
-        const actualModel =
-          effectiveProvider === 'openrouter' && model && !model.includes('/')
-            ? config.model
-            : model || config.model;
+        try {
+          const config = service.getCurrentConfig();
+          const actualModel =
+            effectiveProvider === 'openrouter' && model && !model.includes('/')
+              ? config.model
+              : model || config.model;
 
-        // Import cost calculator
-        const { calculateCost } = await import('../utils/costCalculator.js');
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //@ts-expect-error
-        costInfo = calculateCost(
-          actualProvider,
-          actualModel,
-          result.usage.promptTokens,
-          result.usage.completionTokens
-        );
+          const { calculateCost } = await import('../utils/costCalculator.js');
+          costInfo = calculateCost(
+            effectiveProvider,
+            actualModel,
+            result.usage.promptTokens,
+            result.usage.completionTokens
+          );
+        } catch (costError) {
+          console.error('Cost calculation failed:', costError);
+        }
       }
 
       res.json({
@@ -466,68 +471,52 @@ router.post(
         cost: costInfo,
       });
     } catch (error) {
+      const { message, status: upstreamStatus } = extractAiProviderError(error);
       console.error('Error generating text:', {
         error,
-        message: error instanceof Error ? error.message : String(error),
+        message,
+        upstreamStatus,
         stack: error instanceof Error ? error.stack : undefined,
         provider: req.body?.provider,
         hasOpenRouterKeyHeader: !!req.headers['x-openrouter-api-key'],
       });
 
-      if (error instanceof Error) {
-        const errorMessage = error.message.toLowerCase();
+      const errorMessage = message.toLowerCase();
 
-        if (
-          errorMessage.includes('api key') ||
-          errorMessage.includes('not configured')
-        ) {
-          return res.status(500).json({
-            error:
-              'AI service not properly configured. Please check environment variables.',
-          });
-        }
-
-        if (
-          errorMessage.includes('rate limit') ||
-          errorMessage.includes('429')
-        ) {
-          return res
-            .status(429)
-            .json({ error: 'Rate limit exceeded. Please try again later.' });
-        }
-
-        // Providers word a rejected credential differently — OpenRouter answers
-        // "User not found." for a revoked key — so match on the upstream status
-        // as well as the message, and quote the provider verbatim. Without this
-        // a dead key surfaced only as the generic "Failed to generate text".
-        const upstreamStatus =
-          (error as { statusCode?: number }).statusCode ??
-          (error as { status?: number }).status;
-
-        if (
-          upstreamStatus === 401 ||
-          upstreamStatus === 403 ||
-          errorMessage.includes('invalid api key') ||
-          errorMessage.includes('authentication') ||
-          errorMessage.includes('unauthorized') ||
-          errorMessage.includes('user not found')
-        ) {
-          return res.status(500).json({
-            error: `The AI provider (${req.body?.provider ?? 'configured provider'}) rejected the API key: ${error.message} Update the backend key, or enter your own in the AI configuration dialog.`,
-          });
-        }
-
-        // Return more detailed error in development
-        if (process.env.NODE_ENV !== 'production') {
-          return res.status(500).json({
-            error: 'Failed to generate text',
-            details: error.message,
-          });
-        }
+      if (
+        errorMessage.includes('api key') ||
+        errorMessage.includes('not configured')
+      ) {
+        return res.status(500).json({
+          error:
+            'AI service not properly configured. Please check environment variables.',
+        });
       }
 
-      res.status(500).json({
-        error: 'Failed to generate text. Please try again later.',
+      if (errorMessage.includes('rate limit') || errorMessage.includes('429')) {
+        return res
+          .status(429)
+          .json({ error: 'Rate limit exceeded. Please try again later.' });
+      }
+
+      // Providers word a rejected credential differently — OpenRouter answers
+      // "User not found." for a revoked key — so match on the upstream status
+      // as well as the message, and quote the provider verbatim.
+      if (
+        upstreamStatus === 401 ||
+        upstreamStatus === 403 ||
+        errorMessage.includes('invalid api key') ||
+        errorMessage.includes('authentication') ||
+        errorMessage.includes('unauthorized') ||
+        errorMessage.includes('user not found')
+      ) {
+        return res.status(500).json({
+          error: `The AI provider (${req.body?.provider ?? 'configured provider'}) rejected the API key: ${message} Update the backend key, or enter your own in the AI configuration dialog.`,
+        });
+      }
+
+      return res.status(500).json({
+        error: `Failed to generate text: ${message}`.slice(0, 500),
       });
     }
   }

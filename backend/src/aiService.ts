@@ -56,6 +56,39 @@ export interface GenerateTextResponse {
 export const isOpenRouterApiKey = (apiKey: string): boolean =>
   apiKey.trim().startsWith('sk-or-');
 
+type NestedProviderError = {
+  message?: string;
+  statusCode?: number;
+  status?: number;
+  lastError?: NestedProviderError;
+  cause?: unknown;
+};
+
+/** Pull status + message out of AI SDK / fetch errors, including RetryError wrappers. */
+export const extractAiProviderError = (
+  error: unknown
+): { message: string; status?: number } => {
+  if (error instanceof Error || (typeof error === 'object' && error !== null)) {
+    const err = error as NestedProviderError & { message?: string };
+    const nested =
+      err.lastError ??
+      (err.cause && typeof err.cause === 'object'
+        ? (err.cause as NestedProviderError)
+        : undefined);
+    const status =
+      err.statusCode ?? err.status ?? nested?.statusCode ?? nested?.status;
+    const parts = [err.message, nested?.message].filter(
+      (m): m is string => typeof m === 'string' && m.length > 0
+    );
+    const unique = [...new Set(parts)];
+    return {
+      message: unique.join(' — ') || 'Unknown AI provider error',
+      status,
+    };
+  }
+  return { message: String(error) };
+};
+
 export class AIService {
   private config: AIConfig;
 
@@ -71,8 +104,9 @@ export class AIService {
   }
 
   /**
-   * Route OpenRouter keys to OpenRouter even when AI_PROVIDER is mis-set to openai.
-   * Personal keys may arrive only via x-openrouter-api-key.
+   * Route OpenRouter keys to OpenRouter when the requested/configured provider
+   * is OpenAI but the key is actually an OpenRouter credential (sk-or-…).
+   * Do not remap Groq/Google/Mistral — those have their own keys.
    */
   public getEffectiveProvider(
     requested?: AIProvider,
@@ -82,8 +116,10 @@ export class AIService {
     if (configured === 'openrouter') {
       return 'openrouter';
     }
-    const headerOrEnvKey = this.resolveOpenRouterApiKey(openRouterApiKey);
-    if (isOpenRouterApiKey(headerOrEnvKey)) {
+    if (
+      configured === 'openai' &&
+      isOpenRouterApiKey(this.resolveOpenRouterApiKey(openRouterApiKey))
+    ) {
       return 'openrouter';
     }
     return configured;
@@ -229,7 +265,7 @@ export class AIService {
         model: any;
         prompt: string;
         temperature?: number;
-        maxTokens?: number;
+        maxOutputTokens?: number;
         system?: string;
       } = {
         model,
@@ -238,9 +274,9 @@ export class AIService {
         system: request.systemContext,
       };
 
-      // Only include maxTokens if it's provided and valid
+      // AI SDK 5 renamed maxTokens → maxOutputTokens
       if (request.maxTokens && request.maxTokens > 0) {
-        generateOptions.maxTokens = request.maxTokens;
+        generateOptions.maxOutputTokens = request.maxTokens;
       }
 
       const result = await generateText(generateOptions);
@@ -319,7 +355,7 @@ export class AIService {
       // Enhanced error logging
       console.error('Error in generateText:', {
         error,
-        message: error instanceof Error ? error.message : String(error),
+        ...extractAiProviderError(error),
         stack: error instanceof Error ? error.stack : undefined,
         provider: this.getEffectiveProvider(request.provider),
       });
