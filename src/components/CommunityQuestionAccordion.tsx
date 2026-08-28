@@ -29,7 +29,7 @@ import { useNavigate, useParams } from 'react-router';
 import TemplateManagement, {
   QuestionData,
 } from '../firestore/TemplateManagement';
-import { useKeycloak } from '@react-keycloak/web';
+import { getKeycloakToken } from '../auth/keycloakStore';
 
 // Convert DynamicQuestion state to a Query-like object for SectionSelector
 const dynamicQuestionToQuery = (dq: DynamicQuestion) => {
@@ -68,7 +68,6 @@ const CommunityQuestionAccordion = ({
   const [tab, setTab] = useState(0);
   const navigate = useNavigate();
   const { user } = useAuthData();
-  const { keycloak } = useKeycloak();
 
   // Local state for optimistic updates
   const [likes, setLikes] = useState(question.likes || 0);
@@ -108,7 +107,7 @@ const CommunityQuestionAccordion = ({
           docId,
           user.id,
           user.email,
-          keycloak?.token
+          getKeycloakToken() ?? undefined
         );
         window.alert('Question removed from curated questions.');
         return;
@@ -149,7 +148,7 @@ const CommunityQuestionAccordion = ({
         curatedQuestion,
         user.id,
         user.email,
-        keycloak?.token
+        getKeycloakToken() ?? undefined
       );
       window.alert('Question added to curated questions.');
     } catch (error) {

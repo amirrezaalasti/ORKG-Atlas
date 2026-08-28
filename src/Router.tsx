@@ -39,6 +39,11 @@ const Router = () => {
     <>
       <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
         <Routes>
+          {/* Unprefixed /team would otherwise match /:templateId as "team". */}
+          <Route
+            path="/team"
+            element={<Navigate to="/R186491/team" replace />}
+          />
           <Route path="/:templateId/" element={<Layout />}>
             <Route
               path=""

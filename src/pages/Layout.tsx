@@ -1,5 +1,5 @@
 import { Box, Fab } from '@mui/material';
-import { Outlet, useParams, useLocation } from 'react-router-dom';
+import { Outlet, useParams, useLocation, Navigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useReducedMotion } from 'motion/react';
 import Header from '../components/Header';
@@ -31,10 +31,14 @@ const Layout = () => {
     location.pathname === '/chat' || location.pathname.startsWith('/chat/');
 
   useEffect(() => {
-    if (templateId) {
+    if (templateId && templateId !== 'team') {
       dispatch(fetchQuestionsFromFirebase(templateId));
     }
   }, [templateId, dispatch]);
+
+  if (templateId === 'team') {
+    return <Navigate to="/R186491/team" replace />;
+  }
 
   return (
     <Box
