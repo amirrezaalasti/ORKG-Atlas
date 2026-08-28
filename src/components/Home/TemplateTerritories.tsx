@@ -10,6 +10,7 @@ import { useRevealMotion } from '../../hooks/useRevealMotion';
 import { useReducedMotion } from 'motion/react';
 import { Template, TemplateInfoBoxes } from '../../firestore/CRUDHomeContent';
 import SectionHeading from './SectionHeading';
+import SafeHtml from './SafeHtml';
 import { plateSx } from './atlasTokens';
 
 interface TemplateTerritoriesProps {
@@ -86,12 +87,15 @@ const TemplateTerritories = ({
                 )}
               </Stack>
               {info?.description && (
-                <Typography
-                  color="text.secondary"
-                  sx={{ lineHeight: 1.65, flex: 1 }}
-                >
-                  {info.description}
-                </Typography>
+                <SafeHtml
+                  html={info.description}
+                  sx={{
+                    color: 'text.secondary',
+                    lineHeight: 1.65,
+                    flex: 1,
+                    fontSize: '1rem',
+                  }}
+                />
               )}
               <Button
                 component={RouterLink}
