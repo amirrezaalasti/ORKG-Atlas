@@ -350,6 +350,8 @@ const FloatingAIAssistant: React.FC = () => {
   const dialogRef = useRef<HTMLDivElement>(null);
   const dragStartPos = useRef({ x: 0, y: 0 });
   const location = useLocation();
+  const isChatRoute =
+    location.pathname === '/chat' || location.pathname.startsWith('/chat/');
 
   // Update context on route change
   useEffect(() => {
@@ -448,6 +450,10 @@ const FloatingAIAssistant: React.FC = () => {
       window.removeEventListener('mouseup', handleMouseUp);
     };
   }, [isDragging, isExpanded]);
+
+  if (isChatRoute) {
+    return null;
+  }
 
   return (
     <>

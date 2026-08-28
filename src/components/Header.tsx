@@ -164,6 +164,12 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
       choice?.title ?? templateConfig[newTemplate]?.title ?? newTemplate;
     toast.success(`Theme changed to ${label}`);
 
+    if (location.pathname.startsWith('/chat')) {
+      navigate(`/${newTemplate}/`);
+      setTemplatePickerOpen(false);
+      return;
+    }
+
     const pathSegments = location.pathname.split('/').filter(Boolean);
     pathSegments[0] = newTemplate;
     navigate(`/${pathSegments.join('/')}`);
@@ -173,6 +179,26 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
   const getBreadcrumbs = () => {
     const paths = location.pathname.split('/').filter(Boolean);
     const breadcrumbs = [];
+
+    if (paths[0] === 'chat') {
+      const template = templatesForSelect.find(
+        (t) => t.id === selectedTemplate
+      );
+      const templateName =
+        template?.title || templateConfig[selectedTemplate]?.title || 'Home';
+      breadcrumbs.push({
+        path: `/${selectedTemplate}/`,
+        label: templateName,
+      });
+      breadcrumbs.push({ path: '/chat', label: 'AI Chat' });
+      if (paths[1] === 'share') {
+        breadcrumbs.push({
+          path: location.pathname,
+          label: 'Shared conversation',
+        });
+      }
+      return breadcrumbs;
+    }
 
     if (paths.length > 0) {
       // Add template name as first breadcrumb

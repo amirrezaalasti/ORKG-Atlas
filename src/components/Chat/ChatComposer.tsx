@@ -1,11 +1,6 @@
 /**
- * Modern, floating chat composer.
- *
- * - Auto-grows up to 8 rows.
- * - Enter sends, Shift+Enter inserts a newline.
- * - Cmd/Ctrl + Enter also sends (works in any focus state).
- * - Live attachment chips, inline char counter, and kbd hint footer.
- * - Send button gradient + disabled state styling.
+ * Chat message composer: auto-growing textarea, attachments, and send/stop.
+ * Enter sends, Shift+Enter inserts a newline.
  */
 
 import {
@@ -15,18 +10,10 @@ import {
   Tooltip,
   Chip,
   Paper,
-  alpha,
   Typography,
 } from '@mui/material';
-import {
-  Send,
-  Stop,
-  AttachFile,
-  CompareArrows,
-  ArrowUpward,
-} from '@mui/icons-material';
+import { Send, Stop, AttachFile, CompareArrows } from '@mui/icons-material';
 import { useEffect, useRef } from 'react';
-import { keyframes } from '@mui/system';
 import type { ChatAttachment } from '../../types/chat';
 
 interface ChatComposerProps {
@@ -46,28 +33,23 @@ interface ChatComposerProps {
 const KbdHint = ({ children }: { children: React.ReactNode }) => (
   <Box
     component="kbd"
-    sx={(theme) => ({
+    sx={{
       fontFamily:
         'ui-monospace, SFMono-Regular, "SF Mono", Consolas, monospace',
       fontSize: '0.7rem',
       px: 0.6,
       py: 0.1,
-      borderRadius: 0.6,
-      border: `1px solid ${theme.palette.divider}`,
-      backgroundColor: alpha(theme.palette.text.primary, 0.04),
+      borderRadius: 0.5,
+      border: '1px solid',
+      borderColor: 'divider',
+      backgroundColor: 'action.hover',
       color: 'text.secondary',
       lineHeight: 1.4,
-    })}
+    }}
   >
     {children}
   </Box>
 );
-
-const sendPulse = keyframes`
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.06); }
-  100% { transform: scale(1); }
-`;
 
 const ChatComposer = ({
   value,
@@ -98,51 +80,36 @@ const ChatComposer = ({
 
   return (
     <Box
-      sx={(theme) => ({
-        background: `linear-gradient(180deg, ${alpha(theme.palette.background.default, 0)} 0%, ${
-          theme.palette.background.default
-        } 35%)`,
+      sx={{
         px: { xs: 1.5, sm: 2.5 },
-        pt: 2,
+        pt: 1.5,
         pb: 1.5,
-      })}
+        borderTop: '1px solid',
+        borderColor: 'divider',
+        backgroundColor: 'background.paper',
+      }}
     >
-      {/* Suggestion chips */}
       {suggestions.length > 0 && !value && (
         <Stack
           direction="row"
           spacing={0.75}
           flexWrap="wrap"
-          sx={{ mb: 1.5, maxWidth: 880, mx: 'auto', justifyContent: 'center' }}
+          sx={{ mb: 1.5, maxWidth: 880, mx: 'auto' }}
         >
           {suggestions.slice(0, 4).map((s) => (
             <Chip
               key={s}
               size="small"
+              variant="outlined"
               label={s.length > 64 ? `${s.slice(0, 60)}…` : s}
               clickable
               onClick={() => onChange(s)}
-              sx={(theme) => ({
-                mb: 0.75,
-                fontSize: '0.78rem',
-                borderRadius: 999,
-                border: `1px solid ${theme.palette.divider}`,
-                backgroundColor: alpha(theme.palette.primary.main, 0.04),
-                color: 'text.primary',
-                transition: 'all 180ms ease',
-                '&:hover': {
-                  backgroundColor: alpha(theme.palette.primary.main, 0.1),
-                  borderColor: alpha(theme.palette.primary.main, 0.4),
-                  transform: 'translateY(-1px)',
-                  boxShadow: `0 4px 12px -4px ${alpha(theme.palette.primary.main, 0.4)}`,
-                },
-              })}
+              sx={{ mb: 0.75, fontSize: '0.78rem' }}
             />
           ))}
         </Stack>
       )}
 
-      {/* Attachment chips above textarea */}
       {attachments.length > 0 && (
         <Stack
           direction="row"
@@ -156,13 +123,7 @@ const ChatComposer = ({
               size="small"
               label={`${a.type.replace('orkg-', '')} · ${a.label || a.id}`}
               onDelete={() => onRemoveAttachment(a)}
-              sx={(theme) => ({
-                height: 24,
-                fontSize: '0.75rem',
-                backgroundColor: alpha(theme.palette.primary.main, 0.08),
-                border: `1px solid ${alpha(theme.palette.primary.main, 0.25)}`,
-                color: 'text.primary',
-              })}
+              sx={{ height: 24, fontSize: '0.75rem' }}
             />
           ))}
         </Stack>
@@ -170,40 +131,21 @@ const ChatComposer = ({
 
       <Paper
         elevation={0}
-        sx={(theme) => ({
+        sx={{
           maxWidth: 880,
           mx: 'auto',
           p: 1,
-          borderRadius: 4,
-          border: `1px solid ${theme.palette.divider}`,
-          backgroundColor: theme.palette.background.paper,
-          boxShadow:
-            theme.palette.mode === 'dark'
-              ? `0 8px 32px -8px ${alpha('#000', 0.6)}`
-              : `0 8px 32px -8px ${alpha(theme.palette.primary.main, 0.18)}`,
-          transition: 'border-color 200ms ease, box-shadow 200ms ease',
+          borderRadius: 2,
+          border: '1px solid',
+          borderColor: 'divider',
+          backgroundColor: 'background.default',
           '&:focus-within': {
-            borderColor: alpha(theme.palette.primary.main, 0.6),
-            boxShadow:
-              theme.palette.mode === 'dark'
-                ? `0 8px 32px -8px ${alpha('#000', 0.7)}, 0 0 0 4px ${alpha(
-                    theme.palette.primary.main,
-                    0.1
-                  )}`
-                : `0 8px 32px -8px ${alpha(theme.palette.primary.main, 0.25)}, 0 0 0 4px ${alpha(
-                    theme.palette.primary.main,
-                    0.08
-                  )}`,
+            borderColor: 'primary.main',
           },
-        })}
+        }}
       >
         <Stack direction="row" spacing={0.5} alignItems="flex-end">
-          <Stack
-            direction="row"
-            spacing={0}
-            alignItems="center"
-            sx={{ pl: 0.25 }}
-          >
+          <Stack direction="row" spacing={0} alignItems="center">
             <Tooltip title="Attach ORKG resource">
               <span>
                 <IconButton
@@ -255,7 +197,7 @@ const ChatComposer = ({
                 outline: 'none',
                 background: 'transparent',
                 fontFamily: theme.typography.body1.fontFamily,
-                fontSize: '0.96rem',
+                fontSize: '0.95rem',
                 lineHeight: 1.55,
                 color: theme.palette.text.primary,
                 py: 0.75,
@@ -274,23 +216,14 @@ const ChatComposer = ({
             />
           </Box>
 
-          {/* Send / Stop */}
           {isStreaming ? (
             <Tooltip title="Stop generating">
               <span>
                 <IconButton
                   onClick={onStop}
                   disabled={!onStop}
-                  sx={(theme) => ({
-                    width: 36,
-                    height: 36,
-                    backgroundColor: alpha(theme.palette.error.main, 0.1),
-                    color: theme.palette.error.main,
-                    border: `1px solid ${alpha(theme.palette.error.main, 0.3)}`,
-                    '&:hover': {
-                      backgroundColor: alpha(theme.palette.error.main, 0.2),
-                    },
-                  })}
+                  color="error"
+                  sx={{ width: 36, height: 36 }}
                 >
                   <Stop fontSize="small" />
                 </IconButton>
@@ -304,31 +237,23 @@ const ChatComposer = ({
                 <IconButton
                   onClick={send}
                   disabled={!canSend}
-                  sx={(theme) => ({
+                  color="primary"
+                  sx={{
                     width: 36,
                     height: 36,
-                    background: canSend
-                      ? `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`
-                      : alpha(theme.palette.text.primary, 0.08),
-                    color: canSend ? '#fff' : theme.palette.text.disabled,
-                    boxShadow: canSend
-                      ? `0 4px 12px -2px ${alpha(theme.palette.primary.main, 0.55)}`
-                      : 'none',
-                    transition: 'all 180ms ease',
+                    backgroundColor: canSend ? 'primary.main' : 'action.hover',
+                    color: canSend ? 'primary.contrastText' : 'text.disabled',
                     '&:hover': {
-                      animation: canSend ? `${sendPulse} 600ms ease` : 'none',
-                      filter: canSend ? 'brightness(1.05)' : undefined,
+                      backgroundColor: canSend
+                        ? 'primary.dark'
+                        : 'action.hover',
                     },
                     '&.Mui-disabled': {
-                      color: theme.palette.text.disabled,
+                      color: 'text.disabled',
                     },
-                  })}
+                  }}
                 >
-                  {canSend ? (
-                    <ArrowUpward sx={{ fontSize: 20 }} />
-                  ) : (
-                    <Send sx={{ fontSize: 18 }} />
-                  )}
+                  <Send sx={{ fontSize: 18 }} />
                 </IconButton>
               </span>
             </Tooltip>
@@ -336,7 +261,6 @@ const ChatComposer = ({
         </Stack>
       </Paper>
 
-      {/* Footer hints */}
       <Stack
         direction="row"
         spacing={1.5}
@@ -358,18 +282,15 @@ const ChatComposer = ({
           </Typography>
         </Stack>
         {showCharCount && (
-          <>
-            <Box sx={{ flex: 1 }} />
-            <Typography
-              variant="caption"
-              sx={{
-                color: charCount > 4000 ? 'error.main' : 'text.disabled',
-                fontFamily: 'monospace',
-              }}
-            >
-              {charCount.toLocaleString()} chars
-            </Typography>
-          </>
+          <Typography
+            variant="caption"
+            sx={{
+              color: charCount > 4000 ? 'error.main' : 'text.disabled',
+              fontFamily: 'monospace',
+            }}
+          >
+            {charCount.toLocaleString()} chars
+          </Typography>
         )}
       </Stack>
     </Box>

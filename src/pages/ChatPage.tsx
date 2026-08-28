@@ -26,25 +26,25 @@ import {
   Alert,
   TextField,
   Chip,
-  Paper,
-  alpha,
+  Drawer,
+  useMediaQuery,
   useTheme,
 } from '@mui/material';
 import {
   Add,
   Login,
-  AutoAwesome,
-  AutoStories,
-  Hub,
-  Code,
-  Insights,
+  Home,
+  Menu as MenuIcon,
   EditOutlined,
-  TipsAndUpdates,
   Lock,
 } from '@mui/icons-material';
-import { keyframes } from '@mui/system';
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import {
+  Link as RouterLink,
+  useParams,
+  useNavigate,
+  useLocation,
+} from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import { useAuthData } from '../auth/useAuthData';
 import { conversationsApi, streamChat } from '../services/chatStreamClient';
@@ -58,6 +58,7 @@ import ConversationSidebar from '../components/Chat/ConversationSidebar';
 import MessageView from '../components/Chat/MessageView';
 import ChatComposer from '../components/Chat/ChatComposer';
 import ChatPreviewPanel from '../components/Chat/ChatPreviewPanel';
+import ChatHero from '../components/Chat/ChatHero';
 import { ChatPreviewProvider } from '../context/ChatPreviewContext';
 import AttachResourceDialog from '../components/Chat/AttachResourceDialog';
 import ModelCompareDialog from '../components/Chat/ModelCompareDialog';
@@ -68,67 +69,12 @@ import {
 } from '../components/Chat/modelDefaults';
 import type { AIProvider } from '../store/slices/aiSlice';
 
-interface StarterPrompt {
-  prompt: string;
-  category:
-    | 'Templates'
-    | 'Papers'
-    | 'SPARQL'
-    | 'Stats'
-    | 'Graphs'
-    | 'Synthesis';
-  icon: React.ReactNode;
-}
-
-const STARTER_PROMPTS: StarterPrompt[] = [
-  {
-    prompt:
-      'Summarize what template R186491 represents and its main predicates.',
-    category: 'Templates',
-    icon: <AutoStories sx={{ fontSize: 18 }} />,
-  },
-  {
-    prompt:
-      'Find papers in ORKG about "requirements engineering empirical study".',
-    category: 'Papers',
-    icon: <AutoStories sx={{ fontSize: 18 }} />,
-  },
-  {
-    prompt: 'Show statements bundle for paper R186492 as an interactive graph.',
-    category: 'Graphs',
-    icon: <Hub sx={{ fontSize: 18 }} />,
-  },
-  {
-    prompt:
-      'Run a SPARQL query that lists all papers contributing to template R1544125.',
-    category: 'SPARQL',
-    icon: <Code sx={{ fontSize: 18 }} />,
-  },
-  {
-    prompt:
-      'Show Atlas template statistics for R186491 and chart the contribution counts.',
-    category: 'Stats',
-    icon: <Insights sx={{ fontSize: 18 }} />,
-  },
-  {
-    prompt:
-      'Compare two ORKG comparisons about NLP4RE and synthesise findings.',
-    category: 'Synthesis',
-    icon: <TipsAndUpdates sx={{ fontSize: 18 }} />,
-  },
-];
-
-const fadeInUp = keyframes`
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
-`;
-
 const ChatPage = () => {
   const params = useParams<{ shareToken?: string }>();
   const navigate = useNavigate();
   const location = useLocation();
-  const muiTheme = useTheme();
-  const isDark = muiTheme.palette.mode === 'dark';
+  const theme = useTheme();
+  const isMdUp = useMediaQuery(theme.breakpoints.up('md'));
   const {
     isAuthenticated,
     isLoading: authLoading,
@@ -169,6 +115,7 @@ const ChatPage = () => {
   const [readonlyShared, setReadonlyShared] = useState(false);
   const [titleEditing, setTitleEditing] = useState(false);
   const [draftTitle, setDraftTitle] = useState('');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const abortRef = useRef<AbortController | null>(null);
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -421,13 +368,28 @@ const ChatPage = () => {
   const providerInfo = PROVIDERS[provider];
   const providerModels = providerInfo?.models ?? [];
 
+  const sidebar = !readonlyShared ? (
+    <ConversationSidebar
+      activeId={activeConv?.id}
+      onSelect={(conv) => {
+        loadConversation(conv);
+        setSidebarOpen(false);
+      }}
+      onNew={() => {
+        startNewChat();
+        setSidebarOpen(false);
+      }}
+      refreshKey={refreshKey}
+    />
+  ) : null;
+
   // ── Auth gate ──────────────────────────────────────────────────────────────
   if (authLoading) {
     return (
       <Stack
         alignItems="center"
         justifyContent="center"
-        sx={{ height: '70vh' }}
+        sx={{ flex: 1, minHeight: 360 }}
       >
         <CircularProgress />
       </Stack>
@@ -439,54 +401,47 @@ const ChatPage = () => {
       <Stack
         alignItems="center"
         justifyContent="center"
-        sx={{ height: '80vh' }}
-        spacing={3}
+        sx={{ flex: 1, px: 2, py: 6 }}
+        spacing={2.5}
       >
-        <Box
-          sx={(theme) => ({
-            width: 80,
-            height: 80,
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
-            boxShadow: `0 12px 40px -12px ${alpha(theme.palette.primary.main, 0.6)}`,
-          })}
+        <Typography
+          variant="h3"
+          sx={{
+            color: 'primary.main',
+            fontWeight: 700,
+            fontSize: { xs: '1.75rem', sm: '2rem' },
+          }}
         >
-          <AutoAwesome sx={{ fontSize: 40, color: '#fff' }} />
-        </Box>
-        <Stack spacing={1} alignItems="center">
-          <Typography variant="h4" sx={{ fontWeight: 700 }}>
-            ORKG Atlas Chat
-          </Typography>
-          <Typography
-            variant="body1"
-            color="text.secondary"
-            sx={{ maxWidth: 480, textAlign: 'center' }}
+          AI Chat
+        </Typography>
+        <Typography
+          variant="body1"
+          color="text.secondary"
+          sx={{ maxWidth: 480, textAlign: 'center' }}
+        >
+          Sign in to start a conversation grounded in the Open Research
+          Knowledge Graph. The assistant can search papers, run SPARQL, fetch
+          templates, and draw inline graphs.
+        </Typography>
+        <Stack direction="row" spacing={1.5}>
+          <Button
+            variant="outlined"
+            startIcon={<Home />}
+            component={RouterLink}
+            to="/"
+            sx={{ textTransform: 'none' }}
           >
-            Sign in to start a conversation grounded in the Open Research
-            Knowledge Graph. The assistant can search papers, run SPARQL, fetch
-            templates, and draw inline graphs.
-          </Typography>
+            Back to home
+          </Button>
+          <Button
+            variant="contained"
+            startIcon={<Login />}
+            onClick={() => login()}
+            sx={{ textTransform: 'none' }}
+          >
+            Sign in
+          </Button>
         </Stack>
-        <Button
-          variant="contained"
-          size="large"
-          startIcon={<Login />}
-          onClick={() => login()}
-          sx={(theme) => ({
-            px: 3,
-            py: 1.25,
-            borderRadius: 3,
-            textTransform: 'none',
-            fontWeight: 600,
-            background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
-            boxShadow: `0 6px 20px -6px ${alpha(theme.palette.primary.main, 0.6)}`,
-          })}
-        >
-          Sign in
-        </Button>
       </Stack>
     );
   }
@@ -494,22 +449,28 @@ const ChatPage = () => {
   return (
     <ChatPreviewProvider>
       <Box
-        sx={(theme) => ({
+        sx={{
           display: 'flex',
-          height: 'calc(100vh - 64px)',
-          minHeight: 500,
-          background: isDark
-            ? `radial-gradient(circle at 0% 0%, ${alpha(theme.palette.primary.main, 0.06)} 0%, transparent 40%), radial-gradient(circle at 100% 100%, ${alpha(theme.palette.primary.dark, 0.04)} 0%, transparent 40%), ${theme.palette.background.default}`
-            : `radial-gradient(circle at 0% 0%, ${alpha(theme.palette.primary.main, 0.04)} 0%, transparent 40%), radial-gradient(circle at 100% 100%, ${alpha(theme.palette.primary.dark, 0.03)} 0%, transparent 40%), ${theme.palette.background.default}`,
-        })}
+          flex: 1,
+          minHeight: 0,
+          height: '100%',
+          backgroundColor: 'background.default',
+        }}
       >
-        {!readonlyShared && (
-          <ConversationSidebar
-            activeId={activeConv?.id}
-            onSelect={loadConversation}
-            onNew={startNewChat}
-            refreshKey={refreshKey}
-          />
+        {isMdUp && sidebar}
+        {!isMdUp && sidebar && (
+          <Drawer
+            anchor="left"
+            open={sidebarOpen}
+            onClose={() => setSidebarOpen(false)}
+            slotProps={{
+              paper: {
+                sx: { width: 288, backgroundColor: 'background.paper' },
+              },
+            }}
+          >
+            {sidebar}
+          </Drawer>
         )}
         <Box
           sx={{
@@ -526,119 +487,110 @@ const ChatPage = () => {
               minWidth: 0,
             }}
           >
-            {/* Sticky header */}
             <Box
-              sx={(theme) => ({
-                position: 'sticky',
-                top: 0,
-                zIndex: 5,
+              sx={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: 1,
                 px: { xs: 1.5, sm: 2 },
-                py: 1.25,
-                borderBottom: `1px solid ${theme.palette.divider}`,
-                backgroundColor: alpha(theme.palette.background.paper, 0.7),
-                backdropFilter: 'blur(14px)',
-              })}
+                py: 1,
+                borderBottom: '1px solid',
+                borderColor: 'divider',
+                backgroundColor: 'background.paper',
+              }}
             >
-              {/* Title block */}
-              <Stack
-                direction="row"
-                spacing={1.25}
-                alignItems="center"
-                sx={{ flex: 1, minWidth: 0 }}
-              >
-                <Box
-                  sx={(theme) => ({
-                    width: 32,
-                    height: 32,
-                    borderRadius: 1.5,
-                    flexShrink: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
-                    boxShadow: `0 2px 8px -2px ${alpha(theme.palette.primary.main, 0.5)}`,
-                  })}
+              <Tooltip title="Back to home">
+                <IconButton
+                  component={RouterLink}
+                  to="/"
+                  size="small"
+                  aria-label="Back to home"
+                  sx={{ color: 'text.primary' }}
                 >
-                  <AutoAwesome sx={{ fontSize: 18, color: '#fff' }} />
-                </Box>
-                <Box sx={{ flex: 1, minWidth: 0 }}>
-                  {titleEditing && activeConv ? (
-                    <TextField
-                      size="small"
-                      value={draftTitle}
-                      autoFocus
-                      variant="standard"
-                      onChange={(e) => setDraftTitle(e.target.value)}
-                      onBlur={onSaveTitle}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') onSaveTitle();
-                        if (e.key === 'Escape') setTitleEditing(false);
+                  <Home fontSize="small" />
+                </IconButton>
+              </Tooltip>
+              {!isMdUp && !readonlyShared && (
+                <Tooltip title="Conversations">
+                  <IconButton
+                    size="small"
+                    onClick={() => setSidebarOpen(true)}
+                    aria-label="Open conversations"
+                    sx={{ color: 'text.primary' }}
+                  >
+                    <MenuIcon fontSize="small" />
+                  </IconButton>
+                </Tooltip>
+              )}
+              <Box sx={{ flex: 1, minWidth: 0 }}>
+                {titleEditing && activeConv ? (
+                  <TextField
+                    size="small"
+                    value={draftTitle}
+                    autoFocus
+                    variant="standard"
+                    onChange={(e) => setDraftTitle(e.target.value)}
+                    onBlur={onSaveTitle}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') onSaveTitle();
+                      if (e.key === 'Escape') setTitleEditing(false);
+                    }}
+                    fullWidth
+                    sx={{ '& input': { fontSize: '1rem', fontWeight: 600 } }}
+                  />
+                ) : (
+                  <Stack
+                    direction="row"
+                    spacing={0.75}
+                    alignItems="center"
+                    sx={{ minWidth: 0 }}
+                  >
+                    <Typography
+                      variant="subtitle1"
+                      noWrap
+                      sx={{
+                        fontWeight: 600,
+                        cursor:
+                          activeConv && !readonlyShared ? 'text' : 'default',
+                        flex: '0 1 auto',
+                        minWidth: 0,
                       }}
-                      fullWidth
-                      sx={{ '& input': { fontSize: '1rem', fontWeight: 600 } }}
-                    />
-                  ) : (
-                    <Stack
-                      direction="row"
-                      spacing={0.75}
-                      alignItems="center"
-                      sx={{ minWidth: 0 }}
+                      onClick={() => {
+                        if (activeConv && !readonlyShared) {
+                          setDraftTitle(activeConv.title);
+                          setTitleEditing(true);
+                        }
+                      }}
                     >
-                      <Typography
-                        variant="subtitle1"
-                        noWrap
-                        sx={{
-                          fontWeight: 600,
-                          cursor:
-                            activeConv && !readonlyShared ? 'text' : 'default',
-                          flex: '0 1 auto',
-                          minWidth: 0,
-                        }}
-                        onClick={() => {
-                          if (activeConv && !readonlyShared) {
+                      {activeConv?.title ?? 'New conversation'}
+                    </Typography>
+                    {activeConv && !readonlyShared && (
+                      <Tooltip title="Rename">
+                        <IconButton
+                          size="small"
+                          onClick={() => {
                             setDraftTitle(activeConv.title);
                             setTitleEditing(true);
-                          }
-                        }}
-                      >
-                        {activeConv?.title ?? 'New conversation'}
-                      </Typography>
-                      {activeConv && !readonlyShared && (
-                        <Tooltip title="Rename">
-                          <IconButton
-                            size="small"
-                            onClick={() => {
-                              setDraftTitle(activeConv.title);
-                              setTitleEditing(true);
-                            }}
-                            sx={{
-                              p: 0.25,
-                              opacity: 0.5,
-                              '&:hover': { opacity: 1 },
-                            }}
-                          >
-                            <EditOutlined sx={{ fontSize: 14 }} />
-                          </IconButton>
-                        </Tooltip>
-                      )}
-                      {readonlyShared && (
-                        <Chip
-                          size="small"
-                          icon={<Lock sx={{ fontSize: 12 }} />}
-                          label="Read-only"
-                          variant="outlined"
-                          sx={{ height: 22, fontSize: '0.7rem', ml: 0.5 }}
-                        />
-                      )}
-                    </Stack>
-                  )}
-                </Box>
-              </Stack>
+                          }}
+                          sx={{ p: 0.25, color: 'text.secondary' }}
+                        >
+                          <EditOutlined sx={{ fontSize: 14 }} />
+                        </IconButton>
+                      </Tooltip>
+                    )}
+                    {readonlyShared && (
+                      <Chip
+                        size="small"
+                        icon={<Lock sx={{ fontSize: 12 }} />}
+                        label="Read-only"
+                        variant="outlined"
+                        sx={{ height: 22, fontSize: '0.7rem' }}
+                      />
+                    )}
+                  </Stack>
+                )}
+              </Box>
 
-              {/* Pickers (hidden in read-only mode) */}
               {!readonlyShared && (
                 <Stack
                   direction="row"
@@ -653,27 +605,18 @@ const ChatPage = () => {
                       onProviderChange(e.target.value as AIProvider)
                     }
                     disabled={isStreaming}
-                    sx={{ minWidth: 130, height: 34, fontSize: '0.82rem' }}
+                    sx={{
+                      minWidth: { xs: 110, sm: 130 },
+                      height: 34,
+                      fontSize: '0.82rem',
+                      display: { xs: 'none', sm: 'inline-flex' },
+                    }}
                     renderValue={(v) => {
                       const info = PROVIDERS[v as AIProvider];
                       return (
-                        <Stack
-                          direction="row"
-                          spacing={0.75}
-                          alignItems="center"
-                        >
-                          <Box
-                            sx={{
-                              width: 8,
-                              height: 8,
-                              borderRadius: '50%',
-                              backgroundColor: info?.accent ?? '#888',
-                            }}
-                          />
-                          <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                            {info?.label ?? v}
-                          </Typography>
-                        </Stack>
+                        <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                          {info?.label ?? v}
+                        </Typography>
                       );
                     }}
                   >
@@ -683,17 +626,7 @@ const ChatPage = () => {
                         value={p.id}
                         sx={{ fontSize: '0.85rem' }}
                       >
-                        <Stack direction="row" spacing={1} alignItems="center">
-                          <Box
-                            sx={{
-                              width: 8,
-                              height: 8,
-                              borderRadius: '50%',
-                              backgroundColor: p.accent,
-                            }}
-                          />
-                          {p.label}
-                        </Stack>
+                        {p.label}
                       </MenuItem>
                     ))}
                   </Select>
@@ -705,7 +638,8 @@ const ChatPage = () => {
                       placeholder="vendor/model"
                       disabled={isStreaming}
                       sx={{
-                        width: { xs: 150, sm: 220 },
+                        width: { xs: 140, sm: 220 },
+                        display: { xs: 'none', md: 'block' },
                         '& input': {
                           fontSize: '0.82rem',
                           fontFamily: 'monospace',
@@ -725,10 +659,11 @@ const ChatPage = () => {
                       onChange={(e) => setModel(e.target.value)}
                       disabled={isStreaming}
                       sx={{
-                        minWidth: { xs: 150, sm: 220 },
+                        minWidth: { xs: 140, sm: 220 },
                         height: 34,
                         fontSize: '0.82rem',
                         fontFamily: 'monospace',
+                        display: { xs: 'none', md: 'inline-flex' },
                       }}
                     >
                       {providerModels.map((m) => (
@@ -747,19 +682,17 @@ const ChatPage = () => {
                       <IconButton
                         onClick={startNewChat}
                         disabled={isStreaming}
-                        sx={(theme) => ({
+                        sx={{
                           width: 34,
                           height: 34,
-                          border: `1px solid ${theme.palette.divider}`,
-                          borderRadius: 1.5,
+                          border: '1px solid',
+                          borderColor: 'divider',
+                          borderRadius: 1,
                           '&:hover': {
-                            backgroundColor: alpha(
-                              theme.palette.primary.main,
-                              0.08
-                            ),
-                            borderColor: alpha(theme.palette.primary.main, 0.5),
+                            backgroundColor: 'action.hover',
+                            borderColor: 'primary.main',
                           },
-                        })}
+                        }}
                       >
                         <Add fontSize="small" />
                       </IconButton>
@@ -828,11 +761,6 @@ const ChatPage = () => {
                     prev.filter((p) => !(p.type === a.type && p.id === a.id))
                   )
                 }
-                suggestions={
-                  allMessages.length === 0
-                    ? STARTER_PROMPTS.map((s) => s.prompt)
-                    : []
-                }
               />
             )}
 
@@ -868,178 +796,5 @@ const ChatPage = () => {
     </ChatPreviewProvider>
   );
 };
-
-interface ChatHeroProps {
-  onPick: (p: string) => void;
-}
-
-const CATEGORY_COLORS: Record<StarterPrompt['category'], string> = {
-  Templates: '#e86161',
-  Papers: '#7c4dff',
-  SPARQL: '#10a37f',
-  Stats: '#f59e0b',
-  Graphs: '#e86161',
-  Synthesis: '#5b8def',
-};
-
-const ChatHero = ({ onPick }: ChatHeroProps) => (
-  <Box
-    sx={{
-      maxWidth: 880,
-      mx: 'auto',
-      px: { xs: 2, sm: 3 },
-      pt: { xs: 4, sm: 7 },
-      pb: 3,
-      animation: `${fadeInUp} 380ms ease-out`,
-    }}
-  >
-    {/* Hero icon */}
-    <Stack alignItems="center" spacing={2.5} sx={{ mb: 5 }}>
-      <Box
-        sx={(theme) => ({
-          width: 72,
-          height: 72,
-          borderRadius: 3,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
-          boxShadow: `0 16px 50px -12px ${alpha(theme.palette.primary.main, 0.5)}`,
-        })}
-      >
-        <AutoAwesome sx={{ fontSize: 36, color: '#fff' }} />
-      </Box>
-      <Stack alignItems="center" spacing={1}>
-        <Typography
-          variant="h4"
-          sx={{
-            fontWeight: 700,
-            textAlign: 'center',
-            background: (t) =>
-              `linear-gradient(135deg, ${t.palette.text.primary} 0%, ${alpha(
-                t.palette.primary.main,
-                0.85
-              )} 100%)`,
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-          }}
-        >
-          What do you want to explore today?
-        </Typography>
-        <Typography
-          variant="body1"
-          color="text.secondary"
-          sx={{ textAlign: 'center', maxWidth: 560 }}
-        >
-          The assistant can search papers, fetch templates, run SPARQL,
-          summarise statements, and visualise the Open Research Knowledge Graph.
-        </Typography>
-        <Chip
-          size="small"
-          label="Explores all ORKG templates · picks the best match per question"
-          variant="outlined"
-          sx={{ mt: 0.5, fontSize: '0.72rem' }}
-        />
-      </Stack>
-    </Stack>
-
-    {/* Starter cards */}
-    <Box
-      sx={{
-        display: 'grid',
-        gridTemplateColumns: {
-          xs: '1fr',
-          sm: 'repeat(2, 1fr)',
-          md: 'repeat(3, 1fr)',
-        },
-        gap: 1.5,
-      }}
-    >
-      {STARTER_PROMPTS.map((sp) => {
-        const accent = CATEGORY_COLORS[sp.category];
-        return (
-          <Paper
-            key={sp.prompt}
-            elevation={0}
-            onClick={() => onPick(sp.prompt)}
-            sx={(theme) => ({
-              p: 2,
-              cursor: 'pointer',
-              borderRadius: 2.5,
-              border: `1px solid ${theme.palette.divider}`,
-              backgroundColor: theme.palette.background.paper,
-              transition: 'all 200ms ease',
-              position: 'relative',
-              overflow: 'hidden',
-              '&::before': {
-                content: '""',
-                position: 'absolute',
-                inset: 0,
-                background: `linear-gradient(135deg, ${alpha(accent, 0.06)} 0%, transparent 60%)`,
-                opacity: 0,
-                transition: 'opacity 200ms ease',
-              },
-              '&:hover': {
-                transform: 'translateY(-2px)',
-                borderColor: alpha(accent, 0.45),
-                boxShadow: `0 12px 28px -12px ${alpha(accent, 0.4)}`,
-                '&::before': { opacity: 1 },
-              },
-            })}
-          >
-            <Stack
-              direction="row"
-              spacing={1.25}
-              alignItems="flex-start"
-              sx={{ position: 'relative' }}
-            >
-              <Box
-                sx={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: 1.5,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                  backgroundColor: alpha(accent, 0.12),
-                  color: accent,
-                }}
-              >
-                {sp.icon}
-              </Box>
-              <Box sx={{ flex: 1, minWidth: 0 }}>
-                <Typography
-                  variant="caption"
-                  sx={{
-                    color: accent,
-                    fontWeight: 700,
-                    textTransform: 'uppercase',
-                    letterSpacing: 0.5,
-                    fontSize: '0.65rem',
-                  }}
-                >
-                  {sp.category}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    mt: 0.25,
-                    color: 'text.primary',
-                    fontWeight: 500,
-                    lineHeight: 1.45,
-                  }}
-                >
-                  {sp.prompt}
-                </Typography>
-              </Box>
-            </Stack>
-          </Paper>
-        );
-      })}
-    </Box>
-  </Box>
-);
 
 export default ChatPage;

@@ -17,7 +17,6 @@ import {
   Stack,
   Typography,
   Tooltip,
-  alpha,
 } from '@mui/material';
 import { keyframes } from '@mui/system';
 import {
@@ -91,19 +90,17 @@ const MessageView = ({ message, isStreaming }: MessageViewProps) => {
           }}
         >
           <Box
-            sx={(theme) => ({
-              background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
-              color: theme.palette.primary.contrastText,
+            sx={{
+              backgroundColor: 'primary.main',
+              color: 'primary.contrastText',
               px: 2,
               py: 1.25,
-              borderRadius: 2.5,
-              borderTopRightRadius: 4,
-              boxShadow: `0 4px 14px -4px ${alpha(theme.palette.primary.main, 0.5)}`,
+              borderRadius: 2,
               whiteSpace: 'pre-wrap',
               wordBreak: 'break-word',
               fontSize: '0.95rem',
               lineHeight: 1.55,
-            })}
+            }}
           >
             {message.content}
           </Box>
@@ -126,12 +123,11 @@ const MessageView = ({ message, isStreaming }: MessageViewProps) => {
           )}
         </Box>
         <Avatar
-          sx={(theme) => ({
+          sx={{
             width: 32,
             height: 32,
-            background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
-            boxShadow: `0 2px 8px -2px ${alpha(theme.palette.primary.main, 0.5)}`,
-          })}
+            bgcolor: 'primary.main',
+          }}
         >
           <Person sx={{ fontSize: 18 }} />
         </Avatar>
@@ -159,29 +155,28 @@ const MessageView = ({ message, isStreaming }: MessageViewProps) => {
       sx={{ mb: 2.5, animation: `${fadeIn} 220ms ease-out` }}
     >
       <Avatar
-        sx={(theme) => ({
+        sx={{
           width: 32,
           height: 32,
-          background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
-          boxShadow: `0 2px 8px -2px ${alpha(theme.palette.primary.main, 0.5)}`,
-        })}
+          bgcolor: 'primary.main',
+        }}
       >
         <AutoAwesome sx={{ fontSize: 18 }} />
       </Avatar>
       <Box sx={{ flex: 1, minWidth: 0 }}>
         {showThinking && (
           <Box
-            sx={(theme) => ({
+            sx={{
               display: 'inline-flex',
               alignItems: 'center',
               px: 1.5,
               py: 1,
-              borderRadius: 2,
-              borderTopLeftRadius: 4,
-              backgroundColor: alpha(theme.palette.primary.main, 0.06),
-              border: `1px solid ${alpha(theme.palette.primary.main, 0.15)}`,
+              borderRadius: 1,
+              backgroundColor: 'action.hover',
+              border: '1px solid',
+              borderColor: 'divider',
               mb: 1,
-            })}
+            }}
           >
             <ThinkingDots />
           </Box>
@@ -202,18 +197,14 @@ const MessageView = ({ message, isStreaming }: MessageViewProps) => {
         )}
         {message.content ? (
           <Box
-            sx={(theme) => ({
-              border: `1px solid ${theme.palette.divider}`,
-              borderRadius: 2.5,
-              borderTopLeftRadius: 4,
+            sx={{
+              border: '1px solid',
+              borderColor: 'divider',
+              borderRadius: 2,
               p: 2,
-              backgroundColor: theme.palette.background.paper,
-              boxShadow:
-                theme.palette.mode === 'dark'
-                  ? `0 1px 3px ${alpha('#000', 0.4)}`
-                  : `0 1px 3px ${alpha('#000', 0.04)}`,
+              backgroundColor: 'background.paper',
               '& a': {
-                color: theme.palette.primary.main,
+                color: 'primary.main',
                 textDecorationThickness: '1px',
                 textUnderlineOffset: 2,
               },
@@ -223,18 +214,19 @@ const MessageView = ({ message, isStreaming }: MessageViewProps) => {
                 fontSize: '0.86em',
                 px: 0.5,
                 py: 0.125,
-                borderRadius: 0.75,
-                backgroundColor: alpha(theme.palette.text.primary, 0.06),
+                borderRadius: 0.5,
+                backgroundColor: 'action.hover',
               },
               '& pre': {
-                backgroundColor: alpha(theme.palette.text.primary, 0.05),
-                border: `1px solid ${theme.palette.divider}`,
-                borderRadius: 1.5,
+                backgroundColor: 'action.hover',
+                border: '1px solid',
+                borderColor: 'divider',
+                borderRadius: 1,
                 p: 1.25,
                 fontSize: '0.85rem',
                 overflow: 'auto',
               },
-            })}
+            }}
           >
             <ChatMarkdown text={message.content} />
             {message.reasoning && (
@@ -261,11 +253,12 @@ const MessageView = ({ message, isStreaming }: MessageViewProps) => {
                 </Stack>
                 <Collapse in={showReasoning}>
                   <Box
-                    sx={(theme) => ({
+                    sx={{
                       mt: 1,
                       p: 1.5,
-                      backgroundColor: alpha(theme.palette.text.primary, 0.04),
-                      borderLeft: `3px solid ${theme.palette.primary.main}`,
+                      backgroundColor: 'action.hover',
+                      borderLeft: '3px solid',
+                      borderColor: 'primary.main',
                       borderRadius: '0 8px 8px 0',
                       fontSize: '0.85rem',
                       lineHeight: 1.6,
@@ -273,8 +266,7 @@ const MessageView = ({ message, isStreaming }: MessageViewProps) => {
                       maxHeight: 320,
                       overflow: 'auto',
                       color: 'text.secondary',
-                      fontStyle: 'italic',
-                    })}
+                    }}
                   >
                     {message.reasoning}
                   </Box>
