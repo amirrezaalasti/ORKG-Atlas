@@ -112,75 +112,80 @@ export interface HomeContentData {
 export const defaultHomeContent: HomeContentData = {
   header: {
     title: 'ORKG Atlas',
-    subtitle: '🌍 Mapping the global landscape of scholarly knowledge.',
+    subtitle:
+      'A neuro-symbolic dashboard for mapping, exploring, and reusing scholarly knowledge across every ORKG template.',
     descriptionHtml:
-      '<p>The ORKG Atlas is a universal dashboard built to navigate, visualize, and compare <strong>research knowledge across domains</strong>. By weaving together community templates in the <strong>Open Research Knowledge Graph (ORKG)</strong>, we turn static publications into a living, structured atlas of discovery 🗺️✨.</p>',
-    ctaPrimary: { label: '🔭 Explore templates', href: '#templates' },
-    ctaSecondary: { label: '📖 Learn more', href: '#about' },
+      '<p>Research knowledge graphs make literature-review data machine-actionable, but asking a new question still meant writing SPARQL — so what a community could ask was fixed by whoever built its dashboard. <strong>ORKG Atlas</strong> turns that dashboard from something researchers <em>read</em> into something they <em>write with</em>.</p>',
+    ctaPrimary: { label: 'Explore templates', href: '#templates' },
+    ctaSecondary: { label: 'Learn more', href: '#about' },
   },
   templateCoverage: {
-    title: '📚 Universal template coverage',
+    title: 'Coverage of the ORKG catalogue',
     subtitleHtml:
-      '<p>One dashboard for many scholarly lenses — from anchored empirical studies and NLP workflows to theoretical contributions and emerging community schemas 🌐</p>',
+      '<p>On 28 August 2026 we retrieved all <strong>1,470</strong> templates from the public ORKG API — spanning <strong>119</strong> research fields — and ran the schema resolver over each. A usable schema is a target class plus at least one active property.</p>',
     cards: [
       {
-        title: '🔬 Empirical & NLP',
+        title: '96.7% usable',
         descriptionHtml:
-          '<p>Grounded in the lineage of <strong>EmpiRE-Compass</strong> and <strong>NLP4RE</strong>: repeatable, structured views of experiments, datasets, and evaluation practice.</p>',
+          '<p><strong>1,421</strong> templates yield a schema Atlas can build a prompt from. The remaining 49 declare a class with no active property, so they expose nothing to query.</p>',
       },
       {
-        title: '🌐 Cross-domain',
+        title: '44% nested',
         descriptionHtml:
-          '<p>Designed to welcome physics, life sciences, social sciences, humanities, and beyond — surfaced together instead of scattered across disconnected tools 🔭🧬📚.</p>',
+          '<p><strong>647</strong> templates reference another template; 319 need expansion depth two or beyond, and the largest expansion spans 58 templates. Recursive resolution is not an edge case.</p>',
       },
       {
-        title: '🧩 Community schemas',
+        title: '23.9% cyclic',
         descriptionHtml:
-          '<p>Room for evolving, community-maintained templates as the ORKG ecosystem grows — Atlas stays the compass, templates stay the territories 🚀.</p>',
+          '<p><strong>352</strong> expansions revisit a template already seen, so cycle tracking is mandatory rather than defensive. Schema coverage is largely solved; the problem shifts to size and shape.</p>',
       },
     ],
   },
   aboutProject: {
-    title: '💡 About ORKG Atlas',
-    content: `<p>The ORKG Atlas evolved from <strong>EmpiRE-Compass</strong>, a focused workspace for empirical research practice and NLP4RE-style templates within Requirements Engineering 🧭 Recognizing the need for a fuller picture of the graph, Atlas now aims to spotlight <strong>global research knowledge</strong> aggregated through ORKG — without losing the rigor that started this journey ✨</p><p>Our goal is to reduce information silos and give curious researchers a bird's-eye map of structured science — across venues, disciplines, and template families 🌍</p>`,
-    themes: [],
+    title: 'From a dashboard you read to one you write with',
+    content: `<p>Our earlier <strong>EmpiRE-Compass</strong> showed the ceiling: its 26 competency questions, queries, and prompt guidance were hand-written into the source for two curated domains. A third domain — or an unanticipated question inside an existing one — needed a developer and a redeployment. Users could read it; they could not extend it.</p><p><strong>ORKG Atlas</strong> resolves any template schema at run time through the public ORKG API and moves question authoring into the community. The <strong>symbolic layer</strong> (ORKG, SPARQL, the triplestore) is the only source of factual data. The <strong>neural layer</strong> drafts queries and interprets only the bindings a query returned — so the graph, rather than the model, decides correctness.</p>`,
+    themes: [
+      "Resolve a template's nested schema at run time — no domain knowledge compiled in.",
+      'Let an LLM draft SPARQL, then execute it on the live endpoint.',
+      "Repair from the endpoint's own response (parse error, empty result, or all-null columns) and retry up to three times.",
+    ],
   },
   keyFeatures: {
-    title: '🧭 Why "Atlas"?',
+    title: 'How Atlas asks the graph',
     features: [
       {
-        title: '🔗 Unified exploration',
+        title: 'Resolve any template at run time',
         description:
-          '<p>No hopping between fragmented dashboards 🧩 ORKG Atlas is a deliberate <strong>single entry point</strong> for competency questions that already live across ORKG templates.</p>',
+          '<p>Atlas follows nested templates so properties reached through intermediate resources are included, then injects the derived schema — target class, property paths, labels — into the prompt.</p>',
       },
       {
-        title: '⚖️ Comparative intelligence',
+        title: 'Draft, execute, repair',
         description:
-          '<p>Contrast methods, artefacts, benchmarks, and claims where semantic predicates align — illuminating how fields learn from each other 📊🔍.</p>',
+          '<p>The LLM writes SPARQL; Atlas runs it on the live endpoint and repairs it from that response, including hints for recurring failure modes. SPARQL and the code that shapes results stay editable and re-run in one click.</p>',
       },
       {
-        title: '📡 Live-informed visualization',
+        title: 'Publish a re-runnable bundle',
         description:
-          '<p>Leverage up-to-date ORKG data inside the tooling you already use here — watch adoption, thematic growth, and graph-native insights evolve in near real time 🛰️.</p>',
+          "<p>Each analysis is saved as a moderated community bundle — question, query, processing code, chart, interpretation, template binding. Opening someone else's analysis means re-running an experiment, not reading a claim.</p>",
       },
     ],
   },
   futureDevelopment: {
-    title: '🚀 Ecosystem horizons',
+    title: 'Open problems',
     intro:
-      'We are widening the atlas basemap while keeping authoring quality front and centre:',
+      'Coverage is largely solved. The remaining challenges are schema size, thin templates, and telling a bad query from a sparsely curated graph.',
     phases: [
       {
-        phase: 'Near term',
-        goal: '🧭 deepen coverage for flagship RE datasets while prototyping cross-template navigation patterns every ORKG curator can reuse.',
+        phase: 'Thin templates',
+        goal: '448 templates (30.5%) declare only one or two properties, so many worthwhile competency questions cannot be answered from one template. Atlas currently binds one question to one template; cross-template synthesis is future work.',
       },
       {
-        phase: 'Mid term',
-        goal: '🌐 onboard additional ORKG template families beyond the originals that seeded EmpiRE-Compass.',
+        phase: 'Schema size',
+        goal: '17 templates carry 25 or more properties, and the largest expansion spans 58 — more than fits a prompt. Pruning the schema risks discarding the very property the question needed.',
       },
       {
-        phase: 'Long term',
-        goal: '✨ co-design assistive tooling with the ORKG community so each new template automatically gains Atlas-quality storytelling widgets.',
+        phase: 'Sparse curation',
+        goal: 'A template declares what instances may state, not what they do. A perfect query can return nothing because papers were curated without that property — and the repair loop currently treats an empty result as failure.',
       },
     ],
   },
@@ -217,24 +222,24 @@ export const defaultHomeContent: HomeContentData = {
       },
     ],
     footerCta: {
-      headline: '🤝 Ready to contribute?',
+      headline: 'Contribute a question in your own words',
       bodyHtml:
-        '<p>Add your research artefacts to ORKG — once curated, Atlas-friendly views can amplify their reach 🌍</p>',
-      buttonLabel: 'Visit orkg.org ➜',
+        '<p>A domain expert states it, watches the repair loop converge on a query the endpoint accepts, and publishes a re-runnable bundle to the community library — without SPARQL fluency, schema knowledge, or commit access.</p>',
+      buttonLabel: 'Visit orkg.org',
       buttonHref: 'https://orkg.org',
-      attributionHtml: `<p>ORKG Atlas · Built with care on foundations laid by EmpiRE-Compass · © ${new Date().getFullYear()}</p>`,
+      attributionHtml: `<p>ORKG Atlas · Grew out of EmpiRE-Compass · © ${new Date().getFullYear()}</p>`,
     },
   },
   templateInfoBoxes: {
     R186491: {
-      title: '📊 Empirical research practice',
+      title: 'Empirical Research Practice',
       description:
-        'Structured competency questions grounded in repeatable empirical workflows — ideal for surveying how communities conduct and report research.',
+        'Template R186491 — the schema behind KG-EmpiRE. Competency questions such as "How often are which empirical methods used over time?" are queries over the properties it defines: research method, data collection method, threats to validity.',
     },
     R1544125: {
-      title: '🤖 NLP4RE ID Cards',
+      title: 'NLP4RE ID Card',
       description:
-        'Language-technology-centric lenses on requirements-engineering artefacts — bridging qualitative needs with reproducible NLP evidence.',
+        'One of the two curated domains that EmpiRE-Compass hard-coded. Atlas still opens it as a first-class territory, now via the same runtime schema resolver used for the rest of the catalogue.',
     },
   },
   templates: [
