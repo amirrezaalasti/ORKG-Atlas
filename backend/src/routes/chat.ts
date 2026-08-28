@@ -104,7 +104,7 @@ const createModel = (
         headers: {
           'HTTP-Referer':
             sanitizeEnvVar(process.env.FRONTEND_URL) ||
-            'https://empire-compass.tib.eu',
+            'https://orkg-atlas.vercel.app',
           'X-Title': 'ORKG Atlas',
         },
       }).languageModel(model || 'openai/gpt-4o-mini');

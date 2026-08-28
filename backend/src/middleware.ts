@@ -19,9 +19,7 @@ const getAllowedOrigins = (): string[] => {
     origins.push(process.env.FRONTEND_FEATURE_URL);
   }
 
-  // Add Vercel frontend URL (hardcoded for your production deployment)
-  origins.push('https://empire-compass.vercel.app');
-  origins.push('https://empire-compass.tib.eu');
+  // Atlas production frontend (EmpiRE Compass origins belong on the Compass API)
   origins.push('https://orkg-atlas.vercel.app');
 
   return origins;

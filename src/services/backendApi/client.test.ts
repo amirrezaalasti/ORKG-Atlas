@@ -43,6 +43,17 @@ describe('getBackendUrl', () => {
       location: { hostname: 'orkg-atlas.vercel.app' },
     });
     expect(getBackendUrl()).toBe(PRODUCTION_BACKEND_URL);
+    expect(getBackendUrl()).toBe('https://orkg-atlas-backend.vercel.app');
+  });
+
+  it('ignores the EmpiRE Compass TIB API URL on Atlas hosts', () => {
+    vi.stubEnv('VITE_BACKEND_FEATURE_URL', '');
+    vi.stubEnv('VITE_BACKEND_URL', 'https://empire-compass-backend.tib.eu');
+    vi.stubGlobal('window', {
+      location: { hostname: 'orkg-atlas.vercel.app' },
+    });
+    expect(getBackendUrl()).toBe(PRODUCTION_BACKEND_URL);
+    expect(getBackendUrl()).not.toContain('empire-compass');
   });
 
   it('allows localhost only in local development', () => {
