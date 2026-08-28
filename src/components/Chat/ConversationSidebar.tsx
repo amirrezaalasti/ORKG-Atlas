@@ -16,7 +16,6 @@ import {
   Tooltip,
   CircularProgress,
   InputBase,
-  alpha,
 } from '@mui/material';
 import {
   Add,
@@ -155,19 +154,16 @@ const ConversationSidebar = ({
 
   return (
     <Box
-      sx={(theme) => ({
-        width: { xs: 240, md: 288 },
+      sx={{
+        width: { xs: '100%', md: 288 },
         flexShrink: 0,
         height: '100%',
-        borderRight: `1px solid ${theme.palette.divider}`,
+        borderRight: '1px solid',
+        borderColor: 'divider',
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor:
-          theme.palette.mode === 'dark'
-            ? alpha(theme.palette.background.paper, 0.5)
-            : alpha(theme.palette.background.default, 0.5),
-        backdropFilter: 'blur(10px)',
-      })}
+        backgroundColor: 'background.paper',
+      }}
     >
       {/* Header: New chat + search */}
       <Stack spacing={1} sx={{ p: 1.5, pb: 1 }}>
@@ -176,35 +172,28 @@ const ConversationSidebar = ({
           variant="contained"
           startIcon={<Add />}
           onClick={onNew}
-          sx={(theme) => ({
-            background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
-            color: '#fff',
-            fontWeight: 600,
+          sx={{
             textTransform: 'none',
+            fontWeight: 600,
             borderRadius: 2,
-            boxShadow: `0 4px 14px -4px ${alpha(theme.palette.primary.main, 0.5)}`,
-            '&:hover': {
-              filter: 'brightness(1.05)',
-              boxShadow: `0 6px 18px -4px ${alpha(theme.palette.primary.main, 0.6)}`,
-            },
-          })}
+          }}
         >
           New chat
         </Button>
         <Box
-          sx={(theme) => ({
+          sx={{
             display: 'flex',
             alignItems: 'center',
             gap: 0.5,
             px: 1.25,
-            borderRadius: 2,
-            border: `1px solid ${theme.palette.divider}`,
-            backgroundColor: theme.palette.background.paper,
-            transition: 'border-color 180ms ease',
+            borderRadius: 1,
+            border: '1px solid',
+            borderColor: 'divider',
+            backgroundColor: 'background.default',
             '&:focus-within': {
-              borderColor: alpha(theme.palette.primary.main, 0.5),
+              borderColor: 'primary.main',
             },
-          })}
+          }}
         >
           <Search sx={{ fontSize: 16, color: 'text.disabled' }} />
           <InputBase
@@ -242,16 +231,16 @@ const ConversationSidebar = ({
             sx={{ py: 5, px: 2, textAlign: 'center' }}
           >
             <Box
-              sx={(theme) => ({
+              sx={{
                 width: 56,
                 height: 56,
-                borderRadius: '50%',
+                borderRadius: 2,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: alpha(theme.palette.primary.main, 0.08),
-                color: theme.palette.primary.main,
-              })}
+                backgroundColor: 'rgba(232, 97, 97, 0.08)',
+                color: 'primary.main',
+              }}
             >
               <ChatBubbleOutline />
             </Box>
@@ -294,40 +283,34 @@ const ConversationSidebar = ({
                       <ListItem
                         key={c.id}
                         disablePadding
-                        sx={(theme) => ({
+                        sx={{
                           position: 'relative',
-                          borderRadius: 1.5,
+                          borderRadius: 2,
                           overflow: 'hidden',
                           cursor: 'pointer',
-                          transition: 'all 160ms ease',
                           backgroundColor: isActive
-                            ? alpha(theme.palette.primary.main, 0.1)
+                            ? 'rgba(232, 97, 97, 0.08)'
                             : 'transparent',
-                          border: `1px solid ${
-                            isActive
-                              ? alpha(theme.palette.primary.main, 0.25)
-                              : 'transparent'
-                          }`,
                           '&:hover': {
                             backgroundColor: isActive
-                              ? alpha(theme.palette.primary.main, 0.14)
-                              : alpha(theme.palette.text.primary, 0.04),
+                              ? 'rgba(232, 97, 97, 0.12)'
+                              : 'action.hover',
                             '& .conv-actions': { opacity: 1 },
                           },
-                        })}
+                        }}
                         onClick={() => onSelect(c)}
                       >
                         {isActive && (
                           <Box
-                            sx={(theme) => ({
+                            sx={{
                               position: 'absolute',
                               left: 0,
                               top: 8,
                               bottom: 8,
                               width: 3,
                               borderRadius: '0 4px 4px 0',
-                              background: `linear-gradient(180deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
-                            })}
+                              backgroundColor: 'primary.main',
+                            }}
                           />
                         )}
                         <Box

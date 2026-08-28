@@ -331,7 +331,7 @@ function MenuDrawer({ open, handleDrawerClose }: MenuDrawerProps) {
   useEffect(() => {
     const pathSegments = location.pathname.split('/').filter(Boolean);
     const templateFromUrl = pathSegments[0];
-    if (templateFromUrl) {
+    if (templateFromUrl && /^R\d+$/.test(templateFromUrl)) {
       setSelectedTemplate(templateFromUrl);
     }
   }, [location.pathname]);

@@ -192,16 +192,18 @@ const Router = () => {
             />
           </Route>
 
-          <Route
-            path="/chat"
-            element={<ChatPage />}
-            errorElement={<ErrorFallback />}
-          />
-          <Route
-            path="/chat/share/:shareToken"
-            element={<ChatPage />}
-            errorElement={<ErrorFallback />}
-          />
+          <Route element={<Layout />}>
+            <Route
+              path="/chat"
+              element={<ChatPage />}
+              errorElement={<ErrorFallback />}
+            />
+            <Route
+              path="/chat/share/:shareToken"
+              element={<ChatPage />}
+              errorElement={<ErrorFallback />}
+            />
+          </Route>
 
           <Route path="/" element={<Navigate to="/R186491/" replace />} />
 

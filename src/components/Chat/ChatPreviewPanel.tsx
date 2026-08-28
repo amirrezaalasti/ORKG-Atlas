@@ -6,7 +6,6 @@ import {
   Tabs,
   Tooltip,
   Typography,
-  alpha,
   useTheme,
 } from '@mui/material';
 import { Close, OpenInNew, ChevronRight } from '@mui/icons-material';
@@ -50,8 +49,7 @@ const ChatPreviewPanel = () => {
           py: 0.5,
           borderBottom: 1,
           borderColor: 'divider',
-          backgroundColor: alpha(theme.palette.background.paper, 0.9),
-          backdropFilter: 'blur(8px)',
+          backgroundColor: 'background.paper',
         }}
       >
         <ChevronRight sx={{ fontSize: 18, color: 'text.secondary' }} />

@@ -27,6 +27,8 @@ const Layout = () => {
   };
   const { templateId } = useParams();
   const dispatch = useDispatch<AppDispatch>();
+  const isChatRoute =
+    location.pathname === '/chat' || location.pathname.startsWith('/chat/');
 
   useEffect(() => {
     if (templateId) {
@@ -42,6 +44,7 @@ const Layout = () => {
         width: '100%',
         minHeight: '100vh',
         backgroundColor: 'background.default',
+        ...(isChatRoute && { height: '100vh', overflow: 'hidden' }),
       }}
     >
       <Header handleDrawerOpen={handleDrawerOpen} />
@@ -55,6 +58,7 @@ const Layout = () => {
           width: '100%',
           display: 'flex',
           flexDirection: 'column',
+          ...(isChatRoute && { minHeight: 0, overflow: 'hidden' }),
           transition: (theme) =>
             theme.transitions.create('margin', {
               easing: theme.transitions.easing.sharp,
@@ -75,28 +79,38 @@ const Layout = () => {
           initial={reduceMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3, ease: easeOutExpo }}
-          sx={{ flexGrow: 1 }}
+          sx={{
+            flexGrow: 1,
+            ...(isChatRoute && {
+              minHeight: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              overflow: 'hidden',
+            }),
+          }}
         >
           <Outlet />
         </MotionBox>
-        <Footer />
+        {!isChatRoute && <Footer />}
       </Box>
 
-      <ScrollTop>
-        <Fab
-          size="small"
-          aria-label="scroll back to top"
-          sx={{
-            backgroundColor: '#e86161',
-            color: 'white',
-            '&:hover': {
-              backgroundColor: '#d45555',
-            },
-          }}
-        >
-          <KeyboardArrowUpIcon />
-        </Fab>
-      </ScrollTop>
+      {!isChatRoute && (
+        <ScrollTop>
+          <Fab
+            size="small"
+            aria-label="scroll back to top"
+            sx={{
+              backgroundColor: '#e86161',
+              color: 'white',
+              '&:hover': {
+                backgroundColor: '#d45555',
+              },
+            }}
+          >
+            <KeyboardArrowUpIcon />
+          </Fab>
+        </ScrollTop>
+      )}
     </Box>
   );
 };
