@@ -1,6 +1,4 @@
-import '@fontsource/syne/latin-700.css';
-import '@fontsource/syne/latin-800.css';
-import { Alert, Box, CircularProgress, Stack, useTheme } from '@mui/material';
+import { Alert, Box, CircularProgress, Stack } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useReducedMotion } from 'motion/react';
 import Header from '../components/Home/Header';
@@ -10,14 +8,13 @@ import KeyFeatures from '../components/Home/KeyFeatures';
 import FutureDevelopment from '../components/Home/FutureDevelopment';
 import Contact from '../components/Home/Contact';
 import Partners from '../components/Home/Partners';
-import IntroVideo from '../components/Home/IntroVideo';
 import TemplateTerritories from '../components/Home/TemplateTerritories';
 import CoveragePlates from '../components/Home/CoveragePlates';
 import CRUDHomeContent, { HomeContentData } from '../firestore/CRUDHomeContent';
 import { useBackupChange } from '../hooks/useBackupChange';
 import Reveal from '../components/Reveal';
 import { MotionBox } from '../constants/motion';
-import { atlasFieldSx, homeContainerSx } from '../components/Home/atlasTokens';
+import { heroWashSx, homeContainerSx } from '../components/Home/atlasTokens';
 
 const Home = () => {
   const [homeContent, setHomeContent] = useState<HomeContentData | null>(null);
@@ -25,7 +22,6 @@ const Home = () => {
   const [error, setError] = useState<string | null>(null);
   const backupVersion = useBackupChange();
   const reduceMotion = useReducedMotion();
-  const theme = useTheme();
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -55,8 +51,6 @@ const Home = () => {
     };
   }, [reduceMotion]);
 
-  const fieldSx = atlasFieldSx(theme.palette.mode);
-
   if (loading) {
     return (
       <MotionBox
@@ -69,7 +63,7 @@ const Home = () => {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          ...fieldSx,
+          bgcolor: 'background.default',
         }}
       >
         <CircularProgress sx={{ color: 'primary.main' }} />
@@ -84,7 +78,8 @@ const Home = () => {
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        ...fieldSx,
+        bgcolor: 'background.default',
+        ...heroWashSx,
       }}
     >
       <Box sx={{ ...homeContainerSx, flex: 1, py: { xs: 1, md: 2 } }}>
@@ -99,7 +94,6 @@ const Home = () => {
               <Header
                 content={homeContent.header}
                 templates={homeContent.templates}
-                coverageCards={homeContent.templateCoverage?.cards}
               />
               <HighPriorityNews />
             </Box>
@@ -118,9 +112,6 @@ const Home = () => {
               <AboutProject content={homeContent.aboutProject} />
             </Reveal>
             <KeyFeatures content={homeContent.keyFeatures} />
-            <Reveal>
-              <IntroVideo />
-            </Reveal>
             <FutureDevelopment content={homeContent.futureDevelopment} />
             <Reveal>
               <Contact content={homeContent.contact} />

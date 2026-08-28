@@ -1,11 +1,10 @@
 import { useState } from 'react';
-import { Box, Button, Typography, useTheme } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { PartnersContent } from '../../firestore/CRUDHomeContent';
 import { fadeUp, MotionBox, staggerContainer } from '../../constants/motion';
 import { useRevealMotion } from '../../hooks/useRevealMotion';
 import SectionHeading from './SectionHeading';
-import SafeHtml from './SafeHtml';
-import { ATLAS_DISPLAY_FONT, plateSx } from './atlasTokens';
+import { plateSx } from './atlasTokens';
 import tibLogo from '../../assets/TIB.png';
 import orkgLogo from '../../assets/ORKG.png';
 import orkgaskLogo from '../../assets/ORKGask.png';
@@ -28,7 +27,6 @@ const Partners = ({ content }: PartnersProps) => {
   const theme = useTheme();
   const reveal = useRevealMotion();
   const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
-  const cta = content.footerCta;
 
   const getLogoSrc = (logoUrl: string) => logoMap[logoUrl] ?? logoUrl;
 
@@ -104,7 +102,6 @@ const Partners = ({ content }: PartnersProps) => {
                 </Box>
                 <Typography
                   sx={{
-                    fontFamily: ATLAS_DISPLAY_FONT,
                     fontWeight: 700,
                     fontSize: '0.95rem',
                   }}
@@ -116,64 +113,6 @@ const Partners = ({ content }: PartnersProps) => {
           );
         })}
       </MotionBox>
-
-      {cta && (
-        <Box
-          sx={{
-            ...plateSx(theme.palette.mode),
-            mt: 4,
-            textAlign: 'center',
-            py: { xs: 4, md: 5 },
-          }}
-        >
-          <Typography
-            sx={{
-              fontFamily: ATLAS_DISPLAY_FONT,
-              fontWeight: 800,
-              letterSpacing: '-0.03em',
-              fontSize: { xs: '1.5rem', md: '1.85rem' },
-              mb: 1.5,
-            }}
-          >
-            {cta.headline}
-          </Typography>
-          <SafeHtml
-            html={cta.bodyHtml}
-            sx={{
-              color: 'text.secondary',
-              maxWidth: 560,
-              mx: 'auto',
-              mb: 3,
-              lineHeight: 1.7,
-            }}
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            href={cta.buttonHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            sx={{
-              fontFamily: ATLAS_DISPLAY_FONT,
-              fontWeight: 700,
-              boxShadow: 'none',
-              px: 3,
-            }}
-          >
-            {cta.buttonLabel}
-          </Button>
-          {cta.attributionHtml && (
-            <SafeHtml
-              html={cta.attributionHtml}
-              sx={{
-                mt: 3,
-                color: 'text.secondary',
-                fontSize: '0.85rem',
-              }}
-            />
-          )}
-        </Box>
-      )}
     </Box>
   );
 };

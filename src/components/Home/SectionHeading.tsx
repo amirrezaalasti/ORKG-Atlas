@@ -1,5 +1,4 @@
 import { Box, Typography } from '@mui/material';
-import { ATLAS_DISPLAY_FONT } from './atlasTokens';
 
 interface SectionHeadingProps {
   id?: string;
@@ -38,7 +37,6 @@ const SectionHeading = ({
       <Typography
         component="h2"
         sx={{
-          fontFamily: ATLAS_DISPLAY_FONT,
           fontWeight: 800,
           letterSpacing: '-0.03em',
           mt: 0.5,

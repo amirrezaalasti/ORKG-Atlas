@@ -2,20 +2,14 @@ import { Box, Button, Stack, Typography } from '@mui/material';
 import { type ReactNode } from 'react';
 import { Link as RouterLink, useParams } from 'react-router-dom';
 import { useReducedMotion } from 'motion/react';
-import {
-  HeaderContent,
-  Template,
-  TemplateCoverageCard,
-} from '../../firestore/CRUDHomeContent';
+import { HeaderContent, Template } from '../../firestore/CRUDHomeContent';
 import { fadeUp, MotionBox, staggerContainer } from '../../constants/motion';
-import { ATLAS_DISPLAY_FONT } from './atlasTokens';
 import KnowledgeConstellation from './KnowledgeConstellation';
 import SafeHtml from './SafeHtml';
 
 interface HeaderProps {
   content: HeaderContent;
   templates: Template[];
-  coverageCards?: TemplateCoverageCard[];
 }
 
 const isHashOrExternal = (href: string) =>
@@ -23,7 +17,7 @@ const isHashOrExternal = (href: string) =>
   href.startsWith('http://') ||
   href.startsWith('https://');
 
-const Header = ({ content, templates, coverageCards }: HeaderProps) => {
+const Header = ({ content, templates }: HeaderProps) => {
   const reduceMotion = useReducedMotion();
   const { templateId } = useParams<{ templateId: string }>();
   const primary = content.ctaPrimary ?? {
@@ -44,11 +38,11 @@ const Header = ({ content, templates, coverageCards }: HeaderProps) => {
         display: 'grid',
         gridTemplateColumns: {
           xs: '1fr',
-          md: 'minmax(0, 1.05fr) minmax(0, 1fr)',
+          md: 'minmax(0, 1.05fr) minmax(280px, 0.9fr)',
         },
         gap: { xs: 4, md: 6 },
         alignItems: 'center',
-        py: { xs: 3, sm: 5, md: 7 },
+        py: { xs: 3, sm: 4, md: 6 },
       }}
     >
       <Box>
@@ -56,10 +50,9 @@ const Header = ({ content, templates, coverageCards }: HeaderProps) => {
           <Typography
             variant="overline"
             sx={{
-              letterSpacing: '0.24em',
+              letterSpacing: '0.18em',
               color: 'primary.main',
               fontWeight: 700,
-              fontSize: '0.7rem',
             }}
           >
             Open Research Knowledge Graph
@@ -69,11 +62,10 @@ const Header = ({ content, templates, coverageCards }: HeaderProps) => {
           <Typography
             variant="h1"
             sx={{
-              fontFamily: ATLAS_DISPLAY_FONT,
               fontWeight: 800,
-              letterSpacing: '-0.045em',
-              fontSize: { xs: '3rem', sm: '4.25rem', md: '5rem' },
-              lineHeight: 0.92,
+              letterSpacing: '-0.03em',
+              fontSize: { xs: '2.5rem', sm: '3.25rem', md: '3.5rem' },
+              lineHeight: 1.1,
               color: 'primary.main',
               mt: 1,
               mb: 2,
@@ -86,11 +78,9 @@ const Header = ({ content, templates, coverageCards }: HeaderProps) => {
           <Typography
             variant="h5"
             sx={{
-              fontFamily: ATLAS_DISPLAY_FONT,
-              fontWeight: 600,
-              letterSpacing: '-0.02em',
-              fontSize: { xs: '1.15rem', sm: '1.35rem' },
-              lineHeight: 1.35,
+              fontWeight: 500,
+              fontSize: { xs: '1.1rem', sm: '1.25rem' },
+              lineHeight: 1.45,
               color: 'text.primary',
               maxWidth: 540,
               mb: 2,
@@ -133,10 +123,7 @@ const Header = ({ content, templates, coverageCards }: HeaderProps) => {
         </MotionBox>
       </Box>
       <MotionBox variants={fadeUp}>
-        <KnowledgeConstellation
-          templates={templates}
-          coverageCards={coverageCards}
-        />
+        <KnowledgeConstellation templates={templates} />
       </MotionBox>
     </MotionBox>
   );
@@ -150,7 +137,6 @@ interface AtlasCtaProps {
 }
 
 const ctaSx = {
-  fontFamily: ATLAS_DISPLAY_FONT,
   fontWeight: 700,
   px: 2.5,
   boxShadow: 'none',
