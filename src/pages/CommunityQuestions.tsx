@@ -22,7 +22,7 @@ import CommunityQuestionAccordion from '../components/CommunityQuestionAccordion
 import { useAuthData } from '../auth/useAuthData';
 import { useParams } from 'react-router-dom';
 import TemplateManagement from '../firestore/TemplateManagement';
-import { useKeycloak } from '@react-keycloak/web';
+import { getKeycloakToken } from '../auth/keycloakStore';
 
 const CommunityQuestions = () => {
   const [questions, setQuestions] = useState<DynamicQuestion[]>([]);
@@ -31,7 +31,6 @@ const CommunityQuestions = () => {
   const [deleteSuccess, setDeleteSuccess] = useState(false);
 
   const { user } = useAuthData();
-  const { keycloak } = useKeycloak();
   const { templateId } = useParams();
   const isAdmin = user?.is_admin === true;
   console.log(questions);
@@ -142,7 +141,7 @@ const CommunityQuestions = () => {
               docId,
               user.id,
               user.email,
-              keycloak?.token
+              getKeycloakToken() ?? undefined
             );
           }
         } catch (cleanupError) {
