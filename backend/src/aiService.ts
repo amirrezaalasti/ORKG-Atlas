@@ -154,7 +154,7 @@ export class AIService {
       process.env.OPENROUTER_HTTP_REFERER || process.env.FRONTEND_URL || '';
     const referer =
       refererRaw.trim().replace(/^["']|["']$/g, '') ||
-      'https://empire-compass.tib.eu';
+      'https://orkg-atlas.vercel.app';
     const title = (process.env.OPENROUTER_APP_TITLE || 'ORKG Atlas').trim();
     return {
       'HTTP-Referer': referer,

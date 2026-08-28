@@ -207,7 +207,7 @@ ORKG Atlas provides a comprehensive REST API documented with Swagger/OpenAPI, en
 
 ## 📚 **API Documentation**
 
-**Live Documentation**: [https://empire-compass-backend.tib.eu/api-docs/](https://empire-compass-backend.tib.eu/api-docs/)
+**Live Documentation**: [https://orkg-atlas-backend.vercel.app/api-docs/](https://orkg-atlas-backend.vercel.app/api-docs/)
 
 ## **Available Endpoints**
 
@@ -487,7 +487,7 @@ ORKG Atlas: [https://github.com/amirrezaalasti/ORKG-Atlas](https://github.com/am
 Live dashboard: [https://orkg-atlas.vercel.app/R186491/](https://orkg-atlas.vercel.app/R186491/)  
 EmpiRE-Analysis: [https://github.com/okarras/EmpiRE-Analysis](https://github.com/okarras/EmpiRE-Analysis)  
 Storybook (Design System): [https://empire-compass-storybook.tib.eu/?path=/docs/layout-menudrawer--docs](https://empire-compass-storybook.tib.eu/?path=/docs/layout-menudrawer--docs)  
-API Documentation (Swagger): [https://empire-compass-backend.tib.eu/api-docs/](https://empire-compass-backend.tib.eu/api-docs/)
+API Documentation (Swagger): [https://orkg-atlas-backend.vercel.app/api-docs/](https://orkg-atlas-backend.vercel.app/api-docs/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

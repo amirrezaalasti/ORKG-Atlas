@@ -37,6 +37,7 @@ import FirebaseRestore, {
   RestoreProgress,
 } from '../firestore/FirebaseRestore';
 import { getKeycloakToken } from '../auth/keycloakStore';
+import { getBackendUrl } from '../services/backendApi';
 
 const AdminBackup = () => {
   const [isBackingUp, setIsBackingUp] = useState(false);
@@ -124,7 +125,7 @@ const AdminBackup = () => {
     setRestoreResult(null);
     setRestoreProgress(null);
 
-    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+    const backendUrl = getBackendUrl();
     const useBackend = Boolean(backendUrl);
 
     try {

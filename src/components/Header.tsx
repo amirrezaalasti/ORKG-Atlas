@@ -39,6 +39,7 @@ import CRUDNews from '../firestore/CRUDNews';
 import SettingsIcon from '@mui/icons-material/Settings';
 import BackupSelector from './BackupSelector';
 import BackupService from '../services/BackupService';
+import { BACKEND_URL } from '../services/backendApi';
 import { useBackupChange } from '../hooks/useBackupChange';
 import { getSnapshotColors } from '../constants/brandColors';
 
@@ -281,7 +282,7 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
   };
 
   const redirectToSwagger = () => {
-    window.open('https://empire-compass-backend.tib.eu/api-docs/', '_blank');
+    window.open(`${BACKEND_URL}/api-docs/`, '_blank');
   };
 
   const redirectToNews = () => {

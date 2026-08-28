@@ -12,10 +12,12 @@ export const getKeycloakConfig = () => {
 
   // Add redirect URI based on environment
   if (isProduction) {
-    // Production redirect URI
     return {
       ...config,
-      redirectUri: 'https://empire-compass.vercel.app/',
+      redirectUri:
+        typeof window !== 'undefined'
+          ? `${window.location.origin}/`
+          : 'https://orkg-atlas.vercel.app/',
     };
   } else if (isDevelopment) {
     // Development redirect URI
