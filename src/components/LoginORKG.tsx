@@ -25,7 +25,6 @@ export default function LoginORKG() {
     isRealAuthenticated: isAuthenticated,
     isLoading,
     user,
-    login,
     logout,
     error,
   } = useAuthData();
@@ -35,6 +34,7 @@ export default function LoginORKG() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [showError, setShowError] = useState(false);
   const [hasShownSuccess, setHasShownSuccess] = useState(false);
+  const [showUnavailable, setShowUnavailable] = useState(false);
 
   // If silent SSO can't finish (cookies/CSP), show manual button after 2.5s.
   useEffect(() => {
@@ -61,16 +61,8 @@ export default function LoginORKG() {
     }
   }, [error]);
 
-  const handleLogin = async () => {
-    setIsLoggingIn(true);
-    setShowError(false);
-    try {
-      await login();
-    } catch (error) {
-      console.error('Login failed:', error);
-    } finally {
-      setIsLoggingIn(false);
-    }
+  const handleLogin = () => {
+    setShowUnavailable(true);
   };
 
   const handleLogout = async () => {
@@ -112,6 +104,22 @@ export default function LoginORKG() {
     return (
       <Fade in={true}>
         <Box>
+          {showUnavailable && (
+            <Snackbar
+              open={showUnavailable}
+              autoHideDuration={4000}
+              onClose={() => setShowUnavailable(false)}
+              anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+              <Alert
+                severity="info"
+                onClose={() => setShowUnavailable(false)}
+              >
+                Sign in doesn't work yet.
+              </Alert>
+            </Snackbar>
+          )}
+
           {showError && (
             <Snackbar
               open={showError}
