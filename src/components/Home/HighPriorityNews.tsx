@@ -12,10 +12,7 @@ import {
 import { PriorityHigh, ChevronRight, Close } from '@mui/icons-material';
 import { AnimatePresence, useReducedMotion } from 'motion/react';
 import CRUDNews, { NewsItem } from '../../firestore/CRUDNews';
-import {
-  easeOutExpo,
-  MotionTypography,
-} from '../../constants/motion';
+import { easeOutExpo, MotionTypography } from '../../constants/motion';
 
 const HighPriorityNews = () => {
   const { templateId } = useParams<{ templateId: string }>();
@@ -97,12 +94,21 @@ const HighPriorityNews = () => {
 
   return (
     <Paper
-      elevation={1}
+      elevation={0}
       sx={{
-        backgroundColor: '#fff3f3',
-        borderLeft: '4px solid #e86161',
+        backgroundColor: (theme) =>
+          theme.palette.mode === 'dark'
+            ? 'rgba(33, 28, 28, 0.88)'
+            : 'rgba(247, 249, 251, 0.88)',
+        backdropFilter: 'blur(10px)',
+        border: '1px solid',
+        borderColor: (theme) =>
+          theme.palette.mode === 'dark'
+            ? 'rgba(255,255,255,0.08)'
+            : 'rgba(58,83,102,0.14)',
+        borderLeft: '3px solid #e86161',
         borderRadius: 1,
-        mb: 2,
+        mb: 1,
         overflow: 'hidden',
       }}
     >
@@ -139,7 +145,7 @@ const HighPriorityNews = () => {
               color: 'inherit',
               transition: 'background-color 0.2s',
               '&:hover': {
-                backgroundColor: '#ffe8e8',
+                backgroundColor: 'rgba(232, 97, 97, 0.08)',
               },
             }}
           >

@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { Box, Typography } from '@mui/material';
-import StatCard from '../StatCard';
+import { Box, Button, Typography, useTheme } from '@mui/material';
 import { PartnersContent } from '../../firestore/CRUDHomeContent';
-import { MotionBox, staggerContainer } from '../../constants/motion';
+import { fadeUp, MotionBox, staggerContainer } from '../../constants/motion';
 import { useRevealMotion } from '../../hooks/useRevealMotion';
-
-// Import logos for fallback/mapping
+import SectionHeading from './SectionHeading';
+import SafeHtml from './SafeHtml';
+import { ATLAS_DISPLAY_FONT, plateSx } from './atlasTokens';
 import tibLogo from '../../assets/TIB.png';
 import orkgLogo from '../../assets/ORKG.png';
 import orkgaskLogo from '../../assets/ORKGask.png';
@@ -16,7 +16,6 @@ interface PartnersProps {
   content: PartnersContent;
 }
 
-// Map logo URLs to actual imports (for static assets)
 const logoMap: Record<string, string> = {
   '/src/assets/TIB.png': tibLogo,
   '/src/assets/ORKG.png': orkgLogo,
@@ -26,110 +25,155 @@ const logoMap: Record<string, string> = {
 };
 
 const Partners = ({ content }: PartnersProps) => {
+  const theme = useTheme();
   const reveal = useRevealMotion();
-  // Track failed image loads to prevent infinite retries
   const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
+  const cta = content.footerCta;
 
-  const isOnlineUrl = (url: string): boolean => {
-    return url.startsWith('http://') || url.startsWith('https://');
-  };
-
-  const getLogoSrc = (logoUrl: string) => {
-    // If it's a mapped static asset, use the import
-    if (logoMap[logoUrl]) {
-      return logoMap[logoUrl];
-    }
-    // For online URLs or other paths, use directly
-    return logoUrl;
-  };
-
-  const handleImageError = (logoUrl: string) => {
-    setFailedImages((prev) => new Set(prev).add(logoUrl));
-  };
+  const getLogoSrc = (logoUrl: string) => logoMap[logoUrl] ?? logoUrl;
 
   return (
-    <Box
-      sx={{
-        mt: { xs: 6, sm: 8 },
-        px: { xs: 1, sm: 0 },
-      }}
-    >
-      <Typography
-        variant="h6"
+    <Box>
+      <SectionHeading
+        eyebrow="Institutions"
+        title={content.title}
         align="center"
-        sx={{
-          mb: { xs: 3, sm: 4 },
-          color: 'text.secondary',
-          fontSize: { xs: '1.125rem', sm: '1.2rem' },
-          fontWeight: 600,
-        }}
-      >
-        {content.title}
-      </Typography>
+      />
       <MotionBox
         {...reveal}
         variants={staggerContainer}
         sx={{
-          width: '100%',
           display: 'grid',
           gridTemplateColumns: {
-            xs: 'repeat(auto-fit, minmax(200px, 1fr))',
-            sm: 'repeat(auto-fit, minmax(180px, 1fr))',
+            xs: 'repeat(2, 1fr)',
+            sm: 'repeat(4, 1fr)',
           },
-          gap: { xs: 2.5, sm: 3, md: 4 },
-          justifyItems: 'center',
+          gap: 2,
         }}
       >
-        {content.partners.map((partner, index) => {
+        {content.partners.map((partner) => {
           const logoSrc = getLogoSrc(partner.logoUrl);
           const hasError = failedImages.has(partner.logoUrl);
-
           return (
-            <StatCard key={index} label={partner.label} link={partner.link}>
-              <Box
+            <Box
+              key={partner.label}
+              component="a"
+              href={partner.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{ textDecoration: 'none', color: 'inherit' }}
+            >
+              <MotionBox
+                variants={fadeUp}
                 sx={{
-                  backgroundColor: 'white',
-                  borderRadius: '50%',
-                  p: 1.5,
+                  ...plateSx(theme.palette.mode),
                   display: 'flex',
+                  flexDirection: 'column',
                   alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)',
-                  minWidth: '45px',
-                  minHeight: '45px',
+                  gap: 1.5,
+                  py: 3,
+                  height: '100%',
+                  transition: 'border-color 0.2s ease',
+                  '&:hover': { borderColor: 'primary.main' },
                 }}
               >
-                {!hasError ? (
-                  <img
-                    src={logoSrc}
-                    alt={`${partner.label} Logo`}
-                    onError={() => handleImageError(partner.logoUrl)}
-                    style={{
-                      width: '45px',
-                      height: '45px',
-                      objectFit: 'contain',
-                    }}
-                    crossOrigin={
-                      isOnlineUrl(partner.logoUrl) ? 'anonymous' : undefined
-                    }
-                  />
-                ) : (
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      fontSize: '0.75rem',
-                      color: 'text.secondary',
-                      textAlign: 'center',
-                    }}
-                  >
-                    {partner.label}
-                  </Typography>
-                )}
-              </Box>
-            </StatCard>
+                <Box
+                  sx={{
+                    width: 56,
+                    height: 56,
+                    borderRadius: '50%',
+                    bgcolor: '#fff',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}
+                >
+                  {!hasError ? (
+                    <Box
+                      component="img"
+                      src={logoSrc}
+                      alt=""
+                      onError={() =>
+                        setFailedImages((prev) =>
+                          new Set(prev).add(partner.logoUrl)
+                        )
+                      }
+                      sx={{ width: 40, height: 40, objectFit: 'contain' }}
+                    />
+                  ) : null}
+                </Box>
+                <Typography
+                  sx={{
+                    fontFamily: ATLAS_DISPLAY_FONT,
+                    fontWeight: 700,
+                    fontSize: '0.95rem',
+                  }}
+                >
+                  {partner.label}
+                </Typography>
+              </MotionBox>
+            </Box>
           );
         })}
       </MotionBox>
+
+      {cta && (
+        <Box
+          sx={{
+            ...plateSx(theme.palette.mode),
+            mt: 4,
+            textAlign: 'center',
+            py: { xs: 4, md: 5 },
+          }}
+        >
+          <Typography
+            sx={{
+              fontFamily: ATLAS_DISPLAY_FONT,
+              fontWeight: 800,
+              letterSpacing: '-0.03em',
+              fontSize: { xs: '1.5rem', md: '1.85rem' },
+              mb: 1.5,
+            }}
+          >
+            {cta.headline}
+          </Typography>
+          <SafeHtml
+            html={cta.bodyHtml}
+            sx={{
+              color: 'text.secondary',
+              maxWidth: 560,
+              mx: 'auto',
+              mb: 3,
+              lineHeight: 1.7,
+            }}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            href={cta.buttonHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{
+              fontFamily: ATLAS_DISPLAY_FONT,
+              fontWeight: 700,
+              boxShadow: 'none',
+              px: 3,
+            }}
+          >
+            {cta.buttonLabel}
+          </Button>
+          {cta.attributionHtml && (
+            <SafeHtml
+              html={cta.attributionHtml}
+              sx={{
+                mt: 3,
+                color: 'text.secondary',
+                fontSize: '0.85rem',
+              }}
+            />
+          )}
+        </Box>
+      )}
     </Box>
   );
 };

@@ -33,3 +33,4 @@ firebase-service-account.json
 serviceAccountKey.json
 *serviceAccountKey*.json
 
+.vercel

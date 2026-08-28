@@ -1,14 +1,8 @@
-import {
-  Container,
-  Stack,
-  Divider,
-  Box,
-  CircularProgress,
-  Alert,
-} from '@mui/material';
-import { ThemeProvider } from '@mui/material/styles';
+import '@fontsource/syne/latin-700.css';
+import '@fontsource/syne/latin-800.css';
+import { Alert, Box, CircularProgress, Stack, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
-import theme from '../utils/theme';
+import { useReducedMotion } from 'motion/react';
 import Header from '../components/Home/Header';
 import HighPriorityNews from '../components/Home/HighPriorityNews';
 import AboutProject from '../components/Home/AboutProject';
@@ -16,18 +10,22 @@ import KeyFeatures from '../components/Home/KeyFeatures';
 import FutureDevelopment from '../components/Home/FutureDevelopment';
 import Contact from '../components/Home/Contact';
 import Partners from '../components/Home/Partners';
+import IntroVideo from '../components/Home/IntroVideo';
+import TemplateTerritories from '../components/Home/TemplateTerritories';
+import CoveragePlates from '../components/Home/CoveragePlates';
 import CRUDHomeContent, { HomeContentData } from '../firestore/CRUDHomeContent';
 import { useBackupChange } from '../hooks/useBackupChange';
 import Reveal from '../components/Reveal';
 import { MotionBox } from '../constants/motion';
-import { useReducedMotion } from 'motion/react';
+import { atlasFieldSx, homeContainerSx } from '../components/Home/atlasTokens';
 
 const Home = () => {
   const [homeContent, setHomeContent] = useState<HomeContentData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const backupVersion = useBackupChange(); // Listen for backup changes
+  const backupVersion = useBackupChange();
   const reduceMotion = useReducedMotion();
+  const theme = useTheme();
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -39,7 +37,6 @@ const Home = () => {
       } catch (err) {
         console.error('Error fetching home content:', err);
         setError('Failed to load page content. Using default content.');
-        // Use default content on error
         setHomeContent(CRUDHomeContent.defaultHomeContent);
       } finally {
         setLoading(false);
@@ -47,81 +44,92 @@ const Home = () => {
     };
 
     fetchContent();
-  }, [backupVersion]); // Re-fetch when backup changes
+  }, [backupVersion]);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const previous = root.style.scrollBehavior;
+    if (!reduceMotion) root.style.scrollBehavior = 'smooth';
+    return () => {
+      root.style.scrollBehavior = previous;
+    };
+  }, [reduceMotion]);
+
+  const fieldSx = atlasFieldSx(theme.palette.mode);
 
   if (loading) {
     return (
-      <ThemeProvider theme={theme}>
-        <MotionBox
-          initial={reduceMotion ? false : { opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          sx={{
-            minHeight: '100vh',
-            width: '100%',
-            bgcolor: 'background.default',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <CircularProgress sx={{ color: '#e86161' }} />
-        </MotionBox>
-      </ThemeProvider>
+      <MotionBox
+        initial={reduceMotion ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+        sx={{
+          minHeight: '70vh',
+          width: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          ...fieldSx,
+        }}
+      >
+        <CircularProgress sx={{ color: 'primary.main' }} />
+      </MotionBox>
     );
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <Box
-        sx={{
-          minHeight: '100vh',
-          width: '100%',
-          bgcolor: 'background.default',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <Container
-          maxWidth="lg"
-          sx={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            py: { xs: 1, sm: 2, md: 3 },
-            px: { xs: 1, sm: 1, md: 2 },
-          }}
-        >
-          <Stack spacing={2} sx={{ flex: 1 }}>
-            {error && (
-              <Alert severity="warning" sx={{ mb: 2 }}>
-                {error}
-              </Alert>
+    <Box
+      sx={{
+        minHeight: '100%',
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        ...fieldSx,
+      }}
+    >
+      <Box sx={{ ...homeContainerSx, flex: 1, py: { xs: 1, md: 2 } }}>
+        {error && (
+          <Alert severity="warning" sx={{ mb: 2, borderRadius: 1 }}>
+            {error}
+          </Alert>
+        )}
+        {homeContent && (
+          <Stack spacing={{ xs: 6, md: 8 }} sx={{ pb: { xs: 6, md: 10 } }}>
+            <Box>
+              <Header
+                content={homeContent.header}
+                templates={homeContent.templates}
+                coverageCards={homeContent.templateCoverage?.cards}
+              />
+              <HighPriorityNews />
+            </Box>
+            <Reveal>
+              <TemplateTerritories
+                templates={homeContent.templates}
+                infoBoxes={homeContent.templateInfoBoxes}
+              />
+            </Reveal>
+            {homeContent.templateCoverage && (
+              <Reveal>
+                <CoveragePlates content={homeContent.templateCoverage} />
+              </Reveal>
             )}
-            {homeContent && (
-              <>
-                <Header content={homeContent.header} />
-                <Reveal>
-                  <HighPriorityNews />
-                </Reveal>
-                <Divider sx={{ my: { xs: 3, sm: 4, md: 5 } }} />
-                <Stack spacing={4}>
-                  <Reveal>
-                    <AboutProject content={homeContent.aboutProject} />
-                  </Reveal>
-                  <KeyFeatures content={homeContent.keyFeatures} />
-                  <FutureDevelopment content={homeContent.futureDevelopment} />
-                  <Reveal>
-                    <Contact content={homeContent.contact} />
-                  </Reveal>
-                </Stack>
-                <Partners content={homeContent.partners} />
-              </>
-            )}
+            <Reveal>
+              <AboutProject content={homeContent.aboutProject} />
+            </Reveal>
+            <KeyFeatures content={homeContent.keyFeatures} />
+            <Reveal>
+              <IntroVideo />
+            </Reveal>
+            <FutureDevelopment content={homeContent.futureDevelopment} />
+            <Reveal>
+              <Contact content={homeContent.contact} />
+            </Reveal>
+            <Partners content={homeContent.partners} />
           </Stack>
-        </Container>
+        )}
       </Box>
-    </ThemeProvider>
+    </Box>
   );
 };
 

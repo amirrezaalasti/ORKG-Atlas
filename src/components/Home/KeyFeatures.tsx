@@ -1,14 +1,16 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import { KeyFeaturesContent } from '../../firestore/CRUDHomeContent';
 import {
   fadeUp,
   hoverLift,
   MotionBox,
-  MotionPaper,
   staggerReveal,
 } from '../../constants/motion';
 import { useRevealMotion } from '../../hooks/useRevealMotion';
 import { useReducedMotion } from 'motion/react';
+import SectionHeading from './SectionHeading';
+import SafeHtml from './SafeHtml';
+import { ATLAS_DISPLAY_FONT, plateSx } from './atlasTokens';
 
 interface KeyFeaturesProps {
   content: KeyFeaturesContent;
@@ -17,62 +19,63 @@ interface KeyFeaturesProps {
 const KeyFeatures = ({ content }: KeyFeaturesProps) => {
   const reveal = useRevealMotion();
   const reduceMotion = useReducedMotion();
+  const theme = useTheme();
 
   return (
-    <MotionPaper
-      elevation={2}
-      {...reveal}
-      variants={staggerReveal}
-      whileHover={reduceMotion ? undefined : hoverLift}
-      sx={{
-        p: { xs: 3, sm: 4, md: 5 },
-        borderRadius: 4,
-        backgroundColor: 'rgba(255, 255, 255, 0.9)',
-      }}
-    >
-      <MotionBox variants={fadeUp}>
-        <Typography
-          variant="h4"
-          gutterBottom
-          sx={{
-            color: '#e86161',
-            fontWeight: 700,
-            mb: 3,
-            fontSize: { xs: '1.75rem', sm: '2rem', md: '2.25rem' },
-          }}
-        >
-          {content.title}
-        </Typography>
-      </MotionBox>
-      <MotionBox variants={fadeUp} sx={{ pl: { xs: 2, sm: 3, md: 4 } }}>
-        <Box component="ul" sx={{ listStyle: 'none', p: 0, m: 0 }}>
-          {content.features.map((feature, index) => (
-            <Typography
-              component="li"
-              key={index}
+    <Box>
+      <SectionHeading eyebrow="Why this map" title={content.title} />
+      <MotionBox
+        {...reveal}
+        variants={staggerReveal}
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' },
+          gap: 2,
+          position: 'relative',
+        }}
+      >
+        {content.features.map((feature) => (
+          <MotionBox
+            key={feature.title}
+            variants={fadeUp}
+            whileHover={reduceMotion ? undefined : hoverLift}
+            sx={{
+              ...plateSx(theme.palette.mode),
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 1.25,
+            }}
+          >
+            <Box
+              aria-hidden
               sx={{
-                mb: 3,
-                fontSize: { xs: '1rem', sm: '1.1rem' },
-                lineHeight: 1.7,
+                width: 12,
+                height: 12,
+                borderRadius: '50%',
+                bgcolor: 'primary.main',
+                boxShadow: (t) => `0 0 0 6px ${t.palette.primary.main}22`,
+                mb: 0.5,
+              }}
+            />
+            <Typography
+              sx={{
+                fontFamily: ATLAS_DISPLAY_FONT,
+                fontWeight: 800,
+                letterSpacing: '-0.03em',
+                fontSize: '1.2rem',
+                lineHeight: 1.25,
               }}
             >
-              <Box
-                component="strong"
-                sx={{
-                  color: '#e86161',
-                  display: 'block',
-                  mb: 1,
-                  fontSize: { xs: '1.1rem', sm: '1.2rem' },
-                }}
-              >
-                {feature.title}
-              </Box>
-              <Box dangerouslySetInnerHTML={{ __html: feature.description }} />
+              {feature.title}
             </Typography>
-          ))}
-        </Box>
+            <SafeHtml
+              html={feature.description}
+              sx={{ color: 'text.secondary', lineHeight: 1.7, flex: 1 }}
+            />
+          </MotionBox>
+        ))}
       </MotionBox>
-    </MotionPaper>
+    </Box>
   );
 };
 
