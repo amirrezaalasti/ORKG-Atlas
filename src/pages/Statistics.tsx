@@ -32,6 +32,7 @@ import GaugeChart from '../components/GaugeChart';
 import { FormControlLabel, Switch, Box } from '@mui/material';
 import { MotionStack, staggerContainer } from '../constants/motion';
 import { useRevealMotion } from '../hooks/useRevealMotion';
+import TemplateCoverageSection from '../components/TemplateCoverageSection';
 // import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 // import StorageIcon from '@mui/icons-material/Storage';
 // import CustomGaugeChart from '../components/CustomCharts/CustomGaugeChart';
@@ -162,7 +163,7 @@ export default function Statistics() {
     return (
       <ThemeProvider theme={theme}>
         <Container
-          maxWidth="md"
+          maxWidth="lg"
           sx={{
             mt: { xs: 4, md: 8 },
             mb: { xs: 6, md: 10 },
@@ -171,16 +172,16 @@ export default function Statistics() {
         >
           <Alert severity="info" sx={{ borderRadius: 2 }}>
             <Typography variant="subtitle2" gutterBottom fontWeight={600}>
-              Statistics are only tailored for curated ORKG Atlas templates
+              SPARQL charts are only tailored for curated ORKG Atlas templates
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Charts on this page use SPARQL tuned for Empirical Research
-              Practice (<code>R186491</code>) and NLP4RE ID Card (
-              <code>R1544125</code>). For other ORKG templates selected in the
-              header, open the dashboard home, Schema, or Dynamic Question flows
-              instead.
+              Paper, venue, and statement counts use SPARQL tuned for Empirical
+              Research Practice (<code>R186491</code>) and NLP4RE ID Card (
+              <code>R1544125</code>). Catalogue coverage below is live for every
+              public ORKG template, including the one selected in the header.
             </Typography>
           </Alert>
+          <TemplateCoverageSection />
         </Container>
       </ThemeProvider>
     );
@@ -371,6 +372,8 @@ export default function Statistics() {
             <Typography>No venue details available.</Typography>
           )}
         </Paper>
+
+        <TemplateCoverageSection />
       </Container>
     </ThemeProvider>
   );
