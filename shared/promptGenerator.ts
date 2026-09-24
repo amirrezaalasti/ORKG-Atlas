@@ -1,5 +1,6 @@
 import {
   Template,
+  TemplateProperty,
   PropertyMapping,
   PredicatesMapping,
 } from './templateTypes.js';
@@ -299,6 +300,22 @@ For queries accessing nested properties (e.g., dataset → datatype → dataform
   },
 };
 
+/** ORKG auto-fills descriptions like "Property shape for R588803"; they carry no meaning. */
+const isPlaceholderDescription = (text?: string | null) =>
+  !text ||
+  /^(Property shape|Component) for (template )?R\d+$/i.test(text.trim());
+
+/** Meaningful description, or predicate label + value class when ORKG only has a placeholder. */
+const describeProperty = (property: TemplateProperty): string => {
+  for (const text of [property.description, property.label]) {
+    if (text && !isPlaceholderDescription(text)) return text;
+  }
+  const valueClass = property.class?.label;
+  return valueClass
+    ? `${property.path.label} (value: ${valueClass} resource)`
+    : property.path.label;
+};
+
 /**
  * Generate a template mapping from template data
  */
@@ -330,10 +347,9 @@ export const generateTemplateMapping = (
       }
 
       const propertyMapping: PropertyMapping = {
-        label: property.class?.label ?? property.path.label,
+        label: property.path.label ?? property.class?.label,
         cardinality,
-        description:
-          property.description || property.label || property.path.label,
+        description: describeProperty(property),
         predicate_label: property.path.label,
         class_label: property.class?.label,
       };
@@ -363,12 +379,9 @@ export const generateTemplateMapping = (
               }
 
               const subPropertyMapping: PropertyMapping = {
-                label: subProperty.class?.label ?? subProperty.path.label,
+                label: subProperty.path.label ?? subProperty.class?.label,
                 cardinality: subCardinality,
-                description:
-                  subProperty.description ||
-                  subProperty.label ||
-                  subProperty.path.label,
+                description: describeProperty(subProperty),
                 predicate_label: subProperty.path.label,
                 class_label: subProperty.class?.label,
               };
@@ -406,13 +419,10 @@ export const generateTemplateMapping = (
                           nestedPathId
                         ] = {
                           label:
-                            nestedProperty.class?.label ??
-                            nestedProperty.path.label,
+                            nestedProperty.path.label ??
+                            nestedProperty.class?.label,
                           cardinality: nestedCardinality,
-                          description:
-                            nestedProperty.description ||
-                            nestedProperty.label ||
-                            nestedProperty.path.label,
+                          description: describeProperty(nestedProperty),
                           predicate_label: nestedProperty.path.label,
                           class_label: nestedProperty.class?.label,
                         };
@@ -439,16 +449,129 @@ export const generateTemplateMapping = (
 };
 
 /**
+ * Hops from a paper's P31 contribution down to the template instance; each hop
+ * lists the predicate IDs seen at that step (e.g. anode | cathode | separator).
+ * Empty when the template instance *is* the contribution (e.g. R186491, R1544125).
+ */
+export type PaperLinkPath = string[][];
+
+type SparqlRunner = (query: string) => Promise<Record<string, unknown>[]>;
+
+/**
+ * Find how instances of `targetClassId` hang off papers. Many ORKG templates
+ * describe nested resources (e.g. cell components under
+ * contribution → electrochemical cell → anode), so assuming
+ * `?paper orkgp:P31 ?x . ?x a <class>` returns 0 rows for them.
+ * Returns null when no path is found within two hops (or the lookup fails).
+ */
+export const discoverPaperLinkPath = async (
+  targetClassId: string,
+  runQuery: SparqlRunner
+): Promise<PaperLinkPath | null> => {
+  const cls = `<http://orkg.org/orkg/class/${targetClassId}>`;
+  const p31 = '<http://orkg.org/orkg/predicate/P31>';
+  const predicateIds = (rows: Record<string, unknown>[], key: string) => [
+    ...new Set(
+      rows.map((r) =>
+        String(r[key]).replace('http://orkg.org/orkg/predicate/', '')
+      )
+    ),
+  ];
+  try {
+    const direct = await runQuery(
+      `SELECT ?x WHERE { ?paper ${p31} ?x . ?x a ${cls} } LIMIT 1`
+    );
+    if (direct.length > 0) return [];
+
+    const oneHop = await runQuery(
+      `SELECT DISTINCT ?p1 WHERE { ?paper ${p31} ?c . ?c ?p1 ?x . ?x a ${cls} }`
+    );
+    if (oneHop.length > 0) return [predicateIds(oneHop, 'p1')];
+
+    // Follow the most common first hop, keep every predicate on the second
+    const twoHop = await runQuery(
+      `SELECT ?p1 ?p2 (COUNT(?x) AS ?n) WHERE { ?paper ${p31} ?c . ?c ?p1 ?mid . ?mid ?p2 ?x . ?x a ${cls} } GROUP BY ?p1 ?p2 ORDER BY DESC(?n)`
+    );
+    if (twoHop.length > 0) {
+      const top = twoHop[0].p1;
+      return [
+        predicateIds([twoHop[0]], 'p1'),
+        predicateIds(
+          twoHop.filter((r) => r.p1 === top),
+          'p2'
+        ),
+      ];
+    }
+  } catch (error) {
+    console.warn('discoverPaperLinkPath failed:', error);
+  }
+  return null;
+};
+
+/**
+ * Triple patterns binding ?paper and ?contribution (the template instance).
+ * A hop with several predicates becomes `VALUES ?linkN { … }` so the query
+ * keeps which relation (e.g. anode vs cathode) led to the instance.
+ */
+export const buildPaperLinkPattern = (
+  paperLinkPath?: PaperLinkPath | null,
+  indent = ''
+): string => {
+  if (!paperLinkPath || paperLinkPath.length === 0) {
+    return `${indent}?paper orkgp:P31 ?contribution .`;
+  }
+  const nodes = [
+    '?paperContribution',
+    ...paperLinkPath.slice(1).map((_, i) => `?hop${i + 1}`),
+    '?contribution',
+  ];
+  const lines = [`${indent}?paper orkgp:P31 ?paperContribution .`];
+  paperLinkPath.forEach((predicates, i) => {
+    if (predicates.length === 1) {
+      lines.push(
+        `${indent}${nodes[i]} orkgp:${predicates[0]} ${nodes[i + 1]} .`
+      );
+    } else {
+      const link = `?link${i + 1}`;
+      const values = predicates.map((pid) => `orkgp:${pid}`).join(' ');
+      lines.push(`${indent}VALUES ${link} { ${values} }`);
+      lines.push(`${indent}${nodes[i]} ${link} ${nodes[i + 1]} .`);
+    }
+  });
+  return lines.join('\n');
+};
+
+/**
  * Generate a dynamic SPARQL prompt based on template information
  */
 export const generateDynamicSPARQLPrompt = (
   templateMapping: PredicatesMapping,
   templateId: string,
   templateLabel?: string,
-  targetClassId?: string
+  targetClassId?: string,
+  paperLinkPath?: PaperLinkPath | null
 ): string => {
   // Check if we have template-specific guidance for this template
   const specificGuidance = TEMPLATE_SPECIFIC_GUIDANCE[templateId];
+  const targetClass = targetClassId || 'C27001';
+  const isNested = !!paperLinkPath && paperLinkPath.length > 0;
+  const paperLink = buildPaperLinkPattern(paperLinkPath, '  ');
+  const nestedPathNote = isNested
+    ? `
+
+**⚠️ CRITICAL — how papers reach template instances:** instances of \`orkgc:${targetClass}\` are NOT linked directly from papers. In this prompt \`?contribution\` means the template instance, and it MUST be reached through this exact path (verified against ORKG data; \`?paper orkgp:P31 ?contribution\` alone returns 0 rows):
+
+\`\`\`sparql
+${paperLink}
+  ?contribution a orkgc:${targetClass} .
+\`\`\`${
+        paperLinkPath.some((hop) => hop.length > 1)
+          ? `
+
+\`?linkN\` records which relation reached the instance (e.g. which role or part it plays). When the question distinguishes them, select \`?linkN\` and its label via \`?linkN rdfs:label ?linkNLabel\`.`
+          : ''
+      }`
+    : '';
 
   const basePrompt = `# SPARQL Query Generator for ORKG Research Analysis
 
@@ -482,7 +605,7 @@ The schema is based on the template which describes research practices in public
 |--------|-----------|------|---------------------|
 | **Paper** | - | Resource | The publication resource |
 | Has Contribution | \`orkgp:P31\` | Predicate | Links Paper to Contribution. Usage: \`?paper orkgp:P31 ?contribution\` |
-| **Contribution** | \`orkgc:${targetClassId || 'C27001'}\` | Class | Research practice within a paper |
+| **Contribution** | \`orkgc:${targetClass}\` | Class | ${isNested ? 'Template instance (reached via the path below)' : 'Research practice within a paper'} |${nestedPathNote}
 
 #### Optional Properties (Use Only When Relevant to the Question)
 
@@ -545,7 +668,7 @@ When you do need to use year, remember that the publication year (\`orkgp:P29\`)
 **Correct Structure (when year is needed):**
 \`\`\`sparql
 ?paper orkgp:P29 ?year .
-?paper orkgp:P31 ?contribution .
+${paperLink.replace(/^ {2}/gm, '')}
 \`\`\`
 
 **Incorrect Structure (WILL FAIL):**
@@ -683,6 +806,18 @@ BIND(IF(LCASE(STR(?resource_label)) = LCASE("Expected Value"), 1, 0) AS ?flag)
 - ❌ Wrong: \`BIND(IF(LCASE(STR(?label)) = LCASE("X"), 1, 0) AS ?flag) ?resource rdfs:label ?label .\`
 - ✅ Correct: \`?resource rdfs:label ?label . BIND(IF(LCASE(STR(?label)) = LCASE("X"), 1, 0) AS ?flag)\`
 
+### 6.2. Display Names Come From rdfs:label
+For the human-readable name of any resource (units, materials, methods, …) use \`?resource rdfs:label ?resourceLabel\`. Label-like template predicates (e.g. \`unitLabel\`) are often empty in the data; if you use one, wrap it in OPTIONAL and still fetch \`rdfs:label\`.
+
+### 6.3. Several Sibling Properties of the Same Shape
+When the question needs several properties that share the same structure (e.g. multiple quantity properties that each lead to a value + unit), use one pattern with \`VALUES\` over the predicates, NOT one OPTIONAL per predicate reusing the same variables (the first OPTIONAL binds the variable and silently blocks the others):
+\`\`\`sparql
+VALUES ?quantityProperty { orkgp:PA orkgp:PB orkgp:PC }
+?subject ?quantityProperty ?quantityNode .
+?quantityProperty rdfs:label ?quantityPropertyLabel .
+\`\`\`
+Wrap the whole block in OPTIONAL if subjects without these properties must still appear.
+
 ### 7. Critical SPARQL Syntax Rules
 
 
@@ -709,7 +844,7 @@ BIND(IF(LCASE(STR(?resource_label)) = LCASE("Expected Value"), 1, 0) AS ?flag)
 
 **Listing sample papers (template ${templateId}):**
 - ❌ NEVER \`?paper a orkgr:${templateId}\` or \`?paper a orkgc:…\` with the template resource ID — R… IDs are templates, not contribution classes.
-- ✅ \`?paper orkgp:P31 ?contri . ?contri a orkgc:${targetClassId || 'C27001'} . ?paper rdfs:label ?title . OPTIONAL { ?paper orkgp:P26 ?doi }\`
+- ✅ \`${paperLink.replace(/\s*\n\s*/g, ' ').trim()} ?contribution a orkgc:${targetClass} . ?paper rdfs:label ?title . OPTIONAL { ?paper orkgp:P26 ?doi }\`
 
 ## Output Requirements & Constraints
 
@@ -792,8 +927,8 @@ Every query MUST follow this basic structure:
 
 \`\`\`sparql
 SELECT ... WHERE {
-  ?paper orkgp:P31 ?contribution .
-  ?contribution a orkgc:${targetClassId || 'C27001'} .
+${paperLink}
+  ?contribution a orkgc:${targetClass} .
   # Add your specific conditions here
   ?contribution orkgp:... ?...
 }
