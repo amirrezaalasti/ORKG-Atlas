@@ -39,7 +39,7 @@ const STARTER_PROMPTS: StarterPrompt[] = [
     icon: <AutoStories sx={{ fontSize: 18 }} />,
   },
   {
-    prompt: 'Show statements bundle for paper R186492 as an interactive graph.',
+    prompt: 'Show statements bundle for paper R108199 as an interactive graph.',
     category: 'Graphs',
     icon: <Hub sx={{ fontSize: 18 }} />,
   },
