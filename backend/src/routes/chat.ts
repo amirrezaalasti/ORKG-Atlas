@@ -98,6 +98,8 @@ const createModel = (
     case 'openrouter': {
       const apiKey = (openrouterKey || '').trim();
       if (!apiKey) throw new Error('OpenRouter API key is required.');
+      // Use Chat Completions: languageModel() targets the OpenAI Responses API,
+      // whose item_reference follow-ups fail on OpenRouter after tool calls.
       return createOpenAI({
         apiKey,
         baseURL: 'https://openrouter.ai/api/v1',
@@ -107,7 +109,7 @@ const createModel = (
             'https://orkg-atlas.vercel.app',
           'X-Title': 'ORKG Atlas',
         },
-      }).languageModel(model || 'openai/gpt-4o-mini');
+      }).chat(model || 'openai/gpt-4o-mini');
     }
   }
 };
