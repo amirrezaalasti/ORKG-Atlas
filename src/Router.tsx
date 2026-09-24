@@ -14,7 +14,7 @@ const QuestionDashboardPage = lazy(
 );
 const DynamicQuestionPage = lazy(() => import('./pages/DynamicQuestionPage'));
 const TemplateGraphPage = lazy(() => import('./pages/TemplateGraphPage'));
-const Team = lazy(() => import('./pages/TeamRoute'));
+const Team = lazy(() => import('./pages/Team'));
 const News = lazy(() => import('./pages/News'));
 const NewsDetail = lazy(() => import('./pages/NewsDetail'));
 const AdminBackup = lazy(() => import('./pages/AdminBackup'));

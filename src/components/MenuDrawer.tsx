@@ -35,7 +35,6 @@ import TemplateManagement, {
   type QuestionData,
 } from '../firestore/TemplateManagement';
 import { useAuthData } from '../auth/useAuthData';
-import { getTeamPageHref } from '../constants/teamPage';
 
 const DRAWER_WIDTH = 280;
 
@@ -83,7 +82,6 @@ const GENERAL_NAV_ITEMS: NavItemConfig[] = [
     label: 'Team & Publications',
     tooltip: 'Project team and published papers',
     Icon: People,
-    href: (templateId) => getTeamPageHref(templateId),
   },
   {
     path: '/news',

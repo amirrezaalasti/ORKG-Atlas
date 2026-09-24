@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Query } from '../constants/queries_chart_info';
 import { useAIAssistantContext } from '../context/AIAssistantContext';
 import { useAIService } from '../services/backendAIService';
-import { orkgAskService } from '../services/orkgAskService';
 import { useAppSelector } from '../store/hooks';
 import { cleanAiHtmlResponse } from '../utils/aiResponseCleanup';
 import { useAssistantMessages } from './useAssistantMessages';
@@ -15,8 +14,7 @@ interface UseAIAssistantProps {
 
 const useAIAssistant = ({ query, questionData }: UseAIAssistantProps) => {
   const aiService = useAIService();
-  const { pendingPrompt, clearPendingPrompt, assistantProvider } =
-    useAIAssistantContext();
+  const { pendingPrompt, clearPendingPrompt } = useAIAssistantContext();
   const {
     provider,
     openaiModel,
@@ -37,17 +35,11 @@ const useAIAssistant = ({ query, questionData }: UseAIAssistantProps) => {
             ? googleModel
             : openrouterModel;
 
-  /** Generate text using the selected provider (ORKG Ask default, or store AI) */
+  /** Generate text using the provider and model configured in AI settings */
   const generateWithProvider = async (
     fullPrompt: string,
     systemContext?: string
   ): Promise<{ text: string; reasoning?: string }> => {
-    if (assistantProvider === 'orkg-ask') {
-      const res = await orkgAskService.generate(fullPrompt, {
-        systemContext,
-      });
-      return { text: res.text, reasoning: res.reasoning };
-    }
     return aiService.generateText(fullPrompt, {
       provider,
       model: currentModel,

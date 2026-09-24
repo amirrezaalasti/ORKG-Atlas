@@ -149,6 +149,8 @@ export default function Statistics() {
       CRUDStatistics.getStatistics(templateId).then((statisticsValues) => {
         if (statisticsValues) {
           Object.keys(statisticsValues).forEach((key) => {
+            // Prefer the live SPARQL paper count over the stored snapshot
+            if (key === 'paperCount') return;
             setStatistics((prev) => ({
               ...prev,
               [key]: statisticsValues[key],
