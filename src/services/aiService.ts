@@ -4,6 +4,7 @@ import { createOpenAI } from '@ai-sdk/openai';
 import { createGroq } from '@ai-sdk/groq';
 import { createMistral } from '@ai-sdk/mistral';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
+import { getOpenRouterPricing } from './openrouterModelsService';
 import type {
   AIProvider,
   OpenAIModel,
@@ -212,11 +213,16 @@ export class AIService {
       } else {
         actualModel = '';
       }
+      const livePricing =
+        actualProvider === 'openrouter'
+          ? await getOpenRouterPricing(actualModel)
+          : null;
       costInfo = calculateCost(
         actualProvider,
         actualModel,
         normalizedUsage.promptTokens,
-        normalizedUsage.completionTokens
+        normalizedUsage.completionTokens,
+        livePricing
       );
     }
 

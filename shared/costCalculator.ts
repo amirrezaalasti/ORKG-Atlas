@@ -69,11 +69,22 @@ export interface CostBreakdown {
   section?: string;
 }
 
+/** USD per 1M tokens */
+export interface ModelPricing {
+  input: number;
+  output: number;
+}
+
+/**
+ * @param pricingOverride - live pricing (e.g. from the OpenRouter catalog);
+ * takes precedence over the static tables, which cannot list every model.
+ */
 export function calculateCost(
   provider: AIProvider,
   model: string,
   promptTokens: number,
-  completionTokens: number
+  completionTokens: number,
+  pricingOverride?: ModelPricing | null
 ): CostBreakdown {
   let pricing: { input: number; output: number };
 
@@ -102,6 +113,8 @@ export function calculateCost(
     default:
       pricing = { input: 0, output: 0 };
   }
+
+  if (pricingOverride) pricing = pricingOverride;
 
   const inputCost = (promptTokens / 1_000_000) * pricing.input;
   const outputCost = (completionTokens / 1_000_000) * pricing.output;

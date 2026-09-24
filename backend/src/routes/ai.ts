@@ -14,6 +14,7 @@ import { createUserRateLimiter } from '../middleware/aiRateLimit.js';
 import { db } from '../config/firebase.js';
 import { Timestamp } from 'firebase-admin/firestore';
 import { isAdminEmail } from '../config/constants.js';
+import { getOpenRouterPricing } from '../services/openrouterPricing.js';
 
 interface UserRateLimit {
   userId: string;
@@ -455,11 +456,16 @@ router.post(
               : model || config.model;
 
           const { calculateCost } = await import('../utils/costCalculator.js');
+          const livePricing =
+            effectiveProvider === 'openrouter'
+              ? await getOpenRouterPricing(actualModel)
+              : null;
           costInfo = calculateCost(
             effectiveProvider,
             actualModel,
             result.usage.promptTokens,
-            result.usage.completionTokens
+            result.usage.completionTokens,
+            livePricing
           );
         } catch (costError) {
           console.error('Cost calculation failed:', costError);
