@@ -6,6 +6,7 @@ import { AUTH_DISABLED } from '../../auth/publicAccess';
 
 /** Canonical production API for ORKG Atlas. Never fall back to EmpiRE Compass. */
 export const PRODUCTION_BACKEND_URL = 'https://orkg-atlas-backend.vercel.app';
+export const EMPIRE_BACKEND_URL = 'https://empire-compass-backend.tib.eu';
 export const LOCAL_BACKEND_URL = 'http://localhost:5001';
 
 const isLocalBackendUrl = (url: string) => /localhost|127\.0\.0\.1/i.test(url);
@@ -25,14 +26,22 @@ const isLocalBrowser = () =>
   (window.location.hostname === 'localhost' ||
     window.location.hostname === '127.0.0.1');
 
+const isEmpiRECompassHost = () =>
+  typeof window !== 'undefined' &&
+  /(^|\.)empire-compass\.tib\.eu$/i.test(window.location.hostname);
+
 const usable = (url: string | undefined): string | undefined => {
   const trimmed = url?.trim();
   if (!trimmed) return undefined;
   // A localhost API URL baked into the Vercel bundle must not be used
   // when the page is served from a public host.
   if (isLocalBackendUrl(trimmed) && !isLocalBrowser()) return undefined;
-  // ORKG Atlas must not call the EmpiRE Compass API.
-  if (isEmpiRECompassBackend(trimmed) && !isLocalBrowser()) {
+  // Atlas hosts must not call the EmpiRE Compass API.
+  if (
+    isEmpiRECompassBackend(trimmed) &&
+    !isLocalBrowser() &&
+    !isEmpiRECompassHost()
+  ) {
     return undefined;
   }
   return trimmed;
@@ -41,6 +50,10 @@ const usable = (url: string | undefined): string | undefined => {
 export const getBackendUrl = (): string => {
   const feature = usable(import.meta.env.VITE_BACKEND_FEATURE_URL);
   const configured = usable(import.meta.env.VITE_BACKEND_URL);
+
+  if (isEmpiRECompassHost()) {
+    return feature || configured || EMPIRE_BACKEND_URL;
+  }
 
   if (isVercelHost()) {
     return feature || configured || PRODUCTION_BACKEND_URL;

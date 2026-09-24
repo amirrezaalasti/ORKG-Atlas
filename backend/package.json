@@ -9,6 +9,7 @@
     "dev": "tsx watch src/server.ts",
     "prebuild": "node scripts/sync-shared.mjs",
     "build": "tsc",
+    "postinstall": "node scripts/sync-shared.mjs",
     "prestart": "node scripts/sync-shared.mjs",
     "start": "node dist/server.js",
     "lint": "eslint src --config eslint.config.js",

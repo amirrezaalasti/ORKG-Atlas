@@ -3,7 +3,10 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { Query } from '../../constants/queries_chart_info';
 import CRUDQuestions from '../../firestore/CRUDQuestions';
 import fetchSPARQLData from '../../helpers/fetch_query';
-import { getTemplateConfig } from '../../constants/template_config';
+import {
+  getBuiltinTemplateConfig,
+  getTemplateConfig,
+} from '../../constants/template_config';
 
 export interface FirebaseQuestion {
   id: number;
@@ -21,6 +24,8 @@ export interface FirebaseQuestion {
 interface QuestionState {
   questions: Query[];
   firebaseQuestions: Record<string, unknown>;
+  /** requestId of the latest questions fetch; older responses are ignored */
+  questionsRequestId: string | null;
   currentQuestion: Query | null;
   questionData: Record<string, Record<string, unknown>[]>;
   loading: {
@@ -37,6 +42,7 @@ interface QuestionState {
 const initialState: QuestionState = {
   questions: [],
   firebaseQuestions: {},
+  questionsRequestId: null,
   currentQuestion: null,
   questionData: {},
   loading: {
@@ -80,7 +86,8 @@ const stripFunctions = (obj: any): any => {
 // Returns questions with functions for use in components
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mergeQuestionsData = (firebaseQuestions: any[], templateId: string) => {
-  const { queries } = getTemplateResources(templateId);
+  // No fallback to another template's bundled queries
+  const queries = getBuiltinTemplateConfig(templateId)?.queries ?? [];
   const questionsMap = new Map(firebaseQuestions.map((q) => [q.uid, q]));
 
   return [...queries]
@@ -197,11 +204,16 @@ const questionSlice = createSlice({
   extraReducers: (builder) => {
     builder
       // Handle fetchQuestions
-      .addCase(fetchQuestionsFromFirebase.pending, (state) => {
+      .addCase(fetchQuestionsFromFirebase.pending, (state, action) => {
         state.loading.questions = true;
         state.error.questions = null;
+        state.questionsRequestId = action.meta.requestId;
+        // Drop the previous template's questions so they never render under the new one
+        state.firebaseQuestions = {};
+        state.questions = [];
       })
       .addCase(fetchQuestionsFromFirebase.fulfilled, (state, action) => {
+        if (action.meta.requestId !== state.questionsRequestId) return;
         state.loading.questions = false;
         const { firebaseQuestions, templateId } = action.payload;
         // Store raw Firebase data (without functions for serialization)
@@ -222,6 +234,7 @@ const questionSlice = createSlice({
         ) as Query[];
       })
       .addCase(fetchQuestionsFromFirebase.rejected, (state, action) => {
+        if (action.meta.requestId !== state.questionsRequestId) return;
         state.loading.questions = false;
         state.error.questions =
           action.error.message || 'Failed to fetch questions';

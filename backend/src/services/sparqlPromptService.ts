@@ -5,7 +5,7 @@
 import {
   generateDynamicSPARQLPrompt,
   generateTemplateMapping,
-} from '../_shared/promptGenerator.js';
+} from '../../../shared/promptGenerator.js';
 import { getCanonicalSparqlExamples } from '../config/templateSparqlQueries.js';
 import { loadTemplateFlow } from './orkg/templateFlow.js';
 import { buildTemplateScopeBanner } from './sparqlTemplateValidation.js';
