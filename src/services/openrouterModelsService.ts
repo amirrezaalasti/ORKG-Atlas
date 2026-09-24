@@ -102,6 +102,21 @@ export async function fetchOpenRouterModels(options?: {
   return models;
 }
 
+/** Live USD-per-1M pricing for an OpenRouter model; null if unknown or unreachable. */
+export async function getOpenRouterPricing(
+  modelId: string
+): Promise<{ input: number; output: number } | null> {
+  try {
+    const model = (await fetchOpenRouterModels()).find((m) => m.id === modelId);
+    const input = openRouterUsdPerMillion(model?.pricing?.prompt);
+    const output = openRouterUsdPerMillion(model?.pricing?.completion);
+    return input !== null && output !== null ? { input, output } : null;
+  } catch (error) {
+    console.warn('OpenRouter pricing lookup failed:', error);
+    return null;
+  }
+}
+
 export function clearOpenRouterModelsCache(): void {
   cache = null;
 }

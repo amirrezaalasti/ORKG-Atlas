@@ -14,6 +14,19 @@ describe('costCalculator', () => {
     expect(result.totalCost).toBe(0);
   });
 
+  it('uses live pricing for OpenRouter models missing from the static tables', () => {
+    const result = calculateCost(
+      'openrouter',
+      'openai/gpt-6-luna',
+      1_000_000,
+      500_000,
+      { input: 2, output: 8 }
+    );
+    expect(result.inputCost).toBeCloseTo(2, 6);
+    expect(result.outputCost).toBeCloseTo(4, 6);
+    expect(result.totalCost).toBeCloseTo(6, 6);
+  });
+
   it('formats zero cost', () => {
     expect(formatCost(0)).toBe('$0.00');
   });

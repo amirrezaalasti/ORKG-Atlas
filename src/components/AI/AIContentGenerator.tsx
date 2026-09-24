@@ -218,20 +218,31 @@ ${
 
 Generate the complete HTML now:`;
 
-      const chartResult = await aiService.generateText(chartPrompt, {
-        temperature: 0.1, // Lower temperature for more consistent generation
-        maxTokens: 4000, // Sufficient tokens for HTML structure without data
-      });
-
-      let chartHtml = chartResult.text;
       const costs: CostBreakdown[] = [];
-
-      // Track cost for chart generation
-      if (chartResult.cost) {
-        costs.push({
-          ...chartResult.cost,
-          section: 'Chart Generation',
+      const generateChartHtml = async (prompt: string) => {
+        const result = await aiService.generateText(prompt, {
+          temperature: 0.1, // Lower temperature for more consistent generation
+          maxTokens: 8000, // Backend maximum; reasoning models spend output tokens too
         });
+        if (result.cost) {
+          costs.push({ ...result.cost, section: 'Chart Generation' });
+        }
+        return result.text;
+      };
+
+      // A response cut off at the token limit has no closing </html>, never gets
+      // the data script injected, and renders as an empty chart; retry once more compactly.
+      const isCompleteHtml = (html: string) => /<\/html>/i.test(html);
+      let chartHtml = await generateChartHtml(chartPrompt);
+      if (!isCompleteHtml(chartHtml)) {
+        chartHtml = await generateChartHtml(
+          `${chartPrompt}\n\nIMPORTANT: A previous attempt was cut off before </html>. Be compact: keep CSS under 40 lines, omit comments and optional controls, and make sure the document ends with </html>.`
+        );
+      }
+      if (!isCompleteHtml(chartHtml)) {
+        throw new Error(
+          'The AI response was cut off before the chart HTML was complete. Please try again or choose a different model.'
+        );
       }
 
       // Inject the actual data into the HTML
@@ -507,7 +518,11 @@ Return ONLY the explanation text.`;
       );
     } catch (error) {
       console.error('Error generating AI content:', error);
-      onError('Failed to generate AI content. Please try again.');
+      onError(
+        error instanceof Error && error.message.includes('cut off')
+          ? error.message
+          : 'Failed to generate AI content. Please try again.'
+      );
     } finally {
       setGenerating(false);
     }
