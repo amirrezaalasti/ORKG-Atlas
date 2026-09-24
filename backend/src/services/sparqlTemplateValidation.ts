@@ -3,10 +3,14 @@
  * (contribution class from template flow), not hardcoded template pairs.
  */
 
+import { buildPaperLinkPattern } from '../../../shared/promptGenerator.js';
+
 export interface TemplateSparqlContext {
   templateId: string;
   targetClassId?: string;
   templateLabel?: string;
+  /** Predicates from the paper's P31 contribution to the template instance (see discoverPaperLinkPath). */
+  paperLinkPath?: string[][] | null;
 }
 
 export type SparqlValidationIssue = {
@@ -28,7 +32,7 @@ export const buildTemplateScopeBanner = (
   return (
     `\n## Template scope (required in every template-scoped query)\n` +
     `- templateId: **${ctx.templateId}**${ctx.templateLabel ? ` (${ctx.templateLabel})` : ''}\n` +
-    `- contribution class: **orkgc:${ctx.targetClassId}** — use \`?contribution a orkgc:${ctx.targetClassId}\` after \`?paper orkgp:P31 ?contribution\`\n` +
+    `- contribution class: **orkgc:${ctx.targetClassId}** — use \`?contribution a orkgc:${ctx.targetClassId}\` after \`${buildPaperLinkPattern(ctx.paperLinkPath).replace(/\n/g, ' ')}\`\n` +
     `- Never use \`a orkgr:${ctx.templateId}\` — template R… IDs are not RDF classes.\n` +
     `- Pass the same templateId to orkg_sparql(query, templateId) so the server can validate the class.\n`
   );

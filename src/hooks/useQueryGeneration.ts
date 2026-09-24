@@ -8,7 +8,11 @@ import {
 } from '../utils/queryParser';
 import fetchSPARQLData from '../helpers/fetch_query';
 import promptTemplate from '../prompts/GENERATE_SPARQL.txt?raw';
-import { generateDynamicSPARQLPrompt } from '../utils/promptGenerator';
+import {
+  discoverPaperLinkPath,
+  generateDynamicSPARQLPrompt,
+  type PaperLinkPath,
+} from '../utils/promptGenerator';
 import { PredicatesMapping } from '../components/Graph/types';
 
 interface QueryEvaluation {
@@ -186,13 +190,14 @@ export const useQueryGeneration = ({
   );
 
   const buildSparqlPrompt = useCallback(
-    (question: string): string => {
+    (question: string, paperLinkPath: PaperLinkPath | null): string => {
       if (templateMapping && templateId) {
         const dynamicPrompt = generateDynamicSPARQLPrompt(
           templateMapping as PredicatesMapping,
           templateId,
           undefined,
-          targetClassId || undefined
+          targetClassId || undefined,
+          paperLinkPath
         );
         return dynamicPrompt.replace('[Research Question]', question);
       }
@@ -206,7 +211,8 @@ export const useQueryGeneration = ({
       question: string,
       previousQuery: string,
       previousFeedback: string,
-      iteration: number
+      iteration: number,
+      paperLinkPath: PaperLinkPath | null
     ): string => {
       const schemaBlock =
         templateMapping && templateId
@@ -214,7 +220,8 @@ export const useQueryGeneration = ({
               templateMapping as PredicatesMapping,
               templateId,
               undefined,
-              targetClassId || undefined
+              targetClassId || undefined,
+              paperLinkPath
             ).split('[Research Question]')[0]
           : '';
       const basePrompt = `Fix this SPARQL per feedback (iteration ${iteration}). Output only the improved query in a \`\`\`sparql block.
@@ -257,6 +264,11 @@ ${schemaBlock ? `\n**Schema & rules:**\n${schemaBlock}` : ''}
       let bestSparqlBlocks: SPARQLBlock[] = [];
       const history: IterationDetail[] = [];
 
+      // Resolve how papers reach this template's instances once per run
+      const paperLinkPath = targetClassId
+        ? await discoverPaperLinkPath(targetClassId, fetchSPARQLData)
+        : null;
+
       for (let iteration = 1; iteration <= maxIterations; iteration++) {
         setCurrentIteration(iteration);
         setIterationFeedback(
@@ -268,13 +280,14 @@ ${schemaBlock ? `\n**Schema & rules:**\n${schemaBlock}` : ''}
         );
 
         if (iteration === 1) {
-          currentPrompt = buildSparqlPrompt(question);
+          currentPrompt = buildSparqlPrompt(question, paperLinkPath);
         } else {
           currentPrompt = buildRefinementPrompt(
             question,
             previousQuery!,
             previousFeedback!,
-            iteration
+            iteration,
+            paperLinkPath
           );
         }
 
@@ -427,6 +440,7 @@ ${schemaBlock ? `\n**Schema & rules:**\n${schemaBlock}` : ''}
       buildSparqlPrompt,
       buildRefinementPrompt,
       executeQueriesRaw,
+      targetClassId,
     ]
   );
 
