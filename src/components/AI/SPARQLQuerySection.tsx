@@ -37,6 +37,7 @@ import {
   ensurePrefixes,
   resolveClassMetadata,
   KG_EMPIRE_DEFAULT_HTML,
+  buildGenericTemplateIntroHtml,
   PredicateDetail,
 } from '../../utils/sparqlQueryHelpers';
 import {
@@ -128,9 +129,8 @@ const SPARQLQuerySection: React.FC<SPARQLQuerySectionProps> = ({
   const [introSaveError, setIntroSaveError] = useState<string | null>(null);
 
   const { user } = useAuthData();
-  const { introCustomText, setIntroCustomText } = useTemplateIntroText(
-    propTemplateId ?? state.templateId ?? undefined
-  );
+  const { introCustomText, setIntroCustomText, templateTitle } =
+    useTemplateIntroText(propTemplateId ?? state.templateId ?? undefined);
 
   const templateMapping = (propTemplateMapping ??
     state.templateMapping ??
@@ -362,7 +362,11 @@ const SPARQLQuerySection: React.FC<SPARQLQuerySectionProps> = ({
     }
 
     const activeSchemaUrl = `/${activeTemplateId || DEFAULT_TEMPLATE_ID}/schema`;
-    const rawHtml = (introCustomText || KG_EMPIRE_DEFAULT_HTML).replace(
+    const defaultHtml =
+      !activeTemplateId || activeTemplateId === DEFAULT_TEMPLATE_ID
+        ? KG_EMPIRE_DEFAULT_HTML
+        : buildGenericTemplateIntroHtml(templateTitle);
+    const rawHtml = (introCustomText || defaultHtml).replace(
       '{schemaUrl}',
       activeSchemaUrl
     );
@@ -455,7 +459,7 @@ const SPARQLQuerySection: React.FC<SPARQLQuerySectionProps> = ({
         sx={{ mb: 2, cursor: isAdmin ? 'text' : 'default' }}
         onClick={() => {
           if (!isAdmin) return;
-          setIntroEditText(introCustomText || KG_EMPIRE_DEFAULT_HTML);
+          setIntroEditText(introCustomText || defaultHtml);
           setIntroEditOpen(true);
         }}
       >

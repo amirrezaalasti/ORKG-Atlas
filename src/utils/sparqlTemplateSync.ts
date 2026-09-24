@@ -6,14 +6,16 @@ export const NLP4RE_TEMPLATE_ID = 'R1544125';
 
 export async function loadTemplateIntroText(
   templateId: string | null | undefined
-): Promise<string | null> {
+): Promise<{ introText: string | null; title: string | null }> {
   const activeTemplateId = (templateId || DEFAULT_TEMPLATE_ID).toUpperCase();
-  if (activeTemplateId === NLP4RE_TEMPLATE_ID) return null;
+  if (activeTemplateId === NLP4RE_TEMPLATE_ID) {
+    return { introText: null, title: null };
+  }
   try {
     const data = await apiRequest(`/api/templates/${activeTemplateId}`);
-    return data?.introText ?? null;
+    return { introText: data?.introText ?? null, title: data?.title ?? null };
   } catch {
-    return null;
+    return { introText: null, title: null };
   }
 }
 
@@ -33,16 +35,19 @@ export async function saveTemplateIntroText(
 
 export function useTemplateIntroText(templateId: string | null | undefined) {
   const [introCustomText, setIntroCustomText] = useState<string | null>(null);
+  const [templateTitle, setTemplateTitle] = useState<string | null>(null);
 
   useEffect(() => {
     const loadIntroText = async () => {
       setIntroCustomText(null);
-      const text = await loadTemplateIntroText(templateId);
-      setIntroCustomText(text);
+      setTemplateTitle(null);
+      const { introText, title } = await loadTemplateIntroText(templateId);
+      setIntroCustomText(introText);
+      setTemplateTitle(title);
     };
     void loadIntroText();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [templateId]);
 
-  return { introCustomText, setIntroCustomText };
+  return { introCustomText, setIntroCustomText, templateTitle };
 }
