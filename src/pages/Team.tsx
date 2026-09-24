@@ -69,18 +69,40 @@ const Team = () => {
       try {
         setLoading(true);
         setError(null);
-        const [members, papersData] = await Promise.all([
+        const [membersResult, papersResult] = await Promise.allSettled([
           CRUDTeam.getTeamMembers(),
-          CRUDPapers.getPapers(true), // Only papers to show on Team page
+          CRUDPapers.getPapers(true),
         ]);
-        // Sort team by priority (lower number = higher priority)
+        const members =
+          membersResult.status === 'fulfilled' &&
+          Array.isArray(membersResult.value)
+            ? membersResult.value
+            : [];
+        const papersData =
+          papersResult.status === 'fulfilled' &&
+          Array.isArray(papersResult.value)
+            ? papersResult.value
+            : [];
+
+        if (membersResult.status === 'rejected') {
+          console.error('Error fetching team members:', membersResult.reason);
+        }
+        if (papersResult.status === 'rejected') {
+          console.error('Error fetching papers:', papersResult.reason);
+        }
+        if (
+          membersResult.status === 'rejected' &&
+          papersResult.status === 'rejected'
+        ) {
+          setError('Failed to load team data. Please try again later.');
+        }
+
         const sortedMembers = [...members].sort((a, b) => {
           const priorityA = a.priority ?? 999;
           const priorityB = b.priority ?? 999;
           return priorityA - priorityB;
         });
         setTeamMembers(sortedMembers);
-        // Sort papers by priority, then year
         const sortedPapers = [...papersData].sort((a, b) => {
           const priorityA = a.priority ?? 999;
           const priorityB = b.priority ?? 999;
@@ -97,7 +119,7 @@ const Team = () => {
     };
 
     fetchData();
-  }, [backupVersion]); // Re-fetch when backup changes
+  }, [backupVersion]);
 
   if (loading) {
     return (

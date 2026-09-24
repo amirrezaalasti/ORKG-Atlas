@@ -3,7 +3,7 @@
  */
 
 import { orkgRest, type OrkgTemplate } from './orkgClient.js';
-import type { Template } from '../_shared/templateTypes.js';
+import type { Template } from '../../../../shared/templateTypes.js';
 
 const SHACL_TARGET_CLASS = 'sh:targetClass';
 const NODE_SHAPE_CLASS = 'NodeShape';

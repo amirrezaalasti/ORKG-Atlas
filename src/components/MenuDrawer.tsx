@@ -35,6 +35,7 @@ import TemplateManagement, {
   type QuestionData,
 } from '../firestore/TemplateManagement';
 import { useAuthData } from '../auth/useAuthData';
+import { getTeamPageHref } from '../constants/teamPage';
 
 const DRAWER_WIDTH = 280;
 
@@ -61,6 +62,8 @@ interface NavItemConfig {
   label: string;
   tooltip: string;
   Icon: React.ComponentType<{ sx?: SxProps<Theme> }>;
+  /** Full URL or path; when set, the item is a real link (survives SPA crashes). */
+  href?: string | ((templateId: string) => string);
 }
 
 interface MenuDrawerProps {
@@ -80,6 +83,7 @@ const GENERAL_NAV_ITEMS: NavItemConfig[] = [
     label: 'Team & Publications',
     tooltip: 'Project team and published papers',
     Icon: People,
+    href: (templateId) => getTeamPageHref(templateId),
   },
   {
     path: '/news',
@@ -209,6 +213,7 @@ interface NavItemProps {
   templateId: string;
   isCurrentPath: (path: string) => boolean;
   onNavigate: (path: string) => void;
+  href?: string | ((templateId: string) => string);
 }
 
 function NavItem({
@@ -219,17 +224,30 @@ function NavItem({
   templateId,
   isCurrentPath,
   onNavigate,
+  href,
 }: NavItemProps) {
-  const fullPath = path === '/' ? `/${templateId}/` : `/${templateId}${path}`;
+  const resolvedHref =
+    typeof href === 'function' ? href(templateId) : href;
+  const fullPath =
+    resolvedHref ||
+    (path === '/' ? `/${templateId}/` : `/${templateId}${path}`);
+  const isExternal = fullPath.startsWith('http');
   const isActive = path === '/' ? isCurrentPath('/') : isCurrentPath(path);
 
   return (
     <Tooltip title={tooltip} placement="right" arrow>
       <ListItem
-        onClick={() => onNavigate(fullPath)}
+        component={isExternal ? 'a' : 'div'}
+        href={isExternal ? fullPath : undefined}
+        onClick={() => {
+          if (!isExternal) onNavigate(fullPath);
+        }}
         sx={{
           ...listItemStyles,
           backgroundColor: isActive ? ACTIVE_BG : 'transparent',
+          cursor: 'pointer',
+          textDecoration: 'none',
+          color: 'inherit',
         }}
       >
         <ListItemIcon>
@@ -393,13 +411,14 @@ function MenuDrawer({ open, handleDrawerClose }: MenuDrawerProps) {
   };
 
   const renderNavItems = (items: NavItemConfig[]) =>
-    items.map(({ path, label, tooltip, Icon }) => (
+    items.map(({ path, label, tooltip, Icon, href }) => (
       <NavItem
         key={path}
         path={path}
         label={label}
         tooltip={tooltip}
         Icon={Icon}
+        href={href}
         templateId={selectedTemplate}
         isCurrentPath={isCurrentPath}
         onNavigate={handleNavigate}
