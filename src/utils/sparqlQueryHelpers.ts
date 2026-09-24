@@ -29,6 +29,24 @@ export const KG_EMPIRE_DEFAULT_HTML = `<p>You can ask factual, comparative, and 
 
 <p>Main topics you can query include: <strong>research questions and answers</strong> (primary questions, subquestions, how answers are reported), <strong>research paradigm</strong>, <strong>data collection</strong> (what data were collected, data types, methods, URLs), <strong>data analysis</strong> (analysis methods, inferential and descriptive statistics, machine learning algorithms and metrics), <strong>hypotheses</strong> (null vs. alternative), <strong>measures and metrics</strong> (counts, percentages, central tendency and dispersion), and <strong>threats to validity</strong> (construct, internal, external, conclusion validity, reliability, generalizability, repeatability, and other validity types).</p>`;
 
+const escapeHtml = (value: string): string =>
+  value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+
+export const buildGenericTemplateIntroHtml = (
+  templateTitle?: string | null
+): string => {
+  const subject = templateTitle?.trim()
+    ? `the <strong>${escapeHtml(templateTitle.trim())}</strong> knowledge graph`
+    : 'this knowledge graph';
+  return `<p>You can ask factual, comparative, and exploratory questions about ${subject}, grounded in the underlying <a href="{schemaUrl}" target="_blank" rel="noopener noreferrer">schema</a>.</p>
+
+<p>Browse the schema to see which properties and topics are available to query.</p>`;
+};
+
 export const extractClassIds = (query: string): string[] => {
   const regex = /orkgc:(C\d+)/gi;
   const seen = new Set<string>();
