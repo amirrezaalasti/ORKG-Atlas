@@ -42,9 +42,6 @@ interface AIAssistantContextType {
   sendStructuredPrompt: (prompt: string) => void;
   pendingPrompt: string | null;
   clearPendingPrompt: () => void;
-  /** LLM provider for the assistant: orkg-ask (default, cheaper) or openai */
-  assistantProvider: 'orkg-ask' | 'openai';
-  setAssistantProvider: (provider: 'orkg-ask' | 'openai') => void;
 }
 
 const AIAssistantContext = createContext<AIAssistantContextType | undefined>(
@@ -63,9 +60,6 @@ export const AIAssistantProvider: React.FC<{ children: ReactNode }> = ({
   const [pendingPrompt, setPendingPrompt] = useState<string | null>(null);
   const [paperInfo, setPaperInfoState] = useState<PaperInfoItem | null>(null);
   const [orkgResourceUri, setOrkgResourceUri] = useState<string | null>(null);
-  const [assistantProvider, setAssistantProvider] = useState<
-    'orkg-ask' | 'openai'
-  >('orkg-ask');
 
   const toggleAssistant = () => {
     setIsOpen(!isOpen);
@@ -116,8 +110,6 @@ export const AIAssistantProvider: React.FC<{ children: ReactNode }> = ({
         sendStructuredPrompt,
         pendingPrompt,
         clearPendingPrompt,
-        assistantProvider,
-        setAssistantProvider,
       }}
     >
       {children}

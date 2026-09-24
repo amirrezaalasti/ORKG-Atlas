@@ -123,9 +123,23 @@ class ORKGStatisticsProcessor:
     # Fetch paper IRIs via SPARQL HTTP request
     # ──────────────────────────────────────────────────────────────────────────
     def fetch_paper_list(self):
+        """Fetch paper IDs, retrying on transient endpoint failures."""
+        for attempt in range(1, MAX_RETRIES + 1):
+            try:
+                papers = self._fetch_paper_list_once()
+            except requests.RequestException as e:
+                print(f"SPARQL request failed (attempt {attempt}/{MAX_RETRIES}): {e}")
+                papers = []
+            if papers:
+                return papers
+            if attempt < MAX_RETRIES:
+                time.sleep(RETRY_DELAY)
+        return []
+
+    def _fetch_paper_list_once(self):
         headers = {"Accept": "application/sparql-results+json"}
         params = {"query": self.config["sparql_query"]}
-        resp = requests.get(SPARQL_ENDPOINT, headers=headers, params=params)
+        resp = requests.get(SPARQL_ENDPOINT, headers=headers, params=params, timeout=120)
         resp.raise_for_status()
 
         print("**" * 100)
@@ -532,6 +546,12 @@ Examples:
     print(f"🔍 Fetching {config['name']} papers from ORKG...")
     papers = processor.fetch_paper_list()
 
+    # An empty list means the SPARQL endpoint failed; never overwrite
+    # existing statistics (CSV or Firebase) with zeros.
+    if not papers:
+        print("❌ No papers returned from SPARQL endpoint - aborting without updating data")
+        raise SystemExit(1)
+
     # Handle paper deletions - remove papers no longer in SPARQL results
     processor.handle_paper_deletions(papers)
 
@@ -543,6 +563,10 @@ Examples:
 
     # Process papers
     results, global_stats = processor.process_papers(papers, reload_data=args.reload_data)
+
+    if not results:
+        print("❌ No papers could be processed (ORKG API errors) - aborting without updating data")
+        raise SystemExit(1)
 
     # Save results
     timestamp = processor.save_results(results, global_stats)
