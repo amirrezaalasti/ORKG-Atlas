@@ -26,6 +26,7 @@ describe('questionSlice template switching', () => {
     );
     expect(state.firebaseQuestions).toEqual({});
     expect(state.questions).toEqual([]);
+    expect(state.questionsTemplateId).toBe('R999999');
   });
 
   it('does not fall back to empirical queries for a template without questions', () => {

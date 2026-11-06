@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   Container,
   Paper,
@@ -90,11 +90,7 @@ const AdminDataManagement = () => {
     loadTemplates();
   }, []);
 
-  useEffect(() => {
-    if (selectedTemplate) {
-      loadTemplateData(selectedTemplate);
-    }
-  }, [selectedTemplate]);
+  const templateLoadGeneration = useRef(0);
 
   const loadTemplates = async () => {
     try {
@@ -108,18 +104,33 @@ const AdminDataManagement = () => {
   };
 
   const loadTemplateData = async (templateId: string) => {
+    const generation = ++templateLoadGeneration.current;
     setLoading(true);
+    setQuestions([]);
+    setStatistics([]);
     try {
       const data = await TemplateManagement.getCompleteTemplate(templateId);
+      if (generation !== templateLoadGeneration.current) return;
       setQuestions(data.questions);
       setStatistics(data.statistics);
     } catch (err) {
+      if (generation !== templateLoadGeneration.current) return;
       setError('Failed to load template data');
+      setQuestions([]);
+      setStatistics([]);
       console.error(err);
     } finally {
-      setLoading(false);
+      if (generation === templateLoadGeneration.current) setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (selectedTemplate) {
+      void loadTemplateData(selectedTemplate);
+    }
+    // loadTemplateData guards stale responses itself
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedTemplate]);
 
   const handleRestoreFromBackup = async (file: File) => {
     setRestoring(true);

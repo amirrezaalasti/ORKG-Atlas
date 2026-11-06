@@ -57,30 +57,36 @@ const DynamicQuestionExamples = ({
     useState<DynamicQuestion | null>(null);
   const [deleting, setDeleting] = useState(false);
 
-  const loadExamples = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      // Use template-filtered query if templateId is provided
-      const questions = templateId
-        ? await CRUDDynamicQuestions.getDynamicQuestionsByTemplate(
-            templateId,
-            20
-          )
-        : await CRUDDynamicQuestions.getDynamicQuestions(20);
-      // Only treat non-community questions as "example" questions in this list
-      setExamples(questions.filter((q) => !q.isCommunity));
-    } catch (err) {
-      console.error('Error loading dynamic question examples:', err);
-      setError('Failed to load example questions');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    loadExamples();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    let cancelled = false;
+    const loadExamples = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        setExamples([]);
+        // Use template-filtered query if templateId is provided
+        const questions = templateId
+          ? await CRUDDynamicQuestions.getDynamicQuestionsByTemplate(
+              templateId,
+              20
+            )
+          : await CRUDDynamicQuestions.getDynamicQuestions(20);
+        if (cancelled) return;
+        // Only treat non-community questions as "example" questions in this list
+        setExamples(questions.filter((q) => !q.isCommunity));
+      } catch (err) {
+        if (cancelled) return;
+        console.error('Error loading dynamic question examples:', err);
+        setError('Failed to load example questions');
+        setExamples([]);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+    void loadExamples();
+    return () => {
+      cancelled = true;
+    };
   }, [refreshTrigger, templateId]);
 
   const handleSelectExample = (example: DynamicQuestion) => {

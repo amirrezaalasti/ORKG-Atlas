@@ -173,6 +173,13 @@ const Header = ({ handleDrawerOpen }: HeaderProps) => {
 
     const pathSegments = location.pathname.split('/').filter(Boolean);
     pathSegments[0] = newTemplate;
+    // A question id belongs to the previous template. Templates with no
+    // competency questions must not keep that route (or its question list).
+    if (pathSegments[1] === 'questions') {
+      navigate(`/${newTemplate}/allquestions`);
+      setTemplatePickerOpen(false);
+      return;
+    }
     navigate(`/${pathSegments.join('/')}`);
     setTemplatePickerOpen(false);
   };

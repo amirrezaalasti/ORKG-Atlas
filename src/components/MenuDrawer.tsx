@@ -29,7 +29,7 @@ import {
   FactCheck,
 } from '@mui/icons-material';
 import type { SxProps, Theme } from '@mui/material';
-import { useNavigate, useLocation } from 'react-router';
+import { useNavigate, useLocation, useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 import TemplateManagement, {
   type QuestionData,
@@ -224,8 +224,7 @@ function NavItem({
   onNavigate,
   href,
 }: NavItemProps) {
-  const resolvedHref =
-    typeof href === 'function' ? href(templateId) : href;
+  const resolvedHref = typeof href === 'function' ? href(templateId) : href;
   const fullPath =
     resolvedHref ||
     (path === '/' ? `/${templateId}/` : `/${templateId}${path}`);
@@ -336,34 +335,67 @@ function QuestionNavItem({
   );
 }
 
+const templateIdFromPath = (pathname: string): string | null => {
+  const templateFromUrl = pathname.split('/').filter(Boolean)[0];
+  return templateFromUrl && /^R\d+$/.test(templateFromUrl)
+    ? templateFromUrl
+    : null;
+};
+
 function MenuDrawer({ open, handleDrawerClose }: MenuDrawerProps) {
   const navigate = useNavigate();
   const location = useLocation();
+  const { templateId: routeTemplateId } = useParams();
   const { user } = useAuthData();
 
-  const [selectedTemplate, setSelectedTemplate] = useState('R186491');
+  const [selectedTemplate, setSelectedTemplate] = useState(
+    () =>
+      (routeTemplateId && /^R\d+$/.test(routeTemplateId)
+        ? routeTemplateId
+        : templateIdFromPath(location.pathname)) || 'R186491'
+  );
   const [questions, setQuestions] = useState<QuestionData[]>([]);
+  const [questionsLoading, setQuestionsLoading] = useState(true);
+  const [questionsTemplateId, setQuestionsTemplateId] =
+    useState(selectedTemplate);
+
+  // Drop the previous template's questions before paint, so a template with
+  // none never keeps showing Empirical Research Practice questions.
+  if (questionsTemplateId !== selectedTemplate) {
+    setQuestionsTemplateId(selectedTemplate);
+    setQuestions([]);
+    setQuestionsLoading(true);
+  }
 
   useEffect(() => {
-    const pathSegments = location.pathname.split('/').filter(Boolean);
-    const templateFromUrl = pathSegments[0];
-    if (templateFromUrl && /^R\d+$/.test(templateFromUrl)) {
-      setSelectedTemplate(templateFromUrl);
-    }
-  }, [location.pathname]);
+    const fromRoute =
+      routeTemplateId && /^R\d+$/.test(routeTemplateId)
+        ? routeTemplateId
+        : templateIdFromPath(location.pathname);
+    if (fromRoute) setSelectedTemplate(fromRoute);
+  }, [location.pathname, routeTemplateId]);
 
-  // Fetch template data
+  // Fetch questions for the active template. Ignore responses from an earlier
+  // template — the empirical set is large and often arrives after an empty one.
   useEffect(() => {
+    let cancelled = false;
     const fetchTemplateData = async () => {
+      setQuestionsLoading(true);
       try {
         const questionsData =
           await TemplateManagement.getAllQuestions(selectedTemplate);
-        setQuestions(questionsData);
+        if (!cancelled) setQuestions(questionsData);
       } catch (error) {
         console.error('Error fetching template data:', error);
+        if (!cancelled) setQuestions([]);
+      } finally {
+        if (!cancelled) setQuestionsLoading(false);
       }
     };
-    fetchTemplateData();
+    void fetchTemplateData();
+    return () => {
+      cancelled = true;
+    };
   }, [selectedTemplate]);
 
   // Close drawer on Escape
@@ -543,6 +575,15 @@ function MenuDrawer({ open, handleDrawerClose }: MenuDrawerProps) {
             />
           </ListItem>
         </Tooltip>
+
+        {!questionsLoading && questions.length === 0 && (
+          <Typography
+            variant="body2"
+            sx={{ px: 1, py: 1, color: 'text.secondary' }}
+          >
+            No competency questions for this template.
+          </Typography>
+        )}
 
         {questions.map((question, index) => (
           <QuestionNavItem

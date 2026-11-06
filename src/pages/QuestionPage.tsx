@@ -20,9 +20,10 @@ const QuestionPage = () => {
   const firebaseQuestions = useSelector<
     RootState,
     Record<string, FirebaseQuestion>
-  >(
-    (state) =>
-      state.questions.firebaseQuestions as Record<string, FirebaseQuestion>
+  >((state) =>
+    state.questions.questionsTemplateId === templateId
+      ? (state.questions.firebaseQuestions as Record<string, FirebaseQuestion>)
+      : {}
   );
 
   const builtin = getBuiltinTemplateConfig(templateId);

@@ -26,6 +26,8 @@ interface QuestionState {
   firebaseQuestions: Record<string, unknown>;
   /** requestId of the latest questions fetch; older responses are ignored */
   questionsRequestId: string | null;
+  /** Template the current question list was loaded for */
+  questionsTemplateId: string | null;
   currentQuestion: Query | null;
   questionData: Record<string, Record<string, unknown>[]>;
   loading: {
@@ -43,6 +45,7 @@ const initialState: QuestionState = {
   questions: [],
   firebaseQuestions: {},
   questionsRequestId: null,
+  questionsTemplateId: null,
   currentQuestion: null,
   questionData: {},
   loading: {
@@ -208,14 +211,18 @@ const questionSlice = createSlice({
         state.loading.questions = true;
         state.error.questions = null;
         state.questionsRequestId = action.meta.requestId;
+        state.questionsTemplateId = action.meta.arg ?? null;
         // Drop the previous template's questions so they never render under the new one
         state.firebaseQuestions = {};
         state.questions = [];
+        state.questionData = {};
+        state.currentQuestion = null;
       })
       .addCase(fetchQuestionsFromFirebase.fulfilled, (state, action) => {
         if (action.meta.requestId !== state.questionsRequestId) return;
         state.loading.questions = false;
         const { firebaseQuestions, templateId } = action.payload;
+        state.questionsTemplateId = templateId;
         // Store raw Firebase data (without functions for serialization)
         state.firebaseQuestions = firebaseQuestions.reduce(
           (acc, q) => ({
