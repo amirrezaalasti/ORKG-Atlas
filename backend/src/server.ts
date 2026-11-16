@@ -27,6 +27,7 @@ import restoreRouter from './routes/restore.js';
 import questionOverridesRouter from './routes/questionOverrides.js';
 import backupRouter from './routes/backup.js';
 import mcpRouter from './routes/mcp.js';
+import externalMcpRouter, { EXTERNAL_MCP_PATH } from './routes/mcpExternal.js';
 import chatRouter from './routes/chat.js';
 import conversationsRouter from './routes/conversations.js';
 import browserRouter from './routes/browser.js';
@@ -92,6 +93,8 @@ app.use(
     crossOriginResourcePolicy: { policy: 'cross-origin' },
   })
 );
+// Keep MCP's strict access and body boundary ahead of application-wide middleware.
+app.use(EXTERNAL_MCP_PATH, externalMcpRouter);
 app.use(compression());
 app.use(cors(corsOptions));
 app.use(express.json({ limit: '10mb' }));
