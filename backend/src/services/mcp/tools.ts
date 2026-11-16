@@ -1,3 +1,4 @@
+import { ExternalHttpError } from '../externalHttp.js';
 /**
  * ORKG tool implementations registered with the MCP-like registry.
  *
@@ -8,9 +9,11 @@
  */
 
 import { z } from 'zod';
-import { db } from '../../config/firebase.js';
 import {
   orkgRest,
+  OrkgUpstreamError,
+  SparqlResourceError,
+  SparqlResponseError,
   sparqlQuery,
   orkgPublicLink,
   type OrkgPaper,
@@ -24,16 +27,44 @@ import {
   extractOrkgAskGenerateText,
   type OrkgPaperForDisplay,
 } from '../orkgAskService.js';
-import { fail, ok, toolRegistry } from './registry.js';
-import { buildSparqlSchemaPrompt } from '../sparqlPromptService.js';
-import { fetchAtlasTemplateStats } from '../atlasTemplateStatsService.js';
-import { listOrkgTemplates } from '../orkgTemplatesService.js';
+import { fail, ok, toolRegistry, type ToolContext } from './registry.js';
+import {
+  buildExternalSparqlSchemaPrompt,
+  buildSparqlSchemaPrompt,
+} from '../sparqlPromptService.js';
+import {
+  ExternalTemplateCatalogError,
+  listExternalOrkgTemplates,
+  listAllExternalOrkgTemplates,
+  listOrkgTemplates,
+} from '../orkgTemplatesService.js';
 import { loadTemplateFlow } from '../orkg/templateFlow.js';
 import { validateTemplateScopedSparql } from '../sparqlTemplateValidation.js';
+import { SparqlValidationError } from '../sparql/sparqlValidation.js';
+import { MCP_TOOL_LIMITS, SPARQL_LIMITS } from '../../config/mcp.js';
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Helpers
 // ──────────────────────────────────────────────────────────────────────────────
+
+// External failures must never contain upstream messages or configuration.
+function researchToolFailure(
+  err: unknown,
+  ctx: ToolContext,
+  service: 'REST' | 'ASK'
+) {
+  if (!ctx.externalMcp) {
+    return fail(err instanceof Error ? err.message : String(err));
+  }
+  if (err instanceof ExternalHttpError)
+    return fail(err.message, { code: err.code });
+  return fail(
+    service === 'REST'
+      ? 'ORKG data could not be retrieved. Please retry later.'
+      : 'ORKG Ask search could not be completed. Please retry later.',
+    { code: service === 'REST' ? 'ORKG_REST_ERROR' : 'ORKG_ASK_ERROR' }
+  );
+}
 
 const summarisePaper = (p: OrkgPaper): string => {
   const year = p.publication_info?.published_year;
@@ -70,7 +101,8 @@ const mapAskItems = (
 const statementsToGraphSpec = (
   resourceId: string,
   statements: OrkgStatement[],
-  rootLabel?: string
+  rootLabel?: string,
+  maxStatements: number = MCP_TOOL_LIMITS.defaultGraphStatements
 ) => {
   const seen = new Set<string>();
   const nodes: Array<{
@@ -95,7 +127,7 @@ const statementsToGraphSpec = (
     nodes.push({ id, label, kind });
   };
 
-  const limit = Math.min(120, statements.length);
+  const limit = Math.min(maxStatements, statements.length);
   for (let i = 0; i < limit; i++) {
     const s = statements[i];
     const subjKind =
@@ -156,16 +188,22 @@ toolRegistry.register({
     templateId: z.string().min(2),
     researchQuestion: z.string().optional(),
   }),
-  async handler({ templateId, researchQuestion }) {
+  async handler({ templateId, researchQuestion }, ctx) {
     try {
-      const result = await buildSparqlSchemaPrompt(
-        templateId,
-        researchQuestion
-      );
+      const buildPrompt = ctx.externalMcp
+        ? buildExternalSparqlSchemaPrompt
+        : buildSparqlSchemaPrompt;
+      const result = await buildPrompt(templateId, researchQuestion);
       return ok('text', result, {
         summary: `SPARQL schema for template ${result.templateLabel ?? templateId} (${result.predicateCount} predicates, class ${result.targetClassId ?? 'n/a'}).`,
       });
     } catch (err) {
+      if (ctx.externalMcp) {
+        return fail(
+          'SPARQL schema could not be loaded. Verify the templateId with orkg_search_templates or retry later.',
+          { code: 'SPARQL_SCHEMA_UNAVAILABLE' }
+        );
+      }
       return fail(err instanceof Error ? err.message : String(err));
     }
   },
@@ -183,32 +221,55 @@ toolRegistry.register({
     'Missing PREFIX declarations for orkgp:/orkgc:/orkgr: (or p:/c:/r:) are auto-added. ' +
     'ORDER BY: use `ORDER BY ?year` or `ORDER BY DESC(?count)` — never `?year ASC` or `?year ?count DESC`. ' +
     'Traverse template hierarchy for methods (e.g. contribution → P56008 data collection → P1005 method → P94003 method type → rdfs:label). ' +
-    'Returns rows as a list of {variable: value} objects (max 1000 rows).',
+    `Returns rows as a list of {variable: value} objects (max ${SPARQL_LIMITS.maxOutputRows} rows).`,
   category: 'ORKG',
   schema: z.object({
     query: z.string().min(5),
     /** Same templateId as orkg_sparql_schema — validates contribution class (orkgc:C…). */
     templateId: z.string().min(2).optional(),
     /** Maximum rows to return after running the query; serves as a guard rail. */
-    rowLimit: z.number().int().positive().max(1000).optional(),
+    rowLimit: z
+      .number()
+      .int()
+      .positive()
+      .max(SPARQL_LIMITS.maxOutputRows)
+      .optional(),
   }),
-  async handler({ query, templateId, rowLimit }) {
+  async handler({ query, templateId, rowLimit }, ctx) {
     try {
       let validationCtx;
+      let hierarchyWarnings: string[] | undefined;
       if (templateId) {
-        const { targetClassId } = await loadTemplateFlow(templateId);
+        const { targetClassId, warnings } = await loadTemplateFlow(
+          templateId,
+          ctx.externalMcp ? { externalMcp: true } : undefined
+        );
+        if (ctx.externalMcp && warnings?.length) hierarchyWarnings = warnings;
         validationCtx = { templateId, targetClassId };
       }
       const validation = validateTemplateScopedSparql(query, validationCtx);
       if (validation) {
-        return fail(`${validation.message} ${validation.hint}`);
+        return fail(
+          'SPARQL query does not match the template scope. Call orkg_sparql_schema with the same templateId and use the returned contribution class instead of a template resource as an RDF class.',
+          { code: 'TEMPLATE_SCOPE_MISMATCH' }
+        );
       }
 
       const result = await sparqlQuery(query, { readonly: true });
+      if (typeof result.boolean === 'boolean') {
+        return ok(
+          'sparql_results',
+          { vars: [], rows: [], total: 0, query, boolean: result.boolean },
+          {
+            summary: `SPARQL ASK returned ${result.boolean}.`,
+            ...(hierarchyWarnings && { meta: { hierarchyWarnings } }),
+          }
+        );
+      }
       const rawBindings = result.results?.bindings ?? [];
       const limited = rowLimit
         ? rawBindings.slice(0, rowLimit)
-        : rawBindings.slice(0, 1000);
+        : rawBindings.slice(0, SPARQL_LIMITS.maxOutputRows);
       const rows = normaliseSparqlBindings(limited);
       const vars = result.head?.vars ?? (rows[0] ? Object.keys(rows[0]) : []);
       return ok(
@@ -216,10 +277,47 @@ toolRegistry.register({
         { vars, rows, total: rawBindings.length, query },
         {
           summary: `SPARQL returned ${rows.length} rows${rawBindings.length > rows.length ? ` (truncated from ${rawBindings.length})` : ''}.`,
+          meta: {
+            ...(hierarchyWarnings && { hierarchyWarnings }),
+            // Retain RDF terms only for returned rows, without upstream extras.
+            rdfBindings: limited.map((row) =>
+              Object.fromEntries(
+                Object.entries(row).map(([variable, term]) => [
+                  variable,
+                  {
+                    value: term.value,
+                    ...(typeof term.type === 'string' && { type: term.type }),
+                    ...(typeof term.datatype === 'string' && {
+                      datatype: term.datatype,
+                    }),
+                    ...(typeof term['xml:lang'] === 'string' && {
+                      'xml:lang': term['xml:lang'],
+                    }),
+                  },
+                ])
+              )
+            ),
+          },
         }
       );
     } catch (err) {
-      return fail(err instanceof Error ? err.message : String(err));
+      if (
+        err instanceof SparqlValidationError ||
+        err instanceof SparqlResourceError ||
+        err instanceof SparqlResponseError
+      ) {
+        return fail(err.message, { code: err.code });
+      }
+      if (err instanceof OrkgUpstreamError) {
+        return fail(
+          `SPARQL request failed (${err.status}). Please retry later.`,
+          { code: 'SPARQL_UPSTREAM_ERROR' }
+        );
+      }
+      return fail(
+        'SPARQL request failed. Please check the query or retry later.',
+        { code: 'SPARQL_EXECUTION_ERROR' }
+      );
     }
   },
 });
@@ -237,9 +335,11 @@ toolRegistry.register({
   schema: z.object({
     id: z.string().min(2),
   }),
-  async handler({ id }) {
+  async handler({ id }, ctx) {
     try {
-      const resource = await orkgRest.getResource(id);
+      const resource = await orkgRest.getResource(id, {
+        externalMcp: ctx.externalMcp,
+      });
       return ok(
         'resource',
         {
@@ -251,7 +351,7 @@ toolRegistry.register({
         }
       );
     } catch (err) {
-      return fail(err instanceof Error ? err.message : String(err));
+      return researchToolFailure(err, ctx, 'REST');
     }
   },
 });
@@ -266,18 +366,26 @@ toolRegistry.register({
     query: z.string().min(1),
     classes: z.array(z.string()).optional(),
     page: z.number().int().nonnegative().optional(),
-    size: z.number().int().positive().max(100).optional(),
+    size: z
+      .number()
+      .int()
+      .positive()
+      .max(MCP_TOOL_LIMITS.maxPageSize)
+      .optional(),
     exact: z.boolean().optional(),
   }),
-  async handler({ query, classes, page, size, exact }) {
+  async handler({ query, classes, page, size, exact }, ctx) {
     try {
-      const res = await orkgRest.searchResources({
-        q: query,
-        classes,
-        page,
-        size,
-        exact,
-      });
+      const res = await orkgRest.searchResources(
+        {
+          q: query,
+          classes,
+          page,
+          size,
+          exact,
+        },
+        { externalMcp: ctx.externalMcp }
+      );
       const items: OrkgResource[] = (res.content || []).map((r) => ({
         ...r,
         link: orkgPublicLink('resource', r.id),
@@ -290,7 +398,7 @@ toolRegistry.register({
         }
       );
     } catch (err) {
-      return fail(err instanceof Error ? err.message : String(err));
+      return researchToolFailure(err, ctx, 'REST');
     }
   },
 });
@@ -308,16 +416,18 @@ toolRegistry.register({
   schema: z.object({
     id: z.string().min(2),
   }),
-  async handler({ id }) {
+  async handler({ id }, ctx) {
     try {
-      const paper = await orkgRest.getPaper(id);
+      const paper = await orkgRest.getPaper(id, {
+        externalMcp: ctx.externalMcp,
+      });
       return ok(
         'paper',
         { ...paper, link: orkgPublicLink('paper', paper.id) },
         { summary: summarisePaper(paper) }
       );
     } catch (err) {
-      return fail(err instanceof Error ? err.message : String(err));
+      return researchToolFailure(err, ctx, 'REST');
     }
   },
 });
@@ -332,12 +442,20 @@ toolRegistry.register({
     title: z.string().optional(),
     doi: z.string().optional(),
     page: z.number().int().nonnegative().optional(),
-    size: z.number().int().positive().max(100).optional(),
+    size: z
+      .number()
+      .int()
+      .positive()
+      .max(MCP_TOOL_LIMITS.maxPageSize)
+      .optional(),
   }),
-  async handler({ title, doi, page, size }) {
+  async handler({ title, doi, page, size }, ctx) {
     if (!title && !doi) return fail('Provide title or doi.');
     try {
-      const res = await orkgRest.listPapers({ title, doi, page, size });
+      const res = await orkgRest.listPapers(
+        { title, doi, page, size },
+        { externalMcp: ctx.externalMcp }
+      );
       const items = (res.content || []).map((p) => ({
         ...p,
         link: orkgPublicLink('paper', p.id),
@@ -348,7 +466,7 @@ toolRegistry.register({
         { summary: `${items.length} papers found.` }
       );
     } catch (err) {
-      return fail(err instanceof Error ? err.message : String(err));
+      return researchToolFailure(err, ctx, 'REST');
     }
   },
 });
@@ -365,18 +483,32 @@ toolRegistry.register({
   category: 'ORKG',
   schema: z.object({
     resourceId: z.string().min(2),
-    maxLevel: z.number().int().positive().max(10).optional(),
-    sample: z.number().int().positive().max(500).optional(),
+    maxLevel: z
+      .number()
+      .int()
+      .positive()
+      .max(MCP_TOOL_LIMITS.maxBundleDepth)
+      .optional(),
+    sample: z
+      .number()
+      .int()
+      .positive()
+      .max(MCP_TOOL_LIMITS.maxStatementSample)
+      .optional(),
   }),
-  async handler({ resourceId, maxLevel, sample }) {
+  async handler({ resourceId, maxLevel, sample }, ctx) {
     try {
-      const bundle = await orkgRest.getStatementsBundle(resourceId, {
-        maxLevel,
-      });
+      const bundle = await orkgRest.getStatementsBundle(
+        resourceId,
+        {
+          maxLevel,
+        },
+        { externalMcp: ctx.externalMcp }
+      );
       const allStatements = bundle.statements || [];
       const limited: OrkgStatement[] = sample
         ? allStatements.slice(0, sample)
-        : allStatements.slice(0, 200);
+        : allStatements.slice(0, MCP_TOOL_LIMITS.defaultStatementSample);
       return ok(
         'statements',
         { resourceId, statements: limited, total: allStatements.length },
@@ -385,7 +517,7 @@ toolRegistry.register({
         }
       );
     } catch (err) {
-      return fail(err instanceof Error ? err.message : String(err));
+      return researchToolFailure(err, ctx, 'REST');
     }
   },
 });
@@ -399,14 +531,23 @@ toolRegistry.register({
   schema: z.object({
     subjectId: z.string().min(2),
     page: z.number().int().nonnegative().optional(),
-    size: z.number().int().positive().max(100).optional(),
+    size: z
+      .number()
+      .int()
+      .positive()
+      .max(MCP_TOOL_LIMITS.maxPageSize)
+      .optional(),
   }),
-  async handler({ subjectId, page, size }) {
+  async handler({ subjectId, page, size }, ctx) {
     try {
-      const res = await orkgRest.getStatementsBySubject(subjectId, {
-        page,
-        size,
-      });
+      const res = await orkgRest.getStatementsBySubject(
+        subjectId,
+        {
+          page,
+          size,
+        },
+        { externalMcp: ctx.externalMcp }
+      );
       return ok(
         'statements',
         {
@@ -419,7 +560,7 @@ toolRegistry.register({
         }
       );
     } catch (err) {
-      return fail(err instanceof Error ? err.message : String(err));
+      return researchToolFailure(err, ctx, 'REST');
     }
   },
 });
@@ -435,16 +576,18 @@ toolRegistry.register({
     'Fetch an ORKG comparison by ID, including its contributions and predicates.',
   category: 'ORKG',
   schema: z.object({ id: z.string().min(2) }),
-  async handler({ id }) {
+  async handler({ id }, ctx) {
     try {
-      const comp: OrkgComparison = await orkgRest.getComparison(id);
+      const comp: OrkgComparison = await orkgRest.getComparison(id, {
+        externalMcp: ctx.externalMcp,
+      });
       return ok(
         'comparison',
         { ...comp, link: orkgPublicLink('comparison', comp.id) },
         { summary: comp.title ?? `Comparison ${comp.id}` }
       );
     } catch (err) {
-      return fail(err instanceof Error ? err.message : String(err));
+      return researchToolFailure(err, ctx, 'REST');
     }
   },
 });
@@ -457,11 +600,19 @@ toolRegistry.register({
   schema: z.object({
     title: z.string().min(1),
     page: z.number().int().nonnegative().optional(),
-    size: z.number().int().positive().max(100).optional(),
+    size: z
+      .number()
+      .int()
+      .positive()
+      .max(MCP_TOOL_LIMITS.maxPageSize)
+      .optional(),
   }),
-  async handler({ title, page, size }) {
+  async handler({ title, page, size }, ctx) {
     try {
-      const res = await orkgRest.listComparisons({ title, page, size });
+      const res = await orkgRest.listComparisons(
+        { title, page, size },
+        { externalMcp: ctx.externalMcp }
+      );
       const items = (res.content || []).map((c) => ({
         ...c,
         link: orkgPublicLink('comparison', c.id),
@@ -472,7 +623,7 @@ toolRegistry.register({
         { summary: `${items.length} comparisons matching “${title}”.` }
       );
     } catch (err) {
-      return fail(err instanceof Error ? err.message : String(err));
+      return researchToolFailure(err, ctx, 'REST');
     }
   },
 });
@@ -488,16 +639,18 @@ toolRegistry.register({
     'Fetch raw ORKG template JSON by ID. For SPARQL generation, prefer orkg_sparql_schema(templateId) which loads subtemplates and returns the full dynamic schema prompt.',
   category: 'ORKG',
   schema: z.object({ id: z.string().min(2) }),
-  async handler({ id }) {
+  async handler({ id }, ctx) {
     try {
-      const tpl: OrkgTemplate = await orkgRest.getTemplate(id);
+      const tpl: OrkgTemplate = await orkgRest.getTemplate(id, {
+        externalMcp: ctx.externalMcp,
+      });
       return ok(
         'template',
         { ...tpl, link: orkgPublicLink('template', tpl.id) },
         { summary: tpl.label ?? `Template ${tpl.id}` }
       );
     } catch (err) {
-      return fail(err instanceof Error ? err.message : String(err));
+      return researchToolFailure(err, ctx, 'REST');
     }
   },
 });
@@ -510,15 +663,39 @@ toolRegistry.register({
   schema: z.object({
     query: z.string().min(1),
     page: z.number().int().nonnegative().optional(),
-    size: z.number().int().positive().max(100).optional(),
+    size: z
+      .number()
+      .int()
+      .positive()
+      .max(MCP_TOOL_LIMITS.maxPageSize)
+      .optional(),
   }),
-  async handler({ query, page, size }) {
+  async handler({ query, page, size }, ctx) {
+    if (ctx.externalMcp && !query.trim()) {
+      return fail('Provide a non-empty template search query.', {
+        code: 'TEMPLATE_CATALOG_INVALID_QUERY',
+      });
+    }
     try {
-      const result = await listOrkgTemplates({ query, page, size });
+      const listTemplates = ctx.externalMcp
+        ? listExternalOrkgTemplates
+        : listOrkgTemplates;
+      const result = await listTemplates({ query, page, size });
       return ok('templates', result, {
         summary: `${result.items.length} templates matching “${query}”.`,
       });
     } catch (err) {
+      if (ctx.externalMcp) {
+        return fail(
+          'ORKG template catalog could not be retrieved. Please retry later.',
+          {
+            code:
+              err instanceof ExternalTemplateCatalogError
+                ? err.code
+                : 'TEMPLATE_CATALOG_UPSTREAM_ERROR',
+          }
+        );
+      }
       return fail(err instanceof Error ? err.message : String(err));
     }
   },
@@ -538,11 +715,15 @@ toolRegistry.register({
     query: z.string().min(1),
     limit: z.number().int().positive().max(50).optional(),
   }),
-  async handler({ query, limit }) {
+  async handler({ query, limit }, ctx) {
     try {
-      const result = await orkgAskService.semanticSearch(query, {
-        limit: limit ?? 10,
-      });
+      const result = await orkgAskService.semanticSearch(
+        query,
+        {
+          limit: limit ?? 10,
+        },
+        { externalMcp: ctx.externalMcp }
+      );
       const items = mapAskItems(result.payload.items);
       return ok(
         'papers',
@@ -550,7 +731,7 @@ toolRegistry.register({
         { summary: `${items.length} matching items via ORKG Ask.` }
       );
     } catch (err) {
-      return fail(err instanceof Error ? err.message : String(err));
+      return researchToolFailure(err, ctx, 'ASK');
     }
   },
 });
@@ -566,9 +747,13 @@ toolRegistry.register({
     paperId: z.string().min(2),
     limit: z.number().int().positive().max(30).optional(),
   }),
-  async handler({ paperId, limit }) {
+  async handler({ paperId, limit }, ctx) {
     try {
-      const result = await orkgAskService.searchByPaper(paperId);
+      const result = await orkgAskService.searchByPaper(
+        paperId,
+        { externalMcp: ctx.externalMcp },
+        ctx.externalMcp ? (limit ?? 10) : undefined
+      );
       const related = mapAskItems(result.payload.items.slice(0, limit ?? 10));
       const source = result.orkgPaper as OrkgPaperForDisplay | undefined;
       return ok(
@@ -590,7 +775,7 @@ toolRegistry.register({
         }
       );
     } catch (err) {
-      return fail(err instanceof Error ? err.message : String(err));
+      return researchToolFailure(err, ctx, 'ASK');
     }
   },
 });
@@ -742,19 +927,52 @@ toolRegistry.register({
     'Then orkg_get_template(id) or orkg_sparql_schema(id) for the chosen template.',
   category: 'Atlas',
   schema: z.object({
+    all: z
+      .boolean()
+      .default(false)
+      .describe(
+        'External MCP only: fetch a bounded sequence of catalog pages.'
+      ),
     query: z.string().optional(),
     page: z.number().int().nonnegative().optional(),
-    size: z.number().int().positive().max(100).optional(),
+    size: z
+      .number()
+      .int()
+      .positive()
+      .max(MCP_TOOL_LIMITS.maxPageSize)
+      .optional(),
   }),
-  async handler({ query, page, size }) {
+  async handler({ query, page, size, all }, ctx) {
     try {
-      const result = await listOrkgTemplates({ query, page, size });
+      const listTemplates = ctx.externalMcp
+        ? all
+          ? listAllExternalOrkgTemplates
+          : listExternalOrkgTemplates
+        : listOrkgTemplates;
+      const effectiveQuery = ctx.externalMcp
+        ? query?.trim() || undefined
+        : query;
+      const result = await listTemplates({ query: effectiveQuery, page, size });
       return ok('templates', result, {
-        summary: query
-          ? `${result.items.length} ORKG templates matching “${query}”${result.total != null ? ` (${result.total} total)` : ''}.`
-          : `${result.items.length} ORKG templates on this page${result.total != null ? ` of ${result.total}` : ''}.`,
+        summary:
+          'truncated' in result
+            ? `${result.items.length} ORKG templates from page ${result.page}; ${result.truncated ? 'incomplete (' + ('stopReason' in result ? result.stopReason : 'unknown') + '), use continuation to resume' : 'catalog end reached'}.`
+            : effectiveQuery
+              ? `${result.items.length} ORKG templates matching “${effectiveQuery}”${result.total != null ? ` (${result.total} total)` : ''}.`
+              : `${result.items.length} ORKG templates on this page${result.total != null ? ` of ${result.total}` : ''}.`,
       });
     } catch (err) {
+      if (ctx.externalMcp) {
+        return fail(
+          'ORKG template catalog could not be retrieved. Please retry later.',
+          {
+            code:
+              err instanceof ExternalTemplateCatalogError
+                ? err.code
+                : 'TEMPLATE_CATALOG_UPSTREAM_ERROR',
+          }
+        );
+      }
       return fail(err instanceof Error ? err.message : String(err));
     }
   },
@@ -778,6 +996,9 @@ toolRegistry.register({
   }),
   async handler({ templateId, statisticId }) {
     try {
+      const { fetchAtlasTemplateStats } = await import(
+        '../atlasTemplateStatsService.js'
+      );
       const result = await fetchAtlasTemplateStats(templateId, statisticId);
       const label = result.templateLabel ?? result.templateId;
       const summaryParts = [
@@ -820,6 +1041,7 @@ toolRegistry.register({
   }),
   async handler({ templateId, text, limit }) {
     try {
+      const { db } = await import('../../config/firebase.js');
       let query = db.collection('DynamicQuestions') as FirebaseFirestore.Query;
       if (templateId) query = query.where('templateId', '==', templateId);
       const snap = await query.limit(limit ?? 25).get();
@@ -865,8 +1087,8 @@ const ChartSpecSchema = z.object({
   type: z.enum(['bar', 'line', 'pie', 'scatter', 'area']),
   title: z.string().optional(),
   xKey: z.string(),
-  yKeys: z.array(z.string()).min(1).max(10),
-  data: z.array(z.record(ChartCellSchema)).max(2000),
+  yKeys: z.array(z.string()).min(1).max(MCP_TOOL_LIMITS.maxChartSeries),
+  data: z.array(z.record(ChartCellSchema)).max(MCP_TOOL_LIMITS.maxChartRows),
   xLabel: z.string().optional(),
   yLabel: z.string().optional(),
   stacked: z.boolean().optional(),
@@ -881,26 +1103,57 @@ toolRegistry.register({
   category: 'Visualisation',
   schema: z.object({
     resourceId: z.string().min(2),
-    maxLevel: z.number().int().positive().max(10).optional(),
-    maxStatements: z.number().int().positive().max(200).optional(),
+    maxLevel: z
+      .number()
+      .int()
+      .positive()
+      .max(MCP_TOOL_LIMITS.maxBundleDepth)
+      .optional(),
+    maxStatements: z
+      .number()
+      .int()
+      .positive()
+      .max(MCP_TOOL_LIMITS.maxGraphStatements)
+      .optional(),
     rootLabel: z.string().optional(),
   }),
-  async handler({ resourceId, maxLevel, maxStatements, rootLabel }) {
+  async handler({ resourceId, maxLevel, maxStatements, rootLabel }, ctx) {
     try {
-      const bundle = await orkgRest.getStatementsBundle(resourceId, {
-        maxLevel,
-      });
+      const bundle = await orkgRest.getStatementsBundle(
+        resourceId,
+        {
+          maxLevel,
+        },
+        { externalMcp: ctx.externalMcp }
+      );
       const all = bundle.statements || [];
-      const limited = all.slice(0, maxStatements ?? 120);
+      const limited = all.slice(
+        0,
+        maxStatements ?? MCP_TOOL_LIMITS.defaultGraphStatements
+      );
       if (limited.length === 0) {
         return fail(`No statements found for ${resourceId}.`);
       }
-      const spec = statementsToGraphSpec(resourceId, limited, rootLabel);
+      const spec = statementsToGraphSpec(
+        resourceId,
+        limited,
+        rootLabel,
+        ctx.externalMcp
+          ? (maxStatements ?? MCP_TOOL_LIMITS.defaultGraphStatements)
+          : MCP_TOOL_LIMITS.defaultGraphStatements
+      );
       return ok('graph', spec, {
+        ...(ctx.externalMcp && {
+          meta: {
+            totalStatements: all.length,
+            returnedStatements: limited.length,
+            truncated: limited.length < all.length,
+          },
+        }),
         summary: `Knowledge graph for ${resourceId}: ${spec.nodes.length} nodes, ${spec.edges.length} edges${all.length > limited.length ? ` (from ${all.length} statements)` : ''}.`,
       });
     } catch (err) {
-      return fail(err instanceof Error ? err.message : String(err));
+      return researchToolFailure(err, ctx, 'REST');
     }
   },
 });
@@ -916,11 +1169,36 @@ toolRegistry.register({
     'Use after aggregated SPARQL (orkg_sparql).',
   category: 'Visualisation',
   schema: ChartSpecSchema,
-  async handler(spec) {
+  async handler(spec, ctx) {
+    if (ctx.externalMcp) {
+      const hasNonFiniteNumber = (value: unknown): boolean =>
+        typeof value === 'number'
+          ? !Number.isFinite(value)
+          : value !== null && typeof value === 'object'
+            ? Object.values(value).some(hasNonFiniteNumber)
+            : false;
+      if (
+        hasNonFiniteNumber(spec.data) ||
+        spec.data.some((row) =>
+          spec.yKeys.some((key) => {
+            const value = row[key];
+            return (
+              typeof value === 'string' &&
+              value.trim() !== '' &&
+              !Number.isNaN(Number(value)) &&
+              !Number.isFinite(Number(value))
+            );
+          })
+        )
+      )
+        return fail('Chart data must contain only finite numeric values.', {
+          code: 'CHART_INVALID_NUMBER',
+        });
+    }
     const normalized = {
       ...spec,
       data: spec.data.map((row) => {
-        const out: Record<string, string | number | boolean | null> = {
+        const out: Record<string, z.infer<typeof ChartCellSchema>> = {
           ...row,
         };
         for (const y of spec.yKeys) {
@@ -953,7 +1231,7 @@ const GraphSpecSchema = z.object({
         kind: z.enum(['resource', 'literal', 'class', 'predicate']).optional(),
       })
     )
-    .max(500),
+    .max(MCP_TOOL_LIMITS.maxGraphNodes),
   edges: z
     .array(
       z.object({
@@ -963,7 +1241,7 @@ const GraphSpecSchema = z.object({
         predicateId: z.string().optional(),
       })
     )
-    .max(2000),
+    .max(MCP_TOOL_LIMITS.maxGraphEdges),
 });
 
 toolRegistry.register({
