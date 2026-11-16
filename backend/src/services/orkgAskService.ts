@@ -1,3 +1,4 @@
+import { externalHttpJson, type ExternalHttpOptions } from './externalHttp.js';
 export interface SemanticSearchOptions {
   limit?: number;
   offset?: number | null;
@@ -123,7 +124,8 @@ export const orkgAskService = {
    */
   async semanticSearch(
     query: string,
-    options: SemanticSearchOptions = {}
+    options: SemanticSearchOptions = {},
+    http?: ExternalHttpOptions
   ): Promise<SemanticSearchResponse> {
     const baseUrl = process.env.ORKG_ASK_API_BASE ?? '';
     if (!baseUrl) {
@@ -144,6 +146,13 @@ export const orkgAskService = {
       'Content-Type': 'application/json',
     };
     if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
+
+    if (http?.externalMcp) {
+      return externalHttpJson<SemanticSearchResponse>(
+        `${baseUrl}/index/search?${params.toString()}`,
+        { headers, signal: http.signal }
+      );
+    }
 
     const response = await fetch(
       `${baseUrl}/index/search?${params.toString()}`,
@@ -173,13 +182,32 @@ export const orkgAskService = {
    * Fetches paper from ORKG, runs semantic search by title, returns both.
    * Use orkgPaper for display (title, authors, abstract match the grid). Use payload.items[0].id for ORKG Ask link.
    */
-  async searchByPaper(resourceId: string): Promise<SearchByPaperResponse> {
+  async searchByPaper(
+    resourceId: string,
+    http?: ExternalHttpOptions,
+    limit = 10
+  ): Promise<SearchByPaperResponse> {
     const base = process.env.ORKG_API_BASE;
     if (!base) {
       throw new Error('ORKG_API_BASE is not configured.');
     }
-    const url = `${base}/papers/${resourceId}`;
+    if (http?.externalMcp && !/^R[A-Za-z0-9_-]+$/.test(resourceId)) {
+      throw new Error('Invalid ORKG paper ID.');
+    }
+    const url = `${base}/papers/${http?.externalMcp ? encodeURIComponent(resourceId) : resourceId}`;
     let paperText = '';
+    if (http?.externalMcp) {
+      const paper = await externalHttpJson<OrkgPaperRaw>(url, {
+        retries: ORKG_PAPER_FETCH_MAX_ATTEMPTS - 1,
+        signal: http.signal,
+      });
+      const title = paper?.title?.trim();
+      if (!title) throw new Error('Paper has no title in ORKG.');
+      return {
+        ...(await this.semanticSearch(title, { limit }, http)),
+        orkgPaper: normalizeOrkgPaper(paper, resourceId),
+      };
+    }
     for (let attempt = 1; attempt <= ORKG_PAPER_FETCH_MAX_ATTEMPTS; attempt++) {
       const paperRes = await fetch(url);
       paperText = await paperRes.text();

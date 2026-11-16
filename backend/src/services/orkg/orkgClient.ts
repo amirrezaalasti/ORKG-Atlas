@@ -7,7 +7,15 @@
  * `orkg.org/.../triplestore/sparql` explicitly (POST via www or bare `/triplestore` returns 406).
  */
 
-import fetch from 'node-fetch';
+import { externalHttpJson, type ExternalHttpOptions } from '../externalHttp.js';
+import fetch, { AbortError, FetchError } from 'node-fetch';
+import { checkExecution, linkExecutionAbort } from '../mcp/executionScope.js';
+import { SPARQL_LIMITS, type SparqlQueryType } from '../sparql/sparqlPolicy.js';
+import {
+  parseSparqlQuery,
+  SparqlValidationError,
+  validateSparqlQuery,
+} from '../sparql/sparqlValidation.js';
 
 /** Explicit `/sparql` path required; POST via `www.orkg.org`/…`/triplestore` redirects and returns 406. */
 const DEFAULT_SPARQL_ENDPOINT = 'https://orkg.org/triplestore/sparql';
@@ -22,7 +30,6 @@ export const ORKG_PAPER_ACCEPT = 'application/vnd.orkg.paper.v2+json';
 /** Comparison list/detail JSON (server accepts v3 and v2; v3 preferred). */
 export const ORKG_COMPARISON_ACCEPT = 'application/vnd.orkg.comparison.v3+json';
 
-const SPARQL_DEFAULT_TIMEOUT_MS = 25_000;
 const REST_DEFAULT_TIMEOUT_MS = 15_000;
 
 export interface SparqlResponse {
@@ -138,11 +145,15 @@ const withTimeout = async <T>(
   ms: number
 ): Promise<T> => {
   const controller = new AbortController();
+  const unlink = linkExecutionAbort(controller);
   const timer = setTimeout(() => controller.abort(), ms);
   try {
+    checkExecution();
+    controller.signal.throwIfAborted();
     return await fn(controller.signal);
   } finally {
     clearTimeout(timer);
+    unlink();
   }
 };
 
@@ -159,6 +170,98 @@ export class OrkgUpstreamError extends Error {
   }
 }
 
+export class SparqlResourceError extends Error {
+  constructor(
+    public readonly code:
+      | 'SPARQL_QUERY_TOO_LARGE'
+      | 'SPARQL_RESPONSE_TOO_LARGE'
+      | 'SPARQL_CONCURRENCY_LIMIT'
+      | 'SPARQL_TIMEOUT',
+    message: string
+  ) {
+    super(message);
+    this.name = 'SparqlResourceError';
+  }
+}
+
+export class SparqlResponseError extends Error {
+  readonly code = 'SPARQL_INVALID_RESPONSE';
+
+  constructor(message: string) {
+    super(message);
+    this.name = 'SparqlResponseError';
+  }
+}
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value);
+
+/** Check result containers without converting values or validating RDF metadata. */
+function assertSparqlResponse(
+  value: unknown,
+  queryType: SparqlQueryType
+): asserts value is SparqlResponse {
+  if (!isRecord(value)) {
+    throw new SparqlResponseError(
+      'SPARQL response must be a JSON result object.'
+    );
+  }
+  // Missing head/vars remains supported by the existing SELECT fallback.
+  if (
+    'head' in value &&
+    (!isRecord(value.head) ||
+      ('vars' in value.head &&
+        (!Array.isArray(value.head.vars) ||
+          !value.head.vars.every((variable) => typeof variable === 'string'))))
+  ) {
+    throw new SparqlResponseError(
+      'SPARQL response has an invalid result header.'
+    );
+  }
+  if (queryType === 'ASK') {
+    if (typeof value.boolean !== 'boolean' || 'results' in value) {
+      throw new SparqlResponseError(
+        'Invalid SPARQL ASK response: expected a boolean result without SELECT bindings.'
+      );
+    }
+    return;
+  }
+  if (
+    queryType !== 'SELECT' ||
+    'boolean' in value ||
+    !isRecord(value.results) ||
+    !Array.isArray(value.results.bindings)
+  ) {
+    throw new SparqlResponseError(
+      'Invalid SPARQL SELECT response: expected a bindings array without an ASK boolean.'
+    );
+  }
+  for (const row of value.results.bindings) {
+    if (
+      !isRecord(row) ||
+      !Object.values(row).every(
+        (term) => isRecord(term) && typeof term.value === 'string'
+      )
+    ) {
+      throw new SparqlResponseError(
+        'Invalid SPARQL SELECT binding: expected objects containing string values.'
+      );
+    }
+  }
+}
+
+// No queue or cross-instance coordination. Held through body reading and parsing.
+let activeSparqlRequests = 0;
+
+const checkSparqlQuerySize = (query: string): void => {
+  if (Buffer.byteLength(query, 'utf8') > SPARQL_LIMITS.maxQueryBytes) {
+    throw new SparqlResourceError(
+      'SPARQL_QUERY_TOO_LARGE',
+      `SPARQL query exceeds ${SPARQL_LIMITS.maxQueryBytes} UTF-8 bytes, including required prefixes. Shorten the query.`
+    );
+  }
+};
+
 /** ORKG namespace URIs — both short (r:/c:/p:) and long (orkgr:/orkgc:/orkgp:) aliases. */
 const ORKG_PREFIX_URIS: Record<string, string> = {
   r: 'http://orkg.org/orkg/resource/',
@@ -173,51 +276,25 @@ const ORKG_PREFIX_URIS: Record<string, string> = {
   owl: 'http://www.w3.org/2002/07/owl#',
 };
 
-const DEFAULT_SPARQL_PREFIX_BLOCK = Object.entries(ORKG_PREFIX_URIS)
-  .map(([alias, uri]) => `PREFIX ${alias}: <${uri}>`)
-  .join('\n');
-
-const collectDeclaredPrefixes = (query: string): Set<string> => {
-  const declared = new Set<string>();
-  for (const m of query.matchAll(/^\s*PREFIX\s+([\w-]+):/gim)) {
-    declared.add(m[1]);
-  }
-  return declared;
-};
-
-/** Find QName prefixes used in the query body (excluding PREFIX declarations). */
-const collectUsedPrefixes = (query: string): Set<string> => {
-  const body = query.replace(/^\s*PREFIX\s+[^\n]+$/gim, '');
-  const used = new Set<string>();
-  for (const m of body.matchAll(/\b([a-zA-Z][\w-]*):(?=[A-Za-z_$])/g)) {
-    used.add(m[1]);
-  }
-  return used;
-};
-
 /**
- * Ensure all QName prefixes used in the query are declared.
- * Atlas prompts use orkgp:/orkgc:; older queries may use p:/c:/r: — both are supported.
+ * Prepend undeclared standard aliases without changing any caller-supplied text.
+ * Parse with fallback namespaces to recognize declarations even inline or after
+ * comments. Explicit declarations take precedence over these fallbacks.
  */
 export const ensureSparqlPrefixes = (query: string): string => {
-  const declared = collectDeclaredPrefixes(query);
-  const used = collectUsedPrefixes(query);
-  const missing = [...used].filter(
-    (p) => ORKG_PREFIX_URIS[p] && !declared.has(p)
+  const ast = parseSparqlQuery(query, ORKG_PREFIX_URIS);
+  // Leave non-query operations to the mandatory policy check below.
+  if (ast.type !== 'query') return query;
+  const declared = new Set(
+    ast.context
+      .filter((entry) => entry.subType === 'prefix')
+      .map((entry) => entry.key)
   );
-
-  if (declared.size === 0 && used.size === 0) {
-    return `${DEFAULT_SPARQL_PREFIX_BLOCK}\n${query}`;
-  }
-
-  if (missing.length === 0) {
-    return query;
-  }
-
-  const prepend = missing
-    .map((p) => `PREFIX ${p}: <${ORKG_PREFIX_URIS[p]}>`)
+  const prepend = Object.entries(ORKG_PREFIX_URIS)
+    .filter(([alias]) => !declared.has(alias))
+    .map(([alias, uri]) => `PREFIX ${alias}: <${uri}>`)
     .join('\n');
-  return `${prepend}\n${query}`;
+  return prepend ? `${prepend}\n${query}` : query;
 };
 
 /**
@@ -243,70 +320,90 @@ export const normalizeSparqlForVirtuoso = (query: string): string =>
  */
 export async function sparqlQuery(
   query: string,
-  options: { timeoutMs?: number; readonly?: boolean } = {}
+  options: {
+    timeoutMs?: number;
+    /** Retained for caller compatibility; validation is always enforced. */
+    readonly?: boolean;
+  } = {}
 ): Promise<SparqlResponse> {
-  const trimmed = normalizeSparqlForVirtuoso(query.trim());
-  if (!trimmed) throw new Error('SPARQL query is empty.');
-
-  const { readonly = true } = options;
-  if (readonly) {
-    const lower = trimmed.toLowerCase();
-    const writeKeywords = [
-      /\binsert\b/,
-      /\bdelete\b/,
-      /\bclear\b/,
-      /\bdrop\b/,
-      /\bcreate\b/,
-      /\bload\b/,
-      /\bcopy\b/,
-      /\bmove\b/,
-      /\badd\b/,
-    ];
-    if (writeKeywords.some((re) => re.test(lower))) {
-      throw new Error(
-        'Only read-only SPARQL queries are allowed (no INSERT/DELETE/etc.).'
-      );
-    }
+  checkExecution();
+  checkSparqlQuerySize(query);
+  if (activeSparqlRequests >= SPARQL_LIMITS.maxConcurrentRequests) {
+    throw new SparqlResourceError(
+      'SPARQL_CONCURRENCY_LIMIT',
+      'SPARQL execution is busy. Retry after an active request completes.'
+    );
   }
+  activeSparqlRequests++;
+  try {
+    const fullQuery = ensureSparqlPrefixes(query);
+    checkSparqlQuerySize(fullQuery);
+    const validation = validateSparqlQuery(fullQuery);
+    if (!validation.valid) throw new SparqlValidationError(validation);
 
-  const fullQuery = ensureSparqlPrefixes(trimmed);
+    const body = new URLSearchParams({ query: fullQuery });
+    const requestedTimeout = options.timeoutMs ?? SPARQL_LIMITS.timeoutMs;
+    const timeoutMs =
+      Number.isFinite(requestedTimeout) && requestedTimeout > 0
+        ? Math.min(requestedTimeout, SPARQL_LIMITS.timeoutMs)
+        : SPARQL_LIMITS.timeoutMs;
 
-  const body = new URLSearchParams({ query: fullQuery });
-  const timeoutMs = options.timeoutMs ?? SPARQL_DEFAULT_TIMEOUT_MS;
-
-  return withTimeout(async (signal) => {
-    const res = await fetch(sparqlEndpoint(), {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Accept: 'application/sparql-results+json',
-      },
-      body: body.toString(),
-      signal: signal as never,
-    });
-    const text = await res.text();
-    if (!res.ok) {
-      throw new OrkgUpstreamError(
-        `SPARQL request failed (${res.status}): ${text.slice(0, 300)}`,
-        res.status,
-        text
+    return await withTimeout(async (signal) => {
+      const res = await fetch(sparqlEndpoint(), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          Accept: 'application/sparql-results+json',
+        },
+        body: body.toString(),
+        signal: signal as never,
+        size: SPARQL_LIMITS.maxResponseBytes,
+      });
+      // node-fetch enforces size while consuming the (decompressed) body,
+      // including HTTP error bodies. Never return a partially read result.
+      const text = await res.text();
+      checkExecution();
+      if (!res.ok) {
+        throw new OrkgUpstreamError(
+          `SPARQL request failed (${res.status}). Please retry later.`,
+          res.status,
+          text
+        );
+      }
+      let result: unknown;
+      try {
+        result = JSON.parse(text);
+      } catch {
+        throw new SparqlResponseError(
+          'SPARQL response is not valid JSON. Please retry later.'
+        );
+      }
+      assertSparqlResponse(result, validation.queryType);
+      return result;
+    }, timeoutMs);
+  } catch (err) {
+    if (err instanceof FetchError && err.type === 'max-size') {
+      throw new SparqlResourceError(
+        'SPARQL_RESPONSE_TOO_LARGE',
+        `SPARQL response exceeds ${SPARQL_LIMITS.maxResponseBytes} bytes. Narrow the query or request fewer fields.`
       );
     }
-    try {
-      return JSON.parse(text) as SparqlResponse;
-    } catch {
-      throw new OrkgUpstreamError(
-        `SPARQL response is not valid JSON: ${text.slice(0, 200)}`,
-        502,
-        text
+    if (err instanceof AbortError) {
+      throw new SparqlResourceError(
+        'SPARQL_TIMEOUT',
+        'SPARQL request timed out. Simplify the query or retry later.'
       );
     }
-  }, timeoutMs);
+    throw err;
+  } finally {
+    activeSparqlRequests--;
+  }
 }
 
 const restGet = async <T>(
   pathname: string,
   options: {
+    http?: ExternalHttpOptions;
     params?: Record<string, string | number | undefined>;
     timeoutMs?: number;
     retries?: number;
@@ -321,6 +418,14 @@ const restGet = async <T>(
   const timeoutMs = options.timeoutMs ?? REST_DEFAULT_TIMEOUT_MS;
   const maxRetries = options.retries ?? 2;
   const accept = options.accept ?? 'application/json';
+
+  if (options.http?.externalMcp) {
+    return externalHttpJson<T>(url.toString(), {
+      headers: { Accept: accept },
+      retries: maxRetries,
+      signal: options.http.signal,
+    });
+  }
 
   let lastErr: unknown;
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
@@ -366,23 +471,31 @@ export const orkgRest = {
    * GET /resources?q=&exact= (paged) or /resources/{id}.
    * If `id` is given, returns a single resource; otherwise returns a paged search.
    */
-  async getResource(id: string): Promise<OrkgResource> {
-    return restGet<OrkgResource>(`/resources/${encodeURIComponent(id)}`);
+  async getResource(
+    id: string,
+    http?: ExternalHttpOptions
+  ): Promise<OrkgResource> {
+    return restGet<OrkgResource>(`/resources/${encodeURIComponent(id)}`, {
+      http,
+    });
   },
 
-  async searchResources(params: {
-    q?: string;
-    exact?: boolean;
-    classes?: string[]; // e.g. ['Paper']
-    page?: number;
-    size?: number;
-    visibility?:
-      | 'ALL_LISTED'
-      | 'LISTED'
-      | 'UNLISTED'
-      | 'FEATURED'
-      | 'NON_FEATURED';
-  }): Promise<{
+  async searchResources(
+    params: {
+      q?: string;
+      exact?: boolean;
+      classes?: string[]; // e.g. ['Paper']
+      page?: number;
+      size?: number;
+      visibility?:
+        | 'ALL_LISTED'
+        | 'LISTED'
+        | 'UNLISTED'
+        | 'FEATURED'
+        | 'NON_FEATURED';
+    },
+    http?: ExternalHttpOptions
+  ): Promise<{
     content: OrkgResource[];
     totalElements?: number;
     totalPages?: number;
@@ -398,22 +511,27 @@ export const orkgRest = {
     if (params.classes && params.classes.length > 0) {
       queryParams.include = params.classes.join(',');
     }
-    return restGet(`/resources`, { params: queryParams });
+    return restGet(`/resources`, { http, params: queryParams });
   },
 
-  async getPaper(id: string): Promise<OrkgPaper> {
+  async getPaper(id: string, http?: ExternalHttpOptions): Promise<OrkgPaper> {
     return restGet<OrkgPaper>(`/papers/${encodeURIComponent(id)}`, {
+      http,
       accept: ORKG_PAPER_ACCEPT,
     });
   },
 
-  async listPapers(params: {
-    title?: string;
-    doi?: string;
-    page?: number;
-    size?: number;
-  }): Promise<{ content: OrkgPaper[]; totalElements?: number }> {
+  async listPapers(
+    params: {
+      title?: string;
+      doi?: string;
+      page?: number;
+      size?: number;
+    },
+    http?: ExternalHttpOptions
+  ): Promise<{ content: OrkgPaper[]; totalElements?: number }> {
     return restGet(`/papers`, {
+      http,
       params: {
         title: params.title,
         doi: params.doi,
@@ -426,18 +544,22 @@ export const orkgRest = {
 
   async getStatementsBundle(
     resourceId: string,
-    options?: { maxLevel?: number }
+    options?: { maxLevel?: number },
+    http?: ExternalHttpOptions
   ): Promise<{ statements: OrkgStatement[] }> {
     return restGet(`/statements/${encodeURIComponent(resourceId)}/bundle`, {
+      http,
       params: { maxLevel: options?.maxLevel },
     });
   },
 
   async getStatementsBySubject(
     subjectId: string,
-    options?: { page?: number; size?: number }
+    options?: { page?: number; size?: number },
+    http?: ExternalHttpOptions
   ): Promise<{ content: OrkgStatement[]; totalElements?: number }> {
     return restGet(`/statements/`, {
+      http,
       params: {
         subject_id: subjectId,
         page: options?.page ?? 0,
@@ -446,14 +568,18 @@ export const orkgRest = {
     });
   },
 
-  async getStatements(params: {
-    subject_id?: string;
-    object_id?: string;
-    predicate_id?: string;
-    page?: number;
-    size?: number;
-  }): Promise<{ content: OrkgStatement[]; totalElements?: number }> {
+  async getStatements(
+    params: {
+      subject_id?: string;
+      object_id?: string;
+      predicate_id?: string;
+      page?: number;
+      size?: number;
+    },
+    http?: ExternalHttpOptions
+  ): Promise<{ content: OrkgStatement[]; totalElements?: number }> {
     return restGet(`/statements/`, {
+      http,
       params: {
         subject_id: params.subject_id,
         object_id: params.object_id,
@@ -464,18 +590,26 @@ export const orkgRest = {
     });
   },
 
-  async getComparison(id: string): Promise<OrkgComparison> {
+  async getComparison(
+    id: string,
+    http?: ExternalHttpOptions
+  ): Promise<OrkgComparison> {
     return restGet<OrkgComparison>(`/comparisons/${encodeURIComponent(id)}`, {
+      http,
       accept: ORKG_COMPARISON_ACCEPT,
     });
   },
 
-  async listComparisons(params: {
-    title?: string;
-    page?: number;
-    size?: number;
-  }): Promise<{ content: OrkgComparison[]; totalElements?: number }> {
+  async listComparisons(
+    params: {
+      title?: string;
+      page?: number;
+      size?: number;
+    },
+    http?: ExternalHttpOptions
+  ): Promise<{ content: OrkgComparison[]; totalElements?: number }> {
     return restGet(`/comparisons`, {
+      http,
       params: {
         title: params.title,
         page: params.page ?? 0,
@@ -485,18 +619,26 @@ export const orkgRest = {
     });
   },
 
-  async getTemplate(id: string): Promise<OrkgTemplate> {
+  async getTemplate(
+    id: string,
+    http?: ExternalHttpOptions
+  ): Promise<OrkgTemplate> {
     return restGet<OrkgTemplate>(`/templates/${encodeURIComponent(id)}`, {
+      http,
       accept: ORKG_TEMPLATE_ACCEPT,
     });
   },
 
-  async listTemplates(params: {
-    q?: string;
-    page?: number;
-    size?: number;
-  }): Promise<{ content: OrkgTemplate[]; totalElements?: number }> {
+  async listTemplates(
+    params: {
+      q?: string;
+      page?: number;
+      size?: number;
+    },
+    http?: ExternalHttpOptions
+  ): Promise<{ content: OrkgTemplate[]; totalElements?: number }> {
     return restGet(`/templates`, {
+      http,
       params: {
         q: params.q,
         page: params.page ?? 0,
@@ -507,13 +649,17 @@ export const orkgRest = {
   },
 
   async getClass(
-    id: string
+    id: string,
+    http?: ExternalHttpOptions
   ): Promise<{ id: string; label?: string; uri?: string }> {
-    return restGet(`/classes/${encodeURIComponent(id)}`);
+    return restGet(`/classes/${encodeURIComponent(id)}`, { http });
   },
 
-  async getPredicate(id: string): Promise<{ id: string; label?: string }> {
-    return restGet(`/predicates/${encodeURIComponent(id)}`);
+  async getPredicate(
+    id: string,
+    http?: ExternalHttpOptions
+  ): Promise<{ id: string; label?: string }> {
+    return restGet(`/predicates/${encodeURIComponent(id)}`, { http });
   },
 };
 
