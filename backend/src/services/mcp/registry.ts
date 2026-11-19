@@ -72,6 +72,8 @@ export interface ToolDefinition<TInput extends ZodTypeAny = ZodTypeAny> {
 }
 
 export interface ToolContext {
+  /** Server-controlled by the external policy, never taken from tool arguments. */
+  externalMcp?: boolean;
   userId?: string;
   userEmail?: string;
   isAdmin?: boolean;
@@ -86,7 +88,7 @@ class ToolRegistry {
     if (this.tools.has(def.name)) {
       throw new Error(`Duplicate MCP tool registered: ${def.name}`);
     }
-    this.tools.set(def.name, def as ToolDefinition);
+    this.tools.set(def.name, def as unknown as ToolDefinition);
   }
 
   list(opts: { includeAdmin?: boolean } = {}): Array<{
@@ -146,6 +148,7 @@ class ToolRegistry {
     try {
       return await tool.handler(parsed.data, ctx);
     } catch (err) {
+      if (ctx.externalMcp) return externalToolExecutionFailure();
       return {
         ok: false,
         error: err instanceof Error ? err.message : String(err),
@@ -157,83 +160,132 @@ class ToolRegistry {
 export const toolRegistry = new ToolRegistry();
 
 /**
- * Lightweight Zod → JSON Schema converter (sufficient for the small subset
- * of types we use — string, number, boolean, enum, array, object, optional).
+ * Zod 3 → JSON Schema for tool inputs: primitives, enums, arrays, objects,
+ * records, unions, literals, and optional/nullable/default wrappers. Preserves
+ * number and length bounds. Strip objects accept extra input fields; Zod still
+ * removes them during execution. Defaults are discovery-time annotations only.
  *
- * We avoid a full library to keep the dependency surface minimal.
+ * Not a general Zod converter: refinements, transforms, coercion, formats,
+ * constrained record keys, and recursive schemas are not represented. The
+ * existing fallback for unsupported types remains an unconstrained schema.
  */
 export function zodToJsonSchema(schema: ZodTypeAny): unknown {
-  const def = (
-    schema as unknown as { _def: { typeName: string; [k: string]: unknown } }
-  )._def;
-  const t = def.typeName;
+  const def = (schema as z.ZodFirstPartySchemaTypes)._def;
 
-  if (t === 'ZodString') {
-    const desc = (schema as { description?: string }).description;
-    return { type: 'string', ...(desc ? { description: desc } : {}) };
+  if (def.typeName === 'ZodString') {
+    const out: Record<string, unknown> = {
+      type: 'string',
+      ...(schema.description ? { description: schema.description } : {}),
+    };
+    for (const check of def.checks) {
+      if (check.kind === 'min' || check.kind === 'length') {
+        out.minLength = Math.max((out.minLength as number) ?? 0, check.value);
+      }
+      if (check.kind === 'max' || check.kind === 'length') {
+        out.maxLength = Math.min(
+          (out.maxLength as number) ?? Infinity,
+          check.value
+        );
+      }
+    }
+    return out;
   }
-  if (t === 'ZodNumber') {
-    const desc = (schema as { description?: string }).description;
-    return { type: 'number', ...(desc ? { description: desc } : {}) };
+  if (def.typeName === 'ZodNumber') {
+    const out: Record<string, unknown> = {
+      type: 'number',
+      ...(schema.description ? { description: schema.description } : {}),
+    };
+    for (const check of def.checks) {
+      if (check.kind === 'int') out.type = 'integer';
+      if (check.kind === 'min') {
+        const key = check.inclusive ? 'minimum' : 'exclusiveMinimum';
+        out[key] = Math.max((out[key] as number) ?? -Infinity, check.value);
+      }
+      if (check.kind === 'max') {
+        const key = check.inclusive ? 'maximum' : 'exclusiveMaximum';
+        out[key] = Math.min((out[key] as number) ?? Infinity, check.value);
+      }
+    }
+    return out;
   }
-  if (t === 'ZodBoolean') {
+  if (def.typeName === 'ZodBoolean') {
     return { type: 'boolean' };
   }
-  if (t === 'ZodEnum') {
-    return { type: 'string', enum: (def as { values: string[] }).values };
+  if (def.typeName === 'ZodNull') {
+    return { type: 'null' };
   }
-  if (t === 'ZodNativeEnum') {
-    const values = Object.values(
-      (def as { values: Record<string, unknown> }).values
-    ).filter((v) => typeof v === 'string');
-    return { type: 'string', enum: values };
+  if (def.typeName === 'ZodEnum') {
+    return { type: 'string', enum: def.values };
   }
-  if (t === 'ZodArray') {
-    const items = zodToJsonSchema((def as { type: ZodTypeAny }).type);
-    return { type: 'array', items };
+  if (def.typeName === 'ZodNativeEnum') {
+    const values: Array<string | number> = z.util.getValidEnumValues(
+      def.values
+    );
+    const types = [...new Set(values.map((value) => typeof value))];
+    return { type: types.length === 1 ? types[0] : types, enum: values };
   }
-  if (t === 'ZodObject') {
-    const shape = (schema as unknown as { shape: Record<string, ZodTypeAny> })
-      .shape;
+  if (def.typeName === 'ZodArray') {
+    const out: Record<string, unknown> = {
+      type: 'array',
+      items: zodToJsonSchema(def.type),
+    };
+    if (def.minLength) out.minItems = def.minLength.value;
+    if (def.maxLength) out.maxItems = def.maxLength.value;
+    if (def.exactLength) {
+      out.minItems = Math.max(
+        (out.minItems as number) ?? 0,
+        def.exactLength.value
+      );
+      out.maxItems = Math.min(
+        (out.maxItems as number) ?? Infinity,
+        def.exactLength.value
+      );
+    }
+    return out;
+  }
+  if (def.typeName === 'ZodObject') {
+    const shape: Record<string, ZodTypeAny> = def.shape();
     const properties: Record<string, unknown> = {};
     const required: string[] = [];
     for (const [key, value] of Object.entries(shape)) {
       properties[key] = zodToJsonSchema(value);
-      const innerDef = (value as unknown as { _def: { typeName: string } })
-        ._def;
-      if (
-        innerDef.typeName !== 'ZodOptional' &&
-        innerDef.typeName !== 'ZodDefault'
-      ) {
-        required.push(key);
-      }
+      if (!value.isOptional()) required.push(key);
     }
     return {
       type: 'object',
       properties,
       ...(required.length > 0 ? { required } : {}),
-      additionalProperties: false,
+      additionalProperties:
+        def.catchall._def.typeName !== 'ZodNever'
+          ? zodToJsonSchema(def.catchall)
+          : def.unknownKeys !== 'strict',
     };
   }
-  if (t === 'ZodOptional' || t === 'ZodNullable') {
-    return zodToJsonSchema((def as { innerType: ZodTypeAny }).innerType);
+  if (def.typeName === 'ZodOptional') {
+    return zodToJsonSchema(def.innerType);
   }
-  if (t === 'ZodDefault') {
-    return zodToJsonSchema((def as { innerType: ZodTypeAny }).innerType);
+  if (def.typeName === 'ZodNullable') {
+    return { anyOf: [zodToJsonSchema(def.innerType), { type: 'null' }] };
   }
-  if (t === 'ZodUnion') {
-    const options = (def as { options: ZodTypeAny[] }).options.map(
-      zodToJsonSchema
-    );
-    return { anyOf: options };
+  if (def.typeName === 'ZodDefault') {
+    return {
+      ...(zodToJsonSchema(def.innerType) as Record<string, unknown>),
+      default: def.defaultValue(),
+    };
   }
-  if (t === 'ZodLiteral') {
-    return { const: (def as { value: unknown }).value };
+  if (def.typeName === 'ZodUnion') {
+    return { anyOf: def.options.map(zodToJsonSchema) };
   }
-  if (t === 'ZodRecord') {
-    return { type: 'object', additionalProperties: true };
+  if (def.typeName === 'ZodLiteral') {
+    return { const: def.value };
   }
-  if (t === 'ZodAny' || t === 'ZodUnknown') {
+  if (def.typeName === 'ZodRecord') {
+    return {
+      type: 'object',
+      additionalProperties: zodToJsonSchema(def.valueType),
+    };
+  }
+  if (def.typeName === 'ZodAny' || def.typeName === 'ZodUnknown') {
     return {};
   }
   return {};
@@ -256,3 +308,9 @@ export const fail = (error: string, details?: unknown): ToolErrorEnvelope => ({
   error,
   details,
 });
+
+/** Safe fallback for unexpected external execution failures. */
+export const externalToolExecutionFailure = () =>
+  fail('External tool execution failed. Please retry later.', {
+    code: 'EXTERNAL_TOOL_EXECUTION_ERROR',
+  });

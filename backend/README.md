@@ -2,6 +2,11 @@
 
 Complete backend API for ORKG Atlas application with secure admin operations and Firebase integration.
 
+The optional anonymous MCP endpoint is `/api/mcp/stream`, disabled by default.
+See [External MCP](README.external-mcp.md) for activation, the 16-tool allowlist,
+Redis requirements, limits, verification commands and public-deployment blockers.
+The existing internal MCP API and its application authentication remain unchanged.
+
 ## Features
 
 - ✅ **Firebase Admin SDK** - Secure server-side Firestore operations
