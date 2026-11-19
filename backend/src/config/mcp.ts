@@ -8,7 +8,7 @@ export const EXTERNAL_MCP_LIMITS = Object.freeze({
   maxResponseBytes: 3 * 1024 * 1024,
   toolTimeoutMs: 20_000,
   sparqlTimeoutMs: 10_000,
-  schemaTimeoutMs: 8_000,
+  schemaTimeoutMs: 30_000,
 });
 
 const cleanupAllowanceMs = 20_000;

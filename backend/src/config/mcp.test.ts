@@ -13,7 +13,7 @@ import {
 
 describe('MCP migration budgets', () => {
   it('bounds HTTP upload, admission, execution and cleanup with one derived deadline', () => {
-    expect(MCP_HTTP_TIMEOUT_MS).toBe(45_000);
+    expect(MCP_HTTP_TIMEOUT_MS).toBe(55_000);
     expect(MCP_HTTP_TIMEOUT_MS).toBeGreaterThanOrEqual(
       Math.max(
         EXTERNAL_MCP_LIMITS.toolTimeoutMs,
@@ -30,7 +30,7 @@ describe('MCP migration budgets', () => {
       maxResponseBytes: 3_145_728,
       toolTimeoutMs: 20_000,
       sparqlTimeoutMs: 10_000,
-      schemaTimeoutMs: 8_000,
+      schemaTimeoutMs: 30_000,
     });
   });
 
@@ -52,7 +52,7 @@ describe('MCP migration budgets', () => {
       storeMaxResponseBytes: 4_096,
       cleanupAllowanceMs: 20_000,
       leaseSafetyMs: 5_000,
-      leaseMs: 45_000,
+      leaseMs: 55_000,
       renewEveryMs: 10_000,
     });
   });

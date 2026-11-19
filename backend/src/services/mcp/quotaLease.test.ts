@@ -8,6 +8,7 @@ import {
   executionSignal,
   withMcpExecution,
 } from './executionScope.js';
+import {EXTERNAL_MCP_LIMITS} from '../../config/mcp.js'
 
 beforeEach(() => {
   vi.useFakeTimers();
@@ -19,9 +20,15 @@ afterEach(() => {
 });
 
 it('budgets the maximum execution deadline, cleanup and a margin for bounded store I/O', () => {
-  expect(MCP_QUOTAS.leaseMs).toBe(45_000);
+  expect(MCP_QUOTAS.leaseMs).toBe(55_000);
   expect(MCP_QUOTAS.leaseMs).toBe(
-    20_000 + MCP_QUOTAS.cleanupAllowanceMs + MCP_QUOTAS.leaseSafetyMs
+    Math.max(
+      EXTERNAL_MCP_LIMITS.toolTimeoutMs,
+      EXTERNAL_MCP_LIMITS.sparqlTimeoutMs,
+      EXTERNAL_MCP_LIMITS.schemaTimeoutMs
+    ) +
+      MCP_QUOTAS.cleanupAllowanceMs +
+      MCP_QUOTAS.leaseSafetyMs
   );
   expect(
     MCP_QUOTAS.renewEveryMs +
