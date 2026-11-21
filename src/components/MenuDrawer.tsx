@@ -27,6 +27,7 @@ import {
   AutoAwesome,
   Assignment,
   FactCheck,
+  Science,
 } from '@mui/icons-material';
 import type { SxProps, Theme } from '@mui/material';
 import { useNavigate, useLocation, useParams } from 'react-router';
@@ -94,6 +95,12 @@ const GENERAL_NAV_ITEMS: NavItemConfig[] = [
     label: 'Statistics',
     tooltip: 'KG Statistics',
     Icon: BarChart,
+  },
+  {
+    path: '/benchmark',
+    label: 'Evaluation set',
+    tooltip: 'Benchmark questions, gold answers, and scores',
+    Icon: Science,
   },
 ];
 

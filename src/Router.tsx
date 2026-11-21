@@ -33,6 +33,7 @@ const CommunityQuestionDetailsPage = lazy(
 );
 const ChatPage = lazy(() => import('./pages/ChatPage'));
 const ScidQuestPage = lazy(() => import('./pages/ScidQuestPage'));
+const EvalDatasetPage = lazy(() => import('./pages/EvalDatasetPage'));
 
 const Router = () => {
   return (
@@ -53,6 +54,11 @@ const Router = () => {
             <Route
               path="statistics"
               element={<Statistics />}
+              errorElement={<ErrorFallback />}
+            />
+            <Route
+              path="benchmark"
+              element={<EvalDatasetPage />}
               errorElement={<ErrorFallback />}
             />
             <Route

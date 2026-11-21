@@ -31,6 +31,7 @@ import chatRouter from './routes/chat.js';
 import conversationsRouter from './routes/conversations.js';
 import browserRouter from './routes/browser.js';
 import aiEvaluationsRouter from './routes/aiEvaluations.js';
+import evalDatasetRouter from './routes/evalDataset.js';
 
 dotenv.config();
 
@@ -196,6 +197,7 @@ app.use('/api/chat', chatRouter);
 app.use('/api/conversations', conversationsRouter);
 app.use('/api/browser', browserRouter);
 app.use('/api/ai-evaluations', aiEvaluationsRouter);
+app.use('/api/eval-dataset', evalDatasetRouter);
 
 const swaggerUiOptions = {
   customCssUrl:
