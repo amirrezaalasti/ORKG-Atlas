@@ -1,0 +1,28 @@
+{
+  "source": "ood items whose templates' routes changed (fix-profile-routes.ts)",
+  "count": 2,
+  "items": [
+    {
+      "id": "R593670/sys_1",
+      "dataset": "ood",
+      "templateId": "R593670",
+      "templateTitle": "Ecological study system description",
+      "field": "Ecology",
+      "question": "In which countries are the described ecological study systems located?",
+      "goldQueries": [
+        "SELECT ?paper ?country_label WHERE { ?paper orkgp:P31 ?c . ?c orkgp:P115000 ?s . ?s a orkgc:C65002 ; orkgp:P37524 ?k . ?k rdfs:label ?country_label . }"
+      ]
+    },
+    {
+      "id": "R593670/sys_2",
+      "dataset": "ood",
+      "templateId": "R593670",
+      "templateTitle": "Ecological study system description",
+      "field": "Ecology",
+      "question": "Which habitats do the described ecological study systems cover?",
+      "goldQueries": [
+        "SELECT ?paper ?habitat_label WHERE { ?paper orkgp:P31 ?c . ?c orkgp:P115000 ?s . ?s a orkgc:C65002 ; <http://orkg.org/orkg/predicate/wikidata:P2974> ?h . OPTIONAL { ?h rdfs:label ?hl } BIND(COALESCE(?hl, ?h) AS ?habitat_label) }"
+      ]
+    }
+  ]
+}

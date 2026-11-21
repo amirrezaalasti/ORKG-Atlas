@@ -1,0 +1,230 @@
+{
+  "source": "Out-of-domain CQs on ORKG templates without template-specific guidance. Questions and gold SPARQL drafted with an AI assistant from live data inspection (15 Nov 2026); to be checked by a human author.",
+  "count": 20,
+  "items": [
+    {
+      "id": "R1411854/psy_1",
+      "dataset": "ood",
+      "templateId": "R1411854",
+      "templateTitle": "Psychology Constructs and Measurements",
+      "field": "Psychology",
+      "question": "Which psychological constructs are investigated, and which ones are studied in the most papers?",
+      "goldQueries": [
+        "SELECT ?paper ?construct_label WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C115015 ; orkgp:P175094 ?x . ?x rdfs:label ?construct_label . }"
+      ]
+    },
+    {
+      "id": "R1411854/psy_2",
+      "dataset": "ood",
+      "templateId": "R1411854",
+      "templateTitle": "Psychology Constructs and Measurements",
+      "field": "Psychology",
+      "question": "How is impulsivity measured across studies?",
+      "goldQueries": [
+        "SELECT ?paper ?measure_label WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C115015 ; orkgp:P175094 ?x ; orkgp:P175095 ?m . ?x rdfs:label ?xl . ?m rdfs:label ?measure_label . FILTER(LCASE(STR(?xl)) = \"impulsivity\") }"
+      ]
+    },
+    {
+      "id": "R1411854/psy_3",
+      "dataset": "ood",
+      "templateId": "R1411854",
+      "templateTitle": "Psychology Constructs and Measurements",
+      "field": "Psychology",
+      "question": "How many distinct constructs does each paper study?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?x) AS ?n_constructs) WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C115015 ; orkgp:P175094 ?x . } GROUP BY ?paper"
+      ]
+    },
+    {
+      "id": "R593657/eco_1",
+      "dataset": "ood",
+      "templateId": "R593657",
+      "templateTitle": "Study in Ecology & Evolution (main template)",
+      "field": "Ecology",
+      "question": "Which research approaches (for example observational or experimental) do ecology and evolution studies use?",
+      "goldQueries": [
+        "SELECT ?paper ?approach_label WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C65000 ; orkgp:HAS_APPROACH ?a . ?a rdfs:label ?approach_label . }"
+      ]
+    },
+    {
+      "id": "R593657/eco_2",
+      "dataset": "ood",
+      "templateId": "R593657",
+      "templateTitle": "Study in Ecology & Evolution (main template)",
+      "field": "Ecology",
+      "question": "On which continents are ecology and evolution studies conducted, and how many studies are there per continent?",
+      "goldQueries": [
+        "SELECT ?paper ?continent_label WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C65000 ; <http://orkg.org/orkg/predicate/wikidata:P30> ?k . ?k rdfs:label ?continent_label . }"
+      ]
+    },
+    {
+      "id": "R593657/eco_3",
+      "dataset": "ood",
+      "templateId": "R593657",
+      "templateTitle": "Study in Ecology & Evolution (main template)",
+      "field": "Ecology",
+      "question": "Which taxonomic groups are studied in studies that follow an observational approach?",
+      "goldQueries": [
+        "SELECT ?paper ?taxon_label WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C65000 ; orkgp:HAS_APPROACH ?a ; orkgp:P39141 ?t . ?a rdfs:label ?al . FILTER(LCASE(STR(?al)) = \"observational approach\") OPTIONAL { ?t rdfs:label ?tl } BIND(COALESCE(?tl, ?t) AS ?taxon_label) }"
+      ]
+    },
+    {
+      "id": "R593657/eco_4",
+      "dataset": "ood",
+      "templateId": "R593657",
+      "templateTitle": "Study in Ecology & Evolution (main template)",
+      "field": "Ecology",
+      "question": "At which ecological organizational scale (individual, population, community, ecosystem, ...) do the studies operate?",
+      "goldQueries": [
+        "SELECT ?paper ?scale_label WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C65000 ; orkgp:P115002 ?s . ?s rdfs:label ?scale_label . }"
+      ]
+    },
+    {
+      "id": "R593657/eco_5",
+      "dataset": "ood",
+      "templateId": "R593657",
+      "templateTitle": "Study in Ecology & Evolution (main template)",
+      "field": "Ecology",
+      "question": "How many years does each ecology and evolution study last?",
+      "goldQueries": [
+        "SELECT ?paper ?duration WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C65000 ; orkgp:P15594 ?d . OPTIONAL { ?d rdfs:label ?dl } BIND(COALESCE(?dl, ?d) AS ?duration) }"
+      ]
+    },
+    {
+      "id": "R593670/sys_1",
+      "dataset": "ood",
+      "templateId": "R593670",
+      "templateTitle": "Ecological study system description",
+      "field": "Ecology",
+      "question": "In which countries are the described ecological study systems located?",
+      "goldQueries": [
+        "SELECT ?paper ?country_label WHERE { ?paper orkgp:P31 ?c . ?c orkgp:P115000 ?s . ?s a orkgc:C65002 ; orkgp:P37524 ?k . ?k rdfs:label ?country_label . }"
+      ]
+    },
+    {
+      "id": "R593670/sys_2",
+      "dataset": "ood",
+      "templateId": "R593670",
+      "templateTitle": "Ecological study system description",
+      "field": "Ecology",
+      "question": "Which habitats do the described ecological study systems cover?",
+      "goldQueries": [
+        "SELECT ?paper ?habitat_label WHERE { ?paper orkgp:P31 ?c . ?c orkgp:P115000 ?s . ?s a orkgc:C65002 ; <http://orkg.org/orkg/predicate/wikidata:P2974> ?h . OPTIONAL { ?h rdfs:label ?hl } BIND(COALESCE(?hl, ?h) AS ?habitat_label) }"
+      ]
+    },
+    {
+      "id": "R702332/wind_1",
+      "dataset": "ood",
+      "templateId": "R702332",
+      "templateTitle": "Overview of data for wind energy potential assessment",
+      "field": "Energy",
+      "question": "Which data sources are used for wind energy potential assessment?",
+      "goldQueries": [
+        "SELECT ?paper ?source_label WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C92000 ; orkgp:P112020 ?s . ?s rdfs:label ?source_label . }"
+      ]
+    },
+    {
+      "id": "R702332/wind_2",
+      "dataset": "ood",
+      "templateId": "R702332",
+      "templateTitle": "Overview of data for wind energy potential assessment",
+      "field": "Energy",
+      "question": "At which heights above ground (in metres) is wind speed measured?",
+      "goldQueries": [
+        "SELECT ?paper ?height_value WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C92000 ; orkgp:P71179 ?h . ?h orkgp:P71048 ?height_value . }"
+      ]
+    },
+    {
+      "id": "R702332/wind_3",
+      "dataset": "ood",
+      "templateId": "R702332",
+      "templateTitle": "Overview of data for wind energy potential assessment",
+      "field": "Energy",
+      "question": "Which countries are covered by wind energy potential assessments, and how many studies per country?",
+      "schemaDataMismatch": "Template declares country as P15249; instances use wikidata:P17.",
+      "goldQueries": [
+        "SELECT ?paper ?country_label WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C92000 ; <http://orkg.org/orkg/predicate/wikidata:P17> ?k . ?k rdfs:label ?country_label . }"
+      ],
+      "divergence": "substitution",
+      "declared": "P15249",
+      "used": "wikidata:P17"
+    },
+    {
+      "id": "R702332/wind_4",
+      "dataset": "ood",
+      "templateId": "R702332",
+      "templateTitle": "Overview of data for wind energy potential assessment",
+      "field": "Energy",
+      "question": "Which wind energy assessments present a wind rose?",
+      "goldQueries": [
+        "SELECT ?paper ?wind_rose WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C92000 ; orkgp:P149068 ?w . ?w rdfs:label ?wind_rose . }"
+      ]
+    },
+    {
+      "id": "R702332/wind_5",
+      "dataset": "ood",
+      "templateId": "R702332",
+      "templateTitle": "Overview of data for wind energy potential assessment",
+      "field": "Energy",
+      "question": "How many time series does each wind energy assessment use?",
+      "goldQueries": [
+        "SELECT ?paper ?n_series WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C92000 ; orkgp:P149067 ?q . ?q orkgp:P45075 ?n_series . }"
+      ]
+    },
+    {
+      "id": "R1596350/nut_1",
+      "dataset": "ood",
+      "templateId": "R1596350",
+      "templateTitle": "Nutritional and Metabolic Diseases",
+      "field": "Medicine",
+      "question": "Which nutritional and metabolic diseases are studied most often?",
+      "goldQueries": [
+        "SELECT ?paper ?disease_label WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C123091 ; orkgp:P134011 ?d . ?d rdfs:label ?disease_label . }"
+      ]
+    },
+    {
+      "id": "R1596350/nut_2",
+      "dataset": "ood",
+      "templateId": "R1596350",
+      "templateTitle": "Nutritional and Metabolic Diseases",
+      "field": "Medicine",
+      "question": "In which geographical areas are studies on obesity conducted?",
+      "goldQueries": [
+        "SELECT ?paper ?area_label WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C123091 ; orkgp:P134011 ?d ; orkgp:P135009 ?a . ?d rdfs:label ?dl . ?a rdfs:label ?area_label . FILTER(LCASE(STR(?dl)) = \"obesity\") }"
+      ]
+    },
+    {
+      "id": "R1596350/nut_3",
+      "dataset": "ood",
+      "templateId": "R1596350",
+      "templateTitle": "Nutritional and Metabolic Diseases",
+      "field": "Medicine",
+      "question": "How long do the dietary interventions last (value and unit)?",
+      "goldQueries": [
+        "SELECT ?paper ?duration_value ?duration_unit WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C123091 ; orkgp:P187010 ?q . ?q orkgp:P45075 ?duration_value . OPTIONAL { ?q orkgp:P45076 ?u . ?u rdfs:label ?duration_unit } }"
+      ]
+    },
+    {
+      "id": "R1596350/nut_4",
+      "dataset": "ood",
+      "templateId": "R1596350",
+      "templateTitle": "Nutritional and Metabolic Diseases",
+      "field": "Medicine",
+      "question": "Which types of diet are investigated in studies on type 2 diabetes?",
+      "goldQueries": [
+        "SELECT ?paper ?diet_label WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C123091 ; orkgp:P134011 ?d ; orkgp:P191006 ?t . ?d rdfs:label ?dl . ?t rdfs:label ?diet_label . FILTER(LCASE(STR(?dl)) = \"type 2 diabetes\") }"
+      ]
+    },
+    {
+      "id": "R1596350/nut_5",
+      "dataset": "ood",
+      "templateId": "R1596350",
+      "templateTitle": "Nutritional and Metabolic Diseases",
+      "field": "Medicine",
+      "question": "Which biomarkers are measured in nutritional and metabolic disease studies?",
+      "goldQueries": [
+        "SELECT ?paper ?biomarker_label WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C123091 ; orkgp:P192000 ?b . ?b rdfs:label ?biomarker_label . }"
+      ]
+    }
+  ]
+}

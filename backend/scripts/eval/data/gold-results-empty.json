@@ -1,0 +1,115 @@
+{
+  "frozenAt": "2026-11-15T08:40:23.174Z",
+  "endpoint": "https://orkg.org/triplestore/sparql",
+  "source": "empty-cqs.json",
+  "items": [
+    {
+      "id": "R186491/emp_1",
+      "results": [
+        {
+          "ok": true,
+          "vars": ["paper", "method_label"],
+          "rows": []
+        }
+      ]
+    },
+    {
+      "id": "R186491/emp_2",
+      "results": [
+        {
+          "ok": true,
+          "vars": ["paper", "technique_label"],
+          "rows": []
+        }
+      ]
+    },
+    {
+      "id": "R186491/emp_3",
+      "results": [
+        {
+          "ok": true,
+          "vars": ["n_studies"],
+          "rows": [
+            {
+              "n_studies": "0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R1544125/emp_4",
+      "results": [
+        {
+          "ok": true,
+          "vars": ["paper", "n_annotators"],
+          "rows": []
+        }
+      ]
+    },
+    {
+      "id": "R593657/emp_5",
+      "results": [
+        {
+          "ok": true,
+          "vars": ["paper", "approach_label"],
+          "rows": []
+        }
+      ]
+    },
+    {
+      "id": "R702332/emp_6",
+      "results": [
+        {
+          "ok": true,
+          "vars": ["paper", "height_value"],
+          "rows": []
+        }
+      ]
+    },
+    {
+      "id": "R1596350/emp_7",
+      "results": [
+        {
+          "ok": true,
+          "vars": ["paper", "sample_size"],
+          "rows": []
+        }
+      ]
+    },
+    {
+      "id": "R1596350/emp_8",
+      "results": [
+        {
+          "ok": true,
+          "vars": ["paper", "age_value"],
+          "rows": []
+        }
+      ]
+    },
+    {
+      "id": "R1596350/emp_9",
+      "results": [
+        {
+          "ok": true,
+          "vars": ["n_studies"],
+          "rows": [
+            {
+              "n_studies": "0"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R1596350/emp_10",
+      "results": [
+        {
+          "ok": true,
+          "vars": ["paper", "sample_type"],
+          "rows": []
+        }
+      ]
+    }
+  ]
+}

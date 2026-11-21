@@ -1,0 +1,3609 @@
+{
+  "checkedAt": "2026-11-14T19:22:09.939Z",
+  "total": 513,
+  "executable": 503,
+  "nonEmpty": 46,
+  "results": [
+    {
+      "id": "AQ1475",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0495",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0176",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0392",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1059",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0021",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 2
+    },
+    {
+      "id": "HQ0038",
+      "template": null,
+      "type": "Non-factoid/Count",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ0566",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1807",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1437",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": false,
+      "rows": 0,
+      "error": "request to https://orkg.org/triplestore/sparql failed, reason: socket hang up"
+    },
+    {
+      "id": "AQ1221",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1803",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0573",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0698",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": false,
+      "rows": 0,
+      "error": "request to https://orkg.org/triplestore/sparql failed, reason: socket hang up"
+    },
+    {
+      "id": "AQ0530",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1634",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0727",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0435",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0999",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1967",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": false,
+      "rows": 0,
+      "error": "request to https://orkg.org/triplestore/sparql failed, reason: socket hang up"
+    },
+    {
+      "id": "AQ2193",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1743",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2064",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0059",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1993",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1956",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ1369",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1250",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2249",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0952",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1537",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0500",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0924",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1806",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "HQ0003",
+      "template": null,
+      "type": "Factoid/Superlative",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "HQ0057",
+      "template": null,
+      "type": "Non-factoid",
+      "ok": true,
+      "rows": 9
+    },
+    {
+      "id": "AQ1891",
+      "template": "T06",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ0503",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1745",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0661",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0550",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1214",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1498",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1692",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1997",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1920",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0991",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1587",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2008",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ1656",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1262",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0554",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1333",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2273",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1503",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0361",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "HQ0081",
+      "template": null,
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ0314",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2336",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0942",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2092",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1826",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1302",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0742",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0888",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0217",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "HQ0097",
+      "template": null,
+      "type": "Non-factoid",
+      "ok": true,
+      "rows": 4
+    },
+    {
+      "id": "AQ1685",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2033",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1740",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0026",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 2
+    },
+    {
+      "id": "AQ0699",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1327",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1037",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0142",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0759",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1355",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1971",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ1092",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0712",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ0085",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1603",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1160",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1631",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0248",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2342",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1230",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1402",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2083",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2050",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1583",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1428",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2246",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2077",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2152",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1702",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1415",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1977",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0156",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0407",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1465",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0813",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0769",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1860",
+      "template": "T06",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1388",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2455",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ0639",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0053",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "HQ0043",
+      "template": null,
+      "type": "Non-factoid/Superlative",
+      "ok": true,
+      "rows": 3
+    },
+    {
+      "id": "AQ2345",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0638",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2304",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1678",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1593",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1923",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1472",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "HQ0091",
+      "template": null,
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ1244",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1241",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0344",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0756",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1571",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0525",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2290",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "HQ0085",
+      "template": null,
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ0447",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1976",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2294",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1372",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2194",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0259",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0489",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2046",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1273",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": false,
+      "rows": 0,
+      "error": "request to https://orkg.org/triplestore/sparql failed, reason: socket hang up"
+    },
+    {
+      "id": "AQ0042",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "HQ0078",
+      "template": null,
+      "type": "Non-factoid/Superlative",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ0409",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0507",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0064",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ1545",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0083",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1335",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2309",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0141",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1332",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0460",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0717",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ0107",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1105",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1535",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2214",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "HQ0022",
+      "template": null,
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0168",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1710",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0517",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0864",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1704",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1949",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ1541",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0570",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1964",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ2059",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1559",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0692",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "HQ0026",
+      "template": null,
+      "type": "Factoid",
+      "ok": true,
+      "rows": 6
+    },
+    {
+      "id": "AQ0932",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0434",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0671",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0777",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0533",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "HQ0099",
+      "template": null,
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ2454",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0946",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1776",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0278",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2361",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1317",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2205",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1980",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1358",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1156",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1213",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0807",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "HQ0037",
+      "template": null,
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0056",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "HQ0031",
+      "template": null,
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ1275",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0262",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1884",
+      "template": "T06",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ0958",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1722",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0339",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1484",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0829",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2387",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1391",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1370",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0689",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ2091",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0060",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0995",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0893",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0559",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2452",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2164",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0452",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1839",
+      "template": "T06",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1236",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1639",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1119",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1505",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1531",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1103",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "HQ0032",
+      "template": null,
+      "type": "Factoid/Superlative",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ1712",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2292",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2069",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "HQ0084",
+      "template": null,
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ0799",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1544",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0612",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2287",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1931",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0013",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0977",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2337",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1180",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1568",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1804",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2462",
+      "template": "T08",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 4
+    },
+    {
+      "id": "AQ0041",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1425",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2355",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1197",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2446",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1854",
+      "template": "T06",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0798",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2117",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1706",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0424",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0128",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0852",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0955",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1112",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0678",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0835",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0850",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "HQ0017",
+      "template": null,
+      "type": "Factoid/Superlative",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ2237",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1447",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0313",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1422",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1569",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0948",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0618",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2457",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0331",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1310",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1376",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1113",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0961",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1171",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0318",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1802",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1125",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0980",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1985",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1136",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1013",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1062",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1844",
+      "template": "T06",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 2
+    },
+    {
+      "id": "AQ1945",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ0652",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1827",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1748",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2068",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1813",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1300",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1904",
+      "template": "T06",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0547",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1870",
+      "template": "T06",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0498",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1021",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2293",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1903",
+      "template": "T06",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0721",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ0897",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1742",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0437",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0023",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ0605",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1000",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1637",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2025",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1573",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0797",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1698",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1866",
+      "template": "T06",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0299",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2397",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "HQ0027",
+      "template": null,
+      "type": "Factoid/Superlative",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ0190",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0101",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0604",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0816",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2380",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1272",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0963",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2321",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1373",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1163",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0348",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0696",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ1939",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2094",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2315",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1812",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2216",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1905",
+      "template": "T06",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1320",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2207",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2437",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1176",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1245",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0002",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 2
+    },
+    {
+      "id": "AQ1664",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1233",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0713",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ2311",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1723",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0786",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0522",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1212",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1649",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1337",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1673",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1267",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2078",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1231",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0511",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1286",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1353",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0287",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1767",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1492",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0808",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2130",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0007",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ1787",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0182",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1044",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0779",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1578",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0474",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2095",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1788",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2295",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1416",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1780",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0445",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0157",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2376",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2426",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1070",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2238",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0114",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1357",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1638",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2087",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1439",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1144",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "HQ0046",
+      "template": null,
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1142",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1345",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1633",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": false,
+      "rows": 0,
+      "error": "request to https://orkg.org/triplestore/sparql failed, reason: socket hang up"
+    },
+    {
+      "id": "AQ0792",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": false,
+      "rows": 0,
+      "error": "request to https://orkg.org/triplestore/sparql failed, reason: socket hang up"
+    },
+    {
+      "id": "AQ0097",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0914",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0933",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1251",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1433",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1886",
+      "template": "T06",
+      "type": "Factoid",
+      "ok": false,
+      "rows": 0,
+      "error": "request to https://orkg.org/triplestore/sparql failed, reason: socket hang up"
+    },
+    {
+      "id": "AQ0818",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0912",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": false,
+      "rows": 0,
+      "error": "request to https://orkg.org/triplestore/sparql failed, reason: socket hang up"
+    },
+    {
+      "id": "AQ1928",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0159",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1567",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0443",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0653",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2436",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1017",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1687",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1361",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0735",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0102",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1689",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0726",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0666",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0970",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0634",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2318",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1449",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0422",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1023",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0861",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1466",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0164",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1494",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1263",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0172",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0523",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1761",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0607",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1513",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0148",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": false,
+      "rows": 0,
+      "error": "request to https://orkg.org/triplestore/sparql failed, reason: socket hang up"
+    },
+    {
+      "id": "AQ0611",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2328",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2411",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0040",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1752",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": false,
+      "rows": 0,
+      "error": "request to https://orkg.org/triplestore/sparql failed, reason: socket hang up"
+    },
+    {
+      "id": "AQ1810",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2418",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1073",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0536",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1367",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0015",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ0181",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1134",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2348",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0379",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0209",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1029",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ2413",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2071",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1082",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0834",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1405",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0863",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1155",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1116",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "HQ0068",
+      "template": null,
+      "type": "Non-factoid/Count",
+      "ok": true,
+      "rows": 4
+    },
+    {
+      "id": "AQ0439",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0473",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "HQ0058",
+      "template": null,
+      "type": "Non-factoid",
+      "ok": true,
+      "rows": 8
+    },
+    {
+      "id": "AQ0551",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0425",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1227",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0033",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ2167",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1240",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2226",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2385",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0647",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1168",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1514",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1001",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0282",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1430",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0543",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2308",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2073",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0874",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2203",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0301",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0410",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1878",
+      "template": "T06",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0039",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0298",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2274",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1873",
+      "template": "T06",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1229",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0537",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1622",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1088",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0978",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1287",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0837",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1069",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1296",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2142",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1718",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0336",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0163",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1009",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0492",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1654",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0964",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0279",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0281",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0762",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0329",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2081",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0233",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0645",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2176",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2060",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1953",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 1
+    },
+    {
+      "id": "AQ0206",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0235",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1285",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0250",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2221",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0240",
+      "template": "T01",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0892",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1216",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0778",
+      "template": "T03",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ0635",
+      "template": "T02",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1994",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ2277",
+      "template": "T07",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1733",
+      "template": "T05",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1169",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1864",
+      "template": "T06",
+      "type": "Factoid",
+      "ok": true,
+      "rows": 0
+    },
+    {
+      "id": "AQ1087",
+      "template": "T04",
+      "type": "non-factoid",
+      "ok": true,
+      "rows": 0
+    }
+  ]
+}

@@ -1,0 +1,595 @@
+{
+  "R593670": {
+    "rootClass": "C65002",
+    "attachment": {
+      "attached": 91,
+      "routes": [
+        { "depth": 0, "hops": [], "instances": 1 },
+        { "depth": 1, "hops": [["P115000"]], "instances": 88 },
+        { "depth": 1, "hops": [["wikidata:P2974"]], "instances": 6 },
+        { "depth": 1, "hops": [["P37545"]], "instances": 3 },
+        { "depth": 1, "hops": [["P39141"]], "instances": 1 },
+        { "depth": 1, "hops": [["P37041"]], "instances": 1 }
+      ],
+      "chosen": [["P115000", "wikidata:P2974"]],
+      "chosenCoverage": 1
+    },
+    "classes": [
+      {
+        "classId": "C65002",
+        "instances": 100,
+        "used": {
+          "P37566": 1,
+          "wikidata:P527": 8,
+          "P15594": 1,
+          "wikidata:P1448": 7,
+          "P129006": 1,
+          "wikidata:P276": 7,
+          "wikidata:P625": 4,
+          "P37545": 1,
+          "P39141": 1,
+          "HAS_APPROACH": 1,
+          "wikidata:P1343": 4,
+          "wikidata:P580": 1,
+          "wikidata:P582": 1,
+          "P37524": 8,
+          "wikidata:P2974": 8,
+          "P115000": 1,
+          "P115002": 1,
+          "P116007": 1,
+          "description": 1,
+          "P126013": 1,
+          "wikidata:P30": 8,
+          "P30": 1
+        },
+        "templateLabel": "Ecological study system description"
+      }
+    ],
+    "declared": [
+      {
+        "classId": "C65002",
+        "predicate": "wikidata:P1448",
+        "label": "official name"
+      },
+      {
+        "classId": "C65002",
+        "predicate": "description",
+        "label": "description"
+      },
+      {
+        "classId": "C65002",
+        "predicate": "wikidata:P2974",
+        "label": "habitat"
+      },
+      {
+        "classId": "C65002",
+        "predicate": "wikidata:P527",
+        "label": "has part(s)"
+      },
+      {
+        "classId": "C65002",
+        "predicate": "wikidata:P30",
+        "label": "continent"
+      },
+      {
+        "classId": "C65002",
+        "predicate": "P37524",
+        "label": "study location (country)"
+      },
+      {
+        "classId": "C65002",
+        "predicate": "wikidata:P276",
+        "label": "location"
+      },
+      {
+        "classId": "C65002",
+        "predicate": "wikidata:P625",
+        "label": "coordinate location"
+      },
+      {
+        "classId": "C65002",
+        "predicate": "wikidata:P1343",
+        "label": "described by source"
+      }
+    ],
+    "predicateLabels": {},
+    "frozenAt": "2026-11-15T21:31:55.740Z"
+  },
+  "R186491": {
+    "rootClass": "C27001",
+    "attachment": {
+      "attached": 778,
+      "routes": [{ "depth": 0, "hops": [], "instances": 778 }],
+      "chosen": [],
+      "chosenCoverage": 1
+    },
+    "classes": [
+      {
+        "classId": "C27001",
+        "instances": 778,
+        "used": {
+          "P56008": 777,
+          "P15124": 777,
+          "P57004": 778,
+          "P32": 777,
+          "P37330": 778,
+          "P57003": 778,
+          "P135046": 777,
+          "P39099": 777
+        },
+        "templateLabel": "Empirical Research Practice"
+      },
+      {
+        "classId": "Problem",
+        "instances": 9599,
+        "used": {
+          "subProblem": 76,
+          "P76020": 1,
+          "P37640": 1,
+          "hasSynonym": 1,
+          "SAME_AS": 147,
+          "hasAuthors": 1,
+          "P136036": 1,
+          "url": 3,
+          "HAS_METHOD": 1,
+          "P177064": 1,
+          "P37019": 1,
+          "P15239": 1,
+          "P29": 1,
+          "SCHEMAORG:relatedTo": 1,
+          "HAS_APPROACH": 5,
+          "P28": 1,
+          "P177068": 1,
+          "wikidata:P1433": 1,
+          "P25002": 1,
+          "P24009": 2,
+          "P26": 1,
+          "P37152": 1,
+          "HAS_VENUE": 1,
+          "P31": 1,
+          "P177067": 1,
+          "P3": 1,
+          "P2006": 1,
+          "description": 290,
+          "P30": 1
+        },
+        "templateLabel": "Problem"
+      },
+      {
+        "classId": "C27006",
+        "instances": 1402,
+        "used": {
+          "P44139": 1386,
+          "P55039": 1378,
+          "P41928": 1374,
+          "P57000": 39,
+          "P55038": 1373
+        },
+        "templateLabel": "Research Question"
+      },
+      {
+        "classId": "C29003",
+        "instances": 95,
+        "used": { "P44139": 91, "P41928": 81 },
+        "templateLabel": "Subquestion"
+      },
+      {
+        "classId": "C29005",
+        "instances": 104,
+        "used": { "P55039": 101, "P55038": 100, "description": 3 },
+        "templateLabel": "Research Question Answer"
+      },
+      {
+        "classId": "C27004",
+        "instances": 982,
+        "used": {
+          "P57034": 4,
+          "P1007": 5,
+          "P57040": 11,
+          "P1009": 20,
+          "DATA": 642,
+          "P58105": 2,
+          "P57019": 20,
+          "P1005": 609,
+          "P57018": 20,
+          "P57021": 7,
+          "P57036": 3
+        },
+        "templateLabel": "Data Collection"
+      },
+      {
+        "classId": "C29030",
+        "instances": 988,
+        "used": { "P17001": 2, "P7055": 701, "url": 282 },
+        "templateLabel": "Research Data"
+      },
+      {
+        "classId": "C29031",
+        "instances": 110,
+        "used": {
+          "P57038": 109,
+          "P57039": 109,
+          "P41835": 1,
+          "P49024": 1,
+          "description": 1
+        },
+        "templateLabel": "Data Type"
+      },
+      {
+        "classId": "C89001",
+        "instances": 984,
+        "used": { "P94003": 983, "P145012": 982 },
+        "templateLabel": "Data Collection Method"
+      },
+      {
+        "classId": "C28004",
+        "instances": 604,
+        "used": {
+          "P59058": 1,
+          "P56048": 505,
+          "P57015": 1,
+          "P57013": 1,
+          "P76003": 4,
+          "P1005": 381,
+          "P57016": 117,
+          "P56043": 106
+        },
+        "templateLabel": "Data Analysis"
+      },
+      {
+        "classId": "Method",
+        "instances": 3211,
+        "used": {
+          "P42000": 12,
+          "P55019": 2,
+          "P106010": 4,
+          "P27019": 1,
+          "P23007": 1,
+          "P105016": 3,
+          "P54000": 1,
+          "P60008": 12,
+          "P20098": 1,
+          "P34589": 1,
+          "P7222": 3,
+          "P184307": 5,
+          "P65042": 11,
+          "P139011": 1,
+          "P130047": 1,
+          "wikidata:P10568": 1,
+          "P55018": 3,
+          "P7037": 3,
+          "P15292": 1,
+          "P37639": 3,
+          "P63047": 1,
+          "P36001": 3,
+          "P96008": 8,
+          "P106015": 1,
+          "P41817": 4,
+          "P106013": 1,
+          "P218006": 1,
+          "P106016": 1,
+          "P72008": 11,
+          "P42007": 28,
+          "SAME_AS": 65,
+          "METHOD": 3,
+          "P96009": 8,
+          "P17": 3,
+          "P127002": 2,
+          "P127004": 2,
+          "P20078": 1,
+          "P59136": 11,
+          "url": 1,
+          "wikidata:P356": 1,
+          "P15411": 3,
+          "P18026": 1,
+          "P43104": 1,
+          "P55021": 1,
+          "P37077": 2,
+          "P27024": 1,
+          "HAS_METHOD": 15,
+          "P96000": 1,
+          "P2001": 2,
+          "P5050": 2,
+          "P218007": 1,
+          "P58112": 1,
+          "P37019": 1,
+          "HAS_RESULTS": 1,
+          "wikidata:P2308": 11,
+          "P65049": 10,
+          "P14": 61,
+          "P200225": 6,
+          "P95004": 1,
+          "P4076": 2,
+          "P174674": 1,
+          "P33": 1,
+          "P71095": 1,
+          "wikidata:P279": 7,
+          "P68044": 1,
+          "P174284": 6,
+          "HAS_APPROACH": 7,
+          "SCHEMAORG:sameAs": 1,
+          "P94003": 1,
+          "P5019": 1,
+          "P37385": 1,
+          "P16013": 12,
+          "wikidata:P1433": 1,
+          "P106018": 1,
+          "P139008": 1,
+          "P24009": 5,
+          "SCHEMAORG:description": 6,
+          "P44055": 2,
+          "P37153": 1,
+          "P139009": 1,
+          "P96003": 1,
+          "P96005": 1,
+          "P67089": 2,
+          "P37523": 11,
+          "hasProperty": 1,
+          "wikidata:P144": 1,
+          "wikidata:P854": 2,
+          "P107004": 1,
+          "P1005": 1,
+          "P3": 2,
+          "wikidata:P1132": 11,
+          "P97210": 1,
+          "type": 5,
+          "P98012": 1,
+          "description": 39,
+          "RO:RO_0002089": 4,
+          "P7111": 1,
+          "P96004": 1,
+          "P96001": 1,
+          "P96006": 1,
+          "P98013": 1,
+          "wikidata:P4656": 3,
+          "P96002": 1,
+          "P5": 2,
+          "P147076": 1,
+          "P71098": 1,
+          "P9024": 1
+        },
+        "templateLabel": "Method"
+      },
+      {
+        "classId": "Resources",
+        "instances": 0,
+        "used": {},
+        "templateLabel": "Resource"
+      }
+    ],
+    "declared": [
+      { "classId": "C27001", "predicate": "P135046", "label": "venue serie" },
+      { "classId": "C27001", "predicate": "P32", "label": "research problem" },
+      {
+        "classId": "C27001",
+        "predicate": "P57003",
+        "label": "research paradigm"
+      },
+      {
+        "classId": "C27001",
+        "predicate": "P37330",
+        "label": "research  question "
+      },
+      {
+        "classId": "C27001",
+        "predicate": "P57004",
+        "label": "research question answer"
+      },
+      {
+        "classId": "C27001",
+        "predicate": "P56008",
+        "label": "data collection"
+      },
+      { "classId": "C27001", "predicate": "P15124", "label": "data analysis" },
+      {
+        "classId": "C27001",
+        "predicate": "P39099",
+        "label": "threat to validity"
+      },
+      {
+        "classId": "Problem",
+        "predicate": "description",
+        "label": "description"
+      },
+      { "classId": "Problem", "predicate": "SAME_AS", "label": "same as" },
+      {
+        "classId": "Problem",
+        "predicate": "subProblem",
+        "label": "Sub Problem"
+      },
+      { "classId": "C27006", "predicate": "P44139", "label": "question" },
+      { "classId": "C27006", "predicate": "P55038", "label": "hidden in text" },
+      {
+        "classId": "C27006",
+        "predicate": "P55039",
+        "label": "highlighted in text"
+      },
+      { "classId": "C27006", "predicate": "P41928", "label": "question type" },
+      { "classId": "C27006", "predicate": "P57000", "label": "subquestion" },
+      { "classId": "C29003", "predicate": "P44139", "label": "question" },
+      { "classId": "C29003", "predicate": "P41928", "label": "question type" },
+      { "classId": "C29005", "predicate": "P55038", "label": "hidden in text" },
+      {
+        "classId": "C29005",
+        "predicate": "P55039",
+        "label": "highlighted in text"
+      },
+      { "classId": "C27004", "predicate": "DATA", "label": "data" },
+      { "classId": "C27004", "predicate": "P1005", "label": "method" },
+      { "classId": "C29030", "predicate": "P7055", "label": "Data type" },
+      { "classId": "C29030", "predicate": "url", "label": "url" },
+      { "classId": "C29031", "predicate": "P57038", "label": "qualitative " },
+      { "classId": "C29031", "predicate": "P57039", "label": "quantitative " },
+      { "classId": "C89001", "predicate": "P94003", "label": "method type" },
+      { "classId": "C89001", "predicate": "P145012", "label": "method name" },
+      { "classId": "C28004", "predicate": "P1005", "label": "method" },
+      {
+        "classId": "C28004",
+        "predicate": "P56043",
+        "label": "inferential statistics"
+      },
+      {
+        "classId": "C28004",
+        "predicate": "P56048",
+        "label": "descriptive statistics"
+      },
+      {
+        "classId": "C28004",
+        "predicate": "P57016",
+        "label": "machine learning"
+      },
+      { "classId": "Method", "predicate": "P94003", "label": "method type" },
+      {
+        "classId": "Method",
+        "predicate": "P218006",
+        "label": "analysis technique"
+      },
+      {
+        "classId": "Method",
+        "predicate": "P218007",
+        "label": "evaluation approach"
+      },
+      {
+        "classId": "Resources",
+        "predicate": "description",
+        "label": "description"
+      },
+      { "classId": "C28005", "predicate": "P30001", "label": "hypothesis" },
+      {
+        "classId": "C28005",
+        "predicate": "P35133",
+        "label": "Statistical tests"
+      },
+      {
+        "classId": "C28008",
+        "predicate": "P56046",
+        "label": "hypothesis statement"
+      },
+      {
+        "classId": "C28008",
+        "predicate": "P41703",
+        "label": "Hypothesis type"
+      },
+      {
+        "classId": "C29033",
+        "predicate": "P35106",
+        "label": "Null hypothesis"
+      },
+      {
+        "classId": "C29033",
+        "predicate": "P35107",
+        "label": "Alternative hypothesis"
+      },
+      {
+        "classId": "C20073",
+        "predicate": "P56049",
+        "label": "measures of frequency"
+      },
+      {
+        "classId": "C20073",
+        "predicate": "P57005",
+        "label": "measures of central tendency"
+      },
+      {
+        "classId": "C20073",
+        "predicate": "P57008",
+        "label": "measures of dispersion or variation"
+      },
+      {
+        "classId": "C20073",
+        "predicate": "P57010",
+        "label": "measures of position"
+      },
+      { "classId": "C28009", "predicate": "P55023", "label": "count" },
+      { "classId": "C28009", "predicate": "P56050", "label": "percent" },
+      { "classId": "C29006", "predicate": "P47000", "label": "mean" },
+      { "classId": "C29006", "predicate": "P57006", "label": "median" },
+      { "classId": "C29006", "predicate": "P57007", "label": "mode" },
+      { "classId": "C29006", "predicate": "P44107", "label": "minimum" },
+      { "classId": "C29006", "predicate": "P44108", "label": "maximum" },
+      { "classId": "C29007", "predicate": "P4013", "label": "range" },
+      { "classId": "C29007", "predicate": "P57009", "label": "variance" },
+      {
+        "classId": "C29007",
+        "predicate": "P44087",
+        "label": "standard deviation"
+      },
+      { "classId": "C29008", "predicate": "P59065", "label": "boxplot" },
+      { "classId": "C29012", "predicate": "HAS_METRIC", "label": "metric" },
+      { "classId": "C29012", "predicate": "P2001", "label": "Algorithm" },
+      { "classId": "C14024", "predicate": "P5073", "label": "recall" },
+      { "classId": "C14024", "predicate": "P3004", "label": "precision" },
+      { "classId": "C14024", "predicate": "P18048", "label": "accuracy" },
+      { "classId": "C14024", "predicate": "P59137", "label": "f-score" },
+      {
+        "classId": "C27003",
+        "predicate": "P55037",
+        "label": "construct validity"
+      },
+      {
+        "classId": "C27003",
+        "predicate": "P55035",
+        "label": "internal validity"
+      },
+      {
+        "classId": "C27003",
+        "predicate": "P55034",
+        "label": "external validity"
+      },
+      {
+        "classId": "C27003",
+        "predicate": "P55036",
+        "label": "conclusion validity"
+      },
+      { "classId": "C27003", "predicate": "P59109", "label": "reliability" },
+      {
+        "classId": "C27003",
+        "predicate": "P60006",
+        "label": "generalizability"
+      },
+      { "classId": "C27003", "predicate": "P97002", "label": "repeatability" },
+      {
+        "classId": "C27003",
+        "predicate": "P68005",
+        "label": "content validity"
+      },
+      {
+        "classId": "C27003",
+        "predicate": "P97000",
+        "label": "descriptive validity"
+      },
+      {
+        "classId": "C27003",
+        "predicate": "P97001",
+        "label": "theoretical validity"
+      },
+      { "classId": "C27003", "predicate": "P145000", "label": "mentioned" }
+    ],
+    "predicateLabels": {},
+    "frozenAt": "2026-11-15T21:45:35.791Z"
+  },
+  "R1411854": {
+    "rootClass": "C115015",
+    "attachment": {
+      "attached": 6025,
+      "routes": [{ "depth": 0, "hops": [], "instances": 6025 }],
+      "chosen": [],
+      "chosenCoverage": 1
+    },
+    "classes": [
+      {
+        "classId": "C115015",
+        "instances": 6025,
+        "used": { "P175095": 6025, "P175094": 6025, "P175096": 6025 },
+        "templateLabel": "Psychology Constructs and Measurements"
+      }
+    ],
+    "declared": [
+      { "classId": "C115015", "predicate": "P175094", "label": "construct" },
+      { "classId": "C115015", "predicate": "P175095", "label": "measured_by" },
+      { "classId": "C115015", "predicate": "P175096", "label": "justification" }
+    ],
+    "predicateLabels": {},
+    "frozenAt": "2026-11-15T21:47:26.867Z"
+  }
+}

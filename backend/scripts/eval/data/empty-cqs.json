@@ -1,0 +1,116 @@
+{
+  "source": "Questions whose correct answer on the live graph is empty or a zero count (absent property, impossible filter combination, zero count). Drafted with an AI assistant and verified against the endpoint on 15 Nov 2026; to be checked by a human author.",
+  "count": 10,
+  "items": [
+    {
+      "id": "R186491/emp_1",
+      "dataset": "empty",
+      "kind": "impossible-filter",
+      "templateId": "R186491",
+      "templateTitle": "Empirical Research Practice",
+      "question": "Which data collection methods were used by empirical studies published before 1990?",
+      "goldQueries": [
+        "SELECT ?paper ?method_label WHERE { ?paper orkgp:P31 ?c ; orkgp:P29 ?y . ?c a orkgc:C27001 ; orkgp:P56008 ?dc . ?dc orkgp:P1005 ?m . ?m rdfs:label ?method_label . FILTER(xsd:integer(?y) < 1990) }"
+      ]
+    },
+    {
+      "id": "R186491/emp_2",
+      "dataset": "empty",
+      "kind": "absent-property",
+      "templateId": "R186491",
+      "templateTitle": "Empirical Research Practice",
+      "question": "Which analysis techniques are reported for the data analysis methods of the studies?",
+      "goldQueries": [
+        "SELECT ?paper ?technique_label WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C27001 ; orkgp:P15124 ?da . ?da orkgp:P1005 ?m . ?m orkgp:P218006 ?t . ?t rdfs:label ?technique_label . }"
+      ]
+    },
+    {
+      "id": "R186491/emp_3",
+      "dataset": "empty",
+      "kind": "zero-count",
+      "templateId": "R186491",
+      "templateTitle": "Empirical Research Practice",
+      "question": "How many studies report the evaluation approach of their data analysis methods?",
+      "goldQueries": [
+        "SELECT (COUNT(DISTINCT ?paper) AS ?n_studies) WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C27001 ; orkgp:P15124 ?da . ?da orkgp:P1005 ?m . ?m orkgp:P218007 ?e . }"
+      ]
+    },
+    {
+      "id": "R1544125/emp_4",
+      "dataset": "empty",
+      "kind": "impossible-filter",
+      "templateId": "R1544125",
+      "templateTitle": "NLP4RE ID Card - V1",
+      "question": "Which NLP4RE studies used more than 1000 annotators?",
+      "goldQueries": [
+        "SELECT ?paper ?n_annotators WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C121001 ; orkgp:P181031 ?ap . ?ap orkgp:P181032 ?an . ?an orkgp:P59120 ?n_annotators . FILTER(xsd:integer(?n_annotators) > 1000) }"
+      ]
+    },
+    {
+      "id": "R593657/emp_5",
+      "dataset": "empty",
+      "kind": "impossible-filter",
+      "templateId": "R593657",
+      "templateTitle": "Study in Ecology & Evolution (main template)",
+      "question": "Which ecology and evolution studies conducted in Antarctica follow an experimental approach?",
+      "goldQueries": [
+        "SELECT ?paper ?approach_label WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C65000 ; orkgp:HAS_APPROACH ?a ; <http://orkg.org/orkg/predicate/wikidata:P30> ?k . ?a rdfs:label ?approach_label . ?k rdfs:label ?kl . FILTER(LCASE(STR(?kl)) = \"antarctica\" && CONTAINS(LCASE(STR(?approach_label)), \"experiment\")) }"
+      ]
+    },
+    {
+      "id": "R702332/emp_6",
+      "dataset": "empty",
+      "kind": "impossible-filter",
+      "templateId": "R702332",
+      "templateTitle": "Overview of data for wind energy potential assessment",
+      "question": "Which offshore wind energy assessments measure wind speed at a height of more than 200 metres?",
+      "goldQueries": [
+        "SELECT ?paper ?height_value WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C92000 ; orkgp:P37537 ?l ; orkgp:P71179 ?h . ?l rdfs:label ?ll . ?h orkgp:P71048 ?height_value . FILTER(LCASE(STR(?ll)) = \"offshore\" && xsd:decimal(?height_value) > 200) }"
+      ]
+    },
+    {
+      "id": "R1596350/emp_7",
+      "dataset": "empty",
+      "kind": "absent-property",
+      "templateId": "R1596350",
+      "templateTitle": "Nutritional and Metabolic Diseases",
+      "question": "What sample sizes do the study populations of nutritional and metabolic disease studies have?",
+      "goldQueries": [
+        "SELECT ?paper ?sample_size WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C123091 ; orkgp:P15377 ?s . ?s orkgp:P57104 ?sample_size . }"
+      ]
+    },
+    {
+      "id": "R1596350/emp_8",
+      "dataset": "empty",
+      "kind": "absent-property",
+      "templateId": "R1596350",
+      "templateTitle": "Nutritional and Metabolic Diseases",
+      "question": "What is the age of the study populations in nutritional and metabolic disease studies?",
+      "goldQueries": [
+        "SELECT ?paper ?age_value WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C123091 ; orkgp:P15377 ?s . ?s orkgp:P59214 ?q . ?q orkgp:P45075 ?age_value . }"
+      ]
+    },
+    {
+      "id": "R1596350/emp_9",
+      "dataset": "empty",
+      "kind": "zero-count",
+      "templateId": "R1596350",
+      "templateTitle": "Nutritional and Metabolic Diseases",
+      "question": "How many studies on obesity were conducted in Antarctica?",
+      "goldQueries": [
+        "SELECT (COUNT(DISTINCT ?paper) AS ?n_studies) WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C123091 ; orkgp:P134011 ?d ; orkgp:P135009 ?a . ?d rdfs:label ?dl . ?a rdfs:label ?al . FILTER(LCASE(STR(?dl)) = \"obesity\" && LCASE(STR(?al)) = \"antarctica\") }"
+      ]
+    },
+    {
+      "id": "R1596350/emp_10",
+      "dataset": "empty",
+      "kind": "absent-property",
+      "templateId": "R1596350",
+      "templateTitle": "Nutritional and Metabolic Diseases",
+      "question": "Which types of samples are analysed when measuring food components?",
+      "goldQueries": [
+        "SELECT ?paper ?sample_type WHERE { ?paper orkgp:P31 ?c . ?c a orkgc:C123091 ; orkgp:P62073 ?f . ?f orkgp:P20080 ?s . ?s orkgp:P35184 ?sample_type . }"
+      ]
+    }
+  ]
+}

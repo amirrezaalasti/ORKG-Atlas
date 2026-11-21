@@ -1,0 +1,1496 @@
+{
+  "source": "build_sampled.py --n 40 --seed 2027 over orkg-2026-11-14.nt",
+  "eligible_templates": 278,
+  "fields_with_eligible": 34,
+  "templates": [
+    "R12002",
+    "R143669",
+    "R146876",
+    "R1469360",
+    "R1469729",
+    "R1471858",
+    "R1471946",
+    "R149061",
+    "R152170",
+    "R153113",
+    "R1552981",
+    "R156306",
+    "R159441",
+    "R1596323",
+    "R160259",
+    "R1681041",
+    "R184022",
+    "R215039",
+    "R217398",
+    "R332181",
+    "R38248",
+    "R48214",
+    "R54009",
+    "R54875",
+    "R575738",
+    "R583594",
+    "R584596",
+    "R593830",
+    "R598477",
+    "R644493",
+    "R659576",
+    "R660172",
+    "R673347",
+    "R676000",
+    "R677617",
+    "R704785",
+    "R733029",
+    "R733136",
+    "R733141",
+    "R789824"
+  ],
+  "count": 109,
+  "kinds": {
+    "attr": 37,
+    "count": 37,
+    "nested": 13,
+    "filter": 15,
+    "unused": 7
+  },
+  "items": [
+    {
+      "id": "R149061/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R149061",
+      "templateTitle": "Biodiversity inventories with DNA barcoding",
+      "field": "Ecology and Biodiversity of Animals and Ecosystems, Organismic Interactions",
+      "question": "For the papers described with the \"Biodiversity inventories with DNA barcoding\" template, what Class (Taxonomy - biology) does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C21000 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P39093> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R149061/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R149061",
+      "templateTitle": "Biodiversity inventories with DNA barcoding",
+      "field": "Ecology and Biodiversity of Animals and Ecosystems, Organismic Interactions",
+      "question": "For the papers described with the \"Biodiversity inventories with DNA barcoding\" template, how many different values of Class (Taxonomy - biology) does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C21000 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P39093> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R146876/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R146876",
+      "templateTitle": "Organic solar cells",
+      "field": "Materials Chemistry",
+      "question": "For the papers described with the \"Organic solar cells\" template, what Mobility does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C20109 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P15160> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R146876/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R146876",
+      "templateTitle": "Organic solar cells",
+      "field": "Materials Chemistry",
+      "question": "For the papers described with the \"Organic solar cells\" template, how many different values of Mobility does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C20109 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P15160> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R146876/nested",
+      "dataset": "sampled",
+      "kind": "nested",
+      "templateId": "R146876",
+      "templateTitle": "Organic solar cells",
+      "field": "Materials Chemistry",
+      "question": "For the papers described with the \"Organic solar cells\" template, what structure is given for their Acceptor?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C20109 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P41898> ?y .\n  ?y <http://orkg.org/orkg/predicate/P4007> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R644493/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R644493",
+      "templateTitle": "value",
+      "field": "Structural Materials",
+      "question": "For the papers described with the \"value\" template, what upper limit does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C72003 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P15212> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P110057> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P112016> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P121020> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/wikidata:P2436> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P110058> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P110117> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P180023> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P5071> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P127007> ?x . }\n  ?x <http://orkg.org/orkg/predicate/wikidata:P5448> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R644493/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R644493",
+      "templateTitle": "value",
+      "field": "Structural Materials",
+      "question": "For the papers described with the \"value\" template, how many different values of upper limit does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C72003 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P15212> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P110057> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P112016> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P121020> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/wikidata:P2436> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P110058> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P110117> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P180023> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P5071> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P127007> ?x . }\n  ?x <http://orkg.org/orkg/predicate/wikidata:P5448> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R1596323/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R1596323",
+      "templateTitle": "Infectious disease",
+      "field": "Medicine and Health",
+      "question": "For the papers described with the \"Infectious disease\" template, what has outcome does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C128030 .\n  { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P187010> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P7075> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R1596323/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R1596323",
+      "templateTitle": "Infectious disease",
+      "field": "Medicine and Health",
+      "question": "For the papers described with the \"Infectious disease\" template, how many different values of has outcome does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C128030 .\n  { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P187010> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P7075> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R1596323/nested",
+      "dataset": "sampled",
+      "kind": "nested",
+      "templateId": "R1596323",
+      "templateTitle": "Infectious disease",
+      "field": "Medicine and Health",
+      "question": "For the papers described with the \"Infectious disease\" template, what unit is given for their Duration of intervention?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C128030 .\n  { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P187010> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P187010> ?y .\n  ?y <http://orkg.org/orkg/predicate/P45076> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R575738/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R575738",
+      "templateTitle": "SWeML System",
+      "field": "Machine Learning",
+      "question": "For the papers described with the \"SWeML System\" template, what has variable data 1 does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C58041 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P105059> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P105048> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R575738/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R575738",
+      "templateTitle": "SWeML System",
+      "field": "Machine Learning",
+      "question": "For the papers described with the \"SWeML System\" template, how many different values of has variable data 1 does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C58041 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P105059> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P105048> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R575738/nested",
+      "dataset": "sampled",
+      "kind": "nested",
+      "templateId": "R575738",
+      "templateTitle": "SWeML System",
+      "field": "Machine Learning",
+      "question": "For the papers described with the \"SWeML System\" template, what evaluation data split is given for their has documentation?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C58041 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P105059> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P7114> ?y .\n  ?y <http://orkg.org/orkg/predicate/P105028> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R12002/nested",
+      "dataset": "sampled",
+      "kind": "nested",
+      "templateId": "R12002",
+      "templateTitle": "Student's t-test",
+      "field": "Science",
+      "question": "For the papers described with the \"Student's t-test\" template, what value specification is given for their has specified output?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C1007 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P1> ?x . }\n  UNION { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P4003> ?y .\n  ?y <http://orkg.org/orkg/predicate/P9003> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R160259/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R160259",
+      "templateTitle": "Digital city twin review",
+      "field": "Information Systems, Process and Knowledge Management",
+      "question": "For the papers described with the \"Digital city twin review\" template, what Application area does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C22010 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P44049> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R160259/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R160259",
+      "templateTitle": "Digital city twin review",
+      "field": "Information Systems, Process and Knowledge Management",
+      "question": "For the papers described with the \"Digital city twin review\" template, how many different values of Application area does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C22010 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P44049> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R38248/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R38248",
+      "templateTitle": "Task Dataset Metric Score",
+      "field": "Bioinformatics",
+      "question": "For the papers described with the \"Task Dataset Metric Score\" template, what Recall does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C5004 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/HAS_EVALUATION> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P5015> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R38248/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R38248",
+      "templateTitle": "Task Dataset Metric Score",
+      "field": "Bioinformatics",
+      "question": "For the papers described with the \"Task Dataset Metric Score\" template, how many different values of Recall does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C5004 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/HAS_EVALUATION> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P5015> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R38248/filter",
+      "dataset": "sampled",
+      "kind": "filter",
+      "templateId": "R38248",
+      "templateTitle": "Task Dataset Metric Score",
+      "field": "Bioinformatics",
+      "question": "For the papers described with the \"Task Dataset Metric Score\" template whose Recall is \"90.9\", what precision does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C5004 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/HAS_EVALUATION> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P5015> ?f_v . OPTIONAL { ?f_v rdfs:label ?f_l . } BIND(COALESCE(?f_l, STR(?f_v)) AS ?f)\n  FILTER(LCASE(STR(?f)) = \"90.9\")\n  ?x <http://orkg.org/orkg/predicate/P3004> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "filterValue": "90.9",
+      "expectEmpty": false
+    },
+    {
+      "id": "R38248/unused",
+      "dataset": "sampled",
+      "kind": "unused",
+      "templateId": "R38248",
+      "templateTitle": "Task Dataset Metric Score",
+      "field": "Bioinformatics",
+      "question": "For the papers described with the \"Task Dataset Metric Score\" template, what Bleu Score does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C5004 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/HAS_EVALUATION> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P18049> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P18049",
+      "expectEmpty": true
+    },
+    {
+      "id": "R676000/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R676000",
+      "templateTitle": "WEC contribution",
+      "field": "Materials Engineering",
+      "question": "For the papers described with the \"WEC contribution\" template, what result does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C85000 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/HAS_RESULTS> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R676000/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R676000",
+      "templateTitle": "WEC contribution",
+      "field": "Materials Engineering",
+      "question": "For the papers described with the \"WEC contribution\" template, how many different values of result does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C85000 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/HAS_RESULTS> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R676000/nested",
+      "dataset": "sampled",
+      "kind": "nested",
+      "templateId": "R676000",
+      "templateTitle": "WEC contribution",
+      "field": "Materials Engineering",
+      "question": "For the papers described with the \"WEC contribution\" template, what Sub Problem is given for their research problem?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C85000 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P32> ?y .\n  ?y <http://orkg.org/orkg/predicate/subProblem> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R1681041/unused",
+      "dataset": "sampled",
+      "kind": "unused",
+      "templateId": "R1681041",
+      "templateTitle": "Data Visualization",
+      "field": "Interactive and Intelligent Systems, Image and Language Processing, Computer Graphics and Visualisation",
+      "question": "For the papers described with the \"Data Visualization\" template, what abstraction level does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:Visualization .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/HasSection> ?m . ?m <http://orkg.org/orkg/predicate/HasLink> ?x . }\n  UNION { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/HAS_RESULTS> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P110006> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41532> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P37600> ?m . ?m <http://orkg.org/orkg/predicate/hasVisualization> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P198359> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P198359",
+      "expectEmpty": true
+    },
+    {
+      "id": "R733141/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R733141",
+      "templateTitle": "LLM-Hallu-Bench-Task",
+      "field": "Artificial Intelligence",
+      "question": "For the papers described with the \"LLM-Hallu-Bench-Task\" template, what task input does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C99012 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P5009> ?x . }\n  UNION { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P156027> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R733141/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R733141",
+      "templateTitle": "LLM-Hallu-Bench-Task",
+      "field": "Artificial Intelligence",
+      "question": "For the papers described with the \"LLM-Hallu-Bench-Task\" template, how many different values of task input does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C99012 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P5009> ?x . }\n  UNION { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P156027> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R733141/filter",
+      "dataset": "sampled",
+      "kind": "filter",
+      "templateId": "R733141",
+      "templateTitle": "LLM-Hallu-Bench-Task",
+      "field": "Artificial Intelligence",
+      "question": "For the papers described with the \"LLM-Hallu-Bench-Task\" template whose task input is \"Question\", what task label does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C99012 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P5009> ?x . }\n  UNION { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P156027> ?f_v . OPTIONAL { ?f_v rdfs:label ?f_l . } BIND(COALESCE(?f_l, STR(?f_v)) AS ?f)\n  FILTER(LCASE(STR(?f)) = \"question\")\n  ?x <http://orkg.org/orkg/predicate/P156028> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "filterValue": "Question",
+      "expectEmpty": false
+    },
+    {
+      "id": "R583594/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R583594",
+      "templateTitle": "Projected impacts of climate on systems and species",
+      "field": "Climate",
+      "question": "For the papers described with the \"Projected impacts of climate on systems and species\" template, what climate exposure does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C61007 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P110020> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R583594/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R583594",
+      "templateTitle": "Projected impacts of climate on systems and species",
+      "field": "Climate",
+      "question": "For the papers described with the \"Projected impacts of climate on systems and species\" template, how many different values of climate exposure does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C61007 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P110020> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R583594/filter",
+      "dataset": "sampled",
+      "kind": "filter",
+      "templateId": "R583594",
+      "templateTitle": "Projected impacts of climate on systems and species",
+      "field": "Climate",
+      "question": "For the papers described with the \"Projected impacts of climate on systems and species\" template whose climate exposure is \"Temperature increase\", what production system does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C61007 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P110020> ?f_v . OPTIONAL { ?f_v rdfs:label ?f_l . } BIND(COALESCE(?f_l, STR(?f_v)) AS ?f)\n  FILTER(LCASE(STR(?f)) = \"temperature increase\")\n  ?x <http://orkg.org/orkg/predicate/P110021> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "filterValue": "Temperature increase",
+      "expectEmpty": false
+    },
+    {
+      "id": "R143669/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R143669",
+      "templateTitle": "Ontology and KG description",
+      "field": "Semantic Web",
+      "question": "For the papers described with the \"Ontology and KG description\" template, what name does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C20034 .\n  { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P49030> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/SAME_AS> ?m . ?m <http://orkg.org/orkg/predicate/P31> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P49053> ?m . ?m <http://orkg.org/orkg/predicate/P31> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41666> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41818> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P4053> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41667> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41668> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41146> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41128> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P5> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P49030> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R143669/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R143669",
+      "templateTitle": "Ontology and KG description",
+      "field": "Semantic Web",
+      "question": "For the papers described with the \"Ontology and KG description\" template, how many different values of name does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C20034 .\n  { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P49030> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/SAME_AS> ?m . ?m <http://orkg.org/orkg/predicate/P31> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P49053> ?m . ?m <http://orkg.org/orkg/predicate/P31> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41666> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41818> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P4053> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41667> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41668> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41146> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41128> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P5> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P49030> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R143669/unused",
+      "dataset": "sampled",
+      "kind": "unused",
+      "templateId": "R143669",
+      "templateTitle": "Ontology and KG description",
+      "field": "Semantic Web",
+      "question": "For the papers described with the \"Ontology and KG description\" template, what Ontology Development Methodology does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C20034 .\n  { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P49030> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/SAME_AS> ?m . ?m <http://orkg.org/orkg/predicate/P31> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P49053> ?m . ?m <http://orkg.org/orkg/predicate/P31> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41666> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41818> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P4053> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41667> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41668> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41146> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41128> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P5> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P152030> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P152030",
+      "expectEmpty": true
+    },
+    {
+      "id": "R184022/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R184022",
+      "templateTitle": "Xray spectroscopy",
+      "field": "Atomic, Molecular and Optical Physics",
+      "question": "For the papers described with the \"Xray spectroscopy\" template, what has system qualities does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C25006 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P43078> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R184022/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R184022",
+      "templateTitle": "Xray spectroscopy",
+      "field": "Atomic, Molecular and Optical Physics",
+      "question": "For the papers described with the \"Xray spectroscopy\" template, how many different values of has system qualities does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C25006 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P43078> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R153113/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R153113",
+      "templateTitle": "Scenario",
+      "field": "Energy Systems",
+      "question": "For the papers described with the \"Scenario\" template, what has name does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C21067 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P37581> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P7111> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R153113/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R153113",
+      "templateTitle": "Scenario",
+      "field": "Energy Systems",
+      "question": "For the papers described with the \"Scenario\" template, how many different values of has name does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C21067 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P37581> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P7111> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R153113/nested",
+      "dataset": "sampled",
+      "kind": "nested",
+      "templateId": "R153113",
+      "templateTitle": "Scenario",
+      "field": "Energy Systems",
+      "question": "For the papers described with the \"Scenario\" template, what has time frame is given for their hasGoal?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C21067 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P37581> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P43138> ?y .\n  ?y <http://orkg.org/orkg/predicate/P43139> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R153113/filter",
+      "dataset": "sampled",
+      "kind": "filter",
+      "templateId": "R153113",
+      "templateTitle": "Scenario",
+      "field": "Energy Systems",
+      "question": "For the papers described with the \"Scenario\" template whose has name is \"Scenario\", what hasGoal does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C21067 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P37581> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P7111> ?f_v . OPTIONAL { ?f_v rdfs:label ?f_l . } BIND(COALESCE(?f_l, STR(?f_v)) AS ?f)\n  FILTER(LCASE(STR(?f)) = \"scenario\")\n  ?x <http://orkg.org/orkg/predicate/P43138> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "filterValue": "Scenario",
+      "expectEmpty": false
+    },
+    {
+      "id": "R593830/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R593830",
+      "templateTitle": "Invasion biology study research question",
+      "field": "Ecology and Evolutionary Biology",
+      "question": "For the papers described with the \"Invasion biology study research question\" template, what research question does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C76000 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P129006> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P59254> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R593830/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R593830",
+      "templateTitle": "Invasion biology study research question",
+      "field": "Ecology and Evolutionary Biology",
+      "question": "For the papers described with the \"Invasion biology study research question\" template, how many different values of research question does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C76000 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P129006> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P59254> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R593830/nested",
+      "dataset": "sampled",
+      "kind": "nested",
+      "templateId": "R593830",
+      "templateTitle": "Invasion biology study research question",
+      "field": "Ecology and Evolutionary Biology",
+      "question": "For the papers described with the \"Invasion biology study research question\" template, what based on is given for their hypothesis?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C76000 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P129006> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P30001> ?y .\n  ?y <http://orkg.org/orkg/predicate/wikidata:P144> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R593830/filter",
+      "dataset": "sampled",
+      "kind": "filter",
+      "templateId": "R593830",
+      "templateTitle": "Invasion biology study research question",
+      "field": "Ecology and Evolutionary Biology",
+      "question": "For the papers described with the \"Invasion biology study research question\" template whose research question is \"What determines the invasion success of non-native species?\", what hypothesis does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C76000 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P129006> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P59254> ?f_v . OPTIONAL { ?f_v rdfs:label ?f_l . } BIND(COALESCE(?f_l, STR(?f_v)) AS ?f)\n  FILTER(LCASE(STR(?f)) = \"what determines the invasion success of non-native species?\")\n  ?x <http://orkg.org/orkg/predicate/P30001> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "filterValue": "What determines the invasion success of non-native species?",
+      "expectEmpty": false
+    },
+    {
+      "id": "R593830/unused",
+      "dataset": "sampled",
+      "kind": "unused",
+      "templateId": "R593830",
+      "templateTitle": "Invasion biology study research question",
+      "field": "Ecology and Evolutionary Biology",
+      "question": "For the papers described with the \"Invasion biology study research question\" template, what method does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C76000 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P129006> ?x . }\n  ?x <http://orkg.org/orkg/predicate/HAS_METHOD> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "HAS_METHOD",
+      "expectEmpty": true
+    },
+    {
+      "id": "R54875/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R54875",
+      "templateTitle": "Climate response",
+      "field": "Oceanography and Atmospheric Sciences and Meteorology",
+      "question": "For the papers described with the \"Climate response\" template, what Has TCR result does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C12001 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/HAS_EVALUATION> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P32121> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P32123> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R54875/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R54875",
+      "templateTitle": "Climate response",
+      "field": "Oceanography and Atmospheric Sciences and Meteorology",
+      "question": "For the papers described with the \"Climate response\" template, how many different values of Has TCR result does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C12001 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/HAS_EVALUATION> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P32121> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P32123> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R733029/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R733029",
+      "templateTitle": "Comprehensive ALD Profile",
+      "field": "Materials Science and Engineering",
+      "question": "For the papers described with the \"Comprehensive ALD Profile\" template, what process parameter does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C99003 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P156013> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R733029/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R733029",
+      "templateTitle": "Comprehensive ALD Profile",
+      "field": "Materials Science and Engineering",
+      "question": "For the papers described with the \"Comprehensive ALD Profile\" template, how many different values of process parameter does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C99003 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P156013> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R733029/nested",
+      "dataset": "sampled",
+      "kind": "nested",
+      "templateId": "R733029",
+      "templateTitle": "Comprehensive ALD Profile",
+      "field": "Materials Science and Engineering",
+      "question": "For the papers described with the \"Comprehensive ALD Profile\" template, what reactant is given for their process parameter?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C99003 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P156013> ?y .\n  ?y <http://orkg.org/orkg/predicate/P156010> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R733029/unused",
+      "dataset": "sampled",
+      "kind": "unused",
+      "templateId": "R733029",
+      "templateTitle": "Comprehensive ALD Profile",
+      "field": "Materials Science and Engineering",
+      "question": "For the papers described with the \"Comprehensive ALD Profile\" template, what safety does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C99003 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P156005> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P156005",
+      "expectEmpty": true
+    },
+    {
+      "id": "R156306/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R156306",
+      "templateTitle": "Research objective",
+      "field": "Plasma and Beam Physics",
+      "question": "For the papers described with the \"Research objective\" template, what Research objective does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C21093 .\n  { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P15051> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P41848> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R156306/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R156306",
+      "templateTitle": "Research objective",
+      "field": "Plasma and Beam Physics",
+      "question": "For the papers described with the \"Research objective\" template, how many different values of Research objective does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C21093 .\n  { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P15051> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P41848> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R215039/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R215039",
+      "templateTitle": "Traffic Flow Prediction Results for Speed",
+      "field": "Urbanism, Spatial Planning, Transportation and Infrastructure Planning, Landscape Planning",
+      "question": "For the papers described with the \"Traffic Flow Prediction Results for Speed\" template, what dataset does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C39000 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P2005> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R215039/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R215039",
+      "templateTitle": "Traffic Flow Prediction Results for Speed",
+      "field": "Urbanism, Spatial Planning, Transportation and Infrastructure Planning, Landscape Planning",
+      "question": "For the papers described with the \"Traffic Flow Prediction Results for Speed\" template, how many different values of dataset does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C39000 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P2005> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R215039/filter",
+      "dataset": "sampled",
+      "kind": "filter",
+      "templateId": "R215039",
+      "templateTitle": "Traffic Flow Prediction Results for Speed",
+      "field": "Urbanism, Spatial Planning, Transportation and Infrastructure Planning, Landscape Planning",
+      "question": "For the papers described with the \"Traffic Flow Prediction Results for Speed\" template whose dataset is \"PEMS-BAY\", what Technique does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C39000 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P2005> ?f_v . OPTIONAL { ?f_v rdfs:label ?f_l . } BIND(COALESCE(?f_l, STR(?f_v)) AS ?f)\n  FILTER(LCASE(STR(?f)) = \"pems-bay\")\n  ?x <http://orkg.org/orkg/predicate/P70000> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "filterValue": "PEMS-BAY",
+      "expectEmpty": false
+    },
+    {
+      "id": "R215039/unused",
+      "dataset": "sampled",
+      "kind": "unused",
+      "templateId": "R215039",
+      "templateTitle": "Traffic Flow Prediction Results for Speed",
+      "field": "Urbanism, Spatial Planning, Transportation and Infrastructure Planning, Landscape Planning",
+      "question": "For the papers described with the \"Traffic Flow Prediction Results for Speed\" template, what Evaluation metrics does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C39000 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P41532> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P41532",
+      "expectEmpty": true
+    },
+    {
+      "id": "R1552981/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R1552981",
+      "templateTitle": "Drought Stress Planting System",
+      "field": "Plant Cultivation, Plant Nutrition, Agricultural Technology",
+      "question": "For the papers described with the \"Drought Stress Planting System\" template, what Irrigation instrument does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C121064 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P43104> ?m . ?m <http://orkg.org/orkg/predicate/P15071> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P180079> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R1552981/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R1552981",
+      "templateTitle": "Drought Stress Planting System",
+      "field": "Plant Cultivation, Plant Nutrition, Agricultural Technology",
+      "question": "For the papers described with the \"Drought Stress Planting System\" template, how many different values of Irrigation instrument does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C121064 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P43104> ?m . ?m <http://orkg.org/orkg/predicate/P15071> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P180079> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R660172/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R660172",
+      "templateTitle": "ontology matching",
+      "field": "Computer Sciences",
+      "question": "For the papers described with the \"ontology matching\" template, what conclusion does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C80000 .\n  { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/HAS_EVALUATION> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P107002> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R660172/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R660172",
+      "templateTitle": "ontology matching",
+      "field": "Computer Sciences",
+      "question": "For the papers described with the \"ontology matching\" template, how many different values of conclusion does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C80000 .\n  { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/HAS_EVALUATION> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P107002> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R659576/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R659576",
+      "templateTitle": "LLM4SE",
+      "field": "Software Engineering",
+      "question": "For the papers described with the \"LLM4SE\" template, what Task does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C79002 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P5009> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R659576/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R659576",
+      "templateTitle": "LLM4SE",
+      "field": "Software Engineering",
+      "question": "For the papers described with the \"LLM4SE\" template, how many different values of Task does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C79002 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P5009> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R659576/nested",
+      "dataset": "sampled",
+      "kind": "nested",
+      "templateId": "R659576",
+      "templateTitle": "LLM4SE",
+      "field": "Software Engineering",
+      "question": "For the papers described with the \"LLM4SE\" template, what subtask is given for their Task?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C79002 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P5009> ?y .\n  ?y <http://orkg.org/orkg/predicate/P132027> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R673347/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R673347",
+      "templateTitle": "Recommendation System",
+      "field": "Digital Libraries",
+      "question": "For the papers described with the \"Recommendation System\" template, what relevancy estimation does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C84001 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P138000> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R673347/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R673347",
+      "templateTitle": "Recommendation System",
+      "field": "Digital Libraries",
+      "question": "For the papers described with the \"Recommendation System\" template, how many different values of relevancy estimation does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C84001 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P138000> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R673347/nested",
+      "dataset": "sampled",
+      "kind": "nested",
+      "templateId": "R673347",
+      "templateTitle": "Recommendation System",
+      "field": "Digital Libraries",
+      "question": "For the papers described with the \"Recommendation System\" template, what based on dataset is given for their relevancy estimation?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C84001 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P138000> ?y .\n  ?y <http://orkg.org/orkg/predicate/P138002> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R159441/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R159441",
+      "templateTitle": "City Digital Twin Potentials",
+      "field": "Information Systems, Process and Knowledge Management",
+      "question": "For the papers described with the \"City Digital Twin Potentials\" template, what Integration and Collaboration does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C22006 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P44020> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R159441/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R159441",
+      "templateTitle": "City Digital Twin Potentials",
+      "field": "Information Systems, Process and Knowledge Management",
+      "question": "For the papers described with the \"City Digital Twin Potentials\" template, how many different values of Integration and Collaboration does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C22006 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P44020> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R159441/filter",
+      "dataset": "sampled",
+      "kind": "filter",
+      "templateId": "R159441",
+      "templateTitle": "City Digital Twin Potentials",
+      "field": "Information Systems, Process and Knowledge Management",
+      "question": "For the papers described with the \"City Digital Twin Potentials\" template whose Integration and Collaboration is \"true\", what Data management does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C22006 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P44020> ?f_v . OPTIONAL { ?f_v rdfs:label ?f_l . } BIND(COALESCE(?f_l, STR(?f_v)) AS ?f)\n  FILTER(LCASE(STR(?f)) = \"true\")\n  ?x <http://orkg.org/orkg/predicate/P44016> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "filterValue": "true",
+      "expectEmpty": false
+    },
+    {
+      "id": "R584596/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R584596",
+      "templateTitle": "WEC bearing investigation",
+      "field": "Materials Engineering",
+      "question": "For the papers described with the \"WEC bearing investigation\" template, what Notes does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C61010 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P9039> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R584596/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R584596",
+      "templateTitle": "WEC bearing investigation",
+      "field": "Materials Engineering",
+      "question": "For the papers described with the \"WEC bearing investigation\" template, how many different values of Notes does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C61010 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P9039> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R598477/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R598477",
+      "templateTitle": "Climate change impacts across wild species",
+      "field": "Climate",
+      "question": "For the papers described with the \"Climate change impacts across wild species\" template, what production system does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C67009 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P110021> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R598477/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R598477",
+      "templateTitle": "Climate change impacts across wild species",
+      "field": "Climate",
+      "question": "For the papers described with the \"Climate change impacts across wild species\" template, how many different values of production system does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C67009 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P110021> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R598477/nested",
+      "dataset": "sampled",
+      "kind": "nested",
+      "templateId": "R598477",
+      "templateTitle": "Climate change impacts across wild species",
+      "field": "Climate",
+      "question": "For the papers described with the \"Climate change impacts across wild species\" template, what instance of is given for their quantity?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C67009 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/wikidata:P1114> ?y .\n  ?y <http://orkg.org/orkg/predicate/wikidata:P31> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R598477/filter",
+      "dataset": "sampled",
+      "kind": "filter",
+      "templateId": "R598477",
+      "templateTitle": "Climate change impacts across wild species",
+      "field": "Climate",
+      "question": "For the papers described with the \"Climate change impacts across wild species\" template whose production system is \"Freshwater\", what types of change does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C67009 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P110021> ?f_v . OPTIONAL { ?f_v rdfs:label ?f_l . } BIND(COALESCE(?f_l, STR(?f_v)) AS ?f)\n  FILTER(LCASE(STR(?f)) = \"freshwater\")\n  ?x <http://orkg.org/orkg/predicate/P117085> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "filterValue": "Freshwater",
+      "expectEmpty": false
+    },
+    {
+      "id": "R54009/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R54009",
+      "templateTitle": "Climate sensitivity",
+      "field": "Oceanography and Atmospheric Sciences and Meteorology",
+      "question": "For the papers described with the \"Climate sensitivity\" template, what unit does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C12000 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/HAS_EVALUATION> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P32121> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P7004> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R54009/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R54009",
+      "templateTitle": "Climate sensitivity",
+      "field": "Oceanography and Atmospheric Sciences and Meteorology",
+      "question": "For the papers described with the \"Climate sensitivity\" template, how many different values of unit does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C12000 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/HAS_EVALUATION> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P32121> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P7004> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R1469360/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R1469360",
+      "templateTitle": "ALD Coating Studies on Phosphor Materials",
+      "field": "Materials Science and Engineering",
+      "question": "For the papers described with the \"ALD Coating Studies on Phosphor Materials\" template, what Phosphor material does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C120003 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P180010> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R1469360/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R1469360",
+      "templateTitle": "ALD Coating Studies on Phosphor Materials",
+      "field": "Materials Science and Engineering",
+      "question": "For the papers described with the \"ALD Coating Studies on Phosphor Materials\" template, how many different values of Phosphor material does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C120003 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P180010> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R1469360/filter",
+      "dataset": "sampled",
+      "kind": "filter",
+      "templateId": "R1469360",
+      "templateTitle": "ALD Coating Studies on Phosphor Materials",
+      "field": "Materials Science and Engineering",
+      "question": "For the papers described with the \"ALD Coating Studies on Phosphor Materials\" template whose Phosphor material is \"BaMgAl10O17:Eu2+\", what ALD scheme (precursors) does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C120003 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P180010> ?f_v . OPTIONAL { ?f_v rdfs:label ?f_l . } BIND(COALESCE(?f_l, STR(?f_v)) AS ?f)\n  FILTER(LCASE(STR(?f)) = \"bamgal10o17:eu2+\")\n  ?x <http://orkg.org/orkg/predicate/P180012> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "filterValue": "BaMgAl10O17:Eu2+",
+      "expectEmpty": false
+    },
+    {
+      "id": "R1469360/unused",
+      "dataset": "sampled",
+      "kind": "unused",
+      "templateId": "R1469360",
+      "templateTitle": "ALD Coating Studies on Phosphor Materials",
+      "field": "Materials Science and Engineering",
+      "question": "For the papers described with the \"ALD Coating Studies on Phosphor Materials\" template, what Number of ALD cycles does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C120003 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P180006> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P180006",
+      "expectEmpty": true
+    },
+    {
+      "id": "R332181/nested",
+      "dataset": "sampled",
+      "kind": "nested",
+      "templateId": "R332181",
+      "templateTitle": "Impacts of time, transfer and cost accessibility of public transport on cities, classes and races - results",
+      "field": "Urbanism, Spatial Planning, Transportation and Infrastructure Planning, Landscape Planning",
+      "question": "For the papers described with the \"Impacts of time, transfer and cost accessibility of public transport on cities, classes and races - results\" template, what applicable Unit is given for their ratio of jobs per working age population larger than 0.2 reached with public transport in  a max. 45 minutes period?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:Results .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/contains> ?x . }\n  UNION { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/HasSection> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P100000> ?y .\n  ?y <http://orkg.org/orkg/predicate/P45120> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R1471858/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R1471858",
+      "templateTitle": "Sample Size (Plants)",
+      "field": "Plant Cultivation, Plant Nutrition, Agricultural Technology",
+      "question": "For the papers described with the \"Sample Size (Plants)\" template, what Number of treatment does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C120018 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P180068> ?m . ?m <http://orkg.org/orkg/predicate/P180072> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P180084> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R1471858/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R1471858",
+      "templateTitle": "Sample Size (Plants)",
+      "field": "Plant Cultivation, Plant Nutrition, Agricultural Technology",
+      "question": "For the papers described with the \"Sample Size (Plants)\" template, how many different values of Number of treatment does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C120018 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P180068> ?m . ?m <http://orkg.org/orkg/predicate/P180072> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P180084> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R1471858/filter",
+      "dataset": "sampled",
+      "kind": "filter",
+      "templateId": "R1471858",
+      "templateTitle": "Sample Size (Plants)",
+      "field": "Plant Cultivation, Plant Nutrition, Agricultural Technology",
+      "question": "For the papers described with the \"Sample Size (Plants)\" template whose Number of treatment is \"12\", what Total number does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C120018 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P180068> ?m . ?m <http://orkg.org/orkg/predicate/P180072> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P180084> ?f_v . OPTIONAL { ?f_v rdfs:label ?f_l . } BIND(COALESCE(?f_l, STR(?f_v)) AS ?f)\n  FILTER(LCASE(STR(?f)) = \"12\")\n  ?x <http://orkg.org/orkg/predicate/P180083> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "filterValue": "12",
+      "expectEmpty": false
+    },
+    {
+      "id": "R217398/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R217398",
+      "templateTitle": "System measurements",
+      "field": "Applied Physics",
+      "question": "For the papers described with the \"System measurements\" template, what Has resource does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C40002 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P71047> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P15295> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R217398/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R217398",
+      "templateTitle": "System measurements",
+      "field": "Applied Physics",
+      "question": "For the papers described with the \"System measurements\" template, how many different values of Has resource does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C40002 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P71047> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P15295> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R789824/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R789824",
+      "templateTitle": "small-language-model-survey-template",
+      "field": "Artificial Intelligence",
+      "question": "For the papers described with the \"small-language-model-survey-template\" template, what number of parameters does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C103000 .\n  { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P187014> ?m . ?m <http://orkg.org/orkg/predicate/P31> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P36029> ?m . ?m <http://orkg.org/orkg/predicate/P31> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P71194> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R789824/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R789824",
+      "templateTitle": "small-language-model-survey-template",
+      "field": "Artificial Intelligence",
+      "question": "For the papers described with the \"small-language-model-survey-template\" template, how many different values of number of parameters does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C103000 .\n  { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P187014> ?m . ?m <http://orkg.org/orkg/predicate/P31> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P36029> ?m . ?m <http://orkg.org/orkg/predicate/P31> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P71194> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R789824/filter",
+      "dataset": "sampled",
+      "kind": "filter",
+      "templateId": "R789824",
+      "templateTitle": "small-language-model-survey-template",
+      "field": "Artificial Intelligence",
+      "question": "For the papers described with the \"small-language-model-survey-template\" template whose number of parameters is \"7B\", what attention does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C103000 .\n  { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P187014> ?m . ?m <http://orkg.org/orkg/predicate/P31> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P36029> ?m . ?m <http://orkg.org/orkg/predicate/P31> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P71194> ?f_v . OPTIONAL { ?f_v rdfs:label ?f_l . } BIND(COALESCE(?f_l, STR(?f_v)) AS ?f)\n  FILTER(LCASE(STR(?f)) = \"7b\")\n  ?x <http://orkg.org/orkg/predicate/P157002> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "filterValue": "7B",
+      "expectEmpty": false
+    },
+    {
+      "id": "R677617/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R677617",
+      "templateTitle": "Global CO trends based on model estimates and observations",
+      "field": "Climate",
+      "question": "For the papers described with the \"Global CO trends based on model estimates and observations\" template, what location does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C86014 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P5049> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R677617/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R677617",
+      "templateTitle": "Global CO trends based on model estimates and observations",
+      "field": "Climate",
+      "question": "For the papers described with the \"Global CO trends based on model estimates and observations\" template, how many different values of location does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C86014 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P5049> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R677617/nested",
+      "dataset": "sampled",
+      "kind": "nested",
+      "templateId": "R677617",
+      "templateTitle": "Global CO trends based on model estimates and observations",
+      "field": "Climate",
+      "question": "For the papers described with the \"Global CO trends based on model estimates and observations\" template, what has end is given for their Time period?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C86014 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P15414> ?y .\n  ?y <http://orkg.org/orkg/predicate/P15700> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R704785/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R704785",
+      "templateTitle": "Solar radiation prediction models",
+      "field": "Energy Systems",
+      "question": "For the papers described with the \"Solar radiation prediction models\" template, what model type does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C120000 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P71176> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R704785/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R704785",
+      "templateTitle": "Solar radiation prediction models",
+      "field": "Energy Systems",
+      "question": "For the papers described with the \"Solar radiation prediction models\" template, how many different values of model type does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C120000 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P71176> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R704785/filter",
+      "dataset": "sampled",
+      "kind": "filter",
+      "templateId": "R704785",
+      "templateTitle": "Solar radiation prediction models",
+      "field": "Energy Systems",
+      "question": "For the papers described with the \"Solar radiation prediction models\" template whose model type is \"Empirical\", what Evaluation metric does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C120000 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P71176> ?f_v . OPTIONAL { ?f_v rdfs:label ?f_l . } BIND(COALESCE(?f_l, STR(?f_v)) AS ?f)\n  FILTER(LCASE(STR(?f)) = \"empirical\")\n  ?x <http://orkg.org/orkg/predicate/P110006> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "filterValue": "Empirical",
+      "expectEmpty": false
+    },
+    {
+      "id": "R48214/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R48214",
+      "templateTitle": "Global Mean Sea Level Rise Projections",
+      "field": "Oceanography and Atmospheric Sciences and Meteorology",
+      "question": "For the papers described with the \"Global Mean Sea Level Rise Projections\" template, what has upper limit for likely range does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C7016 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P26002> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P26002> ?m . ?m <http://orkg.org/orkg/predicate/P26002> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P2005> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P26006> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R48214/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R48214",
+      "templateTitle": "Global Mean Sea Level Rise Projections",
+      "field": "Oceanography and Atmospheric Sciences and Meteorology",
+      "question": "For the papers described with the \"Global Mean Sea Level Rise Projections\" template, how many different values of has upper limit for likely range does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C7016 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P26002> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P26002> ?m . ?m <http://orkg.org/orkg/predicate/P26002> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P2005> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P26006> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R1469729/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R1469729",
+      "templateTitle": "Rare-Earth Dopants in ALD-Deposited Thin Films",
+      "field": "Materials Science and Engineering",
+      "question": "For the papers described with the \"Rare-Earth Dopants in ALD-Deposited Thin Films\" template, what Host material does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C120005 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P180027> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R1469729/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R1469729",
+      "templateTitle": "Rare-Earth Dopants in ALD-Deposited Thin Films",
+      "field": "Materials Science and Engineering",
+      "question": "For the papers described with the \"Rare-Earth Dopants in ALD-Deposited Thin Films\" template, how many different values of Host material does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C120005 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P180027> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R1469729/filter",
+      "dataset": "sampled",
+      "kind": "filter",
+      "templateId": "R1469729",
+      "templateTitle": "Rare-Earth Dopants in ALD-Deposited Thin Films",
+      "field": "Materials Science and Engineering",
+      "question": "For the papers described with the \"Rare-Earth Dopants in ALD-Deposited Thin Films\" template whose Host material is \"HfO2\", what Application does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C120005 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P180027> ?f_v . OPTIONAL { ?f_v rdfs:label ?f_l . } BIND(COALESCE(?f_l, STR(?f_v)) AS ?f)\n  FILTER(LCASE(STR(?f)) = \"hfo2\")\n  ?x <http://orkg.org/orkg/predicate/P180029> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "filterValue": "HfO2",
+      "expectEmpty": false
+    },
+    {
+      "id": "R1471946/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R1471946",
+      "templateTitle": "Drought Stress Experimental - Location",
+      "field": "Plant Cultivation, Plant Nutrition, Agricultural Technology",
+      "question": "For the papers described with the \"Drought Stress Experimental - Location\" template, what Organisations does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C120027 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P43104> ?m . ?m <http://orkg.org/orkg/predicate/P15698> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P39115> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R1471946/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R1471946",
+      "templateTitle": "Drought Stress Experimental - Location",
+      "field": "Plant Cultivation, Plant Nutrition, Agricultural Technology",
+      "question": "For the papers described with the \"Drought Stress Experimental - Location\" template, how many different values of Organisations does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C120027 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P43104> ?m . ?m <http://orkg.org/orkg/predicate/P15698> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P39115> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R733136/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R733136",
+      "templateTitle": "LLM-Hallu-Bench-Attribute",
+      "field": "Artificial Intelligence",
+      "question": "For the papers described with the \"LLM-Hallu-Bench-Attribute\" template, what Manual does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C99011 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P156026> ?x . }\n  UNION { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P156025> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R733136/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R733136",
+      "templateTitle": "LLM-Hallu-Bench-Attribute",
+      "field": "Artificial Intelligence",
+      "question": "For the papers described with the \"LLM-Hallu-Bench-Attribute\" template, how many different values of Manual does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C99011 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P156026> ?x . }\n  UNION { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P156025> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R733136/filter",
+      "dataset": "sampled",
+      "kind": "filter",
+      "templateId": "R733136",
+      "templateTitle": "LLM-Hallu-Bench-Attribute",
+      "field": "Artificial Intelligence",
+      "question": "For the papers described with the \"LLM-Hallu-Bench-Attribute\" template whose Manual is \"false\", what Faithfulness does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C99011 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P156026> ?x . }\n  UNION { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P156025> ?f_v . OPTIONAL { ?f_v rdfs:label ?f_l . } BIND(COALESCE(?f_l, STR(?f_v)) AS ?f)\n  FILTER(LCASE(STR(?f)) = \"false\")\n  ?x <http://orkg.org/orkg/predicate/P156024> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "filterValue": "false",
+      "expectEmpty": false
+    },
+    {
+      "id": "R152170/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R152170",
+      "templateTitle": "Electricity generation",
+      "field": "Energy Systems",
+      "question": "For the papers described with the \"Electricity generation\" template, what value does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C21064 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P43135> ?m . ?m <http://orkg.org/orkg/predicate/P43134> ?x . }\n  ?x <http://orkg.org/orkg/predicate/HAS_VALUE> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R152170/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R152170",
+      "templateTitle": "Electricity generation",
+      "field": "Energy Systems",
+      "question": "For the papers described with the \"Electricity generation\" template, how many different values of value does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C21064 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P43135> ?m . ?m <http://orkg.org/orkg/predicate/P43134> ?x . }\n  ?x <http://orkg.org/orkg/predicate/HAS_VALUE> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R152170/filter",
+      "dataset": "sampled",
+      "kind": "filter",
+      "templateId": "R152170",
+      "templateTitle": "Electricity generation",
+      "field": "Energy Systems",
+      "question": "For the papers described with the \"Electricity generation\" template whose value is \"0\", what Has unit does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C21064 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P43135> ?m . ?m <http://orkg.org/orkg/predicate/P43134> ?x . }\n  ?x <http://orkg.org/orkg/predicate/HAS_VALUE> ?f_v . OPTIONAL { ?f_v rdfs:label ?f_l . } BIND(COALESCE(?f_l, STR(?f_v)) AS ?f)\n  FILTER(LCASE(STR(?f)) = \"0\")\n  ?x <http://orkg.org/orkg/predicate/P42000> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "filterValue": "0",
+      "expectEmpty": false
+    }
+  ]
+}

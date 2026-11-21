@@ -1,0 +1,123 @@
+{
+  "source": "sampled items whose templates' routes changed (fix-profile-routes.ts)",
+  "eligible_templates": 278,
+  "fields_with_eligible": 34,
+  "templates": [
+    "R12002",
+    "R143669",
+    "R146876",
+    "R1469360",
+    "R1469729",
+    "R1471858",
+    "R1471946",
+    "R149061",
+    "R152170",
+    "R153113",
+    "R1552981",
+    "R156306",
+    "R159441",
+    "R1596323",
+    "R160259",
+    "R1681041",
+    "R184022",
+    "R215039",
+    "R217398",
+    "R332181",
+    "R38248",
+    "R48214",
+    "R54009",
+    "R54875",
+    "R575738",
+    "R583594",
+    "R584596",
+    "R593830",
+    "R598477",
+    "R644493",
+    "R659576",
+    "R660172",
+    "R673347",
+    "R676000",
+    "R677617",
+    "R704785",
+    "R733029",
+    "R733136",
+    "R733141",
+    "R789824"
+  ],
+  "count": 5,
+  "kinds": {
+    "attr": 37,
+    "count": 37,
+    "nested": 13,
+    "filter": 15,
+    "unused": 7
+  },
+  "items": [
+    {
+      "id": "R644493/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R644493",
+      "templateTitle": "value",
+      "field": "Structural Materials",
+      "question": "For the papers described with the \"value\" template, what upper limit does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C72003 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P15212> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P110057> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P112016> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P121020> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/wikidata:P2436> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P110058> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P110117> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P180023> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P5071> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P127007> ?x . }\n  ?x <http://orkg.org/orkg/predicate/wikidata:P5448> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R644493/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R644493",
+      "templateTitle": "value",
+      "field": "Structural Materials",
+      "question": "For the papers described with the \"value\" template, how many different values of upper limit does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C72003 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P15212> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P110057> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P112016> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P121020> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/wikidata:P2436> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P110058> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P110117> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P180023> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P5071> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P127007> ?x . }\n  ?x <http://orkg.org/orkg/predicate/wikidata:P5448> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R143669/attr",
+      "dataset": "sampled",
+      "kind": "attr",
+      "templateId": "R143669",
+      "templateTitle": "Ontology and KG description",
+      "field": "Semantic Web",
+      "question": "For the papers described with the \"Ontology and KG description\" template, what name does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C20034 .\n  { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P49030> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/SAME_AS> ?m . ?m <http://orkg.org/orkg/predicate/P31> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P49053> ?m . ?m <http://orkg.org/orkg/predicate/P31> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41666> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41818> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P4053> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41667> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41668> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41146> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41128> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P5> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P49030> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R143669/count",
+      "dataset": "sampled",
+      "kind": "count",
+      "templateId": "R143669",
+      "templateTitle": "Ontology and KG description",
+      "field": "Semantic Web",
+      "question": "For the papers described with the \"Ontology and KG description\" template, how many different values of name does each paper report?",
+      "goldQueries": [
+        "SELECT ?paper (COUNT(DISTINCT ?v) AS ?n) WHERE {\n  ?x a orkgc:C20034 .\n  { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P49030> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/SAME_AS> ?m . ?m <http://orkg.org/orkg/predicate/P31> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P49053> ?m . ?m <http://orkg.org/orkg/predicate/P31> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41666> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41818> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P4053> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41667> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41668> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41146> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41128> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P5> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P49030> ?v .\n} GROUP BY ?paper"
+      ],
+      "expectEmpty": false
+    },
+    {
+      "id": "R143669/unused",
+      "dataset": "sampled",
+      "kind": "unused",
+      "templateId": "R143669",
+      "templateTitle": "Ontology and KG description",
+      "field": "Semantic Web",
+      "question": "For the papers described with the \"Ontology and KG description\" template, what Ontology Development Methodology does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C20034 .\n  { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P49030> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/SAME_AS> ?m . ?m <http://orkg.org/orkg/predicate/P31> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P49053> ?m . ?m <http://orkg.org/orkg/predicate/P31> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41666> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41818> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P4053> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41667> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41668> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41146> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41128> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P5> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P152030> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P152030",
+      "expectEmpty": true
+    }
+  ]
+}

@@ -1,0 +1,722 @@
+{
+  "source": "build_sampled.py --stress --per-kind 15 --seed 2027",
+  "pool_sizes": {
+    "route": 31,
+    "mismatch": 14,
+    "unused": 34
+  },
+  "templates": {
+    "route": [
+      "R150770",
+      "R597201",
+      "R188038",
+      "R144395",
+      "R597218",
+      "R285353",
+      "R221194",
+      "R602693",
+      "R108555",
+      "R187815",
+      "R52156",
+      "R155470",
+      "R150886",
+      "R227989",
+      "R166617"
+    ],
+    "mismatch": [
+      "R1377305",
+      "R1553343",
+      "R691748",
+      "R1382007",
+      "R700624",
+      "R166722",
+      "R670159",
+      "R277000",
+      "R175463",
+      "R691605",
+      "R744656",
+      "R758114",
+      "R188038",
+      "R700561"
+    ],
+    "unused": [
+      "R1434471",
+      "R653253",
+      "R758458",
+      "R699633",
+      "R664461",
+      "R147048",
+      "R653243",
+      "R166819",
+      "R285976",
+      "R138077",
+      "R733071",
+      "R182248",
+      "R285353",
+      "R52190",
+      "R703185"
+    ]
+  },
+  "count": 44,
+  "items": [
+    {
+      "id": "R150770/stress-route",
+      "dataset": "stress",
+      "kind": "attr",
+      "templateId": "R150770",
+      "templateTitle": "Tailored Forming Process Step",
+      "field": "",
+      "question": "For the papers described with the \"Tailored Forming Process Step\" template, what Has measurement method does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C21032 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P7108> ?m . ?m <http://orkg.org/orkg/predicate/P43070> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P7108> ?m . ?m <http://orkg.org/orkg/predicate/P44026> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P7108> ?m . ?m <http://orkg.org/orkg/predicate/P44027> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P130036> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P130036> ?m . ?m <http://orkg.org/orkg/predicate/P44025> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P44012> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "stress": "route",
+      "expectEmpty": false
+    },
+    {
+      "id": "R597201/stress-route",
+      "dataset": "stress",
+      "kind": "attr",
+      "templateId": "R597201",
+      "templateTitle": "Variable",
+      "field": "",
+      "question": "For the papers described with the \"Variable\" template, what has matrix does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C67003 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P135056> ?m . ?m <http://orkg.org/orkg/predicate/P27012> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P135056> ?m . ?m <http://orkg.org/orkg/predicate/P27011> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P71163> ?m . ?m <http://orkg.org/orkg/predicate/P117004> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P71163> ?m . ?m <http://orkg.org/orkg/predicate/P117023> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P71163> ?m . ?m <http://orkg.org/orkg/predicate/P118086> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P35200> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P180023> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P117006> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "stress": "route",
+      "expectEmpty": false
+    },
+    {
+      "id": "R188038/stress-route",
+      "dataset": "stress",
+      "kind": "attr",
+      "templateId": "R188038",
+      "templateTitle": "Machine Learning",
+      "field": "",
+      "question": "For the papers described with the \"Machine Learning\" template, what Algorithm does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C29012 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P15124> ?m . ?m <http://orkg.org/orkg/predicate/P57016> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P32> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P3000> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P2001> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "stress": "route",
+      "expectEmpty": false
+    },
+    {
+      "id": "R144395/stress-route",
+      "dataset": "stress",
+      "kind": "attr",
+      "templateId": "R144395",
+      "templateTitle": "Zeta Potential",
+      "field": "",
+      "question": "For the papers described with the \"Zeta Potential\" template, what value does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C20047 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41740> ?m . ?m <http://orkg.org/orkg/predicate/P37298> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41524> ?m . ?m <http://orkg.org/orkg/predicate/P37298> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P37298> ?x . }\n  ?x <http://orkg.org/orkg/predicate/HAS_VALUE> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "stress": "route",
+      "expectEmpty": false
+    },
+    {
+      "id": "R597218/stress-route",
+      "dataset": "stress",
+      "kind": "attr",
+      "templateId": "R597218",
+      "templateTitle": "Quantity Value",
+      "field": "",
+      "question": "For the papers described with the \"Quantity Value\" template, what qudt:unit does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C67005 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P142035> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P175001> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P175002> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P147063> ?x . }\n  UNION { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P118088> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "stress": "route",
+      "expectEmpty": false
+    },
+    {
+      "id": "R285353/stress-route",
+      "dataset": "stress",
+      "kind": "attr",
+      "templateId": "R285353",
+      "templateTitle": "SemTab challenge",
+      "field": "",
+      "question": "For the papers described with the \"SemTab challenge\" template, what first prize does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C52000 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P15370> ?x . }\n  UNION { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P97167> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P97102> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "stress": "route",
+      "expectEmpty": false
+    },
+    {
+      "id": "R221194/stress-route",
+      "dataset": "stress",
+      "kind": "attr",
+      "templateId": "R221194",
+      "templateTitle": "Evaluation item",
+      "field": "",
+      "question": "For the papers described with the \"Evaluation item\" template, what textValue does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C40018 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P37365> ?m . ?m <http://orkg.org/orkg/predicate/P71154> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P44159> ?m . ?m <http://orkg.org/orkg/predicate/P71154> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P71154> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P71153> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "stress": "route",
+      "expectEmpty": false
+    },
+    {
+      "id": "R602693/stress-route",
+      "dataset": "stress",
+      "kind": "attr",
+      "templateId": "R602693",
+      "templateTitle": "Hypotheses in invasion biology template",
+      "field": "",
+      "question": "For the papers described with the \"Hypotheses in invasion biology template\" template, what studied by does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C65014 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P129006> ?m . ?m <http://orkg.org/orkg/predicate/P30001> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P126013> ?m . ?m <http://orkg.org/orkg/predicate/P30001> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P30001> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P95001> ?m . ?m <http://orkg.org/orkg/predicate/SAME_AS> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P95001> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P29013> ?x . }\n  ?x <http://orkg.org/orkg/predicate/wikidata:P2579> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "stress": "route",
+      "expectEmpty": false
+    },
+    {
+      "id": "R108555/stress-route",
+      "dataset": "stress",
+      "kind": "attr",
+      "templateId": "R108555",
+      "templateTitle": "Machine Learning Experiment",
+      "field": "Artificial Intelligence",
+      "question": "For the papers described with the \"Machine Learning Experiment\" template, what Classification category does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C17011 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P32> ?m . ?m <http://orkg.org/orkg/predicate/P37152> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P37152> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P37029> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "stress": "route",
+      "expectEmpty": false
+    },
+    {
+      "id": "R187815/stress-route",
+      "dataset": "stress",
+      "kind": "attr",
+      "templateId": "R187815",
+      "templateTitle": "Descriptive Statistics",
+      "field": "",
+      "question": "For the papers described with the \"Descriptive Statistics\" template, what measures of position does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C20073 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P15124> ?m . ?m <http://orkg.org/orkg/predicate/P56048> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P59078> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P57010> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "stress": "route",
+      "expectEmpty": false
+    },
+    {
+      "id": "R52156/stress-route",
+      "dataset": "stress",
+      "kind": "attr",
+      "templateId": "R52156",
+      "templateTitle": "Meter measurement",
+      "field": "",
+      "question": "For the papers described with the \"Meter measurement\" template, what unit does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C11000 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P30012> ?m . ?m <http://orkg.org/orkg/predicate/P30019> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P30011> ?m . ?m <http://orkg.org/orkg/predicate/P27036> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P46001> ?x . }\n  UNION { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P7004> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "stress": "route",
+      "expectEmpty": false
+    },
+    {
+      "id": "R155470/stress-route",
+      "dataset": "stress",
+      "kind": "attr",
+      "templateId": "R155470",
+      "templateTitle": "Paper",
+      "field": "",
+      "question": "For the papers described with the \"Paper\" template, what venue does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:Paper .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P49053> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41612> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P23103> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P2005> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P36029> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P35034> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/wikidata:P527> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P1005> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P3000> ?x . }\n  UNION { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P187014> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P177001> ?m . ?m <http://orkg.org/orkg/predicate/reference> ?x . }\n  ?x <http://orkg.org/orkg/predicate/HAS_VENUE> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "stress": "route",
+      "expectEmpty": false
+    },
+    {
+      "id": "R150886/stress-route",
+      "dataset": "stress",
+      "kind": "attr",
+      "templateId": "R150886",
+      "templateTitle": "Qualities",
+      "field": "",
+      "question": "For the papers described with the \"Qualities\" template, what Has measurement does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C21038 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P43078> ?m . ?m <http://orkg.org/orkg/predicate/P7113> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P43078> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/HasSection> ?m . ?m <http://orkg.org/orkg/predicate/HasEntity> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P135012> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P36029> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P41861> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "stress": "route",
+      "expectEmpty": false
+    },
+    {
+      "id": "R227989/stress-route",
+      "dataset": "stress",
+      "kind": "attr",
+      "templateId": "R227989",
+      "templateTitle": "accuracy",
+      "field": "",
+      "question": "For the papers described with the \"accuracy\" template, what root mean square error (RMSE) does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C40028 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/METHOD> ?m . ?m <http://orkg.org/orkg/predicate/P42007> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/RESULT> ?m . ?m <http://orkg.org/orkg/predicate/P67040> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/METHOD> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P15357> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P3000> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P62075> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "stress": "route",
+      "expectEmpty": false
+    },
+    {
+      "id": "R166617/stress-route",
+      "dataset": "stress",
+      "kind": "attr",
+      "templateId": "R166617",
+      "templateTitle": "Quantity",
+      "field": "",
+      "question": "For the papers described with the \"Quantity\" template, what hasQuantityKind does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C23007 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/PWC_HAS_BENCHMARK> ?m . ?m <http://orkg.org/orkg/predicate/P34> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/PWC_HAS_BENCHMARK> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P44159> ?m . ?m <http://orkg.org/orkg/predicate/HAS_EVALUATION> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P44159> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P198337> ?m . ?m <http://orkg.org/orkg/predicate/P110121> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P45119> ?m . ?m <http://orkg.org/orkg/predicate/P23149> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P26002> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P2005> ?m . ?m <http://orkg.org/orkg/predicate/P34> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P44054> ?m . ?m <http://orkg.org/orkg/predicate/P34> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P58072> ?m . ?m <http://orkg.org/orkg/predicate/P34> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/HAS_EVALUATION> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P119148> ?m . ?m <http://orkg.org/orkg/predicate/P34> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P45074> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "stress": "route",
+      "expectEmpty": false
+    },
+    {
+      "id": "R1377305/stress-mismatch",
+      "dataset": "stress",
+      "kind": "mismatch",
+      "templateId": "R1377305",
+      "templateTitle": "Classification of AI systems for Scholarly Communication",
+      "field": "Artificial Intelligence",
+      "question": "For the papers described with the \"Classification of AI systems for Scholarly Communication\" template, what objective does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C112000 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P67098> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P107003",
+      "used": "P67098",
+      "stress": "mismatch",
+      "expectEmpty": false
+    },
+    {
+      "id": "R1553343/stress-mismatch",
+      "dataset": "stress",
+      "kind": "mismatch",
+      "templateId": "R1553343",
+      "templateTitle": "Drought Stress Units Ranges",
+      "field": "Plant Cultivation, Plant Nutrition, Agricultural Technology",
+      "question": "For the papers described with the \"Drought Stress Units Ranges\" template, what metric does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C121063 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P15257> ?m . ?m <http://orkg.org/orkg/predicate/P15229> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P180086> ?m . ?m <http://orkg.org/orkg/predicate/P23146> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P181068> ?m . ?m <http://orkg.org/orkg/predicate/P181063> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P181068> ?m . ?m <http://orkg.org/orkg/predicate/P178051> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P180068> ?m . ?m <http://orkg.org/orkg/predicate/P180082> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P180068> ?m . ?m <http://orkg.org/orkg/predicate/P183048> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P181068> ?m . ?m <http://orkg.org/orkg/predicate/P180077> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P181068> ?m . ?m <http://orkg.org/orkg/predicate/P23146> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P2006> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "HAS_METRIC",
+      "used": "P2006",
+      "stress": "mismatch",
+      "expectEmpty": false
+    },
+    {
+      "id": "R691748/stress-mismatch",
+      "dataset": "stress",
+      "kind": "mismatch",
+      "templateId": "R691748",
+      "templateTitle": "detection approaches in astronomical images",
+      "field": "",
+      "question": "For the papers described with the \"detection approaches in astronomical images\" template, what image_type does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C89008 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P147079> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P145016",
+      "used": "P147079",
+      "stress": "mismatch",
+      "expectEmpty": false
+    },
+    {
+      "id": "R1382007/stress-mismatch",
+      "dataset": "stress",
+      "kind": "mismatch",
+      "templateId": "R1382007",
+      "templateTitle": "Firm-level data",
+      "field": "",
+      "question": "For the papers described with the \"Firm-level data\" template, what metric does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C114000 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P2006> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "HAS_METRIC",
+      "used": "P2006",
+      "stress": "mismatch",
+      "expectEmpty": false
+    },
+    {
+      "id": "R700624/stress-mismatch",
+      "dataset": "stress",
+      "kind": "mismatch",
+      "templateId": "R700624",
+      "templateTitle": "Comparison of existing E. coli detection methods",
+      "field": "",
+      "question": "For the papers described with the \"Comparison of existing E. coli detection methods\" template, what method type does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C91007 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P147083> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P94003",
+      "used": "P147083",
+      "stress": "mismatch",
+      "expectEmpty": false
+    },
+    {
+      "id": "R166722/stress-mismatch",
+      "dataset": "stress",
+      "kind": "mismatch",
+      "templateId": "R166722",
+      "templateTitle": "Schema.org SoftwareApplication",
+      "field": "",
+      "question": "For the papers described with the \"Schema.org SoftwareApplication\" template, what software version does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:Software .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P45096> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P37386> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P45097> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P45095> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P55020> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/Tool> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P114000> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/RESULT> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P4018> ?m . ?m <http://orkg.org/orkg/predicate/P37386> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41612> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P49056> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P15298> ?m . ?m <http://orkg.org/orkg/predicate/operatingSystem> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P45088> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P49013",
+      "used": "P45088",
+      "stress": "mismatch",
+      "expectEmpty": false
+    },
+    {
+      "id": "R670159/stress-mismatch",
+      "dataset": "stress",
+      "kind": "mismatch",
+      "templateId": "R670159",
+      "templateTitle": "Restoration Ecology - Intervention Study",
+      "field": "Restoration ecology",
+      "question": "For the papers described with the \"Restoration Ecology - Intervention Study\" template, what has degradation type does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C82000 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P142011> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P140011",
+      "used": "P142011",
+      "stress": "mismatch",
+      "expectEmpty": false
+    },
+    {
+      "id": "R277000/stress-mismatch",
+      "dataset": "stress",
+      "kind": "mismatch",
+      "templateId": "R277000",
+      "templateTitle": "Scientific paper dataset (metadata) description",
+      "field": "",
+      "question": "For the papers described with the \"Scientific paper dataset (metadata) description\" template, what Conference metadata does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C48000 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P97006> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P97030",
+      "used": "P97006",
+      "stress": "mismatch",
+      "expectEmpty": false
+    },
+    {
+      "id": "R175463/stress-mismatch",
+      "dataset": "stress",
+      "kind": "mismatch",
+      "templateId": "R175463",
+      "templateTitle": "Methodologies and Reporting Standards in Literature Review Research",
+      "field": "Information Science",
+      "question": "For the papers described with the \"Methodologies and Reporting Standards in Literature Review Research\" template, what has goal does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C128065 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P24013> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "wikidata:P3712",
+      "used": "P24013",
+      "stress": "mismatch",
+      "expectEmpty": false
+    },
+    {
+      "id": "R691605/stress-mismatch",
+      "dataset": "stress",
+      "kind": "mismatch",
+      "templateId": "R691605",
+      "templateTitle": "image transformation approaches in astronomical images",
+      "field": "",
+      "question": "For the papers described with the \"image transformation approaches in astronomical images\" template, what image_type does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C89007 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P147079> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P145016",
+      "used": "P147079",
+      "stress": "mismatch",
+      "expectEmpty": false
+    },
+    {
+      "id": "R744656/stress-mismatch",
+      "dataset": "stress",
+      "kind": "mismatch",
+      "templateId": "R744656",
+      "templateTitle": "Soil-classification-and-analysis",
+      "field": "",
+      "question": "For the papers described with the \"Soil-classification-and-analysis\" template, what method does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C99032 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/METHOD> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "HAS_METHOD",
+      "used": "METHOD",
+      "stress": "mismatch",
+      "expectEmpty": false
+    },
+    {
+      "id": "R758114/stress-mismatch",
+      "dataset": "stress",
+      "kind": "mismatch",
+      "templateId": "R758114",
+      "templateTitle": "Ontology transformation tools",
+      "field": "Semantic Web",
+      "question": "For the papers described with the \"Ontology transformation tools\" template, what Query language does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C102001 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P59186> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P34139",
+      "used": "P59186",
+      "stress": "mismatch",
+      "expectEmpty": false
+    },
+    {
+      "id": "R188038/stress-mismatch",
+      "dataset": "stress",
+      "kind": "mismatch",
+      "templateId": "R188038",
+      "templateTitle": "Machine Learning",
+      "field": "",
+      "question": "For the papers described with the \"Machine Learning\" template, what metric does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C29012 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P15124> ?m . ?m <http://orkg.org/orkg/predicate/P57016> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P32> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P3000> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P2006> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "HAS_METRIC",
+      "used": "P2006",
+      "stress": "mismatch",
+      "expectEmpty": false
+    },
+    {
+      "id": "R700561/stress-mismatch",
+      "dataset": "stress",
+      "kind": "mismatch",
+      "templateId": "R700561",
+      "templateTitle": "Analysis of calving front extraction approaches",
+      "field": "",
+      "question": "For the papers described with the \"Analysis of calving front extraction approaches\" template, what Limitations does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C91006 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P147056> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P5006",
+      "used": "P147056",
+      "stress": "mismatch",
+      "expectEmpty": false
+    },
+    {
+      "id": "R1434471/stress-unused",
+      "dataset": "stress",
+      "kind": "unused",
+      "templateId": "R1434471",
+      "templateTitle": "OpticalProperties",
+      "field": "",
+      "question": "For the papers described with the \"OpticalProperties\" template, what AbsorptionCoefficient does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C117033 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P161031> ?m . ?m <http://orkg.org/orkg/predicate/P161034> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P161026> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P161026",
+      "stress": "unused",
+      "expectEmpty": true
+    },
+    {
+      "id": "R653253/stress-unused",
+      "dataset": "stress",
+      "kind": "unused",
+      "templateId": "R653253",
+      "templateTitle": "Retrieval system",
+      "field": "Artificial Intelligence",
+      "question": "For the papers described with the \"Retrieval system\" template, what evaluation does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C77004 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P34> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P34",
+      "stress": "unused",
+      "expectEmpty": true
+    },
+    {
+      "id": "R758458/stress-unused",
+      "dataset": "stress",
+      "kind": "unused",
+      "templateId": "R758458",
+      "templateTitle": "Template energy procurement",
+      "field": "",
+      "question": "For the papers described with the \"Template energy procurement\" template, what deliverability does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C102010 .\n  { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P160000> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P160000> ?m . ?m <http://orkg.org/orkg/predicate/P37628> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P159004> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P159005> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P159005",
+      "stress": "unused",
+      "expectEmpty": true
+    },
+    {
+      "id": "R699633/stress-unused",
+      "dataset": "stress",
+      "kind": "unused",
+      "templateId": "R699633",
+      "templateTitle": "Comparision of different approaches for addressing tasks related to mathematical language processing",
+      "field": "",
+      "question": "For the papers described with the \"Comparision of different approaches for addressing tasks related to mathematical language processing\" template, what metric does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C91000 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/HAS_METRIC> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "HAS_METRIC",
+      "stress": "unused",
+      "expectEmpty": true
+    },
+    {
+      "id": "R664461/stress-unused",
+      "dataset": "stress",
+      "kind": "unused",
+      "templateId": "R664461",
+      "templateTitle": "Linear Mixed Model Fitting",
+      "field": "",
+      "question": "For the papers described with the \"Linear Mixed Model Fitting\" template, what has output statement does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C81034 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P117003> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P117001> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P117001",
+      "stress": "unused",
+      "expectEmpty": true
+    },
+    {
+      "id": "R147048/stress-unused",
+      "dataset": "stress",
+      "kind": "unused",
+      "templateId": "R147048",
+      "templateTitle": "Evaluation metric",
+      "field": "",
+      "question": "For the papers described with the \"Evaluation metric\" template, what Recall does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C20129 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41532> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/HAS_EVALUATION> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P110006> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P3000> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P174452> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P5015> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P5015",
+      "stress": "unused",
+      "expectEmpty": true
+    },
+    {
+      "id": "R653243/stress-unused",
+      "dataset": "stress",
+      "kind": "unused",
+      "templateId": "R653243",
+      "templateTitle": "Recognition system",
+      "field": "Artificial Intelligence",
+      "question": "For the papers described with the \"Recognition system\" template, what Name does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C77003 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P37605> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P37605",
+      "stress": "unused",
+      "expectEmpty": true
+    },
+    {
+      "id": "R166819/stress-unused",
+      "dataset": "stress",
+      "kind": "unused",
+      "templateId": "R166819",
+      "templateTitle": "Guide",
+      "field": "",
+      "question": "For the papers described with the \"Guide\" template, what url does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C23011 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P45119> ?m . ?m <http://orkg.org/orkg/predicate/P45079> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P1003> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P1003",
+      "stress": "unused",
+      "expectEmpty": true
+    },
+    {
+      "id": "R285976/stress-unused",
+      "dataset": "stress",
+      "kind": "unused",
+      "templateId": "R285976",
+      "templateTitle": "Tabular data description",
+      "field": "",
+      "question": "For the papers described with the \"Tabular data description\" template, what type of table does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C52011 .\n  { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P34063> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P97130> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P97117> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P97117",
+      "stress": "unused",
+      "expectEmpty": true
+    },
+    {
+      "id": "R138077/stress-unused",
+      "dataset": "stress",
+      "kind": "unused",
+      "templateId": "R138077",
+      "templateTitle": "Ontology learning from data sources",
+      "field": "Artificial Intelligence",
+      "question": "For the papers described with the \"Ontology learning from data sources\" template, what Validation tool does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:OntologySection .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/HasSection> ?x . }\n  UNION { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41001> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P41612> ?m . ?m <http://orkg.org/orkg/predicate/P31> ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P49053> ?m . ?m <http://orkg.org/orkg/predicate/P31> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P41615> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P41615",
+      "stress": "unused",
+      "expectEmpty": true
+    },
+    {
+      "id": "R733071/stress-unused",
+      "dataset": "stress",
+      "kind": "unused",
+      "templateId": "R733071",
+      "templateTitle": "ALD Film Properties",
+      "field": "",
+      "question": "For the papers described with the \"ALD Film Properties\" template, what uniformity does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C99006 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P156018> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P156016> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P156016",
+      "stress": "unused",
+      "expectEmpty": true
+    },
+    {
+      "id": "R182248/stress-unused",
+      "dataset": "stress",
+      "kind": "unused",
+      "templateId": "R182248",
+      "templateTitle": "Image dataset",
+      "field": "Artificial Intelligence",
+      "question": "For the papers described with the \"Image dataset\" template, what visual features does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C25000 .\n  { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P49053> ?m . ?m <http://orkg.org/orkg/predicate/P31> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P119150> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P119150",
+      "stress": "unused",
+      "expectEmpty": true
+    },
+    {
+      "id": "R285353/stress-unused",
+      "dataset": "stress",
+      "kind": "unused",
+      "templateId": "R285353",
+      "templateTitle": "SemTab challenge",
+      "field": "",
+      "question": "For the papers described with the \"SemTab challenge\" template, what reference publication does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C52000 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P15370> ?x . }\n  UNION { ?paper orkgp:P31 ?x . }\n  UNION { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P97167> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P49053> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P49053",
+      "stress": "unused",
+      "expectEmpty": true
+    },
+    {
+      "id": "R52190/stress-unused",
+      "dataset": "stress",
+      "kind": "unused",
+      "templateId": "R52190",
+      "templateTitle": "Transient absorption spectroscopy",
+      "field": "Life Sciences",
+      "question": "For the papers described with the \"Transient absorption spectroscopy\" template, what Has gaseous sample input does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C11002 .\n  { ?paper orkgp:P31 ?x . }\n  ?x <http://orkg.org/orkg/predicate/P30008> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P30008",
+      "stress": "unused",
+      "expectEmpty": true
+    },
+    {
+      "id": "R703185/stress-unused",
+      "dataset": "stress",
+      "kind": "unused",
+      "templateId": "R703185",
+      "templateTitle": "statistical_variable",
+      "field": "",
+      "question": "For the papers described with the \"statistical_variable\" template, what seeAlso does each paper report?",
+      "goldQueries": [
+        "SELECT DISTINCT ?paper ?value WHERE {\n  ?x a orkgc:C93010 .\n  { ?paper orkgp:P31 ?k . ?k <http://orkg.org/orkg/predicate/P4015> ?m . ?m <http://orkg.org/orkg/predicate/P17> ?x . }\n  ?x <http://orkg.org/orkg/predicate/P149017> ?value_v . OPTIONAL { ?value_v rdfs:label ?value_l . } BIND(COALESCE(?value_l, STR(?value_v)) AS ?value)\n}"
+      ],
+      "declared": "P149017",
+      "stress": "unused",
+      "expectEmpty": true
+    }
+  ]
+}
