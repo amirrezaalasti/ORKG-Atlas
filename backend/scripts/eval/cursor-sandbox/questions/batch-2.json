@@ -1,0 +1,107 @@
+[
+  {
+    "id": "R186491/query_16_1",
+    "set": "curated",
+    "templateId": "R186491",
+    "templateTitle": "Empirical Research Practice",
+    "question": "How has the number of research methods used per publication evolved over time?"
+  },
+  {
+    "id": "R1544125/query_1",
+    "set": "curated",
+    "templateId": "R1544125",
+    "templateTitle": "NLP4RE",
+    "question": "What are top-3 most frequently used evaluation metrics to assess a developed NLP approach?"
+  },
+  {
+    "id": "R1544125/query_2",
+    "set": "curated",
+    "templateId": "R1544125",
+    "templateTitle": "NLP4RE",
+    "question": "Which papers are associated with annotation guidelines?"
+  },
+  {
+    "id": "R1544125/query_3",
+    "set": "curated",
+    "templateId": "R1544125",
+    "templateTitle": "NLP4RE",
+    "question": "What are the different levels of granularity at which inputs can be represented, and how is this related to the RE task?"
+  },
+  {
+    "id": "R1544125/query_4",
+    "set": "curated",
+    "templateId": "R1544125",
+    "templateTitle": "NLP4RE",
+    "question": "What are the types of baselines reported in the papers?"
+  },
+  {
+    "id": "R1544125/query_5",
+    "set": "curated",
+    "templateId": "R1544125",
+    "templateTitle": "NLP4RE",
+    "question": "What is the most common format of textual requirements?"
+  },
+  {
+    "id": "R1544125/query_6",
+    "set": "curated",
+    "templateId": "R1544125",
+    "templateTitle": "NLP4RE",
+    "question": "What is the state of practice for validating the quality of the annotated datasets?"
+  },
+  {
+    "id": "R1544125/query_7",
+    "set": "curated",
+    "templateId": "R1544125",
+    "templateTitle": "NLP4RE",
+    "question": "What datasets exist for a certain NLP4RE task?"
+  },
+  {
+    "id": "R1544125/query_8",
+    "set": "curated",
+    "templateId": "R1544125",
+    "templateTitle": "NLP4RE",
+    "question": "Which combinations of RE and NLP tasks are most (a)typical?"
+  },
+  {
+    "id": "R1544125/query_9",
+    "set": "curated",
+    "templateId": "R1544125",
+    "templateTitle": "NLP4RE",
+    "question": "Which NLP4RE ID Card sections do not provide enough options to respondents?"
+  },
+  {
+    "id": "R1544125/query_10",
+    "set": "curated",
+    "templateId": "R1544125",
+    "templateTitle": "NLP4RE",
+    "question": "What are the usual numbers of annotators per NLP task?"
+  },
+  {
+    "id": "R1411854/psy_1",
+    "set": "ood",
+    "templateId": "R1411854",
+    "templateTitle": "Psychology Constructs and Measurements",
+    "question": "Which psychological constructs are investigated, and which ones are studied in the most papers?"
+  },
+  {
+    "id": "R1411854/psy_2",
+    "set": "ood",
+    "templateId": "R1411854",
+    "templateTitle": "Psychology Constructs and Measurements",
+    "question": "How is impulsivity measured across studies?"
+  },
+  {
+    "id": "R1411854/psy_3",
+    "set": "ood",
+    "templateId": "R1411854",
+    "templateTitle": "Psychology Constructs and Measurements",
+    "question": "How many distinct constructs does each paper study?"
+  },
+  {
+    "id": "R593657/eco_1",
+    "set": "ood",
+    "templateId": "R593657",
+    "templateTitle": "Study in Ecology & Evolution (main template)",
+    "question": "Which research approaches (for example observational or experimental) do ecology and evolution studies use?"
+  }
+]

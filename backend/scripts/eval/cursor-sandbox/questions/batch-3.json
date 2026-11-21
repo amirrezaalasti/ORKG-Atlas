@@ -1,0 +1,107 @@
+[
+  {
+    "id": "R593657/eco_2",
+    "set": "ood",
+    "templateId": "R593657",
+    "templateTitle": "Study in Ecology & Evolution (main template)",
+    "question": "On which continents are ecology and evolution studies conducted, and how many studies are there per continent?"
+  },
+  {
+    "id": "R593657/eco_3",
+    "set": "ood",
+    "templateId": "R593657",
+    "templateTitle": "Study in Ecology & Evolution (main template)",
+    "question": "Which taxonomic groups are studied in studies that follow an observational approach?"
+  },
+  {
+    "id": "R593657/eco_4",
+    "set": "ood",
+    "templateId": "R593657",
+    "templateTitle": "Study in Ecology & Evolution (main template)",
+    "question": "At which ecological organizational scale (individual, population, community, ecosystem, ...) do the studies operate?"
+  },
+  {
+    "id": "R593657/eco_5",
+    "set": "ood",
+    "templateId": "R593657",
+    "templateTitle": "Study in Ecology & Evolution (main template)",
+    "question": "How many years does each ecology and evolution study last?"
+  },
+  {
+    "id": "R593670/sys_1",
+    "set": "ood",
+    "templateId": "R593670",
+    "templateTitle": "Ecological study system description",
+    "question": "In which countries are the described ecological study systems located?"
+  },
+  {
+    "id": "R593670/sys_2",
+    "set": "ood",
+    "templateId": "R593670",
+    "templateTitle": "Ecological study system description",
+    "question": "Which habitats do the described ecological study systems cover?"
+  },
+  {
+    "id": "R702332/wind_1",
+    "set": "ood",
+    "templateId": "R702332",
+    "templateTitle": "Overview of data for wind energy potential assessment",
+    "question": "Which data sources are used for wind energy potential assessment?"
+  },
+  {
+    "id": "R702332/wind_2",
+    "set": "ood",
+    "templateId": "R702332",
+    "templateTitle": "Overview of data for wind energy potential assessment",
+    "question": "At which heights above ground (in metres) is wind speed measured?"
+  },
+  {
+    "id": "R702332/wind_3",
+    "set": "ood",
+    "templateId": "R702332",
+    "templateTitle": "Overview of data for wind energy potential assessment",
+    "question": "Which countries are covered by wind energy potential assessments, and how many studies per country?"
+  },
+  {
+    "id": "R702332/wind_4",
+    "set": "ood",
+    "templateId": "R702332",
+    "templateTitle": "Overview of data for wind energy potential assessment",
+    "question": "Which wind energy assessments present a wind rose?"
+  },
+  {
+    "id": "R702332/wind_5",
+    "set": "ood",
+    "templateId": "R702332",
+    "templateTitle": "Overview of data for wind energy potential assessment",
+    "question": "How many time series does each wind energy assessment use?"
+  },
+  {
+    "id": "R1596350/nut_1",
+    "set": "ood",
+    "templateId": "R1596350",
+    "templateTitle": "Nutritional and Metabolic Diseases",
+    "question": "Which nutritional and metabolic diseases are studied most often?"
+  },
+  {
+    "id": "R1596350/nut_2",
+    "set": "ood",
+    "templateId": "R1596350",
+    "templateTitle": "Nutritional and Metabolic Diseases",
+    "question": "In which geographical areas are studies on obesity conducted?"
+  },
+  {
+    "id": "R1596350/nut_3",
+    "set": "ood",
+    "templateId": "R1596350",
+    "templateTitle": "Nutritional and Metabolic Diseases",
+    "question": "How long do the dietary interventions last (value and unit)?"
+  },
+  {
+    "id": "R1596350/nut_4",
+    "set": "ood",
+    "templateId": "R1596350",
+    "templateTitle": "Nutritional and Metabolic Diseases",
+    "question": "Which types of diet are investigated in studies on type 2 diabetes?"
+  }
+]

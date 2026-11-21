@@ -1,0 +1,107 @@
+[
+  {
+    "id": "R1596350/nut_5",
+    "set": "ood",
+    "templateId": "R1596350",
+    "templateTitle": "Nutritional and Metabolic Diseases",
+    "question": "Which biomarkers are measured in nutritional and metabolic disease studies?"
+  },
+  {
+    "id": "R150770/stress-route",
+    "set": "stress",
+    "templateId": "R150770",
+    "templateTitle": "Tailored Forming Process Step",
+    "question": "For the papers described with the \"Tailored Forming Process Step\" template, what Has measurement method does each paper report?"
+  },
+  {
+    "id": "R597201/stress-route",
+    "set": "stress",
+    "templateId": "R597201",
+    "templateTitle": "Variable",
+    "question": "For the papers described with the \"Variable\" template, what has matrix does each paper report?"
+  },
+  {
+    "id": "R188038/stress-route",
+    "set": "stress",
+    "templateId": "R188038",
+    "templateTitle": "Machine Learning",
+    "question": "For the papers described with the \"Machine Learning\" template, what Algorithm does each paper report?"
+  },
+  {
+    "id": "R144395/stress-route",
+    "set": "stress",
+    "templateId": "R144395",
+    "templateTitle": "Zeta Potential",
+    "question": "For the papers described with the \"Zeta Potential\" template, what value does each paper report?"
+  },
+  {
+    "id": "R597218/stress-route",
+    "set": "stress",
+    "templateId": "R597218",
+    "templateTitle": "Quantity Value",
+    "question": "For the papers described with the \"Quantity Value\" template, what qudt:unit does each paper report?"
+  },
+  {
+    "id": "R285353/stress-route",
+    "set": "stress",
+    "templateId": "R285353",
+    "templateTitle": "SemTab challenge",
+    "question": "For the papers described with the \"SemTab challenge\" template, what first prize does each paper report?"
+  },
+  {
+    "id": "R221194/stress-route",
+    "set": "stress",
+    "templateId": "R221194",
+    "templateTitle": "Evaluation item",
+    "question": "For the papers described with the \"Evaluation item\" template, what textValue does each paper report?"
+  },
+  {
+    "id": "R602693/stress-route",
+    "set": "stress",
+    "templateId": "R602693",
+    "templateTitle": "Hypotheses in invasion biology template",
+    "question": "For the papers described with the \"Hypotheses in invasion biology template\" template, what studied by does each paper report?"
+  },
+  {
+    "id": "R108555/stress-route",
+    "set": "stress",
+    "templateId": "R108555",
+    "templateTitle": "Machine Learning Experiment",
+    "question": "For the papers described with the \"Machine Learning Experiment\" template, what Classification category does each paper report?"
+  },
+  {
+    "id": "R187815/stress-route",
+    "set": "stress",
+    "templateId": "R187815",
+    "templateTitle": "Descriptive Statistics",
+    "question": "For the papers described with the \"Descriptive Statistics\" template, what measures of position does each paper report?"
+  },
+  {
+    "id": "R52156/stress-route",
+    "set": "stress",
+    "templateId": "R52156",
+    "templateTitle": "Meter measurement",
+    "question": "For the papers described with the \"Meter measurement\" template, what unit does each paper report?"
+  },
+  {
+    "id": "R155470/stress-route",
+    "set": "stress",
+    "templateId": "R155470",
+    "templateTitle": "Paper",
+    "question": "For the papers described with the \"Paper\" template, what venue does each paper report?"
+  },
+  {
+    "id": "R150886/stress-route",
+    "set": "stress",
+    "templateId": "R150886",
+    "templateTitle": "Qualities",
+    "question": "For the papers described with the \"Qualities\" template, what Has measurement does each paper report?"
+  },
+  {
+    "id": "R227989/stress-route",
+    "set": "stress",
+    "templateId": "R227989",
+    "templateTitle": "accuracy",
+    "question": "For the papers described with the \"accuracy\" template, what root mean square error (RMSE) does each paper report?"
+  }
+]

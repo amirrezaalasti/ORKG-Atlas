@@ -1,0 +1,107 @@
+[
+  {
+    "id": "R166617/stress-route",
+    "set": "stress",
+    "templateId": "R166617",
+    "templateTitle": "Quantity",
+    "question": "For the papers described with the \"Quantity\" template, what hasQuantityKind does each paper report?"
+  },
+  {
+    "id": "R1377305/stress-mismatch",
+    "set": "stress",
+    "templateId": "R1377305",
+    "templateTitle": "Classification of AI systems for Scholarly Communication",
+    "question": "For the papers described with the \"Classification of AI systems for Scholarly Communication\" template, what objective does each paper report?"
+  },
+  {
+    "id": "R1553343/stress-mismatch",
+    "set": "stress",
+    "templateId": "R1553343",
+    "templateTitle": "Drought Stress Units Ranges",
+    "question": "For the papers described with the \"Drought Stress Units Ranges\" template, what metric does each paper report?"
+  },
+  {
+    "id": "R691748/stress-mismatch",
+    "set": "stress",
+    "templateId": "R691748",
+    "templateTitle": "detection approaches in astronomical images",
+    "question": "For the papers described with the \"detection approaches in astronomical images\" template, what image_type does each paper report?"
+  },
+  {
+    "id": "R1382007/stress-mismatch",
+    "set": "stress",
+    "templateId": "R1382007",
+    "templateTitle": "Firm-level data",
+    "question": "For the papers described with the \"Firm-level data\" template, what metric does each paper report?"
+  },
+  {
+    "id": "R700624/stress-mismatch",
+    "set": "stress",
+    "templateId": "R700624",
+    "templateTitle": "Comparison of existing E. coli detection methods",
+    "question": "For the papers described with the \"Comparison of existing E. coli detection methods\" template, what method type does each paper report?"
+  },
+  {
+    "id": "R166722/stress-mismatch",
+    "set": "stress",
+    "templateId": "R166722",
+    "templateTitle": "Schema.org SoftwareApplication",
+    "question": "For the papers described with the \"Schema.org SoftwareApplication\" template, what software version does each paper report?"
+  },
+  {
+    "id": "R670159/stress-mismatch",
+    "set": "stress",
+    "templateId": "R670159",
+    "templateTitle": "Restoration Ecology - Intervention Study",
+    "question": "For the papers described with the \"Restoration Ecology - Intervention Study\" template, what has degradation type does each paper report?"
+  },
+  {
+    "id": "R277000/stress-mismatch",
+    "set": "stress",
+    "templateId": "R277000",
+    "templateTitle": "Scientific paper dataset (metadata) description",
+    "question": "For the papers described with the \"Scientific paper dataset (metadata) description\" template, what Conference metadata does each paper report?"
+  },
+  {
+    "id": "R175463/stress-mismatch",
+    "set": "stress",
+    "templateId": "R175463",
+    "templateTitle": "Methodologies and Reporting Standards in Literature Review Research",
+    "question": "For the papers described with the \"Methodologies and Reporting Standards in Literature Review Research\" template, what has goal does each paper report?"
+  },
+  {
+    "id": "R691605/stress-mismatch",
+    "set": "stress",
+    "templateId": "R691605",
+    "templateTitle": "image transformation approaches in astronomical images",
+    "question": "For the papers described with the \"image transformation approaches in astronomical images\" template, what image_type does each paper report?"
+  },
+  {
+    "id": "R744656/stress-mismatch",
+    "set": "stress",
+    "templateId": "R744656",
+    "templateTitle": "Soil-classification-and-analysis",
+    "question": "For the papers described with the \"Soil-classification-and-analysis\" template, what method does each paper report?"
+  },
+  {
+    "id": "R758114/stress-mismatch",
+    "set": "stress",
+    "templateId": "R758114",
+    "templateTitle": "Ontology transformation tools",
+    "question": "For the papers described with the \"Ontology transformation tools\" template, what Query language does each paper report?"
+  },
+  {
+    "id": "R188038/stress-mismatch",
+    "set": "stress",
+    "templateId": "R188038",
+    "templateTitle": "Machine Learning",
+    "question": "For the papers described with the \"Machine Learning\" template, what metric does each paper report?"
+  },
+  {
+    "id": "R700561/stress-mismatch",
+    "set": "stress",
+    "templateId": "R700561",
+    "templateTitle": "Analysis of calving front extraction approaches",
+    "question": "For the papers described with the \"Analysis of calving front extraction approaches\" template, what Limitations does each paper report?"
+  }
+]

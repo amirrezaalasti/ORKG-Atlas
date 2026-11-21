@@ -1,0 +1,107 @@
+[
+  {
+    "id": "R186491/query_1",
+    "set": "curated",
+    "templateId": "R186491",
+    "templateTitle": "Empirical Research Practice",
+    "question": "How has the proportion of empirical studies evolved over time?"
+  },
+  {
+    "id": "R186491/query_2_1",
+    "set": "curated",
+    "templateId": "R186491",
+    "templateTitle": "Empirical Research Practice",
+    "question": "How often are which empirical methods used over time?"
+  },
+  {
+    "id": "R186491/query_3",
+    "set": "curated",
+    "templateId": "R186491",
+    "templateTitle": "Empirical Research Practice",
+    "question": "How has the proportion of papers that do not have an empirical study evolved over time?"
+  },
+  {
+    "id": "R186491/query_4_1",
+    "set": "curated",
+    "templateId": "R186491",
+    "templateTitle": "Empirical Research Practice",
+    "question": "How often are which empirical methods used?"
+  },
+  {
+    "id": "R186491/query_5",
+    "set": "curated",
+    "templateId": "R186491",
+    "templateTitle": "Empirical Research Practice",
+    "question": "How have the proportions of experiments, secondary research (reviews), surveys, case studies, and action research in the empirical methods used evolved over time?"
+  },
+  {
+    "id": "R186491/query_6_1",
+    "set": "curated",
+    "templateId": "R186491",
+    "templateTitle": "Empirical Research Practice",
+    "question": "How often are which statistical methods used?"
+  },
+  {
+    "id": "R186491/query_7_1",
+    "set": "curated",
+    "templateId": "R186491",
+    "templateTitle": "Empirical Research Practice",
+    "question": "How has the use of statistical methods evolved over time?"
+  },
+  {
+    "id": "R186491/query_8",
+    "set": "curated",
+    "templateId": "R186491",
+    "templateTitle": "Empirical Research Practice",
+    "question": "How has the reporting of threats to validity evolved over time?"
+  },
+  {
+    "id": "R186491/query_9",
+    "set": "curated",
+    "templateId": "R186491",
+    "templateTitle": "Empirical Research Practice",
+    "question": "What types of threats to validity do the authors report?"
+  },
+  {
+    "id": "R186491/query_10",
+    "set": "curated",
+    "templateId": "R186491",
+    "templateTitle": "Empirical Research Practice",
+    "question": "How have the proportions of case studies and action research in the empirical methods used evolved over time?"
+  },
+  {
+    "id": "R186491/query_11",
+    "set": "curated",
+    "templateId": "R186491",
+    "templateTitle": "Empirical Research Practice",
+    "question": "How has the provision of data (the materials used, raw data collected, and study results identified) evolved over time?"
+  },
+  {
+    "id": "R186491/query_12",
+    "set": "curated",
+    "templateId": "R186491",
+    "templateTitle": "Empirical Research Practice",
+    "question": "How has the reporting of research questions and answers evolved over time?"
+  },
+  {
+    "id": "R186491/query_13",
+    "set": "curated",
+    "templateId": "R186491",
+    "templateTitle": "Empirical Research Practice",
+    "question": "What empirical methods are used to conduct integrative and interpretive (systematic literature) reviews, so-called secondary research?"
+  },
+  {
+    "id": "R186491/query_14",
+    "set": "curated",
+    "templateId": "R186491",
+    "templateTitle": "Empirical Research Practice",
+    "question": "How has the proportion of empirical methods to conduct (systematic literature) reviews, so-called secondary research, evolved over time?"
+  },
+  {
+    "id": "R186491/query_15_1",
+    "set": "curated",
+    "templateId": "R186491",
+    "templateTitle": "Empirical Research Practice",
+    "question": "How many different research methods are used per publication?"
+  }
+]

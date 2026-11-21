@@ -1,0 +1,107 @@
+[
+  {
+    "id": "R1434471/stress-unused",
+    "set": "stress",
+    "templateId": "R1434471",
+    "templateTitle": "OpticalProperties",
+    "question": "For the papers described with the \"OpticalProperties\" template, what AbsorptionCoefficient does each paper report?"
+  },
+  {
+    "id": "R653253/stress-unused",
+    "set": "stress",
+    "templateId": "R653253",
+    "templateTitle": "Retrieval system",
+    "question": "For the papers described with the \"Retrieval system\" template, what evaluation does each paper report?"
+  },
+  {
+    "id": "R758458/stress-unused",
+    "set": "stress",
+    "templateId": "R758458",
+    "templateTitle": "Template energy procurement",
+    "question": "For the papers described with the \"Template energy procurement\" template, what deliverability does each paper report?"
+  },
+  {
+    "id": "R699633/stress-unused",
+    "set": "stress",
+    "templateId": "R699633",
+    "templateTitle": "Comparision of different approaches for addressing tasks related to mathematical language processing",
+    "question": "For the papers described with the \"Comparision of different approaches for addressing tasks related to mathematical language processing\" template, what metric does each paper report?"
+  },
+  {
+    "id": "R664461/stress-unused",
+    "set": "stress",
+    "templateId": "R664461",
+    "templateTitle": "Linear Mixed Model Fitting",
+    "question": "For the papers described with the \"Linear Mixed Model Fitting\" template, what has output statement does each paper report?"
+  },
+  {
+    "id": "R147048/stress-unused",
+    "set": "stress",
+    "templateId": "R147048",
+    "templateTitle": "Evaluation metric",
+    "question": "For the papers described with the \"Evaluation metric\" template, what Recall does each paper report?"
+  },
+  {
+    "id": "R653243/stress-unused",
+    "set": "stress",
+    "templateId": "R653243",
+    "templateTitle": "Recognition system",
+    "question": "For the papers described with the \"Recognition system\" template, what Name does each paper report?"
+  },
+  {
+    "id": "R166819/stress-unused",
+    "set": "stress",
+    "templateId": "R166819",
+    "templateTitle": "Guide",
+    "question": "For the papers described with the \"Guide\" template, what url does each paper report?"
+  },
+  {
+    "id": "R285976/stress-unused",
+    "set": "stress",
+    "templateId": "R285976",
+    "templateTitle": "Tabular data description",
+    "question": "For the papers described with the \"Tabular data description\" template, what type of table does each paper report?"
+  },
+  {
+    "id": "R138077/stress-unused",
+    "set": "stress",
+    "templateId": "R138077",
+    "templateTitle": "Ontology learning from data sources",
+    "question": "For the papers described with the \"Ontology learning from data sources\" template, what Validation tool does each paper report?"
+  },
+  {
+    "id": "R733071/stress-unused",
+    "set": "stress",
+    "templateId": "R733071",
+    "templateTitle": "ALD Film Properties",
+    "question": "For the papers described with the \"ALD Film Properties\" template, what uniformity does each paper report?"
+  },
+  {
+    "id": "R182248/stress-unused",
+    "set": "stress",
+    "templateId": "R182248",
+    "templateTitle": "Image dataset",
+    "question": "For the papers described with the \"Image dataset\" template, what visual features does each paper report?"
+  },
+  {
+    "id": "R285353/stress-unused",
+    "set": "stress",
+    "templateId": "R285353",
+    "templateTitle": "SemTab challenge",
+    "question": "For the papers described with the \"SemTab challenge\" template, what reference publication does each paper report?"
+  },
+  {
+    "id": "R52190/stress-unused",
+    "set": "stress",
+    "templateId": "R52190",
+    "templateTitle": "Transient absorption spectroscopy",
+    "question": "For the papers described with the \"Transient absorption spectroscopy\" template, what Has gaseous sample input does each paper report?"
+  },
+  {
+    "id": "R703185/stress-unused",
+    "set": "stress",
+    "templateId": "R703185",
+    "templateTitle": "statistical_variable",
+    "question": "For the papers described with the \"statistical_variable\" template, what seeAlso does each paper report?"
+  }
+]
