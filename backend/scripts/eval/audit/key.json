@@ -1,0 +1,242 @@
+[
+  {
+    "case": 1,
+    "item": "R702332/wind_1",
+    "config": "full",
+    "f1": 1
+  },
+  {
+    "case": 2,
+    "item": "R1411854/psy_3",
+    "config": "schema-dump",
+    "f1": 0
+  },
+  {
+    "case": 3,
+    "item": "R1596350/nut_2",
+    "config": "full",
+    "f1": 1
+  },
+  {
+    "case": 4,
+    "item": "R1411854/psy_2",
+    "config": "schema-dump",
+    "f1": 0.631578947368421
+  },
+  {
+    "case": 5,
+    "item": "R1596350/nut_4",
+    "config": "schema-dump",
+    "f1": 0.9639639639639639
+  },
+  {
+    "case": 6,
+    "item": "R1596350/nut_4",
+    "config": "full",
+    "f1": 0.9639639639639639
+  },
+  {
+    "case": 7,
+    "item": "R1544125/query_10",
+    "config": "full",
+    "f1": 0.4
+  },
+  {
+    "case": 8,
+    "item": "R186491/query_13",
+    "config": "no-guidance",
+    "f1": 0
+  },
+  {
+    "case": 9,
+    "item": "R1596350/nut_3",
+    "config": "schema-dump",
+    "f1": 0.9993288590604027
+  },
+  {
+    "case": 10,
+    "item": "R186491/query_7_1",
+    "config": "no-nesting",
+    "f1": 0.14285714285714285
+  },
+  {
+    "case": 11,
+    "item": "R1544125/query_8",
+    "config": "full",
+    "f1": 0.3333333333333333
+  },
+  {
+    "case": 12,
+    "item": "R593657/eco_2",
+    "config": "full",
+    "f1": 0
+  },
+  {
+    "case": 13,
+    "item": "R186491/query_1",
+    "config": "full",
+    "f1": 0
+  },
+  {
+    "case": 14,
+    "item": "R1544125/query_5",
+    "config": "full",
+    "f1": 1
+  },
+  {
+    "case": 15,
+    "item": "R1544125/query_3",
+    "config": "no-nesting",
+    "f1": 0.5
+  },
+  {
+    "case": 16,
+    "item": "R186491/query_2_1",
+    "config": "full",
+    "f1": 0.5823762927748783
+  },
+  {
+    "case": 17,
+    "item": "R186491/query_14",
+    "config": "no-guidance",
+    "f1": 0.24936734210861689
+  },
+  {
+    "case": 18,
+    "item": "R1411854/psy_2",
+    "config": "full",
+    "f1": 0.631578947368421
+  },
+  {
+    "case": 19,
+    "item": "R1544125/query_6",
+    "config": "full",
+    "f1": 0.3232323232323232
+  },
+  {
+    "case": 20,
+    "item": "R593657/eco_1",
+    "config": "full",
+    "f1": 1
+  },
+  {
+    "case": 21,
+    "item": "R1544125/query_7",
+    "config": "no-nesting",
+    "f1": 0
+  },
+  {
+    "case": 22,
+    "item": "R186491/query_4_1",
+    "config": "full",
+    "f1": 0.5829157620153554
+  },
+  {
+    "case": 23,
+    "item": "R1596350/nut_1",
+    "config": "schema-dump",
+    "f1": 1
+  },
+  {
+    "case": 24,
+    "item": "R702332/wind_5",
+    "config": "schema-dump",
+    "f1": 1
+  },
+  {
+    "case": 25,
+    "item": "R593670/sys_1",
+    "config": "schema-dump",
+    "f1": 0
+  },
+  {
+    "case": 26,
+    "item": "R186491/query_14",
+    "config": "no-nesting",
+    "f1": 0.15843023255813954
+  },
+  {
+    "case": 27,
+    "item": "R1544125/query_7",
+    "config": "no-guidance",
+    "f1": 0.06666666666666667
+  },
+  {
+    "case": 28,
+    "item": "R186491/query_8",
+    "config": "no-guidance",
+    "f1": 0
+  },
+  {
+    "case": 29,
+    "item": "R186491/query_5",
+    "config": "no-nesting",
+    "f1": 0
+  },
+  {
+    "case": 30,
+    "item": "R186491/query_10",
+    "config": "full",
+    "f1": 0.425155004428698
+  },
+  {
+    "case": 31,
+    "item": "R186491/query_11",
+    "config": "no-nesting",
+    "f1": 0
+  },
+  {
+    "case": 32,
+    "item": "R702332/wind_3",
+    "config": "schema-dump",
+    "f1": 0
+  },
+  {
+    "case": 33,
+    "item": "R1544125/query_2",
+    "config": "full",
+    "f1": 1
+  },
+  {
+    "case": 34,
+    "item": "R186491/query_12",
+    "config": "full",
+    "f1": 0.6386782610866271
+  },
+  {
+    "case": 35,
+    "item": "R1544125/query_1",
+    "config": "full",
+    "f1": 1
+  },
+  {
+    "case": 36,
+    "item": "R1544125/query_1",
+    "config": "no-nesting",
+    "f1": 1
+  },
+  {
+    "case": 37,
+    "item": "R186491/query_2_1",
+    "config": "no-nesting",
+    "f1": 0.41570962610821166
+  },
+  {
+    "case": 38,
+    "item": "R1544125/query_8",
+    "config": "no-guidance",
+    "f1": 0.6666666666666666
+  },
+  {
+    "case": 39,
+    "item": "R186491/query_9",
+    "config": "full",
+    "f1": 0.29400956896772806
+  },
+  {
+    "case": 40,
+    "item": "R186491/query_12",
+    "config": "no-guidance",
+    "f1": 0.7250541746408063
+  }
+]

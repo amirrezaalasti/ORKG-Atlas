@@ -1,0 +1,438 @@
+{
+  "annotator": "S",
+  "exportedAt": "2026-11-21T10:59:41.496Z",
+  "labels": {
+    "C001": {
+      "at": "2026-11-20T17:36:06.810Z",
+      "note": "",
+      "errors": [],
+      "seconds": 1200,
+      "verdict": "correct",
+      "position": 16,
+      "referenceDoubt": false
+    },
+    "C002": {
+      "at": "2026-11-20T17:10:26.887Z",
+      "note": "",
+      "errors": ["generic-label"],
+      "seconds": 127,
+      "verdict": "wrong",
+      "position": 13,
+      "referenceDoubt": false
+    },
+    "C003": {
+      "at": "2026-11-20T16:37:40.938Z",
+      "note": "The difference in row counts likely comes from how the queries match contributions. I think the system answer is even  better.",
+      "errors": [],
+      "seconds": 222,
+      "verdict": "correct",
+      "position": 4,
+      "referenceDoubt": false
+    },
+    "C008": {
+      "at": "2026-11-20T17:01:29.032Z",
+      "note": "",
+      "errors": [],
+      "seconds": 153,
+      "verdict": "correct",
+      "position": 10,
+      "referenceDoubt": true
+    },
+    "C014": {
+      "at": "2026-11-20T16:58:45.728Z",
+      "note": "",
+      "errors": ["filter"],
+      "seconds": 211,
+      "verdict": "partial",
+      "position": 8,
+      "referenceDoubt": false
+    },
+    "C017": {
+      "at": "2026-11-20T16:33:58.867Z",
+      "note": "",
+      "errors": [],
+      "seconds": 83,
+      "verdict": "correct",
+      "position": 3,
+      "referenceDoubt": false
+    },
+    "C018": {
+      "at": "2026-11-20T16:58:56.344Z",
+      "note": "",
+      "errors": [],
+      "seconds": 11,
+      "verdict": "correct",
+      "position": 9,
+      "referenceDoubt": false
+    },
+    "C021": {
+      "at": "2026-11-20T16:32:35.622Z",
+      "note": "",
+      "errors": [],
+      "seconds": 52,
+      "verdict": "correct",
+      "position": 2,
+      "referenceDoubt": false
+    },
+    "C022": {
+      "at": "2026-11-20T17:36:38.722Z",
+      "note": "",
+      "errors": [],
+      "seconds": 32,
+      "verdict": "correct",
+      "position": 17,
+      "referenceDoubt": false
+    },
+    "C025": {
+      "at": "2026-11-20T17:42:12.586Z",
+      "note": "",
+      "errors": [],
+      "seconds": 17,
+      "verdict": "correct",
+      "position": 19,
+      "referenceDoubt": false
+    },
+    "C027": {
+      "at": "2026-11-20T17:41:55.495Z",
+      "note": "",
+      "errors": [],
+      "seconds": 317,
+      "verdict": "correct",
+      "position": 18,
+      "referenceDoubt": false
+    },
+    "C029": {
+      "at": "2026-11-20T17:13:21.493Z",
+      "note": "",
+      "errors": [],
+      "seconds": 175,
+      "verdict": "correct",
+      "position": 14,
+      "referenceDoubt": false
+    },
+    "C030": {
+      "at": "2026-11-20T18:55:12.738Z",
+      "note": "",
+      "errors": ["wrong-attribute"],
+      "seconds": 30,
+      "verdict": "wrong",
+      "position": 23,
+      "referenceDoubt": false
+    },
+    "C031": {
+      "at": "2026-11-20T17:16:06.392Z",
+      "note": "",
+      "errors": ["generic-label"],
+      "seconds": 165,
+      "verdict": "partial",
+      "position": 15,
+      "referenceDoubt": false
+    },
+    "C035": {
+      "at": "2026-11-20T16:55:00.535Z",
+      "note": "",
+      "errors": [],
+      "seconds": 231,
+      "verdict": "correct",
+      "position": 7,
+      "referenceDoubt": false
+    },
+    "C036": {
+      "at": "2026-11-20T16:31:43.504Z",
+      "note": "",
+      "errors": ["filter"],
+      "seconds": 674,
+      "verdict": "partial",
+      "position": 1,
+      "referenceDoubt": false
+    },
+    "C037": {
+      "at": "2026-11-20T16:45:32.439Z",
+      "note": "",
+      "errors": ["wrong-attribute"],
+      "seconds": 471,
+      "verdict": "wrong",
+      "position": 5,
+      "referenceDoubt": false
+    },
+    "C038": {
+      "at": "2026-11-20T17:08:19.504Z",
+      "note": "",
+      "errors": [],
+      "seconds": 10,
+      "verdict": "correct",
+      "position": 12,
+      "referenceDoubt": false
+    },
+    "C039": {
+      "at": "2026-11-20T16:51:09.035Z",
+      "note": "The reference answer lists the combinations but does not count how often each one occurs.",
+      "errors": [],
+      "seconds": 337,
+      "verdict": "correct",
+      "position": 6,
+      "referenceDoubt": true
+    },
+    "C040": {
+      "at": "2026-11-20T17:08:09.684Z",
+      "note": "",
+      "errors": ["wrong-attribute", "filter"],
+      "seconds": 401,
+      "verdict": "wrong",
+      "position": 11,
+      "referenceDoubt": false
+    },
+    "C043": {
+      "at": "2026-11-20T18:54:43.196Z",
+      "note": "",
+      "errors": [],
+      "seconds": 1460,
+      "verdict": "correct",
+      "position": 22,
+      "referenceDoubt": false
+    },
+    "C046": {
+      "at": "2026-11-20T18:30:22.898Z",
+      "note": "",
+      "errors": [],
+      "seconds": 2841,
+      "verdict": "correct",
+      "position": 21,
+      "referenceDoubt": false
+    },
+    "C048": {
+      "at": "2026-11-20T17:43:01.918Z",
+      "note": "",
+      "errors": ["wrong-attribute", "filter"],
+      "seconds": 49,
+      "verdict": "partial",
+      "position": 20,
+      "referenceDoubt": false
+    },
+    "C010": {
+      "verdict": "unsure",
+      "errors": [],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 24,
+      "seconds": 52881,
+      "at": "2026-11-21T09:37:27.827Z"
+    },
+    "C015": {
+      "verdict": "correct",
+      "errors": [],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 25,
+      "seconds": 30,
+      "at": "2026-11-21T09:37:57.611Z"
+    },
+    "C020": {
+      "verdict": "correct",
+      "errors": [],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 26,
+      "seconds": 51,
+      "at": "2026-11-21T09:38:48.536Z"
+    },
+    "C005": {
+      "verdict": "wrong",
+      "errors": ["wrong-attribute", "filter"],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 27,
+      "seconds": 112,
+      "at": "2026-11-21T09:40:40.624Z"
+    },
+    "C034": {
+      "verdict": "correct",
+      "errors": [],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 28,
+      "seconds": 12,
+      "at": "2026-11-21T09:40:52.446Z"
+    },
+    "C041": {
+      "verdict": "correct",
+      "errors": [],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 29,
+      "seconds": 43,
+      "at": "2026-11-21T09:41:35.938Z"
+    },
+    "C009": {
+      "verdict": "correct",
+      "errors": [],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 30,
+      "seconds": 19,
+      "at": "2026-11-21T09:41:55.252Z"
+    },
+    "C007": {
+      "verdict": "wrong",
+      "errors": ["misattached"],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 31,
+      "seconds": 100,
+      "at": "2026-11-21T09:43:35.565Z"
+    },
+    "C024": {
+      "verdict": "correct",
+      "errors": [],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 32,
+      "seconds": 41,
+      "at": "2026-11-21T09:44:16.440Z"
+    },
+    "C026": {
+      "verdict": "correct",
+      "errors": [],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 33,
+      "seconds": 8,
+      "at": "2026-11-21T09:44:24.575Z"
+    },
+    "C012": {
+      "verdict": "wrong",
+      "errors": ["wrong-papers"],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 34,
+      "seconds": 47,
+      "at": "2026-11-21T09:45:12.056Z"
+    },
+    "C042": {
+      "verdict": "wrong",
+      "errors": ["wrong-attribute", "filter"],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 35,
+      "seconds": 28,
+      "at": "2026-11-21T09:45:40.240Z"
+    },
+    "C045": {
+      "verdict": "wrong",
+      "errors": ["wrong-attribute", "filter", "lost-information"],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 36,
+      "seconds": 4046,
+      "at": "2026-11-21T10:53:06.598Z"
+    },
+    "C028": {
+      "verdict": "correct",
+      "errors": [],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 37,
+      "seconds": 81,
+      "at": "2026-11-21T10:54:27.391Z"
+    },
+    "C047": {
+      "verdict": "correct",
+      "errors": [],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 38,
+      "seconds": 9,
+      "at": "2026-11-21T10:54:36.397Z"
+    },
+    "C013": {
+      "verdict": "unsure",
+      "errors": [],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 39,
+      "seconds": 42,
+      "at": "2026-11-21T10:55:18.103Z"
+    },
+    "C011": {
+      "verdict": "partial",
+      "errors": ["lost-information"],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 40,
+      "seconds": 75,
+      "at": "2026-11-21T10:56:33.234Z"
+    },
+    "C023": {
+      "verdict": "correct",
+      "errors": [],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 41,
+      "seconds": 15,
+      "at": "2026-11-21T10:56:48.442Z"
+    },
+    "C032": {
+      "verdict": "correct",
+      "errors": [],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 42,
+      "seconds": 46,
+      "at": "2026-11-21T10:57:34.735Z"
+    },
+    "C044": {
+      "verdict": "unsure",
+      "errors": [],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 43,
+      "seconds": 11,
+      "at": "2026-11-21T10:57:45.528Z"
+    },
+    "C033": {
+      "verdict": "correct",
+      "errors": [],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 44,
+      "seconds": 10,
+      "at": "2026-11-21T10:57:55.210Z"
+    },
+    "C004": {
+      "verdict": "wrong",
+      "errors": ["wrong-attribute"],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 45,
+      "seconds": 38,
+      "at": "2026-11-21T10:58:32.995Z"
+    },
+    "C019": {
+      "verdict": "correct",
+      "errors": [],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 46,
+      "seconds": 4,
+      "at": "2026-11-21T10:58:37.475Z"
+    },
+    "C006": {
+      "verdict": "correct",
+      "errors": [],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 47,
+      "seconds": 6,
+      "at": "2026-11-21T10:58:43.017Z"
+    },
+    "C016": {
+      "verdict": "partial",
+      "errors": ["filter", "generic-label"],
+      "referenceDoubt": false,
+      "note": "",
+      "position": 48,
+      "seconds": 38,
+      "at": "2026-11-21T10:59:21.507Z"
+    }
+  }
+}

@@ -1,0 +1,513 @@
+<title>SPARQL Answer Audit</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@600&display=swap">
+<style>
+/* Layout: one case at a time — question band, system vs. reference side by side, verdict rail below. */
+:root {
+  --bg: #f6f7f6;
+  --surface: #ffffff;
+  --ink: #18201e;
+  --muted: #5b6662;
+  --line: #d9dfdc;
+  --accent: #1d6b5f;
+  --accent-ink: #ffffff;
+  --sys: #2a5fa8;
+  --ref: #8a5a12;
+  --good: #1f7a3d;
+  --warn: #9a6200;
+  --bad: #b3261e;
+  --code-bg: #eef1ef;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-head: "IBM Plex Sans Condensed", "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121615; --surface: #1a201e; --ink: #e6ece9; --muted: #9aa7a2; --line: #2f3835;
+    --accent: #4fb3a2; --accent-ink: #0d1312; --sys: #7fa9e8; --ref: #d9a556;
+    --good: #5cc282; --warn: #e0a23a; --bad: #f08a80; --code-bg: #0f1312; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121615; --surface: #1a201e; --ink: #e6ece9; --muted: #9aa7a2; --line: #2f3835;
+  --accent: #4fb3a2; --accent-ink: #0d1312; --sys: #7fa9e8; --ref: #d9a556;
+  --good: #5cc282; --warn: #e0a23a; --bad: #f08a80; --code-bg: #0f1312; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 48px;
+}
+.wrap { max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+h1, h2, h3 { font-family: var(--font-head); font-weight: 600; text-wrap: balance; margin: 0; }
+h1 { font-size: 20px; }
+h2 { font-size: 15px; letter-spacing: 0.04em; text-transform: uppercase; }
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--surface); }
+.bar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--surface);
+  border-bottom: 1px solid var(--line); margin: 0 calc(-1 * max(16px, env(safe-area-inset-left, 0px))) 0;
+  padding: 10px max(16px, env(safe-area-inset-right, 0px)) 10px max(16px, env(safe-area-inset-left, 0px));
+}
+.bar-inner { max-width: 1280px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.bar-inner h1 { margin-right: auto; }
+.progress { display: flex; align-items: center; gap: 10px; font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13px; }
+.meter { width: 140px; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.meter > i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .2s; }
+.status { font-size: 12px; color: var(--muted); min-width: 9em; }
+.status.err { color: var(--bad); }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px; }
+.intro { display: grid; gap: 12px; }
+.intro p { margin: 0; max-width: 72ch; }
+.code-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.code-row input { width: 9em; padding: 6px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); }
+.btn { padding: 7px 14px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 600; }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+
+details.guide summary { cursor: pointer; font-weight: 600; }
+.guide dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 12px 0 0; }
+.guide dt { font-weight: 600; }
+.guide dd { margin: 0; max-width: 80ch; }
+@media (max-width: 640px) { .guide dl { grid-template-columns: 1fr; } .guide dd { margin-bottom: 6px; } }
+
+.qband { display: grid; gap: 6px; }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; color: var(--muted); letter-spacing: .04em; }
+.question { font-size: 19px; font-weight: 500; max-width: 80ch; }
+
+.pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 900px) { .pair { grid-template-columns: minmax(0, 1fr); } }
+/* Every block inside a side may shrink; wide tables scroll inside their own box. */
+.side > *, .side .block, .side details, .ov, .tablebox { min-width: 0; max-width: 100%; }
+.side .block { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+details.q[open] summary { margin-bottom: 4px; }
+.side { min-width: 0; display: flex; flex-direction: column; gap: 10px; border-top: 3px solid var(--sys); }
+.side.ref { border-top-color: var(--ref); }
+.side h2 { color: var(--sys); }
+.side.ref h2 { color: var(--ref); }
+.side .sub { font-size: 13px; color: var(--muted); margin: -6px 0 0; }
+details.q summary { cursor: pointer; font-size: 13px; color: var(--muted); }
+pre {
+  margin: 8px 0 0; padding: 10px; background: var(--code-bg); border-radius: 6px; overflow-x: auto;
+  font-family: var(--font-mono); font-size: 12px; line-height: 1.45;
+  white-space: pre-wrap; overflow-wrap: anywhere; max-height: 360px; overflow-y: auto;
+}
+.tablebox { overflow: auto; max-height: 420px; border: 1px solid var(--line); border-radius: 6px; }
+table { border-collapse: collapse; font-size: 12.5px; width: max-content; min-width: 100%; }
+th, td { text-align: left; padding: 4px 10px; border-bottom: 1px solid var(--line); vertical-align: top; max-width: 34ch; overflow-wrap: anywhere; }
+th { position: sticky; top: 0; background: var(--surface); font-family: var(--font-mono); font-weight: 500; font-size: 12px; }
+td { font-variant-numeric: tabular-nums; }
+.rowcount { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; margin: 6px 0; }
+.ov { display: grid; gap: 6px; }
+.facts { font-weight: 600; font-variant-numeric: tabular-nums; }
+.ovhead { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-top: 4px; }
+.ovlist { margin: 0; padding: 0; list-style: none; border: 1px solid var(--line); border-radius: 6px; }
+.ovlist li { display: flex; justify-content: space-between; gap: 12px; padding: 3px 10px; border-bottom: 1px solid var(--line); font-size: 13px; }
+.ovlist li:last-child { border-bottom: 0; }
+.ovlist li span:first-child { min-width: 0; overflow-wrap: anywhere; }
+.ovlist .n { font-variant-numeric: tabular-nums; color: var(--muted); flex: none; }
+.empty { padding: 12px; color: var(--muted); font-style: italic; }
+
+.judge { display: grid; gap: 14px; }
+.verdicts { display: flex; flex-wrap: wrap; gap: 8px; }
+.verdicts label {
+  display: flex; align-items: center; gap: 8px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 6px; cursor: pointer;
+}
+.verdicts input { accent-color: var(--accent); }
+.verdicts label:has(input:checked) { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.key { font-family: var(--font-mono); font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 3px; padding: 0 4px; }
+fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 8px; }
+legend { font-weight: 600; margin-bottom: 6px; }
+.errs { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 6px 16px; }
+.errs label, .flag { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; }
+textarea { width: 100%; min-height: 64px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); resize: vertical; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.actions .spacer { flex: 1; }
+
+.nav { display: flex; flex-wrap: wrap; gap: 4px; }
+.nav button {
+  width: 34px; height: 26px; font-family: var(--font-mono); font-size: 11px; border: 1px solid var(--line);
+  background: var(--surface); border-radius: 4px; padding: 0; font-variant-numeric: tabular-nums;
+}
+.nav button.done { background: var(--code-bg); color: var(--muted); }
+.nav button.cur { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); color: var(--ink); }
+.pill { display: inline-block; font-size: 11px; padding: 1px 8px; border-radius: 999px; border: 1px solid currentColor; }
+.pill.good { color: var(--good); } .pill.warn { color: var(--warn); } .pill.bad { color: var(--bad); }
+.done-panel p { margin: 0 0 8px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="bar">
+  <div class="bar-inner">
+    <h1>SPARQL Answer Audit</h1>
+    <div class="progress" aria-live="polite">
+      <div class="meter" aria-hidden="true"><i id="meter"></i></div>
+      <span id="progressText">0 of 0 judged</span>
+    </div>
+    <span class="status" id="status">Loading cases…</span>
+  </div>
+</div>
+
+<main class="wrap" style="padding-top:16px">
+  <section class="panel intro" id="intro">
+    <h2>Before you start</h2>
+    <p>Each case shows a research question about papers in the Open Research Knowledge Graph, the answer a system returned (its SPARQL query and result rows), and a reference answer written by the study authors. Decide whether the <strong>system's rows answer the question</strong>. You will not see scores, which system produced the answer, or the other annotator's labels.</p>
+    <p>Work alone and do not discuss cases with the other annotator until both of you are done. Answers save automatically; you can stop and come back.</p>
+    <div class="code-row">
+      <label for="annotator">Your annotator code</label>
+      <input id="annotator" maxlength="12" placeholder="e.g. A or B" autocomplete="off">
+      <button class="btn primary" id="startBtn" type="button">Start</button>
+    </div>
+    <details class="guide" open>
+      <summary>How to judge</summary>
+      <dl>
+        <dt><span class="pill good">Correct</span></dt>
+        <dd>The rows contain the facts the question asks for, for the right papers. A different shape is fine: counts instead of one row per paper, extra title, year or URI columns, long instead of wide tables, a resource ID next to its label.</dd>
+        <dt><span class="pill warn">Partly correct</span></dt>
+        <dd>The right kind of answer with a real but limited defect: some papers missing or added because a filter is slightly too narrow or broad, or only one part of a multi-part question answered.</dd>
+        <dt><span class="pill bad">Wrong</span></dt>
+        <dd>The rows answer a different question: the wrong attribute, the wrong set of papers, values attached to the wrong papers, a generic label (such as “Data collection”) instead of the actual value, or nothing usable.</dd>
+        <dt>Can't judge</dt>
+        <dd>The case does not give you enough to decide. Say why in the note.</dd>
+        <dt>How to read a case</dt>
+        <dd>Start with the overview on each side: row and paper counts, and each answer column's most frequent values with the number of papers stating them (for an already aggregated answer, its own numbers). Compare the two overviews; open the rows or queries only when the overview does not settle it. Most cases take one to two minutes.</dd>
+        <dt>Reference</dt>
+        <dd>The reference shows one correct way to answer. It can be truncated (the row count says how many rows exist) and can itself be wrong; if you think so, tick the box under the verdict.</dd>
+        <dt>Keys</dt>
+        <dd><span class="key">1</span>–<span class="key">4</span> choose a verdict, <span class="key">N</span> next case, <span class="key">P</span> previous case (when not typing in a field).</dd>
+      </dl>
+    </details>
+  </section>
+
+  <section id="caseView" hidden>
+    <div class="wrap">
+      <div class="panel qband">
+        <div class="eyebrow" id="caseMeta"></div>
+        <div class="question" id="question"></div>
+      </div>
+      <div class="pair">
+        <div class="panel side" id="sysSide">
+          <h2>System answer</h2>
+          <p class="sub">Judge this answer.</p>
+          <div id="sysBody"></div>
+        </div>
+        <div class="panel side ref" id="refSide">
+          <h2>Reference answer</h2>
+          <p class="sub">One correct answer, for comparison.</p>
+          <div id="refBody"></div>
+        </div>
+      </div>
+      <form class="panel judge" id="judgeForm" autocomplete="off">
+        <fieldset>
+          <legend>Do the system's rows answer the question?</legend>
+          <div class="verdicts" id="verdicts">
+            <label><input type="radio" name="verdict" id="v-correct" value="correct"> Correct <span class="key">1</span></label>
+            <label><input type="radio" name="verdict" id="v-partial" value="partial"> Partly correct <span class="key">2</span></label>
+            <label><input type="radio" name="verdict" id="v-wrong" value="wrong"> Wrong <span class="key">3</span></label>
+            <label><input type="radio" name="verdict" id="v-unsure" value="unsure"> Can't judge <span class="key">4</span></label>
+          </div>
+        </fieldset>
+        <fieldset id="errSet" hidden>
+          <legend>What is wrong? (all that apply)</legend>
+          <div class="errs">
+            <label><input type="checkbox" id="e-attribute" value="wrong-attribute"> Wrong attribute or value asked for</label>
+            <label><input type="checkbox" id="e-filter" value="filter"> Missing, extra or wrong filter</label>
+            <label><input type="checkbox" id="e-scope" value="wrong-papers"> Wrong set of papers or wrong template</label>
+            <label><input type="checkbox" id="e-misattached" value="misattached"> Values attached to the wrong papers</label>
+            <label><input type="checkbox" id="e-generic" value="generic-label"> Generic label instead of the actual value</label>
+            <label><input type="checkbox" id="e-shape" value="lost-information"> Aggregation or shape loses needed information</label>
+            <label><input type="checkbox" id="e-other" value="other"> Other (describe in the note)</label>
+          </div>
+        </fieldset>
+        <label class="flag"><input type="checkbox" id="refDoubt"> The reference answer itself looks wrong or incomplete</label>
+        <div>
+          <label for="note" style="font-weight:600">Note (optional)</label>
+          <textarea id="note" placeholder="Why you chose this verdict, in a sentence"></textarea>
+        </div>
+        <div class="actions">
+          <button class="btn" type="button" id="prevBtn">← Previous</button>
+          <span class="spacer"></span>
+          <button class="btn primary" type="submit" id="nextBtn">Save and next →</button>
+        </div>
+      </form>
+      <div class="panel">
+        <h2 style="margin-bottom:10px">All cases</h2>
+        <div class="nav" id="nav" aria-label="Jump to case"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel done-panel" id="donePanel" hidden>
+    <h2 style="margin-bottom:8px">All cases judged</h2>
+    <p>Thank you. Your answers are saved. You can still go back and change any case.</p>
+    <p id="exportHint">If the status above says answers are kept only in this browser, copy them and send them to the study author.</p>
+    <div class="actions">
+      <button class="btn" type="button" id="copyBtn">Copy my answers</button>
+      <button class="btn" type="button" id="reviewBtn">Review cases</button>
+    </div>
+    <textarea id="exportBox" hidden readonly></textarea>
+  </section>
+</main>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const state = { items: [], order: [], idx: 0, labels: {}, annotator: "", uid: null, db: null, ref: null, shown: 0 };
+  const LOCAL_KEY = "sparql-audit-v1";
+
+  const setStatus = (text, err = false) => { const s = $("status"); s.textContent = text; s.classList.toggle("err", err); };
+  const readLocal = () => { try { return JSON.parse(localStorage.getItem(LOCAL_KEY) || "null"); } catch { return null; } };
+  const writeLocal = () => { try { localStorage.setItem(LOCAL_KEY, JSON.stringify({ annotator: state.annotator, labels: state.labels })); } catch {} };
+
+  // Stable per-annotator order (seeded shuffle), so order effects differ between annotators.
+  const seededOrder = (n, seedText) => {
+    let h = 2166136261;
+    for (const ch of seedText) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; }
+    const rand = () => { h = (Math.imul(h ^ (h >>> 15), 2246822507) + 0x9e3779b9) >>> 0; return h / 4294967296; };
+    const a = [...Array(n).keys()];
+    for (let i = n - 1; i > 0; i--) { const j = Math.floor(rand() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+    return a;
+  };
+
+  // ---------- persistence: db (one document per annotator) with a local copy ----------
+  let writing = false, dirty = false;
+  const persist = async () => {
+    writeLocal();
+    if (!state.ref) { setStatus("Saved in this browser only"); return; }
+    if (writing) { dirty = true; return; }
+    writing = true;
+    try {
+      do {
+        dirty = false;
+        setStatus("Saving…");
+        await state.ref.set({ annotator: state.annotator, labels: state.labels, updatedAt: new Date().toISOString(), version: 1 });
+      } while (dirty);
+      setStatus("All answers saved");
+    } catch (e) {
+      if (e && e.code === "invalid_argument") { state.ref = null; setStatus("Saved in this browser only — use “Copy my answers” when done", true); }
+      else setStatus("Could not save to the shared store; kept in this browser", true);
+    } finally { writing = false; }
+  };
+
+  const connect = async () => {
+    try {
+      const [db, user] = await Promise.all([window.claude?.use?.("db"), window.claude?.use?.("user")]);
+      if (!db || !user) return null;
+      const uid = await user.id();
+      if (!uid) return null;
+      state.db = db; state.uid = uid;
+      const ref = db.doc("labels/" + uid);
+      const snap = await Promise.race([ref.get(), new Promise((_, rej) => setTimeout(() => rej(new Error("timeout")), 10000))]);
+      state.ref = ref;
+      return snap.exists ? snap.data() : {};
+    } catch { return null; }
+  };
+
+  // ---------- rendering ----------
+  const tableEl = (t) => {
+    const frag = document.createDocumentFragment();
+    const count = document.createElement("div");
+    count.className = "rowcount";
+    count.textContent = t.total === 0 ? "No rows" : `${t.total} row${t.total === 1 ? "" : "s"}${t.total > t.rows.length ? `, first ${t.rows.length} shown` : ""} · columns: ${t.columns.join(", ")}`;
+    frag.append(count);
+    if (!t.rows.length) return frag;
+    const box = document.createElement("div"); box.className = "tablebox";
+    const table = document.createElement("table");
+    const thead = table.createTHead().insertRow();
+    for (const c of t.columns) { const th = document.createElement("th"); th.textContent = c; thead.append(th); }
+    const tb = table.createTBody();
+    for (const r of t.rows) { const tr = tb.insertRow(); for (const v of r) { const td = tr.insertCell(); td.textContent = v; } }
+    box.append(table); frag.append(box);
+    return frag;
+  };
+  const overviewEl = (o) => {
+    const box = document.createElement("div"); box.className = "ov";
+    const facts = document.createElement("div"); facts.className = "facts";
+    const f = [`${o.rows.toLocaleString()} rows`];
+    if (o.papers !== null) f.push(`${o.papers.toLocaleString()} papers`);
+    if (o.kind === "aggregate") f.push("already aggregated");
+    facts.textContent = f.join(" · ");
+    box.append(facts);
+    for (const c of o.columns) {
+      const h = document.createElement("div"); h.className = "ovhead";
+      const unit = o.kind === "aggregate" ? "value" : o.kind === "per-paper" ? "papers" : "rows";
+      h.textContent = `${c.name} — ${c.distinct.toLocaleString()} distinct${c.distinct > c.top.length ? `, top ${c.top.length} by ${unit}` : ""}`;
+      const ol = document.createElement("ol"); ol.className = "ovlist";
+      for (const [v, n] of c.top) {
+        const li = document.createElement("li");
+        const a = document.createElement("span"); a.textContent = v || "(empty)";
+        const b = document.createElement("span"); b.className = "n"; b.textContent = String(n);
+        li.append(a, b); ol.append(li);
+      }
+      box.append(h, ol);
+    }
+    if (!o.columns.length) { const p = document.createElement("div"); p.className = "empty"; p.textContent = o.rows ? "Only paper or identity columns returned." : "No rows."; box.append(p); }
+    return box;
+  };
+  const sideBody = (el, queries, tables, label) => {
+    el.replaceChildren();
+    tables.forEach((t, i) => {
+      const block = document.createElement("div");
+      block.className = "block";
+      if (tables.length > 1) { const h = document.createElement("h3"); h.style.fontSize = "13px"; h.textContent = `Result ${i + 1} of ${tables.length}`; block.append(h); }
+      if (t.overview) block.append(overviewEl(t.overview));
+      const rd = document.createElement("details"); rd.className = "q";
+      const rs = document.createElement("summary"); rs.textContent = `Show rows (first ${Math.min(t.rows.length, t.total)} of ${t.total.toLocaleString()})`;
+      rd.append(rs, tableEl(t)); block.append(rd);
+      if (queries[i] !== undefined) {
+        const d = document.createElement("details"); d.className = "q";
+        const s = document.createElement("summary"); s.textContent = `Show ${label} query`;
+        const pre = document.createElement("pre"); pre.textContent = queries[i];
+        d.append(s, pre); block.append(d);
+      }
+      el.append(block);
+    });
+    if (!tables.length) { const p = document.createElement("div"); p.className = "empty"; p.textContent = "No result."; el.append(p); }
+  };
+
+  const judged = (c) => !!state.labels[c]?.verdict;
+  const updateProgress = () => {
+    const n = state.items.length, done = state.items.filter((it) => judged(it.case)).length;
+    $("progressText").textContent = `${done} of ${n} judged`;
+    $("meter").style.width = n ? `${(100 * done) / n}%` : "0";
+    const nav = $("nav");
+    [...nav.children].forEach((b, pos) => {
+      const it = state.items[state.order[pos]];
+      b.classList.toggle("done", judged(it.case));
+      b.classList.toggle("cur", pos === state.idx);
+    });
+  };
+  const buildNav = () => {
+    const nav = $("nav"); nav.replaceChildren();
+    state.order.forEach((_, pos) => {
+      const b = document.createElement("button"); b.type = "button"; b.textContent = String(pos + 1);
+      b.title = `Case ${pos + 1}`; b.addEventListener("click", () => { saveCurrent(); show(pos); });
+      nav.append(b);
+    });
+  };
+
+  const errBoxes = () => [...document.querySelectorAll("#errSet input[type=checkbox]")];
+  const syncErrVisibility = () => {
+    const v = document.querySelector("input[name=verdict]:checked")?.value;
+    $("errSet").hidden = !(v === "partial" || v === "wrong");
+  };
+
+  const show = (pos) => {
+    state.idx = Math.max(0, Math.min(state.order.length - 1, pos));
+    const it = state.items[state.order[state.idx]];
+    $("caseMeta").textContent = `Case ${state.idx + 1} of ${state.items.length} · ${it.case} · template: ${it.template}`;
+    $("question").textContent = it.question;
+    sideBody($("sysBody"), it.systemQueries, it.systemTables, "system");
+    sideBody($("refBody"), it.referenceQueries, it.referenceTables, "reference");
+    const l = state.labels[it.case] || {};
+    document.querySelectorAll("input[name=verdict]").forEach((r) => { r.checked = r.value === l.verdict; });
+    errBoxes().forEach((b) => { b.checked = (l.errors || []).includes(b.value); });
+    $("refDoubt").checked = !!l.referenceDoubt;
+    $("note").value = l.note || "";
+    syncErrVisibility();
+    $("prevBtn").disabled = state.idx === 0;
+    state.shown = Date.now();
+    updateProgress();
+    window.scrollTo({ top: 0 });
+  };
+
+  const saveCurrent = () => {
+    if (!state.items.length || $("caseView").hidden) return false;
+    const it = state.items[state.order[state.idx]];
+    const verdict = document.querySelector("input[name=verdict]:checked")?.value;
+    if (!verdict) return false;
+    const prev = state.labels[it.case] || {};
+    const next = {
+      verdict,
+      errors: verdict === "partial" || verdict === "wrong" ? errBoxes().filter((b) => b.checked).map((b) => b.value) : [],
+      referenceDoubt: $("refDoubt").checked,
+      note: $("note").value.trim(),
+      position: state.idx + 1,
+      seconds: (prev.seconds || 0) + Math.round((Date.now() - state.shown) / 1000),
+      at: new Date().toISOString(),
+    };
+    const same = prev.verdict === next.verdict && prev.note === next.note && prev.referenceDoubt === next.referenceDoubt &&
+      JSON.stringify(prev.errors || []) === JSON.stringify(next.errors);
+    if (same) return true;
+    state.labels[it.case] = next;
+    persist();
+    return true;
+  };
+
+  const next = () => {
+    if (!saveCurrent()) { setStatus("Choose a verdict first", true); return; }
+    const firstOpen = state.order.findIndex((i, pos) => pos > state.idx && !judged(state.items[i].case));
+    if (firstOpen >= 0) show(firstOpen);
+    else if (state.items.every((it) => judged(it.case))) { updateProgress(); $("donePanel").hidden = false; $("donePanel").scrollIntoView({ behavior: "smooth" }); }
+    else show(state.order.findIndex((i) => !judged(state.items[i].case)));
+  };
+
+  const start = () => {
+    const code = $("annotator").value.trim();
+    if (!code) { $("annotator").focus(); setStatus("Enter your annotator code to start", true); return; }
+    state.annotator = code;
+    state.order = seededOrder(state.items.length, (state.uid || "local") + "|" + code);
+    buildNav();
+    $("intro").querySelector("details").open = false;
+    $("caseView").hidden = false;
+    const firstOpen = state.order.findIndex((i) => !judged(state.items[i].case));
+    show(firstOpen >= 0 ? firstOpen : 0);
+    if (!Object.keys(state.labels).length) persist();
+  };
+
+  // ---------- events ----------
+  $("startBtn").addEventListener("click", start);
+  $("annotator").addEventListener("keydown", (e) => { if (e.key === "Enter") start(); });
+  $("judgeForm").addEventListener("submit", (e) => { e.preventDefault(); next(); });
+  $("prevBtn").addEventListener("click", () => { saveCurrent(); show(state.idx - 1); });
+  $("verdicts").addEventListener("change", syncErrVisibility);
+  $("reviewBtn").addEventListener("click", () => { $("donePanel").hidden = true; show(0); });
+  $("copyBtn").addEventListener("click", async () => {
+    const text = JSON.stringify({ annotator: state.annotator, labels: state.labels });
+    const box = $("exportBox"); box.value = text;
+    try { await navigator.clipboard.writeText(text); setStatus("Answers copied — paste them into an email to the study author"); }
+    catch { box.hidden = false; box.focus(); box.select(); setStatus("Select-all and copy the text below"); }
+  });
+  document.addEventListener("keydown", (e) => {
+    if ($("caseView").hidden || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (["INPUT", "TEXTAREA"].includes(document.activeElement?.tagName) && document.activeElement.type !== "radio" && document.activeElement.type !== "checkbox") return;
+    const map = { "1": "v-correct", "2": "v-partial", "3": "v-wrong", "4": "v-unsure" };
+    if (map[e.key]) { $(map[e.key]).checked = true; syncErrVisibility(); e.preventDefault(); }
+    else if (e.key === "n" || e.key === "N") { e.preventDefault(); next(); }
+    else if (e.key === "p" || e.key === "P") { e.preventDefault(); saveCurrent(); show(state.idx - 1); }
+  });
+  window.addEventListener("beforeunload", () => { saveCurrent(); });
+
+  // ---------- boot ----------
+  (async () => {
+    try {
+      const res = await fetch("items.json");
+      if (!res.ok) throw new Error(res.status);
+      state.items = (await res.json()).items;
+    } catch {
+      setStatus("Could not load the cases. Reload the page; if it persists, tell the study author.", true);
+      return;
+    }
+    const local = readLocal();
+    if (local) { state.annotator = local.annotator || ""; state.labels = local.labels || {}; }
+    $("progressText").textContent = `0 of ${state.items.length} judged`;
+    setStatus("Connecting…");
+    const remote = await connect();
+    if (remote) {
+      if (remote.annotator) state.annotator = remote.annotator;
+      state.labels = { ...state.labels, ...(remote.labels || {}) };
+      setStatus(Object.keys(state.labels).length ? "Answers restored" : "Ready");
+    } else {
+      setStatus("Saved in this browser only — use “Copy my answers” when done", true);
+    }
+    if (state.annotator) $("annotator").value = state.annotator;
+    updateProgress();
+  })();
+})();
+</script>

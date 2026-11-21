@@ -1,0 +1,482 @@
+[
+  {
+    "case": "C001",
+    "item": "R593657/eco_1",
+    "set": "ood",
+    "config": "full",
+    "model": "anthropic/claude-sonnet-5.5",
+    "run": 1,
+    "f1": 1,
+    "strictF1": 1
+  },
+  {
+    "case": "C002",
+    "item": "R1596350/nut_5",
+    "set": "ood",
+    "config": "no-schema",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 2,
+    "f1": 0.4391891891891892,
+    "strictF1": 0.2195945945945946
+  },
+  {
+    "case": "C003",
+    "item": "R1544125/query_5",
+    "set": "curated",
+    "config": "no-link",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 2,
+    "f1": 1,
+    "strictF1": 1
+  },
+  {
+    "case": "C004",
+    "item": "R1544125/query_7",
+    "set": "curated",
+    "config": "no-repair",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 3,
+    "f1": 0,
+    "strictF1": 0
+  },
+  {
+    "case": "C005",
+    "item": "R186491/query_14",
+    "set": "curated",
+    "config": "raw-schema",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 1,
+    "f1": 0.1543810848400556,
+    "strictF1": 0
+  },
+  {
+    "case": "C006",
+    "item": "R1544125/query_1",
+    "set": "curated",
+    "config": "full",
+    "model": "anthropic/claude-sonnet-5.5",
+    "run": 2,
+    "f1": 1,
+    "strictF1": 1
+  },
+  {
+    "case": "C007",
+    "item": "R702332/wind_2",
+    "set": "ood",
+    "config": "full",
+    "model": "openai/gpt-oss-120b",
+    "run": 1,
+    "f1": 0.031746031746031744,
+    "strictF1": 0.031746031746031744
+  },
+  {
+    "case": "C008",
+    "item": "R593657/eco_5",
+    "set": "ood",
+    "config": "no-schema",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 3,
+    "f1": 0.8333333333333334,
+    "strictF1": 0.20833333333333334
+  },
+  {
+    "case": "C009",
+    "item": "R1544125/query_3",
+    "set": "curated",
+    "config": "no-guidance",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 1,
+    "f1": 1,
+    "strictF1": 1
+  },
+  {
+    "case": "C010",
+    "item": "R186491/query_9",
+    "set": "curated",
+    "config": "full",
+    "model": "anthropic/claude-sonnet-5.5",
+    "run": 1,
+    "f1": 0.29400956896772806,
+    "strictF1": 0.08876885798721727
+  },
+  {
+    "case": "C011",
+    "item": "R702332/wind_4",
+    "set": "ood",
+    "config": "full",
+    "model": "anthropic/claude-sonnet-5.5",
+    "run": 2,
+    "f1": 1,
+    "strictF1": 1
+  },
+  {
+    "case": "C012",
+    "item": "R593670/sys_1",
+    "set": "ood",
+    "config": "full",
+    "model": "anthropic/claude-sonnet-5.5",
+    "run": 1,
+    "f1": 0,
+    "strictF1": 0
+  },
+  {
+    "case": "C013",
+    "item": "R186491/query_8",
+    "set": "curated",
+    "config": "no-repair",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 3,
+    "f1": 0,
+    "strictF1": 0
+  },
+  {
+    "case": "C014",
+    "item": "R186491/query_13",
+    "set": "curated",
+    "config": "raw-schema",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 2,
+    "f1": 0,
+    "strictF1": 0
+  },
+  {
+    "case": "C015",
+    "item": "R593657/eco_2",
+    "set": "ood",
+    "config": "schema-dump",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 1,
+    "f1": 1,
+    "strictF1": 1
+  },
+  {
+    "case": "C016",
+    "item": "R593670/sys_1",
+    "set": "ood",
+    "config": "no-schema",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 2,
+    "f1": 0,
+    "strictF1": 0
+  },
+  {
+    "case": "C017",
+    "item": "R1544125/query_1",
+    "set": "curated",
+    "config": "full",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 3,
+    "f1": 1,
+    "strictF1": 1
+  },
+  {
+    "case": "C018",
+    "item": "R186491/query_10",
+    "set": "curated",
+    "config": "full",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 3,
+    "f1": 1,
+    "strictF1": 1
+  },
+  {
+    "case": "C019",
+    "item": "R593657/eco_4",
+    "set": "ood",
+    "config": "full",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 3,
+    "f1": 1,
+    "strictF1": 1
+  },
+  {
+    "case": "C020",
+    "item": "R186491/query_7_1",
+    "set": "curated",
+    "config": "full",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 1,
+    "f1": 0.5561932345047044,
+    "strictF1": 0.03571428571428571
+  },
+  {
+    "case": "C021",
+    "item": "R186491/query_4_1",
+    "set": "curated",
+    "config": "no-link",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 2,
+    "f1": 0.5829157620153554,
+    "strictF1": 0.16666666666666666
+  },
+  {
+    "case": "C022",
+    "item": "R1596350/nut_4",
+    "set": "ood",
+    "config": "schema-dump",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 3,
+    "f1": 0.9639639639639639,
+    "strictF1": 0.9639639639639639
+  },
+  {
+    "case": "C023",
+    "item": "R186491/query_10",
+    "set": "curated",
+    "config": "no-guidance",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 2,
+    "f1": 0.9122626988199077,
+    "strictF1": 0.9122626988199077
+  },
+  {
+    "case": "C024",
+    "item": "R186491/query_11",
+    "set": "curated",
+    "config": "no-validator",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 1,
+    "f1": 0.4992743105950653,
+    "strictF1": 0.16642477019835508
+  },
+  {
+    "case": "C025",
+    "item": "R1544125/query_3",
+    "set": "curated",
+    "config": "full",
+    "model": "openai/gpt-oss-120b",
+    "run": 1,
+    "f1": 0.5,
+    "strictF1": 0.25
+  },
+  {
+    "case": "C026",
+    "item": "R702332/wind_5",
+    "set": "ood",
+    "config": "full",
+    "model": "openai/gpt-oss-120b",
+    "run": 2,
+    "f1": 0.9964912280701755,
+    "strictF1": 0.49824561403508777
+  },
+  {
+    "case": "C027",
+    "item": "R702332/wind_1",
+    "set": "ood",
+    "config": "full",
+    "model": "anthropic/claude-sonnet-5.5",
+    "run": 1,
+    "f1": 1,
+    "strictF1": 1
+  },
+  {
+    "case": "C028",
+    "item": "R1411854/psy_1",
+    "set": "ood",
+    "config": "raw-schema",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 1,
+    "f1": 0,
+    "strictF1": 0
+  },
+  {
+    "case": "C029",
+    "item": "R702332/wind_5",
+    "set": "ood",
+    "config": "schema-dump",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 3,
+    "f1": 0.9930555555555556,
+    "strictF1": 0.9930555555555556
+  },
+  {
+    "case": "C030",
+    "item": "R186491/query_16_1",
+    "set": "curated",
+    "config": "full",
+    "model": "openai/gpt-oss-120b",
+    "run": 2,
+    "f1": 0,
+    "strictF1": 0
+  },
+  {
+    "case": "C031",
+    "item": "R593657/eco_4",
+    "set": "ood",
+    "config": "no-schema",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 1,
+    "f1": 0.5653495440729484,
+    "strictF1": 0.2826747720364742
+  },
+  {
+    "case": "C032",
+    "item": "R593657/eco_3",
+    "set": "ood",
+    "config": "raw-schema",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 1,
+    "f1": 0.019607843137254905,
+    "strictF1": 0.004901960784313726
+  },
+  {
+    "case": "C033",
+    "item": "R1596350/nut_4",
+    "set": "ood",
+    "config": "full",
+    "model": "anthropic/claude-sonnet-5.5",
+    "run": 3,
+    "f1": 0.9639639639639639,
+    "strictF1": 0.48198198198198194
+  },
+  {
+    "case": "C034",
+    "item": "R1596350/nut_1",
+    "set": "ood",
+    "config": "raw-schema",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 1,
+    "f1": 0,
+    "strictF1": 0
+  },
+  {
+    "case": "C035",
+    "item": "R186491/query_6_1",
+    "set": "curated",
+    "config": "no-validator",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 2,
+    "f1": 0.5561932345047044,
+    "strictF1": 0.03571428571428571
+  },
+  {
+    "case": "C036",
+    "item": "R1411854/psy_2",
+    "set": "ood",
+    "config": "no-schema",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 1,
+    "f1": 0.4,
+    "strictF1": 0.26666666666666666
+  },
+  {
+    "case": "C037",
+    "item": "R186491/query_4_1",
+    "set": "curated",
+    "config": "no-nesting",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 2,
+    "f1": 0.41570962610821166,
+    "strictF1": 0.16189674523007855
+  },
+  {
+    "case": "C038",
+    "item": "R1596350/nut_5",
+    "set": "ood",
+    "config": "schema-dump",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 3,
+    "f1": 1,
+    "strictF1": 1
+  },
+  {
+    "case": "C039",
+    "item": "R1544125/query_8",
+    "set": "curated",
+    "config": "full",
+    "model": "meta-llama/llama-3.3-70b-instruct",
+    "run": 2,
+    "f1": 0,
+    "strictF1": 0
+  },
+  {
+    "case": "C040",
+    "item": "R593670/sys_2",
+    "set": "ood",
+    "config": "full",
+    "model": "openai/gpt-oss-120b",
+    "run": 1,
+    "f1": 0,
+    "strictF1": 0
+  },
+  {
+    "case": "C041",
+    "item": "R593657/eco_3",
+    "set": "ood",
+    "config": "raw-schema",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 2,
+    "f1": 0.019607843137254905,
+    "strictF1": 0.009803921568627453
+  },
+  {
+    "case": "C042",
+    "item": "R186491/query_6_1",
+    "set": "curated",
+    "config": "full",
+    "model": "openai/gpt-oss-120b",
+    "run": 1,
+    "f1": 0.14285714285714285,
+    "strictF1": 0.07142857142857142
+  },
+  {
+    "case": "C043",
+    "item": "R593657/eco_1",
+    "set": "ood",
+    "config": "raw-schema",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 2,
+    "f1": 0,
+    "strictF1": 0
+  },
+  {
+    "case": "C044",
+    "item": "R186491/query_9",
+    "set": "curated",
+    "config": "full",
+    "model": "mistralai/mistral-small-3.2-24b-instruct",
+    "run": 2,
+    "f1": 0.2542769745867094,
+    "strictF1": 0
+  },
+  {
+    "case": "C045",
+    "item": "R186491/query_16_1",
+    "set": "curated",
+    "config": "no-guidance",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 2,
+    "f1": 0,
+    "strictF1": 0
+  },
+  {
+    "case": "C046",
+    "item": "R186491/query_5",
+    "set": "curated",
+    "config": "full",
+    "model": "anthropic/claude-sonnet-5.5",
+    "run": 2,
+    "f1": 0.7367514002585093,
+    "strictF1": 0.24558380008616976
+  },
+  {
+    "case": "C047",
+    "item": "R1544125/query_5",
+    "set": "curated",
+    "config": "no-nesting",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 1,
+    "f1": 1,
+    "strictF1": 1
+  },
+  {
+    "case": "C048",
+    "item": "R1411854/psy_2",
+    "set": "ood",
+    "config": "no-schema",
+    "model": "anthropic/claude-haiku-5.5",
+    "run": 3,
+    "f1": 0.4615384615384615,
+    "strictF1": 0.23076923076923075
+  }
+]

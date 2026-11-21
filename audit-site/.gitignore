@@ -1,0 +1,6 @@
+node_modules
+.vercel
+.env*
+src-index.html
+.export-token
+answers-*.json

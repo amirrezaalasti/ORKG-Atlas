@@ -1,0 +1,40 @@
+{"case": 1, "verdict": "correct", "error": "none", "note": "Same path and class; 73 rows; extra title column and label fallback harmless."}
+{"case": 2, "verdict": "correct", "error": "none", "note": "Row-level distinct constructs per paper; countable to match gold per-paper counts."}
+{"case": 3, "verdict": "correct", "error": "none", "note": "Same path; contains vs equals on obesity yields identical 124 rows."}
+{"case": 4, "verdict": "partial", "error": "missing-or-extra-filter", "note": "Substring 'impulsiv' pulls in variant constructs; 40 rows vs gold 18 exact 'impulsivity'."}
+{"case": 5, "verdict": "correct", "error": "none", "note": "Right path; contains filter adds 8 disease-name variants (115 vs 107), reasonable superset."}
+{"case": 6, "verdict": "correct", "error": "none", "note": "Right path; contains filter adds variants (115 vs 107); includes disease column."}
+{"case": 7, "verdict": "correct", "error": "none", "note": "Same annotator-count path and task type; gold extra required columns only multiply rows."}
+{"case": 8, "verdict": "wrong", "error": "wrong-scope-or-class", "note": "Both queries return 0 rows; no 'secondary research' method-type restriction as in gold."}
+{"case": 9, "verdict": "correct", "error": "none", "note": "Same duration path; unit required instead of optional costs one row (372 vs 373)."}
+{"case": 10, "verdict": "wrong", "error": "wrong-predicate-or-path", "note": "Returns only analysis label per paper; omits statistical test names/inferential stats path."}
+{"case": 11, "verdict": "wrong", "error": "wrong-predicate-or-path", "note": "Labels NLP task node (constant 'NLP task') instead of task type via P181004."}
+{"case": 12, "verdict": "correct-aggregated", "error": "none", "note": "First query counts papers per continent from the same wikidata:P30 path; second is extra."}
+{"case": 13, "verdict": "correct-aggregated", "error": "none", "note": "Per-year total and empirical counts from same collection/analysis labels; venue filter assumed."}
+{"case": 14, "verdict": "correct", "error": "none", "note": "Same dataset-datatype-format path; extra datatype column, three fewer rows from required labels."}
+{"case": 15, "verdict": "wrong", "error": "wrong-predicate-or-path", "note": "Never uses NLP task input P181005; returns dataset node label 'NLP dataset' and format instead."}
+{"case": 16, "verdict": "partial", "error": "other", "note": "First query matches gold collection method types (978 rows); analysis query returns 0 vs 581."}
+{"case": 17, "verdict": "wrong", "error": "missing-or-extra-filter", "note": "No secondary-research type filter; returns all papers' method names, 1151 rows vs 116."}
+{"case": 18, "verdict": "partial", "error": "missing-or-extra-filter", "note": "Substring match on impulsiv returns variant constructs; 40 rows vs gold 18."}
+{"case": 19, "verdict": "wrong", "error": "wrong-predicate-or-path", "note": "Omits P181042 metric; returns constant 'Annotator agreement' node label, not reliability metric."}
+{"case": 20, "verdict": "correct", "error": "none", "note": "Identical path and 142 rows."}
+{"case": 21, "verdict": "wrong", "error": "wrong-predicate-or-path", "note": "Returns only constant dataset/task node labels; none of gold's dataset attributes or task type."}
+{"case": 22, "verdict": "correct", "error": "none", "note": "First query reproduces gold collection method types (978 rows); analysis query near gold."}
+{"case": 23, "verdict": "correct", "error": "none", "note": "Same path, 727 rows."}
+{"case": 24, "verdict": "correct", "error": "none", "note": "Identical path, 143 rows."}
+{"case": 25, "verdict": "wrong", "error": "wrong-scope-or-class", "note": "Types the contribution as C65002 instead of study system via P115000; 1 row vs 9."}
+{"case": 26, "verdict": "wrong", "error": "wrong-predicate-or-path", "note": "No method type or name; constant 'collection' label cannot identify secondary research."}
+{"case": 27, "verdict": "wrong", "error": "wrong-predicate-or-path", "note": "Dataset label is constant 'NLP dataset'; no real dataset attributes returned."}
+{"case": 28, "verdict": "wrong", "error": "label-vs-id-or-format", "note": "Selects only answer label, blank for literal 0/1 flags, so threat values are lost."}
+{"case": 29, "verdict": "wrong", "error": "wrong-predicate-or-path", "note": "Omits method type; constant 'collection' label cannot distinguish experiments, surveys, case studies."}
+{"case": 30, "verdict": "partial", "error": "missing-or-extra-filter", "note": "Right path but filters to two types, dropping denominator needed for proportions."}
+{"case": 31, "verdict": "wrong", "error": "wrong-predicate-or-path", "note": "Misses DATA/url path; returns constant dc_label and RQ answer label instead of data links."}
+{"case": 32, "verdict": "wrong", "error": "wrong-predicate-or-path", "note": "Uses P15249 not wikidata:P17; returns 0 rows."}
+{"case": 33, "verdict": "correct", "error": "none", "note": "Identical path and 49 rows; year omitted."}
+{"case": 34, "verdict": "partial", "error": "label-vs-id-or-format", "note": "Question text retrieved, but highlighted flags read via labels, blank for literals; sampled per paper."}
+{"case": 35, "verdict": "correct", "error": "none", "note": "Identical path, 116 rows."}
+{"case": 36, "verdict": "correct", "error": "none", "note": "Identical path, 116 rows."}
+{"case": 37, "verdict": "wrong", "error": "wrong-predicate-or-path", "note": "Omits method type; only constant 'collection' label returned for 607 rows."}
+{"case": 38, "verdict": "correct", "error": "none", "note": "Same RE task and NLP task type path, 67 rows."}
+{"case": 39, "verdict": "correct", "error": "none", "note": "Long format of same eleven threat predicates with values; countable to gold wide table."}
+{"case": 40, "verdict": "partial", "error": "label-vs-id-or-format", "note": "Questions match, but hidden/highlighted flags taken via rdfs:label are blank for literal values."}
