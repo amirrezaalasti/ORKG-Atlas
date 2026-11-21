@@ -324,13 +324,37 @@ export const generateTemplateMapping = (
 ): PredicatesMapping => {
   const predicatesMapping: PredicatesMapping = {};
 
-  // Create a map of templates by their target class ID for quick lookup
-  const templateMap = new Map<string, Template>();
+  // Every template that declares a target class. Several templates can share one.
+  const templatesByClass = new Map<string, Template[]>();
   templates.forEach((template) => {
-    if (template.target_class?.id) {
-      templateMap.set(template.target_class.id, template);
-    }
+    const classId = template.target_class?.id;
+    if (!classId) return;
+    const list = templatesByClass.get(classId) ?? [];
+    list.push(template);
+    templatesByClass.set(classId, list);
   });
+
+  const templateForClass = (classId: string): Template | undefined => {
+    const list = templatesByClass.get(classId);
+    if (!list || list.length === 0) return undefined;
+    const sorted = [...list].sort((a, b) => a.id.localeCompare(b.id));
+    if (sorted.length === 1) return sorted[0];
+    const seen = new Set<string>();
+    const properties: TemplateProperty[] = [];
+    for (const template of sorted) {
+      for (const property of template.properties ?? []) {
+        const pathId = property.path?.id;
+        if (!pathId || seen.has(pathId)) continue;
+        seen.add(pathId);
+        properties.push(property);
+      }
+    }
+    return {
+      ...sorted[0],
+      label: sorted.map((template) => template.label).join('; '),
+      properties,
+    };
+  };
 
   // Process each template and its properties
   templates.forEach((template) => {
@@ -356,7 +380,7 @@ export const generateTemplateMapping = (
 
       // If property has a class (object property), it's a subtemplate
       if (property.class?.id) {
-        const targetTemplate = templateMap.get(property.class.id);
+        const targetTemplate = templateForClass(property.class.id);
         if (targetTemplate) {
           propertyMapping.subtemplate_id = targetTemplate.id;
           propertyMapping.subtemplate_label = targetTemplate.label;
@@ -388,7 +412,9 @@ export const generateTemplateMapping = (
 
               // Check if this sub-property also has a class (nested subtemplate)
               if (subProperty.class?.id) {
-                const subTargetTemplate = templateMap.get(subProperty.class.id);
+                const subTargetTemplate = templateForClass(
+                  subProperty.class.id
+                );
                 if (subTargetTemplate) {
                   subPropertyMapping.subtemplate_id = subTargetTemplate.id;
                   subPropertyMapping.subtemplate_label =
@@ -517,7 +543,10 @@ export const buildPaperLinkPattern = (
   paperLinkPath?: PaperLinkPath | null,
   indent = ''
 ): string => {
-  if (!paperLinkPath || paperLinkPath.length === 0) {
+  if (paperLinkPath == null) {
+    return `${indent}# paper-to-instance path was not discovered; do not assume ?paper orkgp:P31 ?contribution`;
+  }
+  if (paperLinkPath.length === 0) {
     return `${indent}?paper orkgp:P31 ?contribution .`;
   }
   const nodes = [
@@ -549,15 +578,22 @@ export const generateDynamicSPARQLPrompt = (
   templateId: string,
   templateLabel?: string,
   targetClassId?: string,
-  paperLinkPath?: PaperLinkPath | null
+  paperLinkPath?: PaperLinkPath | null,
+  /** Evaluation only: replaces the rendered predicate map (schema + hierarchy sections). */
+  schemaOverride?: string
 ): string => {
   // Check if we have template-specific guidance for this template
   const specificGuidance = TEMPLATE_SPECIFIC_GUIDANCE[templateId];
-  const targetClass = targetClassId || 'C27001';
-  const isNested = !!paperLinkPath && paperLinkPath.length > 0;
+  const targetClass = targetClassId ?? '';
+  const linkUnknown = paperLinkPath == null;
+  const isNested = Array.isArray(paperLinkPath) && paperLinkPath.length > 0;
   const paperLink = buildPaperLinkPattern(paperLinkPath, '  ');
-  const nestedPathNote = isNested
+  const nestedPathNote = linkUnknown
     ? `
+
+**Paper-to-instance path:** discovery did not find how instances of \`orkgc:${targetClass}\` hang off papers (no instance within two hops of \`orkgp:P31\`, or the lookup failed). Do not assume \`?paper orkgp:P31 ?contribution\` reaches the template instance.`
+    : isNested
+      ? `
 
 **⚠️ CRITICAL — how papers reach template instances:** instances of \`orkgc:${targetClass}\` are NOT linked directly from papers. In this prompt \`?contribution\` means the template instance, and it MUST be reached through this exact path (verified against ORKG data; \`?paper orkgp:P31 ?contribution\` alone returns 0 rows):
 
@@ -565,13 +601,14 @@ export const generateDynamicSPARQLPrompt = (
 ${paperLink}
   ?contribution a orkgc:${targetClass} .
 \`\`\`${
-        paperLinkPath.some((hop) => hop.length > 1)
-          ? `
+          Array.isArray(paperLinkPath) &&
+          paperLinkPath.some((hop) => hop.length > 1)
+            ? `
 
 \`?linkN\` records which relation reached the instance (e.g. which role or part it plays). When the question distinguishes them, select \`?linkN\` and its label via \`?linkN rdfs:label ?linkNLabel\`.`
-          : ''
-      }`
-    : '';
+            : ''
+        }`
+      : '';
 
   const basePrompt = `# SPARQL Query Generator for ORKG Research Analysis
 
@@ -597,7 +634,7 @@ You are working with the "${templateLabel || specificGuidance?.templateLabel || 
 
 ### 3. ORKG Research Practice Schema
 
-The schema is based on the template which describes research practices in publications. Use the following terms and relationships:
+The schema below is this template, resolved at run time. Use only the predicates it lists:
 
 #### Core Entities and Structure
 
@@ -605,20 +642,21 @@ The schema is based on the template which describes research practices in public
 |--------|-----------|------|---------------------|
 | **Paper** | - | Resource | The publication resource |
 | Has Contribution | \`orkgp:P31\` | Predicate | Links Paper to Contribution. Usage: \`?paper orkgp:P31 ?contribution\` |
-| **Contribution** | \`orkgc:${targetClass}\` | Class | ${isNested ? 'Template instance (reached via the path below)' : 'Research practice within a paper'} |${nestedPathNote}
+| **Contribution** | \`orkgc:${targetClass || 'C…'}\` | Class | ${isNested ? 'Template instance (reached via the path below)' : linkUnknown ? 'Template instance; the paper link was not discovered' : 'Template instance reached directly from the paper'} |${nestedPathNote}
 
 #### Optional Properties (Use Only When Relevant to the Question)
 
 | Entity | ORKG Term | Type | Description & Usage |
 |--------|-----------|------|---------------------|
-| Publication Year | \`orkgp:P29\` | Predicate | Year of publication. **Only use when the question asks for temporal analysis, trends over time, or specific year ranges.** Usage: \`?paper orkgp:P29 ?year\` |
-| Venue Serie | \`orkgp:P135046\` | Predicate | Conference venue. **Only use when the question asks about venues or conferences.** Usage: \`?contribution orkgp:P135046 ?venue\` |`;
+| Publication Year | \`orkgp:P29\` | Predicate | Year of the paper. **Only use when the question asks for temporal analysis, trends over time, or specific year ranges.** Usage: \`?paper orkgp:P29 ?year\` |`;
 
   // Generate the schema section based on template mapping
-  const schemaSection = generateSchemaSection(templateMapping);
+  const schemaSection =
+    schemaOverride ?? generateSchemaSection(templateMapping);
 
   // Generate hierarchy section
-  const hierarchySection = generateHierarchySection(templateMapping);
+  const hierarchySection =
+    schemaOverride != null ? '' : generateHierarchySection(templateMapping);
 
   // Add template-specific guidance if available
   let templateSpecificSection = '';
@@ -911,7 +949,7 @@ Another SPARQL line
   - Return paper + the field being counted (e.g., \`?paper ?paperLabel ?evaluation_metricLabel\`)
   - ORDER BY should typically be by paper (e.g., \`ORDER BY ?paperLabel\`), not by the counted field
 - **Time-based analysis**: Include \`?year\` via \`?paper orkgp:P29 ?year\`; for counts by year use \`GROUP BY ?year ?methodLabel\` and \`ORDER BY ?year DESC(?count)\` (never \`?year ?count DESC\`)
-- **Method analysis**: Traverse hierarchy (e.g. \`?contribution orkgp:P56008 ?dc . ?dc orkgp:P1005 ?method . ?method orkgp:P94003 ?method_type . ?method_type rdfs:label ?methodLabel\`) — do not attach P1005 directly to \`?contribution\`
+- **Nested properties**: Follow the parent predicate shown in the Template Hierarchy section. Do not attach a nested predicate directly to \`?contribution\`, and do not copy predicate identifiers from another template.
 - **Boolean conditions**: Return the field values, let processing function check conditions
 
 ### Analyzing the Question
@@ -934,7 +972,7 @@ ${paperLink}
 }
 \`\`\`
 
-**CRITICAL:** Never forget the class declaration \`?contribution a orkgc:${targetClassId || 'C27001'} .\`
+**CRITICAL:** Never forget the class declaration \`?contribution a orkgc:${targetClass || 'C…'} .\` Use the target class from this template. Do not substitute a class from another template.
 
 ### CRITICAL RULE: Template Nesting and Property Traversal
 The template has a nested structure with subtemplates. Properties belong to specific subtemplates, not directly to the main contribution.

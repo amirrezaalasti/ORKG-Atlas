@@ -42,6 +42,12 @@ describe('discoverPaperLinkPath', () => {
     ]);
   });
 
+  it('returns null when no path exists within two hops', async () => {
+    const run = vi.fn().mockResolvedValue([]);
+    await expect(discoverPaperLinkPath('C1', run)).resolves.toBeNull();
+    expect(run).toHaveBeenCalledTimes(3);
+  });
+
   it('returns null when the lookup fails', async () => {
     vi.spyOn(console, 'warn').mockImplementation(() => {});
     const run = vi.fn().mockRejectedValue(new Error('offline'));
@@ -50,8 +56,15 @@ describe('discoverPaperLinkPath', () => {
 });
 
 describe('buildPaperLinkPattern', () => {
-  it('keeps the direct P31 link without a path', () => {
+  it('keeps the direct P31 link when discovery verified it', () => {
     expect(buildPaperLinkPattern([])).toBe('?paper orkgp:P31 ?contribution .');
+  });
+
+  it('does not invent a direct P31 link when discovery failed', () => {
+    expect(buildPaperLinkPattern(null)).not.toContain(
+      '?paper orkgp:P31 ?contribution .'
+    );
+    expect(buildPaperLinkPattern(null)).toContain('not discovered');
   });
 
   it('chains hops and uses VALUES for alternative predicates', () => {
@@ -101,5 +114,51 @@ describe('generateTemplateMapping', () => {
     );
     expect(prompt).toContain('?paperContribution orkgp:P112015 ?hop1 .');
     expect(prompt).not.toContain('  ?paper orkgp:P31 ?contribution .');
+    expect(prompt).not.toContain('P56008');
+    expect(prompt).not.toContain('P135046');
+    expect(prompt).not.toContain('C27001');
+  });
+
+  it('records the same child under every parent property that targets its class', () => {
+    const child: Template = {
+      id: 'R2',
+      label: 'Method',
+      target_class: { id: 'C2', label: 'Method' },
+      properties: [
+        {
+          id: 'S2',
+          label: 'type',
+          min_count: 0,
+          max_count: 1,
+          path: { id: 'P9', label: 'method type' },
+        },
+      ],
+    };
+    const root: Template = {
+      id: 'R1',
+      label: 'Study',
+      target_class: { id: 'C1', label: 'Study' },
+      properties: [
+        {
+          id: 'S1a',
+          label: 'collection',
+          min_count: 0,
+          max_count: 1,
+          path: { id: 'P1', label: 'data collection' },
+          class: { id: 'C2', label: 'Method' },
+        },
+        {
+          id: 'S1b',
+          label: 'analysis',
+          min_count: 0,
+          max_count: 1,
+          path: { id: 'P2', label: 'data analysis' },
+          class: { id: 'C2', label: 'Method' },
+        },
+      ],
+    };
+    const mapping = generateTemplateMapping([root, child]);
+    expect(mapping.P1.subtemplate_properties?.P9.label).toBe('method type');
+    expect(mapping.P2.subtemplate_properties?.P9.label).toBe('method type');
   });
 });
