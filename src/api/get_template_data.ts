@@ -254,41 +254,39 @@ export const loadTemplateFlowByID = (
   if (!loadedNodes.has(id)) {
     loadedNodes.add(id);
     return getTemplate(id).then(async (t) => {
-      const promises: Promise<object>[] = t.properties
+      const promises: Promise<object[]>[] = t.properties
         .filter((ps) => ps.class && ps.class.id)
-        .map(async (ps) => {
+        .map(async (ps): Promise<object[]> => {
           try {
             // Try to find templates that target this class
             const templateIds = await getTemplatesByClass(ps.class!.id);
 
-            if (templateIds.length > 0) {
-              // Only load actual templates (resources starting with 'R'), not classes or other types
-              const resourceTemplateIds = templateIds.filter((templateId) =>
-                templateId.startsWith('R')
-              );
+            const resourceTemplateIds = [
+              ...new Set(
+                templateIds.filter((templateId) => templateId.startsWith('R'))
+              ),
+            ].sort();
 
-              if (resourceTemplateIds.length > 0) {
-                const subtemplate = await loadTemplateFlowByID(
-                  resourceTemplateIds[0],
-                  loadedNodes
-                );
-                return subtemplate;
-              }
+            if (resourceTemplateIds.length > 0) {
+              return Promise.all(
+                resourceTemplateIds.map((templateId) =>
+                  loadTemplateFlowByID(templateId, loadedNodes)
+                )
+              );
             }
 
             // If no actual template found for this class, don't create a placeholder
-            // Just return empty object to be filtered out
-            return {};
+            return [];
           } catch (error) {
             console.warn(
               `Failed to load schema for class ${ps.class!.id}:`,
               error
             );
-            return {};
+            return [];
           }
         });
 
-      const neighborNodes = await Promise.all(promises);
+      const neighborNodes = (await Promise.all(promises)).flat();
       // Only keep actual templates, filter out empty objects and placeholders
       const filteredNeighbors = neighborNodes.filter(
         (n: any) =>

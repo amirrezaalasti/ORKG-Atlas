@@ -143,11 +143,11 @@ export const defaultHomeContent: HomeContentData = {
   },
   aboutProject: {
     title: 'From a dashboard you read to one you write with',
-    content: `<p>Our earlier <strong>EmpiRE-Compass</strong> showed the ceiling: its 26 competency questions, queries, and prompt guidance were hand-written into the source for two curated domains. A third domain — or an unanticipated question inside an existing one — needed a developer and a redeployment. Users could read it; they could not extend it.</p><p><strong>ORKG Atlas</strong> resolves any template schema at run time through the public ORKG API and moves question authoring into the community. The <strong>symbolic layer</strong> (ORKG, SPARQL, the triplestore) is the only source of factual data. The <strong>neural layer</strong> drafts queries and interprets only the bindings a query returned — so the graph, rather than the model, decides correctness.</p>`,
+    content: `<p>Our earlier <strong>EmpiRE-Compass</strong> showed the ceiling: its 26 competency questions, queries, and prompt guidance were hand-written into the source for two curated domains. A third domain — or an unanticipated question inside an existing one — needed a developer and a redeployment. Users could read it; they could not extend it.</p><p><strong>ORKG Atlas</strong> resolves any template schema at run time through the public ORKG API and moves question authoring into the community. The <strong>symbolic layer</strong> (ORKG, SPARQL, the triplestore) is the only source of factual data. The <strong>neural layer</strong> drafts queries and interprets only the bindings a query returned. The graph supplies those bindings; it does not prove that the query means what was asked.</p>`,
     themes: [
-      "Resolve a template's nested schema at run time — no domain knowledge compiled in.",
+      "Resolve a template's nested schema at run time. Optional template guidance is separate from that resolution.",
       'Let an LLM draft SPARQL, then execute it on the live endpoint.',
-      "Repair from the endpoint's own response (parse error, empty result, or all-null columns) and retry up to three times.",
+      'Repair from execution errors and all-unbound columns, up to three times. An executable empty result is kept.',
     ],
   },
   keyFeatures: {
@@ -185,7 +185,7 @@ export const defaultHomeContent: HomeContentData = {
       },
       {
         phase: 'Sparse curation',
-        goal: 'A template declares what instances may state, not what they do. A perfect query can return nothing because papers were curated without that property — and the repair loop currently treats an empty result as failure.',
+        goal: 'A template declares what instances may state, not what they do. A perfect query can return nothing because papers were curated without that property. Atlas keeps that empty result instead of repairing it into rows.',
       },
     ],
   },

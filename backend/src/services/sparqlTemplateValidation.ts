@@ -22,6 +22,10 @@ export type SparqlValidationIssue = {
 export const buildTemplateScopeBanner = (
   ctx: TemplateSparqlContext
 ): string => {
+  const linkNote =
+    ctx.paperLinkPath == null
+      ? 'paper-link discovery did not find a path; do not assume the template instance is the P31 contribution'
+      : `\`${buildPaperLinkPattern(ctx.paperLinkPath).replace(/\n/g, ' ')}\``;
   if (!ctx.targetClassId) {
     return (
       `\n## Template scope\n` +
@@ -32,7 +36,7 @@ export const buildTemplateScopeBanner = (
   return (
     `\n## Template scope (required in every template-scoped query)\n` +
     `- templateId: **${ctx.templateId}**${ctx.templateLabel ? ` (${ctx.templateLabel})` : ''}\n` +
-    `- contribution class: **orkgc:${ctx.targetClassId}** — use \`?contribution a orkgc:${ctx.targetClassId}\` after \`${buildPaperLinkPattern(ctx.paperLinkPath).replace(/\n/g, ' ')}\`\n` +
+    `- contribution class: **orkgc:${ctx.targetClassId}** — use \`?contribution a orkgc:${ctx.targetClassId}\` after ${linkNote}\n` +
     `- Never use \`a orkgr:${ctx.templateId}\` — template R… IDs are not RDF classes.\n` +
     `- Pass the same templateId to orkg_sparql(query, templateId) so the server can validate the class.\n`
   );

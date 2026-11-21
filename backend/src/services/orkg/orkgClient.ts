@@ -8,6 +8,7 @@
  */
 
 import fetch from 'node-fetch';
+import { readOnlySparqlViolation } from '../../../../shared/sparqlSafety.js';
 
 /** Explicit `/sparql` path required; POST via `www.orkg.org`/…`/triplestore` redirects and returns 406. */
 const DEFAULT_SPARQL_ENDPOINT = 'https://orkg.org/triplestore/sparql';
@@ -148,6 +149,23 @@ const withTimeout = async <T>(
 
 const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 
+/** A request that failed in transit (no HTTP response): DNS, reset socket, timeout. */
+const isTransientNetworkError = (err: unknown): boolean => {
+  if (!(err instanceof Error)) return false;
+  const code =
+    (err as { code?: string; errno?: string }).code ??
+    (err as { errno?: string }).errno ??
+    '';
+  return (
+    err.name === 'AbortError' ||
+    err.name === 'FetchError' ||
+    /^(ECONNRESET|ECONNREFUSED|ETIMEDOUT|ENOTFOUND|EAI_AGAIN|EPIPE|UND_ERR_\w+)$/.test(
+      code
+    ) ||
+    /socket hang up|fetch failed|network|aborted|terminated/i.test(err.message)
+  );
+};
+
 export class OrkgUpstreamError extends Error {
   constructor(
     message: string,
@@ -250,23 +268,8 @@ export async function sparqlQuery(
 
   const { readonly = true } = options;
   if (readonly) {
-    const lower = trimmed.toLowerCase();
-    const writeKeywords = [
-      /\binsert\b/,
-      /\bdelete\b/,
-      /\bclear\b/,
-      /\bdrop\b/,
-      /\bcreate\b/,
-      /\bload\b/,
-      /\bcopy\b/,
-      /\bmove\b/,
-      /\badd\b/,
-    ];
-    if (writeKeywords.some((re) => re.test(lower))) {
-      throw new Error(
-        'Only read-only SPARQL queries are allowed (no INSERT/DELETE/etc.).'
-      );
-    }
+    const violation = readOnlySparqlViolation(trimmed);
+    if (violation) throw new Error(violation);
   }
 
   const fullQuery = ensureSparqlPrefixes(trimmed);
@@ -319,7 +322,7 @@ const restGet = async <T>(
     if (v != null) url.searchParams.set(k, String(v));
   }
   const timeoutMs = options.timeoutMs ?? REST_DEFAULT_TIMEOUT_MS;
-  const maxRetries = options.retries ?? 2;
+  const maxRetries = options.retries ?? 4;
   const accept = options.accept ?? 'application/json';
 
   let lastErr: unknown;
@@ -351,11 +354,13 @@ const restGet = async <T>(
     } catch (err) {
       lastErr = err;
       const isUpstream = err instanceof OrkgUpstreamError;
-      const retryable =
-        isUpstream &&
-        (err.status === 502 || err.status === 503 || err.status === 504);
+      // Transient: gateway errors, and network failures (DNS, reset sockets,
+      // timeouts) that never reached ORKG. A 4xx or a 500 is not retried.
+      const retryable = isUpstream
+        ? err.status === 502 || err.status === 503 || err.status === 504
+        : isTransientNetworkError(err);
       if (!retryable || attempt === maxRetries) break;
-      await sleep(400 * Math.pow(2, attempt));
+      await sleep(400 * Math.pow(2, attempt) + Math.random() * 300);
     }
   }
   throw lastErr instanceof Error ? lastErr : new Error(String(lastErr));

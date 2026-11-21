@@ -14,6 +14,10 @@ import {
   type PaperLinkPath,
 } from '../utils/promptGenerator';
 import { PredicatesMapping } from '../components/Graph/types';
+import {
+  EMPTY_RESULT_FEEDBACK,
+  shouldRepair,
+} from '../../shared/repairPolicy.js';
 
 interface QueryEvaluation {
   needsImprovement: boolean;
@@ -137,8 +141,8 @@ export const useQueryGeneration = ({
 
       if (!data || data.length === 0) {
         return {
-          needsImprovement: true,
-          feedback: `Query returned no results. The query may be too restrictive or the data may not exist in the knowledge graph. Consider: 1) Removing optional filters, 2) Checking if the property paths are correct, 3) Verifying the class and predicate URIs are accurate.`,
+          needsImprovement: shouldRepair('empty'),
+          feedback: EMPTY_RESULT_FEEDBACK,
         };
       }
 
@@ -389,7 +393,9 @@ ${schemaBlock ? `\n**Schema & rules:**\n${schemaBlock}` : ''}
           bestRawData = rawData;
           bestSparqlBlocks = sparqlBlocks;
           setIterationFeedback(
-            `✅ Success after ${iteration} iteration(s): Query returned good results!`
+            rawData.length === 0
+              ? `Stopped after ${iteration} iteration(s): the query executed and returned no rows. That result is kept.`
+              : `Success after ${iteration} iteration(s): query returned ${rawData.length} rows.`
           );
           break;
         }

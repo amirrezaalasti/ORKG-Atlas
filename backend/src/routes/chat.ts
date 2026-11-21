@@ -142,6 +142,7 @@ Pick the template that matches the user's domain; ask briefly if ambiguous.
 1. orkg_sparql_schema(templateId, researchQuestion) — note targetClassId and predicates in sparqlPrompt (loaded from ORKG, not guessed).
 2. Write SPARQL using only that schema (contribution class orkgc:C… from targetClassId; never orkgr:R… as a class).
 3. orkg_sparql(query, templateId) — pass the same templateId for validation.
+An executable query that returns no rows can be the right answer. Do not rewrite it only to obtain rows.
 Do not use atlas_template_stats for breakdowns (metrics, methods by year); use SPARQL. Use stats only for precomputed totals when available.
 
 **Charts (critical):**

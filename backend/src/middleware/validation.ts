@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { readOnlySparqlViolation } from '../../../shared/sparqlSafety.js';
 
 /**
  * Validate SPARQL query syntax (basic validation)
@@ -27,19 +28,11 @@ export const validateSPARQLQuery = (
       .json({ error: 'SPARQL query too long (max 50000 characters)' });
   }
 
-  const dangerousPatterns = [
-    /DELETE\s+DATA/i,
-    /DROP\s+GRAPH/i,
-    /CREATE\s+GRAPH/i,
-    /;.*;/, // Multiple statements
-  ];
-
-  for (const pattern of dangerousPatterns) {
-    if (pattern.test(sparqlQuery)) {
-      return res.status(400).json({
-        error: 'Query contains potentially dangerous operations',
-      });
-    }
+  const violation = readOnlySparqlViolation(sparqlQuery);
+  if (violation || /;.*;/.test(sparqlQuery)) {
+    return res.status(400).json({
+      error: violation ?? 'Query contains potentially dangerous operations',
+    });
   }
 
   next();

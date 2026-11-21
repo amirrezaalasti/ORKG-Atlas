@@ -71,22 +71,30 @@ const loadTemplateFlowById = async (
     .map(async (ps) => {
       try {
         const templateIds = await getTemplatesByClass(ps.class!.id);
-        const resourceIds = templateIds.filter(isTemplateNode);
-        if (resourceIds.length === 0) return {};
-        return loadTemplateFlowById(resourceIds[0], loaded);
+        const resourceIds = [
+          ...new Set(templateIds.filter(isTemplateNode)),
+        ].sort();
+        if (resourceIds.length === 0) return [];
+        return Promise.all(
+          resourceIds.map((templateId) =>
+            loadTemplateFlowById(templateId, loaded)
+          )
+        );
       } catch {
-        return {};
+        return [];
       }
     });
 
-  const neighbors = (await Promise.all(neighborPromises)).filter(
-    (n): n is TemplateFlowNode =>
-      typeof n === 'object' &&
-      n !== null &&
-      'id' in n &&
-      typeof (n as TemplateFlowNode).id === 'string' &&
-      isTemplateNode((n as TemplateFlowNode).id)
-  );
+  const neighbors = (await Promise.all(neighborPromises))
+    .flat()
+    .filter(
+      (n): n is TemplateFlowNode =>
+        typeof n === 'object' &&
+        n !== null &&
+        'id' in n &&
+        typeof (n as TemplateFlowNode).id === 'string' &&
+        isTemplateNode((n as TemplateFlowNode).id)
+    );
 
   return { ...t, neighbors };
 };

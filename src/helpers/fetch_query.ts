@@ -1,4 +1,5 @@
 import { PREFIXES } from '../api/SPARQL_QUERIES';
+import { readOnlySparqlViolation } from '../../shared/sparqlSafety.js';
 
 /**
  * Prepare SPARQL query for execution: remove PREFIX declarations (we prepend standard ones)
@@ -19,6 +20,9 @@ const fetchSPARQLData = async (
   endpoint: string = 'https://orkg.org/triplestore'
 ) => {
   // Strip PREFIXes and Virtuoso directives to avoid duplicates/SP030
+  const violation = readOnlySparqlViolation(query);
+  if (violation) throw new Error(violation);
+
   const queryWithoutPrefixes = prepareQuery(query);
   const fullQuery = `${PREFIXES.trim()}\n${queryWithoutPrefixes}`;
 

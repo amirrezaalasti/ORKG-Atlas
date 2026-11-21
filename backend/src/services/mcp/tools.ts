@@ -25,7 +25,11 @@ import {
   type OrkgPaperForDisplay,
 } from '../orkgAskService.js';
 import { fail, ok, toolRegistry } from './registry.js';
-import { buildSparqlSchemaPrompt } from '../sparqlPromptService.js';
+import {
+  buildSparqlSchemaPrompt,
+  getInstanceProfile,
+} from '../sparqlPromptService.js';
+import { diagnoseEmptyResult } from '../../../../shared/instanceProfile.js';
 import { fetchAtlasTemplateStats } from '../atlasTemplateStatsService.js';
 import { listOrkgTemplates } from '../orkgTemplatesService.js';
 import { loadTemplateFlow } from '../orkg/templateFlow.js';
@@ -211,11 +215,31 @@ toolRegistry.register({
         : rawBindings.slice(0, 1000);
       const rows = normaliseSparqlBindings(limited);
       const vars = result.head?.vars ?? (rows[0] ? Object.keys(rows[0]) : []);
+      // An empty result is not evidence of a wrong query: say when the
+      // template's instances simply do not state a predicate the query requires.
+      let emptyDiagnosis: string | undefined;
+      if (rawBindings.length === 0 && templateId) {
+        try {
+          const d = diagnoseEmptyResult(
+            query,
+            await getInstanceProfile(templateId)
+          );
+          if (d.kind !== 'unknown') emptyDiagnosis = d.message;
+        } catch {
+          /* diagnosis is best effort */
+        }
+      }
       return ok(
         'sparql_results',
-        { vars, rows, total: rawBindings.length, query },
         {
-          summary: `SPARQL returned ${rows.length} rows${rawBindings.length > rows.length ? ` (truncated from ${rawBindings.length})` : ''}.`,
+          vars,
+          rows,
+          total: rawBindings.length,
+          query,
+          ...(emptyDiagnosis ? { emptyDiagnosis } : {}),
+        },
+        {
+          summary: `SPARQL returned ${rows.length} rows${rawBindings.length > rows.length ? ` (truncated from ${rawBindings.length})` : ''}.${emptyDiagnosis ? ` ${emptyDiagnosis}` : ''}`,
         }
       );
     } catch (err) {
